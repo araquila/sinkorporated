@@ -1,4 +1,5 @@
 # sinkorporated
 
-werkt deze schijtzooi?????????
-Ja deze schijtzooi werkt.
+
+Algemene informatie over atom
+https://flight-manual.atom.io/using-atom/
