@@ -11,21 +11,21 @@ What things you need to install the software and how to install them
 
 Software:
 ```
-* Atom 1.36
+* Atom 1.36.1
 ```
 
 Packages:
 ```
 * language-markdown
 * markdown-writer
-* markdown-preview
+* markdown-preview (core)
 ```
 
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
 
-Say what the step will be
+Install Atom
 
 ```
 Give the example
