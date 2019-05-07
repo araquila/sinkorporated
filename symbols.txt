@@ -29,11 +29,15 @@ OEW_tbp: operative empty weight for a turboprop           [N]
 W_fuel_tbp: fuel weight for a turboprop                   [N]
 W_trapped_fuel_tbp: trapped fuel weight for a turboprop   [N]
 
+# Fractions are dimensionless!
+f: ratio of the landing weight over the take-off weight   [-]
+
 # Aircraft performance -----------------------------------
 #
 # Forces are in Newtons!
-L = lift                                              [N]
-D = drag                                              [N]
+L: lift                                               [N]
+D: drag                                               [N]
+T_jet: thrust for a jet                               [N]
 
 # Coefficients are dimensionless!
 C_l: airfoil lift coefficient                                     [-]
@@ -98,13 +102,30 @@ endurance_loiter_jet: loiter time for a jet           [s]
 endurance_cruise_tbp: cruise time for a turboprop     [s]
 endurance_loiter_tbp: loiter time for a turboprop     [s]
 
-# Ground performance -----------------------------------
-#
-# Parameters
-BHP: brake horsepower of the turboprop engine         [...]
-TOP_jet: take-off performance for a jet               [N/m^2]
-TOP_tbp: take-off performance for a turboprop         [...]
+# Loading factors
+wing_loading: wing loading of the aircraft            [N/m^2]
+power_loading_tbp: power loading for a turboprop      [N/W]
+thrust_loading_jet: thrust loading for a jet          [-]
+load_factor: load factor of the aircraft              [-]
+load_factor_max: maximum load factor of the aircraft  [-]
 
+# This is the c from the formulas given in the slides/procedures
+excess_power__loading_jet: (TV-DV)/W                  [m/s]
+
+
+# Take-off and landing performance -----------------------------------
+#
+# Parameters related to jets:
+TOP_jet: take-off performance for a jet               [N/m^2]
+T_TO_jet: take-off thrust for a jet                   [N]
+
+# Parameters related to turboprops:
+P_br_tbp: brake horsepower of the turboprop engine          [...]
+TOP_tbp: take-off performance for a turboprop               [...]
+P_TO_tbp: take-off power for a turboprop                    [W]
+P_required_tbp: required power during climb for a turboprop [W]
+
+# Distances are in meters!
 s_TO: take-off distance                               [m]
 s_landing: landing distance                           [m]
 
