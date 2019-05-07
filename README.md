@@ -25,10 +25,11 @@ Packages:
 
 A step by step series of examples that tell you how to get a development env running
 
-Install Atom
+Setting-up Atom
 
 ```
-Give the example
+Install [Atom](https://atom.io/)
+
 ```
 
 And repeat
