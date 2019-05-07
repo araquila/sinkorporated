@@ -2,27 +2,43 @@
 
 # General conventions: if there are differences between turboprop and jet engines, add 'jet' or 'tbp' behind the variable; these are the last part of the variable name. For example, if we have the stall speed of a aircraft, we use 'V_stall_tbp'
 
-# Weights are in Newton!
+# Weights are in Newtons!
+PW: payload weight                                    [N]
+
 MTOW_jet: maximum take-off weight for a jet           [N]
-MTOW_tbp: maximum take-off weight for a turboprop     [N]
-
 OEW_jet: operative empty weight for a jet             [N]
-OEW_tbp: operative empty weight for a turboprop       [N]
-
 FW_jet: fuel weight for a jet                         [N]
+
+MTOW_tbp: maximum take-off weight for a turboprop     [N]
+OEW_tbp: operative empty weight for a turboprop       [N]
 FW_tbp: fuel weight for a turboprop                   [N]
 
 
+# Velocities are in meters per second!
+V_cruise_jet: cruise speed for a jet                  [m/s]
+V_stall_jet: stall speed for a jet                    [m/s]
+V_TO_jet: take-off speed for a jet                    [m/s]
+V_landing_jet: landing speed for a jet                [m/s]
+V_max_jet: maximum speed for a jet                    [m/s]
 
-# Velocities are in m/s!
-V_cruise_jet: cruise speed for a jet                  [N]
-V_stall_jet: stall speed for a jet                    [N]
-V_TO_jet: take-off speed for a jet
-V_landing_jet: landing speed for a jet
-V_max_jet: maximum speed for a jet
+V_cruise_tbp: cruise speed for a turboprop            [m/s]
+V_stall_tbp: stall speed for a turboprop              [m/s]
+V_TO_tbp: take-off speed for a turboprop              [m/s]
+V_landing_tbp: landing speed for a turboprop          [m/s]
+V_max_tbp: maximum speed for a turboprop              [m/s]
 
-V_cruise_tbp: cruise speed for a turboprop
-V_stall_tbp: stall speed for a turboprop
-V_TO_tbp: take-off speed for a turboprop
-V_landing_tbp: landing speed for a turboprop
-V_max_tbp: maximum speed for a turboprop
+
+# Range is in meters!
+range_cruise_jet: cruise range for a jet              [m]
+range_loiter_jet: loiter range for a jet              [m]
+
+range_cruise_tbp: cruise range for a turboprop        [m]
+range_loiter_jet: loiter range for a turboprop        [m]
+
+
+# Endurance is in seconds!
+endurance_cruise_jet: cruise time for a jet           [s]
+endurance_loiter_jet: loiter time for a jet           [s]
+
+endurance_cruise_tbp: cruise time for a turboprop     [s]
+endurance_loiter_tbp: loiter time for a turboprop     [s]
