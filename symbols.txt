@@ -65,7 +65,7 @@ A: aspect ratio of the aircraft                       [-]
 S: wing area                                          [m^2]
 S_wet: wetted area                                    [m^2]
 
-# Mission performance ------------------------------------
+# Mission performance during flight ---------------------------
 #
 # Velocities are in meters per second!
 V_cruise_jet: cruise speed for a jet                                [m/s]
@@ -98,6 +98,15 @@ endurance_loiter_jet: loiter time for a jet           [s]
 endurance_cruise_tbp: cruise time for a turboprop     [s]
 endurance_loiter_tbp: loiter time for a turboprop     [s]
 
+# Ground performance -----------------------------------
+#
+# Parameters
+BHP: brake horsepower of the turboprop engine         [...]
+TOP_jet: take-off performance for a jet               [N/m^2]
+TOP_tbp: take-off performance for a turboprop         [...]
+
+s_TO: take-off distance                               [m]
+s_landing: landing distance                           [m]
 
 # Specific characteristics:
 cj_cruise_jet: specific fuel consumption for jets during cruise       [kg/Ns]
@@ -106,12 +115,6 @@ cj_loiter_jet: specific fuel consumption for jets during loiter       [kg/Ns]
 cp_cruise_tbp: specific fuel consumption for propeller during cruise  [kg/J]
 cp_loiter_tbp: specific fuel consumption for propeller during loiter  [kg/J]
 
-
-# Other parameters:
-TOP_jet: take-off performance for a jet               [N/m^2]
-TOP_tbp: take-off performance for a turboprop         [...]
-
-BHP: brake horsepower of the turboprop engine         [...]
 
 # Atmosphere -------------------------------------------
 rho: density of the atmosphere                             [kg/m^3]
