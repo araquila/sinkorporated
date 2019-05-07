@@ -63,14 +63,15 @@ e: Oswald efficiency factor                           [-]
 
 # Aircraft geometry ------------------------------------------
 # Ratios are dimensionless!
-A: aspect ratio of the aircraft                       [-]
+
 
 # Lengths are in meters!
 
 # Areas are in meter^2 !
-S: wing area                                          [m^2]
+
 S_wet: wetted area                                    [m^2]
 
+---------------------------------------------------------------
 # Fuselage parameters -----------------------------------------
 # Seat related:
 n_seats_abreast: number of seats abreast                                      [-]
@@ -123,6 +124,21 @@ cargo_density: density of cargo (in the cargo compartments)                   [k
 cargo_area: the cross-sectional area of the cargo compartments                [m^2]
 cargo_volume: volume of cargo compartment                                     [m^3]
 k_cargo: correction factor for cargo volume computations                      [-]
+
+---------------------------------------------------------------
+# Wing parameters -----------------------------------------
+A: aspect ratio of the wing                           [-]
+taper: taper ratio of the wing                        [-]
+S: wing area                                          [m^2]
+
+MAC: mean aerodynamic chord                           [m]
+rootchord: root chord of the wing                     [m]
+tipchord: tip chord of the wing                       [m]
+
+Mach_rootchord_swept: Mach number at the root chord for a swept wing          [-]
+Mach_rootchord_unswept: Mach number at the root chord for an unswept wing     [-]
+sweep_chord_0.25: sweep of the quarter chord line                             [rad]
+
 
 # Mission performance during flight ---------------------------
 #
