@@ -2,7 +2,8 @@
 
 # General conventions: if there are differences between turboprop and jet engines, add 'jet' or 'tbp' behind the variable; these are the last part of the variable name. For example, if we have the stall speed of a aircraft, we use 'V_stall_tbp'
 
-# Numbers
+# People -------------------------------------------------
+#
 n_passenger: number of passengers                     [-]
 n_crew: number of crew members                        [-]
 
@@ -14,6 +15,9 @@ M_crew: crew mass                                     [kg]
 W_payload: payload weight                             [N]
 W_crew: crew weight                                   [N]
 
+# Aircraft weight  ----------------------------------------
+#
+# Weights are in Newtons!
 MTOW_jet: maximum take-off weight for a jet           [N]
 OEW_jet: operative empty weight for a jet             [N]
 W_fuel_jet: fuel weight for a jet                     [N]
@@ -24,6 +28,34 @@ OEW_tbp: operative empty weight for a turboprop           [N]
 W_fuel_tbp: fuel weight for a turboprop                   [N]
 W_trapped_fuel_tbp: trapped fuel weight for a turboprop   [N]
 
+# Aircraft performance -----------------------------------
+#
+# Forces are in Newtons!
+L = lift                                              [N]
+D = drag                                              [N]
+
+# Coefficients are dimensionless!
+C_l: airfoil lift coefficient                         [-]
+C_d: airfoil drag coefficient                         [-]
+C_d_0: airfoil zero lift drag coefficient             [-]
+
+C_L: wing lift coefficient                            [-]
+C_D: wing drag coefficient                            [-]
+C_D_0: wing zero lift drag coefficient                [-]
+C_fe: equivalent skin-friction drag coefficient       [-]
+
+# Aircraft geometry --------------------------------------
+# Ratios are dimensionless!
+A: aspect ratio of the aircraft                       [-]
+
+# Lengths are in meters!
+
+# Areas are in meter^2 !
+S: wing area                                          [m^2]
+S_wet: wetted area                                    [m^2]
+
+# Mission performance ------------------------------------
+#
 # Velocities are in meters per second!
 V_cruise_jet: cruise speed for a jet                  [m/s]
 V_loiter_jet: loiter speed for a jet                  [m/s]
@@ -39,14 +71,12 @@ V_TO_tbp: take-off speed for a turboprop              [m/s]
 V_landing_tbp: landing speed for a turboprop          [m/s]
 V_max_tbp: maximum speed for a turboprop              [m/s]
 
-
 # Range is in meters!
 range_cruise_jet: cruise range for a jet              [m]
 range_loiter_jet: loiter range for a jet              [m]
 
 range_cruise_tbp: cruise range for a turboprop        [m]
 range_loiter_jet: loiter range for a turboprop        [m]
-
 
 # Endurance is in seconds!
 endurance_cruise_jet: cruise time for a jet           [s]
@@ -55,28 +85,14 @@ endurance_loiter_jet: loiter time for a jet           [s]
 endurance_cruise_tbp: cruise time for a turboprop     [s]
 endurance_loiter_tbp: loiter time for a turboprop     [s]
 
-
 # Efficiencies are dimensionless!
 eff_prop: propeller efficiency                        [-]
 e: Oswald efficiency factor                           [-]
 
 
-# Coefficients are dimensionless!
-C_l: airfoil lift coefficient                         [-]
-C_d: airfoil drag coefficient                         [-]
-C_d_0: airfoil zero lift drag coefficient             [-]
 
-C_L: wing lift coefficient                            [-]
-C_D: wing drag coefficient                            [-]
-C_D_0: wing zero lift drag coefficient                [-]
 
-# Aircraft geometry
-# Ratios are dimensionless!
-A: aspect ratio of the aircraft                       [-]
 
-# Lengths are in meters!
-
-# Areas are in meter^2 !
 
 # Specific characteristics:
 cp_cruise_tbp: specific fuel consumption for propeller during cruise  [kg/J]
