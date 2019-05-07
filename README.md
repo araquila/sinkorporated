@@ -37,7 +37,7 @@ Add the repository URL: `https://github.com/araquila/sinkorporated`.
 
 Select the destination folder on your computer.
 
-Click <kbd>Clone</kbd>.
+Click `Clone`.
 
 Open the GitHub tab.
 
@@ -45,7 +45,15 @@ Login to your GitHub account.
 
 Press `Fetch` in lower right corner.
 
+Press `Pull`.
+
 ### Installing Packages
+
+Open up the Settings View using <kbd>Ctrl</kbd>+<kbd>,</kbd>
+
+Type in the Package.
+
+Click `Install`.
 
 
 
