@@ -20,25 +20,34 @@ Packages:
 * markdown-writer
 * markdown-preview (core)
 ```
+## Installation
+### Setting up Atom
 
-### Installing
+Install [Atom](https://atom.io/).
 
-A step by step series of examples that tell you how to get a development env running
+Accept the personal invite in your mail to collaborate on the
+araquila/sinkorporated repository.
 
-Setting-up Atom
+Go to Atom and press
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>.
 
-```
-Install [Atom](https://atom.io/)
+Type in and select `GitHub: Clone`.
 
-```
+Add the repository URL: `https://github.com/araquila/sinkorporated`.
 
-And repeat
+Select the destination folder on your computer.
 
-```
-until finished
-```
+Click <kbd>Clone</kbd>.
 
-End with an example of getting some data out of the system or using it for a little demo
+Open the GitHub tab.
+
+Login to your GitHub account.
+
+Press `Fetch` in lower right corner.
+
+### Installing Packages
+
+
 
 ## Running the tests
 
