@@ -45,7 +45,7 @@ Login to your GitHub account.
 
 Press `Fetch` in lower right corner.
 
-Press `Pull`.
+Press `Pull` if possible (same button).
 
 ### Installing Packages
 
