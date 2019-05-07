@@ -89,11 +89,19 @@ length_nose_cone: total length of the nose cone in front of circular fuselage [m
 length_tail: total length of the tail after the cabin                         [m]
 length_tail_cone: total length of the tail cone behind the circular fuselage  [m]
 
+# Fuselage cross-section:
+diameter_fuselage_inside: inner diameter of the fuselage                                        [m]
+diameter_fuselage_outside: exterior diameter of the fuselage                                    [m]
+radius_fuselage: radius of the interior fuselage cross-section                                  [m]
+height_fuselage_centre: height from the top of the fuselage floor to the fuselage centre        [m]
+height_floor: height from the interior bottom of the fuselage to the bottom of the floor        [m]
+angle_floor: angle between the intersections of the bottom of the floor and the inner fuselage  [m]
+
 # Floor related:
 thickness_floor_beam: thickness of the beam carrying the cabin structure      [m]
 thickness_floor_panel: thickness of the panel on top of the floor beam        [m]
 height_seat_rail: height of the seat rail from the top of the floor panel     [m]
-height_floor: height of the entire cabin floor structure                      [m]
+thickness_floor: thickness of the entire cabin floor structure                [m]
 
 # Skin related:
 thickness_fuselage_skin: thickness of the skin panels                         [m]
@@ -112,6 +120,9 @@ length_lavatory: length of the lavatory (in the length of the fuselage)       [m
 # Luggage and cargo related:
 luggage_density: density of luggage (in the luggage compartment in the cabin) [kg/m^3]
 cargo_density: density of cargo (in the cargo compartments)                   [kg/m^3]
+cargo_area: the cross-sectional area of the cargo compartments                [m^2]
+cargo_volume: volume of cargo compartment                                     [m^3]
+k_cargo: correction factor for cargo volume computations                      [-]
 
 # Mission performance during flight ---------------------------
 #
