@@ -18,27 +18,27 @@ def fuel_fraction(LD_cruise_jet = 14, LD_cruise_tbp = 12, jet = False, tbp = Fal
     LD_loiter_jet = 16          # (14-18) [-]
 
     # Range for tbp and jet aircraft
-    range_cruise_jet = 1850     # [km]
-    range_cruise_tbp = 1850     # [km]
+    range_cruise_jet = 1850000     # [m]
+    range_cruise_tbp = 1850000     # [m]
 
     # Endurance loiter {source: CS-25}
-    endurance_loiter_jet = 45   # [minutes]
-    endurance_loiter_tbp = 45   # [minutes]
+    endurance_loiter_jet = 2700    # [sec]
+    endurance_loiter_tbp = 2700    # [sec]
 
     # Cruise speed for jet aircraft and loiter speed for tbp aircraft
-    V_cruise_jet = 800          # [km/hr]
-    V_loiter_tbp = 300          # [km/hr]
+    V_cruise_jet = 222.22          # [m/s]
+    V_loiter_tbp = 83.33           # [m/s]
 
     # CONVERSIONS
     # Unit conversions cruise
-    range_cruise_jet = range_cruise_jet * 0.621371192       # [km -> miles]
-    range_cruise_tbp = range_cruise_tbp * 0.621371192       # [km -> miles]
-    V_cruise_jet = V_cruise_jet * 0.621371192               # [km -> miles/hr]
+    range_cruise_jet = range_cruise_jet * 0.000621371192    # [m -> miles]
+    range_cruise_tbp = range_cruise_tbp * 0.000621371192    # [m -> miles]
+    V_cruise_jet = V_cruise_jet * 2.23693629                # [m/s -> miles/hr]
 
     # Unit conversions loiter
-    endurance_loiter_jet = endurance_loiter_jet / 60        # [minutes -> hr]
-    endurance_loiter_tbp = endurance_loiter_tbp / 60        # [minutes -> hr]
-    V_loiter_tbp = V_loiter_tbp * 0.621371192               # [km/hr -> miles/hr]
+    endurance_loiter_jet = endurance_loiter_jet / 3600      # [sec -> hr]
+    endurance_loiter_tbp = endurance_loiter_tbp / 3600      # [sec -> hr]
+    V_loiter_tbp = V_loiter_tbp * 2.23693629                # [m/s -> miles/hr]
 
     # FUEL FRACTION FOR TBP
     if tbp:
