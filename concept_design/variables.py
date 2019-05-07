@@ -1,6 +1,6 @@
 # Varibales which remain the same for the different concepts
 
-# Jet and tbp characteristics (range)[unit]
+# Jet and tbp characteristics (range)[unit] {source: Roskam}
 eff_cruise_tbp = 0.85       # [-]
 eff_loiter_tbp = 0.77       # [-]
 cp_cruise_tbp = 0.5         # (0.4-0.6) [lbs/hp/hr]
@@ -16,7 +16,7 @@ LD_loiter_jet = 16          # (14-18) [-]
 range_cruise_jet = 1850     # [km]
 range_cruise_tbp = 1850     # [km]
 
-# Endurance loiter
+# Endurance loiter {source: CS-25}
 endurance_loiter_jet = 45   # [minutes]
 endurance_loiter_tbp = 45   # [minutes]
 
