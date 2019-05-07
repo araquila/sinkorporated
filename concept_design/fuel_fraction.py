@@ -1,10 +1,12 @@
-# Fuel fraction Calculation
+# Fuel fraction calculation function
+# Inputs are: LD_cruise_jet, LD_cruise_tbp and jet or tbp = True
 
 # Import modules
 import numpy as np
 
-def fuel_fraction(jet = False, tbp = False):
+def fuel_fraction(LD_cruise_jet = 14, LD_cruise_tbp = 12, jet = False, tbp = False):
 
+    # VARIABLES
     # Jet and tbp characteristics (range)[unit] {source: Roskam}
     eff_cruise_tbp = 0.85       # [-]
     eff_loiter_tbp = 0.77       # [-]
@@ -12,8 +14,6 @@ def fuel_fraction(jet = False, tbp = False):
     cj_cruise_jet = 0.6         # (0.5-0.9) [lbs/lbs/hr]
     cp_loiter_tbp = 0.6         # (0.5-0.7) [lbs/hp/hr]
     cj_loiter_jet = 0.5         # (0.4-0.6) [lbs/lbs/hr]
-    LD_cruise_tbp = 12          # (11-13) [-]
-    LD_cruise_jet = 14          # (13-15) [-]
     LD_loiter_tbp = 15          # (14-16) [-]
     LD_loiter_jet = 16          # (14-18) [-]
 
@@ -29,6 +29,7 @@ def fuel_fraction(jet = False, tbp = False):
     V_cruise_jet = 800          # [km/hr]
     V_loiter_tbp = 300          # [km/hr]
 
+    # CONVERSIONS
     # Unit conversions cruise
     range_cruise_jet = range_cruise_jet * 0.621371192       # [km -> miles]
     range_cruise_tbp = range_cruise_tbp * 0.621371192       # [km -> miles]
@@ -39,6 +40,7 @@ def fuel_fraction(jet = False, tbp = False):
     endurance_loiter_tbp = endurance_loiter_tbp / 60        # [minutes -> hr]
     V_loiter_tbp = V_loiter_tbp * 0.621371192               # [km/hr -> miles/hr]
 
+    # FUEL FRACTION FOR TBP
     if tbp:
         # Fuel fractions from Roskam for regional tbp
         f1_tbp = 0.990      # W_1 / W_TO (Engine start, warm-up)
@@ -61,6 +63,7 @@ def fuel_fraction(jet = False, tbp = False):
 
         return ff_tbp
 
+    # FUEL FRACTIONS FOR JET
     if jet:
         # Fuel fractions from Roskam for jet
         f1_jet = 0.990      # W_1 / W_TO (Engine start, warm-up)
@@ -83,6 +86,7 @@ def fuel_fraction(jet = False, tbp = False):
 
         return ff_jet
 
+    # NO AIRCRAFT TYPE SPECIFIED
     else:
         message = 'Specify type of aircraft (tbp or jet).'
         return message
