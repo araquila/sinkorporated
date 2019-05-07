@@ -1,5 +1,5 @@
 # Fuel fraction calculation function
-# Inputs are: LD_cruise_jet, LD_cruise_tbp and jet or tbp = True
+# Inputs are: LD_cruise_jet or LD_cruise_tbp and V_cruise_jet or V_loiter_tbp and jet or tbp = True
 
 # Import modules
 import numpy as np
