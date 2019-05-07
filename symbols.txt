@@ -9,10 +9,12 @@ n_crew: number of crew members                        [-]
 
 # Masses are in kilograms!
 M_payload: payload mass                               [kg]
+M_passenger: passenger mass                           [kg]
 M_crew: crew mass                                     [kg]
 
 # Weights are in Newtons!
 W_payload: payload weight                             [N]
+W_passenger: passenger weight                         [N]
 W_crew: crew weight                                   [N]
 
 # Aircraft weight  ----------------------------------------
@@ -59,7 +61,7 @@ C_fe: equivalent skin-friction drag coefficient                   [-]
 eff_prop: propeller efficiency                        [-]
 e: Oswald efficiency factor                           [-]
 
-# Aircraft geometry --------------------------------------
+# Aircraft geometry ------------------------------------------
 # Ratios are dimensionless!
 A: aspect ratio of the aircraft                       [-]
 
@@ -68,6 +70,48 @@ A: aspect ratio of the aircraft                       [-]
 # Areas are in meter^2 !
 S: wing area                                          [m^2]
 S_wet: wetted area                                    [m^2]
+
+# Fuselage parameters -----------------------------------------
+# Seat related:
+n_seats_abreast: number of seats abreast                                      [-]
+n_aisles: number of aisles                                                    [-]
+width_aisles: width of the aisle                                              [m]
+width_seats: width of the seats                                               [m]
+width_arm_rest: width of the arm rest                                         [m]
+pitch_seats: seat pitch                                                       [m]
+head_room: distance from the floor to the bottom of the luggage compartment   [m]
+
+# Fuselage length:
+length_fuselage: total length of the fuselage                                 [m]
+length_cabin: total length of the cabin                                       [m]
+length_cockpit: total length of the cockpit (everything in front of cabin)    [m]
+length_nose_cone: total length of the nose cone in front of circular fuselage [m]
+length_tail: total length of the tail after the cabin                         [m]
+length_tail_cone: total length of the tail cone behind the circular fuselage  [m]
+
+# Floor related:
+thickness_floor_beam: thickness of the beam carrying the cabin structure      [m]
+thickness_floor_panel: thickness of the panel on top of the floor beam        [m]
+height_seat_rail: height of the seat rail from the top of the floor panel     [m]
+height_floor: height of the entire cabin floor structure                      [m]
+
+# Skin related:
+thickness_fuselage_skin: thickness of the skin panels                         [m]
+height_stringer: height of the stringers (from skin measured inwards)         [m]
+height_frame: height of the fuselage frame                                    [m]
+thickness_insulation: thickness of the insulation layer of the fuselage       [m]
+thickness_lining_panel: thickness of the lining panel of the fuselage         [m]
+thickness_fuselage_skin_frame: distance between inner and outer fuselage side [m]
+
+# Galley and lavatory related
+width_galley: width of the galley                                             [m]
+length_galley: length of the galley (in the length of the fuselage)           [m]
+width_lavatory: width of the lavatory                                         [m]
+length_lavatory: length of the lavatory (in the length of the fuselage)       [m]
+
+# Luggage and cargo related:
+luggage_density: density of luggage (in the luggage compartment in the cabin) [kg/m^3]
+cargo_density: density of cargo (in the cargo compartments)                   [kg/m^3]
 
 # Mission performance during flight ---------------------------
 #
