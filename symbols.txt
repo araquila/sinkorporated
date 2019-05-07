@@ -2,26 +2,38 @@
 
 # General conventions: if there are differences between turboprop and jet engines, add 'jet' or 'tbp' behind the variable; these are the last part of the variable name. For example, if we have the stall speed of a aircraft, we use 'V_stall_tbp'
 
+# Numbers
+n_passenger: number of passengers                     [-]
+n_crew: number of crew members                        [-]
+
+# Masses are in kilograms!
+M_payload: payload mass                               [kg]
+M_crew: crew mass                                     [kg]
+
 # Weights are in Newtons!
-PW: payload weight                                    [N]
+W_payload: payload weight                             [N]
+W_crew: crew weight                                   [N]
 
 MTOW_jet: maximum take-off weight for a jet           [N]
 OEW_jet: operative empty weight for a jet             [N]
-FW_jet: fuel weight for a jet                         [N]
+W_fuel_jet: fuel weight for a jet                     [N]
+W_trapped_fuel_jet: trapped fuel weight for a jet     [N]
 
-MTOW_tbp: maximum take-off weight for a turboprop     [N]
-OEW_tbp: operative empty weight for a turboprop       [N]
-FW_tbp: fuel weight for a turboprop                   [N]
-
+MTOW_tbp: maximum take-off weight for a turboprop         [N]
+OEW_tbp: operative empty weight for a turboprop           [N]
+W_fuel_tbp: fuel weight for a turboprop                   [N]
+W_trapped_fuel_tbp: trapped fuel weight for a turboprop   [N]
 
 # Velocities are in meters per second!
 V_cruise_jet: cruise speed for a jet                  [m/s]
+V_loiter_jet: loiter speed for a jet                  [m/s]
 V_stall_jet: stall speed for a jet                    [m/s]
 V_TO_jet: take-off speed for a jet                    [m/s]
 V_landing_jet: landing speed for a jet                [m/s]
 V_max_jet: maximum speed for a jet                    [m/s]
 
 V_cruise_tbp: cruise speed for a turboprop            [m/s]
+V_loiter_tbp: loiter speed for a turboprop            [m/s]
 V_stall_tbp: stall speed for a turboprop              [m/s]
 V_TO_tbp: take-off speed for a turboprop              [m/s]
 V_landing_tbp: landing speed for a turboprop          [m/s]
@@ -42,3 +54,37 @@ endurance_loiter_jet: loiter time for a jet           [s]
 
 endurance_cruise_tbp: cruise time for a turboprop     [s]
 endurance_loiter_tbp: loiter time for a turboprop     [s]
+
+
+# Efficiencies are dimensionless!
+eff_prop: propeller efficiency                        [-]
+e: Oswald efficiency factor                           [-]
+
+
+# Coefficients are dimensionless!
+C_l: airfoil lift coefficient                         [-]
+C_d: airfoil drag coefficient                         [-]
+C_d_0: airfoil zero lift drag coefficient             [-]
+
+C_L: wing lift coefficient                            [-]
+C_D: wing drag coefficient                            [-]
+C_D_0: wing zero lift drag coefficient                [-]
+
+# Aircraft geometry
+# Ratios are dimensionless!
+A: aspect ratio of the aircraft                       [-]
+
+# Lengths are in meters!
+
+# Areas are in meter^2 !
+
+# Specific characteristics:
+cp_cruise_tbp: specific fuel consumption for propeller during cruise  [kg/J]
+cp_loiter_tbp: specific fuel consumption for propeller during loiter  [kg/J]
+
+cj_cruise_jet: specific fuel consumption for jets during cruise       [kg/Ns]
+cj_loiter_jet: specific fuel consumption for jets during loiter       [kg/Ns]
+
+
+# Miscellaneous
+g: acceleration due to gravity                        [m/s^2]
