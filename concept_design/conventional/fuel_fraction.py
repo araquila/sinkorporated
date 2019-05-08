@@ -4,18 +4,7 @@
 # Import modules
 import numpy as np
 
-def fuel_fraction(LD_cruise_jet = 14, LD_cruise_tbp = 12, jet = False, tbp = False):
-
-    # VARIABLES
-    # Jet and tbp characteristics (range)[unit] {source: Roskam}
-    eff_cruise_tbp = 0.85       # [-]
-    eff_loiter_tbp = 0.77       # [-]
-    cp_cruise_tbp = 0.5         # (0.4-0.6) [lbs/hp/hr]
-    cj_cruise_jet = 0.6         # (0.5-0.9) [lbs/lbs/hr]
-    cp_loiter_tbp = 0.6         # (0.5-0.7) [lbs/hp/hr]
-    cj_loiter_jet = 0.5         # (0.4-0.6) [lbs/lbs/hr]
-    LD_loiter_tbp = 15          # (14-16) [-]
-    LD_loiter_jet = 16          # (14-18) [-]
+def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 12, cp_cruise_tbp = 0.5, LD_cruise_tbp = 14, cj_cruise_jet = 0.6, cp_loiter_tbp = 0.6, cj_loiter_jet = 0.5, LD_loiter_tbp = 15, LD_loiter_jet = 16 ,jet = False, tbp = False):
 
     # Range for tbp and jet aircraft
     range_cruise_jet = 1850000     # [m]
