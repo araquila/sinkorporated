@@ -25,7 +25,7 @@ W_crew = M_crew * g
 W_empty_tbp = M_empty_tbp * g
 W_empty_jet = M_empty_jet * g
 
-## Initial jet and tbp aircraft parameters
+# Initial jet and tbp aircraft parameters
 C_fe = 0.003
 S = 1                               # Adjust per concept
 S_wet = 5 * S                       # Adjust per concept
