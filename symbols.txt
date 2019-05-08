@@ -60,9 +60,13 @@ C_L: wing lift coefficient                                        [-]
 C_L_max: maximum wing lift coefficient                            [-]
 C_L_to: wing lift coefficient during take-off                     [-]
 C_L_to_max: maximum wing lift coefficient during take-off         [-]
+C_L_loiter_jet: required CL during loiter for a jet               [-]
+C_L_loiter_tbp: required CL during loiter for a turboprop         [-]
 C_D: wing drag coefficient                                        [-]
 C_D_0: wing zero lift drag coefficient                            [-]
 C_fe: equivalent skin-friction drag coefficient                   [-]
+C_D_loiter_jet: required CD during loiter for a jet               [-]
+C_D_loiter_tbp: required CD during loiter for a turboprop         [-]
 
 # Efficiencies are dimensionless!
 eff_prop: propeller efficiency                        [-]
