@@ -27,7 +27,7 @@ def plotfiller(ax, xlim, ylim, x_data = 0, data = 0, vline = 0, direction = "rig
         topline = np.linspace(ylim, ylim, len(data), facecolor = color)
         ax.fill_between(x_data, topline, data, alpha = alpha)
         return
-        
+
 #load data
 n_max_flap = 2
 n_max_clean = 2.5
