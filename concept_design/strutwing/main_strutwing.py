@@ -17,7 +17,7 @@ M_payload = n_passenger * M_passenger
 M_crew = n_crew * M_crew_member
 f_trapped_fuel = 0.003      # Range 0.001-0.005
 M_empty_tbp = 13000
-M_empty_jet = 15000
+M_empty_jet = 16000
 
 # Convert to weights
 W_payload = M_payload * g
@@ -48,6 +48,13 @@ for iter in range(1):
     MTOW_jet, OEW_jet, W_fuel_jet =  Weights(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, jet = True)
     MTOW_tbp, OEW_tbp, W_fuel_tbp = Weights(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, tbp = True)
 
+<<<<<<< HEAD
+
+
+print(MTOW_tbp/g, OEW_tbp/g, W_fuel_tbp/g)
+print(MTOW_jet/g, OEW_jet/g, W_fuel_jet/g)
+=======
 print(MTOW_tbp, OEW_tbp, W_payload)
 print (W_fuel_tbp)
 print(MTOW_jet)
+>>>>>>> 6a92e2b039a6f12dc277aca60628555bb596c0b9
