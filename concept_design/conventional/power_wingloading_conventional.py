@@ -34,11 +34,14 @@ n_max_clean = 2.5
 n_min = -1
 s_landing = 1400 #[m]
 rho0 = 1.225 #[kg/m3]
+rho = 1.225 #[kg/m3]
+V_landing = 48.93 #[m/s]
 
 #graph data
 W_S_x = np.linspace(0,4000,200)
 #turboprop data
-W = 200000 #[N]
+W_TO = 200000. #[N]
+W_L = 120000.
 S = 55 #[m2]
 
 #data props
@@ -65,7 +68,7 @@ TOP_aquile_jet_double = 6000
 
 #props, for jets scroll DOWN################
 #calculate stall speeds and the wing loading
-V_stall = V_stall_calc(W,rho0,CLmax_turboprop_take_max,S)
+V_stall = V_stall_calc(W_TO,rho0,CLmax_turboprop_take_max,S)
 W_S_stall = W_S_calc(rho0,V_stall,CLmax_turboprop_take_max)
 
 ##########take-off################
@@ -108,10 +111,13 @@ plt.show()
 
 
 ##########landing#################
+f = W_L/W_TO
+W_S_landing = W_S_landing_calc(CLmax_turboprop_land_max,rho,V_landing,f)
+print(W_S_landing)
 
 ########jets################
 #calculate stall speeds and the wing loading
-V_stall = V_stall_calc(W,rho0,CLmax_jet_take_max,S)
+V_stall = V_stall_calc(W_TO,rho0,CLmax_jet_take_max,S)
 W_S_stall = W_S_calc(rho0,V_stall,CLmax_jet_take_max)
 
 ##########take-off################

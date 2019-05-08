@@ -30,3 +30,7 @@ def W_P_calc(x,k,CL_TO):
 def T_W_calc(x,k,CL_TO):
     y = x/k/CL_TO
     return y
+
+def W_S_landing_calc(CL_max,rho,V_landing,f):
+    W_S_landing = CL_max*rho*V_landing**2/(2*f)
+    return W_S_landing
