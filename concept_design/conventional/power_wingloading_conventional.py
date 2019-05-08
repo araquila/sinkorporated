@@ -12,8 +12,8 @@ rho0 = 1.225 #[kg/m3]
 #graph data
 W_S_x = np.linspace(0,4000,200)
 #turboprop data
-W = 10000 #[N]
-S = 10 #[m2]
+W = 200000 #[N]
+S = 55 #[m2]
 
 #data props
 CLmax_turboprop_clean_min = 1.5
