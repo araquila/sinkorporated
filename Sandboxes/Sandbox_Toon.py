@@ -22,8 +22,8 @@ def plotfiller(ax, xlim, ylim, x_data = 0, data = 0, vline = 0, direction = "rig
         ax.fill_between(x_data, data, alpha = alpha, facecolor = color)
         return
     if direction == "up":
-        topline = np.linspace(ylim, ylim, len(data), facecolor = color)
-        ax.fill_between(x_data, topline, data, alpha = alpha)
+        topline = np.linspace(ylim, ylim, len(data))
+        ax.fill_between(x_data, topline, data, alpha = alpha, facecolor = color)
         return
 
 
