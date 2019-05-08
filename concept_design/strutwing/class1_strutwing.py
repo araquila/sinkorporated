@@ -15,9 +15,9 @@ LD_cruise_jet = (3/4) * np.sqrt((np.pi*A*e)/(3*C_D_0))
 
 # BASED ON STATISTICS: CALCULATION OF THE OEW AND MTOW_jet
 payload_ratio_tbp = 0.22 # = PL/MTOW
-emptyweight_ratio_tbp = 0.636 # = OEW/MTOW
+emptyweight_ratio_tbp = 0.615 # = OEW/MTOW
 payload_ratio_jet = 0.22 # = PL/MTOW
-emptyweight_ratio_jet = 0.636 # = OEW/MTOW
+emptyweight_ratio_jet = 0.570 # = OEW/MTOW
 MTOW_tbp = W_payload / payload_ratio_tbp
 OEW_tbp = MTOW_tbp * emptyweight_ratio_tbp
 MTOW_jet = W_payload / payload_ratio_jet
