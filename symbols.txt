@@ -9,10 +9,12 @@ n_crew: number of crew members                        [-]
 
 # Masses are in kilograms!
 M_payload: payload mass                               [kg]
+M_passenger: passenger mass                           [kg]
 M_crew: crew mass                                     [kg]
 
 # Weights are in Newtons!
 W_payload: payload weight                             [N]
+W_passenger: passenger weight                         [N]
 W_crew: crew weight                                   [N]
 
 # Aircraft weight  ----------------------------------------
@@ -59,17 +61,105 @@ C_fe: equivalent skin-friction drag coefficient                   [-]
 eff_prop: propeller efficiency                        [-]
 e: Oswald efficiency factor                           [-]
 
-# Aircraft geometry --------------------------------------
+# Aircraft geometry ------------------------------------------
 # Ratios are dimensionless!
-A: aspect ratio of the aircraft                       [-]
+
 
 # Lengths are in meters!
 
 # Areas are in meter^2 !
-S: wing area                                          [m^2]
+
 S_wet: wetted area                                    [m^2]
 
+---------------------------------------------------------------
+# Fuselage parameters -----------------------------------------
+# Seat related:
+n_seats_abreast: number of seats abreast                                      [-]
+n_aisles: number of aisles                                                    [-]
+width_aisles: width of the aisle                                              [m]
+width_seats: width of the seats                                               [m]
+width_arm_rest: width of the arm rest                                         [m]
+pitch_seats: seat pitch                                                       [m]
+head_room: distance from the floor to the bottom of the luggage compartment   [m]
+
+# Fuselage length:
+length_fuselage: total length of the fuselage                                 [m]
+length_cabin: total length of the cabin                                       [m]
+length_cockpit: total length of the cockpit (everything in front of cabin)    [m]
+length_nose_cone: total length of the nose cone in front of circular fuselage [m]
+length_tail: total length of the tail after the cabin                         [m]
+length_tail_cone: total length of the tail cone behind the circular fuselage  [m]
+
+# Fuselage cross-section:
+diameter_fuselage_inside: inner diameter of the fuselage                                        [m]
+diameter_fuselage_outside: exterior diameter of the fuselage                                    [m]
+radius_fuselage: radius of the interior fuselage cross-section                                  [m]
+height_fuselage_centre: height from the top of the fuselage floor to the fuselage centre        [m]
+height_floor: height from the interior bottom of the fuselage to the bottom of the floor        [m]
+angle_floor: angle between the intersections of the bottom of the floor and the inner fuselage  [m]
+
+# Floor related:
+thickness_floor_beam: thickness of the beam carrying the cabin structure      [m]
+thickness_floor_panel: thickness of the panel on top of the floor beam        [m]
+height_seat_rail: height of the seat rail from the top of the floor panel     [m]
+thickness_floor: thickness of the entire cabin floor structure                [m]
+
+# Skin related:
+thickness_fuselage_skin: thickness of the skin panels                         [m]
+height_stringer: height of the stringers (from skin measured inwards)         [m]
+height_frame: height of the fuselage frame                                    [m]
+thickness_insulation: thickness of the insulation layer of the fuselage       [m]
+thickness_lining_panel: thickness of the lining panel of the fuselage         [m]
+thickness_fuselage_skin_frame: distance between inner and outer fuselage side [m]
+
+# Galley and lavatory related
+width_galley: width of the galley                                             [m]
+length_galley: length of the galley (in the length of the fuselage)           [m]
+width_lavatory: width of the lavatory                                         [m]
+length_lavatory: length of the lavatory (in the length of the fuselage)       [m]
+
+# Luggage and cargo related:
+luggage_density: density of luggage (in the luggage compartment in the cabin) [kg/m^3]
+cargo_density: density of cargo (in the cargo compartments)                   [kg/m^3]
+cargo_area: the cross-sectional area of the cargo compartments                [m^2]
+cargo_volume: volume of cargo compartment                                     [m^3]
+k_cargo: correction factor for cargo volume computations                      [-]
+
+---------------------------------------------------------------
+# Wing parameters -----------------------------------------
+A: aspect ratio of the wing                           [-]
+taper: taper ratio of the wing                        [-]
+S: wing area                                          [m^2]
+
+MAC: mean aerodynamic chord                           [m]
+rootchord: root chord of the wing                     [m]
+tipchord: tip chord of the wing                       [m]
+
+Mach_rootchord_swept: Mach number at the root chord for a swept wing          [-]
+Mach_rootchord_unswept: Mach number at the root chord for an unswept wing     [-]
+sweep_chord_0.25: sweep of the quarter chord line                             [rad]
+
+
 # Mission performance during flight ---------------------------
+# Fuel fractions 
+f_start_tbp: fuel fraction related to the start-up phase for a turboprop              [-]
+f_taxi_tbp: fuel fraction related to the taxi phase for a turboprop                   [-]
+f_TO_tbp: fuel fraction related to the take-off phase for a turboprop                 [-]
+f_climb_tbp: fuel fraction related to the climb phase for a turboprop                 [-]
+f_cruise_tbp: fuel fraction related to the cruise phase for a turboprop               [-]
+f_loiter_tbp: fuel fraction related to the loiter phase for a turboprop               [-]
+f_descend_tbp: fuel fraction related to the descend phase for a turboprop             [-]
+f_shutdown_tbp: fuel fraction related to landing, taxi and shutdown for a turboprop   [-]
+
+f_start_jet: fuel fraction related to the start-up phase for a jet              [-]
+f_taxi_jet: fuel fraction related to the taxi phase for a jet                   [-]
+f_TO_jet: fuel fraction related to the take-off phase for a jet                 [-]
+f_climb_jet: fuel fraction related to the climb phase for a jet                 [-]
+f_cruise_jet: fuel fraction related to the cruise phase for a jet               [-]
+f_loiter_jet: fuel fraction related to the loiter phase for a jet               [-]
+f_descend_jet: fuel fraction related to the descend phase for a jet             [-]
+f_shutdown_jet: fuel fraction related to landing, taxi and shutdown for a jet   [-]
+
 #
 # Velocities are in meters per second!
 V_cruise_jet: cruise speed for a jet                                [m/s]
