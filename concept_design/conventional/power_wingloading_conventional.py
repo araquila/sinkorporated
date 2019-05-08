@@ -2,32 +2,6 @@
 from math import *
 from wingloadingfunctions import *
 import numpy as np
-import matplotlib.pyplot as plot
-
-# plotting function
-def plotfiller(ax, xlim, ylim, x_data = 0, data = 0, vline = 0, direction = "right", alpha = 0.5, color = 'green'):
-    """
-    Inputs
-    ax = axis object
-    xlim/ylim = limits in x and y
-    x_data = steps in x direction
-    data = line for which you want to plotting
-    vline = the vertical line
-    """
-    if direction == "right":
-        ax.axvspan(vline, xlim, alpha = alpha, facecolor = color)
-        return
-    if direction == "left":
-        ax.axvspan(0, vline, alpha = alpha, facecolor = color)
-        return
-    if direction == "down":
-        ax.fill_between(x_data, data, alpha = alpha, facecolor = color)
-        return
-    if direction == "up":
-        topline = np.linspace(ylim, ylim, len(data), facecolor = color)
-        ax.fill_between(x_data, topline, data, alpha = alpha)
-        return
-
 #load data
 n_max_flap = 2
 n_max_clean = 2.5
@@ -77,5 +51,7 @@ TOP_takeoff = np.zeros(shape=(len(CL_TO_range),len(W_S_x)))
 for i in range(len(TOP_takeoff)):
     for j in range(len(W_S_x)):
         TOP_takeoff[i,j] = W_P_calc(W_S_x[j],k,CL_TO_range[i])
-print(TOP_takeoff)
+
+##########landing#################
+
 #jets
