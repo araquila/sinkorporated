@@ -35,7 +35,7 @@ S = 1
 S_wet = 4.5 * S
 
 # Jet
-A_jet = 8
+A_jet = 10
 e_jet = 0.95
 cj_loiter_jet = 0.5         # (0.4-0.6) [lbs/lbs/hr]
 cj_cruise_jet = 0.6        # (0.5-0.9) [lbs/lbs/hr]
