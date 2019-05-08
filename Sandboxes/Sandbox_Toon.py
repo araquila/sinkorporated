@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def plotfiller(ax, xlim, ylim, x_data = 0, data = 0, vline = 0, direction = "right", alpha = 0.5, color = 'green'):
+def plotfiller(ax, xlim, ylim, x_data = 0, data = 0, vline = 0, direction = "right", alpha = 0.5, color = 'red'):
     """
     Inputs
     ax = axis object
