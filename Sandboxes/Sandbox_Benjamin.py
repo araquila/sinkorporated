@@ -18,11 +18,12 @@ width_seats=16*0.0254 #16-17
 pitch_seats=31*0.0254 #30-32
 head_room=1.5
 height_shoulder=1.20
-width_aisles=15*0.0254
+width_aisles=0.38 #min 38cm
 #width_aisles=0.51
 height_floor=1.9
 n_trolleys=6
-n_lavatories=2
+n_lavatories=1
+n_galleys=1
 width_armrest=0.05
 s_clearance=0.02
 #cabin width up to shoulder
@@ -67,6 +68,27 @@ length_galley=30*0.0254
 
 length_cabin=length_seats+length_lavatory+length_galley
 
-nose_fineness=0.5 #from graph
+nose_fineness=1
+nosecone_fineness=2 #from data
 length_nose=nose_fineness*diameter_fuselage_outside
-print(length_nose)
+length_nosecone=nosecone_fineness*diameter_fuselage_outside
+
+
+tail_fineness=1.6
+tailcone_fineness=3 #2-4
+length_tail=tail_fineness*diameter_fuselage_outside
+length_tailcone=tailcone_fineness*diameter_fuselage_outside
+
+#side view
+overnose_angle=11 #11-20 #dependent on approach situation
+overside_angle=35 #from table
+length_flightdeck=2.5
+
+length_fuselage=length_nose+length_cabin+length_tail
+
+print("Nose length:" ,length_nose)
+print("Cabin length:" ,length_cabin)
+print("Tail length:" ,length_tail)
+print("Fuselage length:" ,length_fuselage)
+print("Fuselage diameter:", diameter_fuselage_outside)
+print(n_seats_abreast,"seat abrest,",n_rows,"rows")
