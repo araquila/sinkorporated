@@ -2,9 +2,8 @@
 import numpy as np
 from fuel_fraction import fuel_fraction
 
-# THIS SECTION IS USED FOR JET AIRCRAFT; FOR TURBOPROP AIRCRAFT, SCROLL DOWN
-
-def Weights(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, jet = False, tbp = False):
+# FUNCTION
+def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, jet = False, tbp = False):
     # Calculate drag polar
     # Find C_D_0
     C_D_0 = C_fe * S_wet/S
@@ -12,6 +11,7 @@ def Weights(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, 
     # Assume that e is in the range of 0.80 and 0.85 for turboprops and 0.75 - 0.85 for jets
     # C_D = C_D_0 + C_L**2 / (np.pi * A * e)
 
+# THIS SECTION IS USED FOR JET AIRCRAFT; FOR TURBOPROP AIRCRAFT, SCROLL DOWN
     if jet:
     # Determine the maximum L/D for jets
         LD_cruise_jet = 3/4 * np.sqrt((np.pi * A_jet * e_jet) / (3 * C_D_0))
@@ -47,6 +47,7 @@ def Weights(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, 
 
         return MTOW_jet, OEW_jet, W_fuel_jet
 
+# THIS SECTION IS USED FOR TURBOPROP AIRCRAFT
     if tbp:
     # Determine the maximum L/D for a turboprop
         LD_cruise_tbp = np.sqrt((np.pi * A_tbp * e_tbp) / (4 * C_D_0))
