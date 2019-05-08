@@ -24,8 +24,8 @@ def plotfiller(ax, xlim, ylim, x_data = 0, data = 0, vline = 0, direction = "rig
         ax.fill_between(x_data, data, alpha = alpha, facecolor = color)
         return
     if direction == "up":
-        topline = np.linspace(ylim, ylim, len(data), facecolor = color)
-        ax.fill_between(x_data, topline, data, alpha = alpha)
+        topline = np.linspace(ylim, ylim, len(data))
+        ax.fill_between(x_data, topline, data, alpha = alpha, facecolor = color)
         return
 
 #load data
@@ -77,6 +77,37 @@ TOP_takeoff = np.zeros(shape=(len(CL_TO_range),len(W_S_x)))
 for i in range(len(TOP_takeoff)):
     for j in range(len(W_S_x)):
         TOP_takeoff[i,j] = W_P_calc(W_S_x[j],k,CL_TO_range[i])
+
+# Example
+
+# the data
+l = np.linspace(0, 0.8, 200)
+x = np.linspace(0, 4000, 200)
+vertical = 3000
+
+# initialise the figure
+fig, ax1 = plt.subplots(1,1)
+xlim = 4000
+ylim = 1
+
+# plot lines
+ax1.plot(W_S_x,TOP_takeoff[0,:])
+ax1.plot(W_S_x,TOP_takeoff[1,:])
+ax1.plot(W_S_x,TOP_takeoff[2,:])
+ax1.plot(W_S_x,TOP_takeoff[3,:])
+ax1.plot(W_S_x,TOP_takeoff[4,:])
+ax1.axvline(vertical)
+
+# plot filled parts of the graph
+plotfiller(ax1, xlim, ylim, x_data = W_S_x, data = TOP_takeoff[4,:], direction = "up")
+plotfiller(ax1, xlim, ylim, vline = vertical, direction = "right")
+
+# plot cosmetics (add some legends/labels/title)
+ax1.set_ylim([0, ylim])
+ax1.set_xlim([0, xlim])
+
+plt.show()
+
 
 ##########landing#################
 
