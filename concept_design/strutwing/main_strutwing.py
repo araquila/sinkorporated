@@ -50,3 +50,4 @@ for iter in range(1):
 
 print(MTOW_tbp, OEW_tbp, W_payload)
 print (W_fuel_tbp)
+print(MTOW_jet)
