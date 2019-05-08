@@ -26,3 +26,7 @@ def W_S_calc(rho,V_stall,CL_max):
 def W_P_calc(x,k,CL_TO):
     y = k/x*CL_TO
     return y
+
+def T_W_calc(x,k,CL_TO):
+    y = x/k/CL_TO
+    return y

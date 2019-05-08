@@ -60,8 +60,8 @@ CLmax_jet_land_min = 1.8
 CLmax_jet_land_max = 2.8
 
 #take off parameter jet
-TOP_aquila_jet_single = 240
-TOP_aquile_jet_double = 100
+TOP_aquila_jet_single = 6000
+TOP_aquile_jet_double = 6000
 
 #props, for jets scroll DOWN################
 #calculate stall speeds and the wing loading
@@ -70,15 +70,13 @@ W_S_stall = W_S_calc(rho0,V_stall,CLmax_turboprop_take_max)
 
 ##########take-off################
 k = TOP_aquila_turboprop
-CL_TO_min = CL_TO_calc(CLmax_turboprop_take_min)
-CL_TO_max = CL_TO_calc(CLmax_turboprop_take_max)
-CL_TO_range = np.linspace(CL_TO_min,CL_TO_max,5)
-TOP_takeoff = np.zeros(shape=(len(CL_TO_range),len(W_S_x)))
-for i in range(len(TOP_takeoff)):
+CL_TO_min_turboprop = CL_TO_calc(CLmax_turboprop_take_min)
+CL_TO_max_turboprop = CL_TO_calc(CLmax_turboprop_take_max)
+CL_TO_range_turboprop = np.linspace(CL_TO_min_turboprop,CL_TO_max_turboprop,5)
+TOP_takeoff_turboprop = np.zeros(shape=(len(CL_TO_range_turboprop),len(W_S_x)))
+for i in range(len(TOP_takeoff_turboprop)):
     for j in range(len(W_S_x)):
-        TOP_takeoff[i,j] = W_P_calc(W_S_x[j],k,CL_TO_range[i])
-
-# Example
+        TOP_takeoff_turboprop[i,j] = W_P_calc(W_S_x[j],k,CL_TO_range_turboprop[i])
 
 # the data
 l = np.linspace(0, 0.8, 200)
@@ -91,15 +89,15 @@ xlim = 4000
 ylim = 1
 
 # plot lines
-ax1.plot(W_S_x,TOP_takeoff[0,:])
-ax1.plot(W_S_x,TOP_takeoff[1,:])
-ax1.plot(W_S_x,TOP_takeoff[2,:])
-ax1.plot(W_S_x,TOP_takeoff[3,:])
-ax1.plot(W_S_x,TOP_takeoff[4,:])
+ax1.plot(W_S_x,TOP_takeoff_turboprop[0,:])
+ax1.plot(W_S_x,TOP_takeoff_turboprop[1,:])
+ax1.plot(W_S_x,TOP_takeoff_turboprop[2,:])
+ax1.plot(W_S_x,TOP_takeoff_turboprop[3,:])
+ax1.plot(W_S_x,TOP_takeoff_turboprop[4,:])
 ax1.axvline(vertical)
 
 # plot filled parts of the graph
-plotfiller(ax1, xlim, ylim, x_data = W_S_x, data = TOP_takeoff[4,:], direction = "up")
+plotfiller(ax1, xlim, ylim, x_data = W_S_x, data = TOP_takeoff_turboprop[4,:], direction = "up")
 plotfiller(ax1, xlim, ylim, vline = vertical, direction = "right")
 
 # plot cosmetics (add some legends/labels/title)
@@ -111,4 +109,44 @@ plt.show()
 
 ##########landing#################
 
-#jets
+########jets################
+#calculate stall speeds and the wing loading
+V_stall = V_stall_calc(W,rho0,CLmax_jet_take_max,S)
+W_S_stall = W_S_calc(rho0,V_stall,CLmax_jet_take_max)
+
+##########take-off################
+k = TOP_aquila_jet_single
+CL_TO_min_jet = CL_TO_calc(CLmax_jet_take_min)
+CL_TO_max_jet = CL_TO_calc(CLmax_jet_take_max)
+CL_TO_range_jet = np.linspace(CL_TO_min_jet,CL_TO_max_jet,5)
+TOP_takeoff_jet = np.zeros(shape=(len(CL_TO_range_jet),len(W_S_x)))
+for i in range(len(TOP_takeoff_jet)):
+    for j in range(len(W_S_x)):
+        TOP_takeoff_jet[i,j] = T_W_calc(W_S_x[j],k,CL_TO_range_jet[i])
+# the data
+l = np.linspace(0, 0.8, 200)
+x = np.linspace(0, 4000, 200)
+vertical = 3000
+
+# initialise the figure
+fig, ax1 = plt.subplots(1,1)
+xlim = 4000
+ylim = 1
+
+# plot lines
+ax1.plot(W_S_x,TOP_takeoff_jet[0,:])
+ax1.plot(W_S_x,TOP_takeoff_jet[1,:])
+ax1.plot(W_S_x,TOP_takeoff_jet[2,:])
+ax1.plot(W_S_x,TOP_takeoff_jet[3,:])
+ax1.plot(W_S_x,TOP_takeoff_jet[4,:])
+ax1.axvline(vertical)
+
+# plot filled parts of the graph
+plotfiller(ax1, xlim, ylim, x_data = W_S_x, data = TOP_takeoff_jet[4,:], direction = "down")
+plotfiller(ax1, xlim, ylim, vline = vertical, direction = "right")
+
+# plot cosmetics (add some legends/labels/title)
+ax1.set_ylim([0, ylim])
+ax1.set_xlim([0, xlim])
+
+plt.show()
