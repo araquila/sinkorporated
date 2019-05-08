@@ -1,6 +1,6 @@
 #a list of the functions that are used to calculate the wing loading
 from math import *
-def stall_calc(W,rho,CL,S):
+def V_stall_calc(W,rho,CL,S):
     V_stall = sqrt(2*W/(rho*CL*S))
     return V_stall
 
@@ -16,5 +16,13 @@ def TOP_jet_calc(W_S,T_W,CL_TO):
     TOP_jet = W_S/T_W*1/CL_TO
     return TOP_jet
 
+def TOP_prop_calc(W_S,BHP_W,CL_TO):
+    TOP_prop = W_S/BHP_W*1/CL_TO
 
-print TOP_jet_calc(1000,0.2,1.2)
+def W_S_calc(rho,V_stall,CL_max):
+    W_S = 0.5*rho*V_stall**2*CL_max
+    return W_S
+
+def W_P_calc(x,k,CL_TO):
+    y = x/k*1/CL_TO
+    return y
