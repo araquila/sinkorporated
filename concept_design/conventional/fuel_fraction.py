@@ -58,8 +58,8 @@ def fuel_fraction(LD_cruise_jet = 14, LD_cruise_tbp = 12, jet = False, tbp = Fal
         # Calculation of loiter fuel fraction
         f6_tbp = 1/np.exp(endurance_loiter_tbp/((375/V_loiter_tbp)*(eff_loiter_tbp/cp_loiter_tbp)*LD_loiter_tbp))
 
-        # Insert fuel fractions in list
-        ff_tbp = [f1_tbp, f2_tbp, f3_tbp, f4_tbp, f5_tbp, f6_tbp, f7_tbp, f8_tbp]
+        # Find fuel fraction tbp
+        ff_tbp = f1_tbp * f2_tbp * f3_tbp * f4_tbp * f5_tbp * f6_tbp * f7_tbp * f8_tbp
 
         return ff_tbp
 
@@ -81,8 +81,8 @@ def fuel_fraction(LD_cruise_jet = 14, LD_cruise_tbp = 12, jet = False, tbp = Fal
         # Calculation of loiter fuel fraction
         f6_jet = 1/np.exp(endurance_loiter_jet/((1/cj_loiter_jet)*LD_loiter_jet))
 
-        # Insert fuel fractions in list
-        ff_jet = [f1_jet, f2_jet, f3_jet, f4_jet, f5_jet, f6_jet, f7_jet, f8_jet]
+        # Find fuel fraction jet
+        ff_jet = f1_jet * f2_jet * f3_jet * f4_jet * f5_jet * f6_jet * f7_jet * f8_jet
 
         return ff_jet
 

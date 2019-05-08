@@ -1,7 +1,7 @@
 # MAIN OF THE CONVENTIAL AIRCRAFT SIZING PROGRAM
 
 # Import modules
-import fuel_fraction
+from fuel_fraction import fuel_fraction
 
 # Weights
 W_payload = 10
