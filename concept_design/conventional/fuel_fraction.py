@@ -48,9 +48,10 @@ def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 
         f6_tbp = 1/np.exp(endurance_loiter_tbp/((375/V_loiter_tbp)*(eff_loiter_tbp/cp_loiter_tbp)*LD_loiter_tbp))
 
         # Find fuel fraction tbp
-        ff_tbp = f1_tbp * f2_tbp * f3_tbp * f4_tbp * f5_tbp * f6_tbp * f7_tbp * f8_tbp
+        f_fuel_tbp = f1_tbp * f2_tbp * f3_tbp * f4_tbp * f5_tbp * f7_tbp * f8_tbp
+        f_reserve_tbp = f6_tbp
 
-        return ff_tbp
+        return f_fuel_tbp, f_reserve_tbp
 
     # FUEL FRACTIONS FOR JET
     if jet:
@@ -71,9 +72,10 @@ def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 
         f6_jet = 1/np.exp(endurance_loiter_jet/((1/cj_loiter_jet)*LD_loiter_jet))
 
         # Find fuel fraction jet
-        ff_jet = f1_jet * f2_jet * f3_jet * f4_jet * f5_jet * f6_jet * f7_jet * f8_jet
+        f_fuel_jet = f1_jet * f2_jet * f3_jet * f4_jet * f5_jet * f7_jet * f8_jet
+        f_reserve_jet = f6_jet
 
-        return ff_jet
+        return f_fuel_jet, f_reserve_jet
 
     # NO AIRCRAFT TYPE SPECIFIED
     else:
