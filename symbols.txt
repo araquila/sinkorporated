@@ -20,16 +20,23 @@ W_crew: crew weight                                   [N]
 # Aircraft weight  ----------------------------------------
 #
 # Weights are in Newtons!
-W: instantaneous weight                               [N]
-MTOW_jet: maximum take-off weight for a jet           [N]
-OEW_jet: operative empty weight for a jet             [N]
-W_fuel_jet: fuel weight for a jet                     [N]
-W_trapped_fuel_jet: trapped fuel weight for a jet     [N]
+W_jet: instantaneous weight for a jet                     [N]
+MTOW_jet: maximum take-off weight for a jet               [N]
+OEW_jet: operative empty weight for a jet                 [N]
+W_empty_jet: empty weight for a jet                       [N]
+W_fuel_jet: fuel weight for a jet                         [N]
+W_used_fuel_jet: weight of the fuel used for a jet        [N]
+W_reserve_fuel_jet: weight of the reserve fuel for a jet  [N]
+W_trapped_fuel_jet: trapped fuel weight for a jet         [N]
 
-MTOW_tbp: maximum take-off weight for a turboprop         [N]
-OEW_tbp: operative empty weight for a turboprop           [N]
-W_fuel_tbp: fuel weight for a turboprop                   [N]
-W_trapped_fuel_tbp: trapped fuel weight for a turboprop   [N]
+W_tbp: instantaneous weight for a turboprop                     [N]
+MTOW_tbp: maximum take-off weight for a turboprop               [N]
+OEW_tbp: operative empty weight for a turboprop                 [N]
+W_empty_tbp: empty weight for a turboprop                       [N]
+W_fuel_tbp: fuel weight for a turboprop                         [N]
+W_used_fuel_tbp: weight of the fuel used for a turboprop        [N]
+W_reserve_fuel_tbp: weight of the reserve fuel for a turboprop  [N]
+W_trapped_fuel_tbp: trapped fuel weight for a turboprop         [N]
 
 # Fractions are dimensionless!
 f: ratio of the landing weight over the take-off weight   [-]
@@ -141,7 +148,7 @@ sweep_chord_0.25: sweep of the quarter chord line                             [r
 
 
 # Mission performance during flight ---------------------------
-# Fuel fractions 
+# Fuel fractions
 f_start_tbp: fuel fraction related to the start-up phase for a turboprop              [-]
 f_taxi_tbp: fuel fraction related to the taxi phase for a turboprop                   [-]
 f_TO_tbp: fuel fraction related to the take-off phase for a turboprop                 [-]
@@ -150,6 +157,8 @@ f_cruise_tbp: fuel fraction related to the cruise phase for a turboprop         
 f_loiter_tbp: fuel fraction related to the loiter phase for a turboprop               [-]
 f_descend_tbp: fuel fraction related to the descend phase for a turboprop             [-]
 f_shutdown_tbp: fuel fraction related to landing, taxi and shutdown for a turboprop   [-]
+f_fuel_tbp: total of fuel fractions mentioned above for a turboprop                   [-]
+f_used_fuel_tbp: fraction of used fuel over MTOW for a turboprop                      [-]
 
 f_start_jet: fuel fraction related to the start-up phase for a jet              [-]
 f_taxi_jet: fuel fraction related to the taxi phase for a jet                   [-]
@@ -159,6 +168,11 @@ f_cruise_jet: fuel fraction related to the cruise phase for a jet               
 f_loiter_jet: fuel fraction related to the loiter phase for a jet               [-]
 f_descend_jet: fuel fraction related to the descend phase for a jet             [-]
 f_shutdown_jet: fuel fraction related to landing, taxi and shutdown for a jet   [-]
+f_fuel_jet: total of fuel fractions mentioned above for a jet                   [-]
+f_used_fuel_jet: fraction of used fuel over MTOW for a jet                      [-]
+
+f_trapped_fuel: fraction of trapped fuel over MTOW                              [-]
+f_reserve_fuel: fraction of reserve fuel over mission fuel                      [-]
 
 #
 # Velocities are in meters per second!
