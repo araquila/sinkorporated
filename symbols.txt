@@ -180,7 +180,8 @@ f_fuel_jet: total of fuel fractions mentioned above for a jet                   
 f_used_fuel_jet: fraction of used fuel over MTOW for a jet                      [-]
 
 f_trapped_fuel: fraction of trapped fuel over MTOW                              [-]
-f_reserve_fuel: fraction of reserve fuel over mission fuel                      [-]
+f_reserve_jet: fraction of reserve fuel over mission fuel for a jet             [-]
+f_reserve_tbp: fraction of reserve fuel over mission fuel for a turboprop       [-]
 
 #
 # Velocities are in meters per second!

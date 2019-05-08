@@ -4,7 +4,18 @@
 # Import modules
 import numpy as np
 
-def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 12, cp_cruise_tbp = 0.5, LD_cruise_tbp = 14, cj_cruise_jet = 0.6, cp_loiter_tbp = 0.6, cj_loiter_jet = 0.5, LD_loiter_tbp = 15, LD_loiter_jet = 16 ,jet = False, tbp = False):
+def fuel_fraction(LD_cruise_jet = 14, LD_cruise_tbp = 12, jet = False, tbp = False):
+
+    # VARIABLES
+    # Jet and tbp characteristics (range)[unit] {source: Roskam}
+    eff_cruise_tbp = 0.85       # [-]
+    eff_loiter_tbp = 0.77       # [-]
+    cp_cruise_tbp = 0.5         # (0.4-0.6) [lbs/hp/hr]
+    cj_cruise_jet = 0.6         # (0.5-0.9) [lbs/lbs/hr]
+    cp_loiter_tbp = 0.6         # (0.5-0.7) [lbs/hp/hr]
+    cj_loiter_jet = 0.5         # (0.4-0.6) [lbs/lbs/hr]
+    LD_loiter_tbp = 15          # (14-16) [-]
+    LD_loiter_jet = 16          # (14-18) [-]
 
     # Range for tbp and jet aircraft
     range_cruise_jet = 1850000     # [m]
@@ -47,11 +58,10 @@ def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 
         # Calculation of loiter fuel fraction
         f6_tbp = 1/np.exp(endurance_loiter_tbp/((375/V_loiter_tbp)*(eff_loiter_tbp/cp_loiter_tbp)*LD_loiter_tbp))
 
-        # Find fuel fraction tbp
-        f_fuel_tbp = f1_tbp * f2_tbp * f3_tbp * f4_tbp * f5_tbp * f7_tbp * f8_tbp
-        f_reserve_tbp = f6_tbp
+        # Find fuel fraction for tbp
+        ff_tbp = f1_tbp * f2_tbp * f3_tbp * f4_tbp * f5_tbp * f6_tbp * f7_tbp * f8_tbp
 
-        return f_fuel_tbp, f_reserve_tbp
+        return ff_tbp
 
     # FUEL FRACTIONS FOR JET
     if jet:
@@ -71,11 +81,10 @@ def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 
         # Calculation of loiter fuel fraction
         f6_jet = 1/np.exp(endurance_loiter_jet/((1/cj_loiter_jet)*LD_loiter_jet))
 
-        # Find fuel fraction jet
-        f_fuel_jet = f1_jet * f2_jet * f3_jet * f4_jet * f5_jet * f7_jet * f8_jet
-        f_reserve_jet = f6_jet
+        # Find fuel fraction for jet
+        ff_jet = f1_jet * f2_jet * f3_jet * f4_jet * f5_jet * f6_jet * f7_jet * f8_jet
 
-        return f_fuel_jet, f_reserve_jet
+        return ff_jet
 
     # NO AIRCRAFT TYPE SPECIFIED
     else:
