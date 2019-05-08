@@ -10,6 +10,7 @@ n_crew: number of crew members                        [-]
 # Masses are in kilograms!
 M_payload: payload mass                               [kg]
 M_passenger: passenger mass                           [kg]
+M_crew_member: crew member mass                       [kg]
 M_crew: crew mass                                     [kg]
 M_empty_jet: empty mass for a jet                     [kg]
 M_empty_tbp: empty mass for a turboprop               [kg]
