@@ -11,6 +11,8 @@ n_crew: number of crew members                        [-]
 M_payload: payload mass                               [kg]
 M_passenger: passenger mass                           [kg]
 M_crew: crew mass                                     [kg]
+M_empty_jet: empty mass for a jet                     [kg]
+M_empty_tbp: empty mass for a turboprop               [kg]
 
 # Weights are in Newtons!
 W_payload: payload weight                             [N]
@@ -69,8 +71,9 @@ C_D_loiter_jet: required CD during loiter for a jet               [-]
 C_D_loiter_tbp: required CD during loiter for a turboprop         [-]
 
 # Efficiencies are dimensionless!
-eff_prop: propeller efficiency                        [-]
-e: Oswald efficiency factor                           [-]
+eff_prop: propeller efficiency                                    [-]
+e_jet: Oswald efficiency factor for a jet                         [-]
+e_tbp: Oswald efficiency factor for a turboprop                   [-]
 
 # Aircraft geometry ------------------------------------------
 # Ratios are dimensionless!
@@ -138,7 +141,8 @@ k_cargo: correction factor for cargo volume computations                      [-
 
 ---------------------------------------------------------------
 # Wing parameters -----------------------------------------
-A: aspect ratio of the wing                           [-]
+A_jet: aspect ratio of the wing for a jet                          [-]
+A_tbp: aspect ratio of the wing for a turboprop                    [-]
 taper: taper ratio of the wing                        [-]
 S: wing area                                          [m^2]
 
