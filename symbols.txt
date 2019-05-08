@@ -157,6 +157,8 @@ f_cruise_tbp: fuel fraction related to the cruise phase for a turboprop         
 f_loiter_tbp: fuel fraction related to the loiter phase for a turboprop               [-]
 f_descend_tbp: fuel fraction related to the descend phase for a turboprop             [-]
 f_shutdown_tbp: fuel fraction related to landing, taxi and shutdown for a turboprop   [-]
+f_fuel_tbp: total of fuel fractions mentioned above for a turboprop                   [-]
+f_used_fuel_tbp: fraction of used fuel over MTOW for a turboprop                      [-]
 
 f_start_jet: fuel fraction related to the start-up phase for a jet              [-]
 f_taxi_jet: fuel fraction related to the taxi phase for a jet                   [-]
@@ -166,8 +168,11 @@ f_cruise_jet: fuel fraction related to the cruise phase for a jet               
 f_loiter_jet: fuel fraction related to the loiter phase for a jet               [-]
 f_descend_jet: fuel fraction related to the descend phase for a jet             [-]
 f_shutdown_jet: fuel fraction related to landing, taxi and shutdown for a jet   [-]
+f_fuel_jet: total of fuel fractions mentioned above for a jet                   [-]
+f_used_fuel_jet: fraction of used fuel over MTOW for a jet                      [-]
 
 f_trapped_fuel: fraction of trapped fuel over MTOW                              [-]
+f_reserve_fuel: fraction of reserve fuel over mission fuel                      [-]
 
 #
 # Velocities are in meters per second!
