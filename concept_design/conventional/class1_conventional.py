@@ -1,7 +1,9 @@
+# IMPORTS
+
+
+# THIS SECTION IS USED FOR JET AIRCRAFT; FOR TURBOPROP AIRCRAFT, SCROLL DOWN
 
 # Trapped fuel
-# Range for trapped fuel fractions: 0.001 - 0.005
-fraction_trapped_fuel = 0.003
 W_trapped_fuel_jet = fraction_trapped_fuel * MTOW_jet
 
 # Useful fuel
@@ -17,6 +19,26 @@ W_fuel_jet = W_used_fuel_jet + W_reserve_fuel_jet
 MTOW_jet = OEW_jet + W_fuel_jet + W_payload
 # Determine the operative empty weight for a jet
 OEW_jet = W_empty_jet + W_trapped_fuel_jet + W_crew
+
+
+# Determine range 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
