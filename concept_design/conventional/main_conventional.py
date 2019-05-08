@@ -1,7 +1,7 @@
 # MAIN OF THE CONVENTIAL AIRCRAFT SIZING PROGRAM
 
 # Import modules
-from class1_conventional import Weights
+from class1_conventional import Weights_Class_I
 
 # Gravitional constant
 g = 9.8065
