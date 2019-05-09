@@ -237,6 +237,8 @@ endurance_loiter_tbp: loiter time for a turboprop     [s]
 
 # Loading factors
 wing_loading: wing loading of the aircraft            [N/m^2]
+wing_loading_tbp: wing loading of a turboprop         [N/m^2]
+wing_loading_jet: wing loading for a jet              [N/m^2]
 power_loading_tbp: power loading for a turboprop      [N/W]
 thrust_loading_jet: thrust loading for a jet          [-]
 load_factor: load factor of the aircraft              [-]
