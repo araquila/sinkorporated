@@ -2,7 +2,7 @@
 
 # Import modules
 from class1_liftingbody import Weights_Class_I
-from class1sizing_liftingbody import fuselage
+from class1sizing_liftingbody import *
 
 # Gravitional constant
 g = 9.8065
@@ -28,15 +28,16 @@ W_empty_jet = M_empty_jet * g
 
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
-S = 1                               # Adjust per concept
-S_wet = 3.5 * S                       # Adjust per concept
-
+S = 60                               # Adjust per concept
+S_wet = 3.5 * S                      # Adjust per concept
+C_L = 0.4                            # during cruise
 
 # Jet
 A_jet = 7                          # Adjust per concept
 e_jet = 0.8                        # Adjust per concept
 cj_loiter_jet = 0.5         # (0.4-0.6) [lbs/lbs/hr]
 cj_cruise_jet = 0.6         # (0.5-0.9) [lbs/lbs/hr]
+Mach_cruise_jet = 0.8
 
 # Tbp
 A_tbp = 7                          # Adjust per concept
@@ -45,6 +46,7 @@ eff_cruise_tbp = 0.85       # [-]
 eff_loiter_tbp = 0.77       # [-]
 cp_cruise_tbp = 0.5         # (0.4-0.6) [lbs/hp/hr]
 cp_loiter_tbp = 0.6         # (0.5-0.7) [lbs/hp/hr]
+Mach_cruise_tbp = 0.6
 
 # Weight estimation ----------------------------------------
 for iter in range(1):
@@ -57,8 +59,15 @@ for iter in range(1):
 # Sizing ---------------------------------------------------
 # Fuselage
 n_seats_abreast = 6
-n_aisles = 1
+n_aisles = 2
 
-length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
+length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
 
-print(length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside)
+print(length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside)
+
+# Wing
+A = A_jet
+Mach_cruise = Mach_cruise_jet
+taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral = wing(Mach_cruise, S, A, C_L, low=True)
+
+#print(taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral)

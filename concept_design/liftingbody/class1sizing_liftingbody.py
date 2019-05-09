@@ -20,11 +20,8 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     n_lavatories=1
     n_galleys=1
     width_armrest=0.05
-    s_clearance=0.02
-    #cabin width up to shoulder
-    width_cabin=(n_seats_abreast*width_seats)+(n_seats_abreast+n_aisles+1)*width_armrest+n_aisles*width_aisles+2*s_clearance
-    #cabin width at head of passengers
-    width_headroom=width_cabin-2*(width_armrest+s_clearance)-width_seats
+    s_clearance=0.0
+
     #overhead storage
     k_os=1
     n_os=2
@@ -48,9 +45,32 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     thickness_floor=0.150 #0.100-0.300
     thickness_fuselage_skin_frame=0.150
 
-    diameter_fuselage_inside=2*math.sqrt(((height_shoulder/2)**2)+((width_cabin/2)**2))
+    # The number of bubbles depends on the number of seats abreast
+    if n_seats_abreast <= 6:
+        width_cabin = (n_seats_abreast*width_seats)+(n_seats_abreast+n_aisles+1)*width_armrest+n_aisles*width_aisles+2*s_clearance
+        #cabin width at head of passengers
+        width_headroom = width_cabin-2*(width_armrest+s_clearance)-width_seats
+        diameter_fuselage_inside = 2*math.sqrt(((height_shoulder/2)**2)+((width_cabin/2)**2))
+        diameter_fuselage_outside = 1.045*diameter_fuselage_inside+0.084
 
-    diameter_fuselage_outside=1.045*diameter_fuselage_inside+0.084
+        if n_seats_abreast <= 4:
+            # 1.6 is used to get enough head clearance; for larger values, this will reduce.
+            # For smaller values, the fuselage becomes smaller
+            width_fuselage_outside=1.6*diameter_fuselage_outside
+
+        elif 4 < n_seats_abreast and n_seats_abreast <= 6:
+            # 1.5 is used to get enough head clearance; for larger values, this will reduce.
+            # For smaller values, the fuselage becomes smaller
+            width_fuselage_outside=1.5*diameter_fuselage_outside
+
+    elif n_seats_abreast > 6:
+        # The height of the cabin does not change when there are more than 6 seats abreast; the width does change
+        width_cabin = (6*width_seats)+(6+n_aisles+1)*width_armrest+n_aisles*width_aisles+2*s_clearance
+        #cabin width at head of passengers
+        width_headroom = width_cabin-2*(width_armrest+s_clearance)-width_seats
+        diameter_fuselage_inside = 2*math.sqrt(((height_shoulder/2)**2)+((width_cabin/2)**2))
+        diameter_fuselage_outside = 1.045*diameter_fuselage_inside+0.084
+        width_fuselage_outside= 2.5 + (n_seats_abreast*width_seats)+(n_seats_abreast+n_aisles+1)*width_armrest+n_aisles*width_aisles+2*s_clearance
 
     height_cargo=(diameter_fuselage_inside/2)-((height_shoulder/2)+thickness_floor)
 
@@ -62,6 +82,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     length_galley=30*0.0254
 
     length_cabin=length_seats+length_lavatory+length_galley
+    print(length_cabin)
 
     nose_fineness=1 #can be altered using aerodynamic data
     nosecone_fineness=2 #from data
@@ -81,10 +102,10 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
 
     length_fuselage=length_nose+length_cabin+length_tail
 
-    return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside
+    return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside
 
                     #WING SIZING
-def wing(Mach_cruise, S, A, C_L, high=False, mid=False, low=False ):
+def wing(Mach_cruise, S, A, C_L, high=False, mid=False, low=False):
     #AERODYNAMICS
     Mach_dd=Mach_cruise+0.03
     Mach_t=0.935
@@ -111,7 +132,7 @@ def wing(Mach_cruise, S, A, C_L, high=False, mid=False, low=False ):
     #dihedral angle
     dihedral=3-(sweep_chord_0_5*(180/math.pi)/10)
     if high:
-        dihedral=dihedral+2 #0-1[deg]
+        dihedral=dihedral-2 #0-1[deg]
     if low:
         dihedral=dihedral+2
     return taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral
