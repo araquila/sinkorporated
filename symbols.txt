@@ -71,6 +71,20 @@ C_fe: equivalent skin-friction drag coefficient                   [-]
 C_D_loiter_jet: required CD during loiter for a jet               [-]
 C_D_loiter_tbp: required CD during loiter for a turboprop         [-]
 
+C_L_max_tbp_clean_min: minimum maximal CL max during cruise       [-]
+C_L_max_tbp_clean_max: maximum maximal CL max during cruise       [-]
+C_L_max_tbp_take_min = minimum maximal CL max during takeoff      [-]
+C_L_max_tbp_take_max = maximum maximal CL max during takeoff      [-]
+C_L_max_tbp_land_min = minimum maximal CL max during landing      [-]
+C_L_max_tbp_land_max = maximum maximal CL max during landing      [-]
+
+C_L_max_jet_clean_min = minimum maximal CL max during cruise      [-]
+C_L_max_jet_clean_max = maximum maximal CL max during cruise      [-]
+C_L_max_jet_take_min = minimum maximal CL max during takeoff      [-]
+C_L_max_jet_take_max = maximum maximal CL max during takeoff      [-]
+C_L_max_jet_land_min = minimum maximal CL max during landing      [-]
+C_L_max_jet_land_max = maximum maximal CL max during landing      [-]
+
 # Efficiencies are dimensionless!
 eff_prop: propeller efficiency                                    [-]
 e_jet: Oswald efficiency factor for a jet                         [-]
