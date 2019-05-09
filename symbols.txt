@@ -31,6 +31,8 @@ W_fuel_jet: fuel weight for a jet                         [N]
 W_used_fuel_jet: weight of the fuel used for a jet        [N]
 W_reserve_fuel_jet: weight of the reserve fuel for a jet  [N]
 W_trapped_fuel_jet: trapped fuel weight for a jet         [N]
+W_max_landing_jet: maximum landing weight for a jet       [N]
+W_landing_jet: instanenous landing weight for a jet       [N]
 
 W_tbp: instantaneous weight for a turboprop                     [N]
 MTOW_tbp: maximum take-off weight for a turboprop               [N]
@@ -40,6 +42,8 @@ W_fuel_tbp: fuel weight for a turboprop                         [N]
 W_used_fuel_tbp: weight of the fuel used for a turboprop        [N]
 W_reserve_fuel_tbp: weight of the reserve fuel for a turboprop  [N]
 W_trapped_fuel_tbp: trapped fuel weight for a turboprop         [N]
+W_max_landing_tbp: maximum landing weight for a turboprop       [N]
+W_landing_tbp: instantaneous landing weight for a turboprop     [N]
 
 # Fractions are dimensionless!
 f: ratio of the landing weight over the take-off weight   [-]
@@ -70,6 +74,20 @@ C_D_0: wing zero lift drag coefficient                            [-]
 C_fe: equivalent skin-friction drag coefficient                   [-]
 C_D_loiter_jet: required CD during loiter for a jet               [-]
 C_D_loiter_tbp: required CD during loiter for a turboprop         [-]
+
+C_L_max_tbp_clean_min: minimum maximal CL max during cruise       [-]
+C_L_max_tbp_clean_max: maximum maximal CL max during cruise       [-]
+C_L_max_tbp_take_min = minimum maximal CL max during takeoff      [-]
+C_L_max_tbp_take_max = maximum maximal CL max during takeoff      [-]
+C_L_max_tbp_land_min = minimum maximal CL max during landing      [-]
+C_L_max_tbp_land_max = maximum maximal CL max during landing      [-]
+
+C_L_max_jet_clean_min = minimum maximal CL max during cruise      [-]
+C_L_max_jet_clean_max = maximum maximal CL max during cruise      [-]
+C_L_max_jet_take_min = minimum maximal CL max during takeoff      [-]
+C_L_max_jet_take_max = maximum maximal CL max during takeoff      [-]
+C_L_max_jet_land_min = minimum maximal CL max during landing      [-]
+C_L_max_jet_land_max = maximum maximal CL max during landing      [-]
 
 # Efficiencies are dimensionless!
 eff_prop: propeller efficiency                                    [-]
@@ -147,13 +165,14 @@ A_tbp: aspect ratio of the wing for a turboprop                    [-]
 taper: taper ratio of the wing                        [-]
 S: wing area                                          [m^2]
 
-MAC: mean aerodynamic chord                           [m]
-rootchord: root chord of the wing                     [m]
-tipchord: tip chord of the wing                       [m]
+MAC: mean aerodynamic chord                                                   [m]
+rootchord: root chord of the wing                                             [m]
+tipchord: tip chord of the wing                                               [m]
+thickness_chord_ratio: the ratio of wing thickness over chord length          [-]
 
 Mach_rootchord_swept: Mach number at the root chord for a swept wing          [-]
 Mach_rootchord_unswept: Mach number at the root chord for an unswept wing     [-]
-sweep_chord_0.25: sweep of the quarter chord line                             [rad]
+sweep_chord_0_25: sweep of the quarter chord line                             [rad]
 
 
 # Mission performance during flight ---------------------------
@@ -218,6 +237,8 @@ endurance_loiter_tbp: loiter time for a turboprop     [s]
 
 # Loading factors
 wing_loading: wing loading of the aircraft            [N/m^2]
+wing_loading_tbp: wing loading of a turboprop         [N/m^2]
+wing_loading_jet: wing loading for a jet              [N/m^2]
 power_loading_tbp: power loading for a turboprop      [N/W]
 thrust_loading_jet: thrust loading for a jet          [-]
 load_factor: load factor of the aircraft              [-]
