@@ -1,0 +1,20 @@
+from math import *
+#input parameters
+S = 200
+s1frac = 0.5
+s2frac = 1 - s1frac
+
+S1 = S * s1frac
+S2 = S * s2frac
+AR = 10
+Fus_len = 23
+
+sweep1 = 40
+taper1 = 0.2*(2-sweep1*pi/180)
+b = sqrt(S1*AR)
+cr = 2*S1/(1+taper1)/b
+ct = taper1 * cr
+print(b,cr,ct)
+x = 2*taper1*S1/(1+taper1)/b
+sweep2 = -(1.4*x*b-0.8*S2)/(0.2*x*b-0.4*S2)*180/pi
+print(sweep2)
