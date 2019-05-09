@@ -25,7 +25,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     #overhead storage
     k_os=1
     n_os=2
-    area_overhead=0.2
+    area_overhead=0.3       # verified with CATIA model
     length_seats=n_rows*pitch_seats+(10*0.0254)
     volume_overhead=(n_os*area_overhead)*length_seats*k_os
 
@@ -48,7 +48,6 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     length_galley=30*0.0254
 
     length_cabin=length_seats+length_lavatory+length_galley
-    print(length_cabin)
 
     #cargo compartment
     density_luggage=170
@@ -57,9 +56,15 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     mass_luggage=n_passenger*mass_peroverheadluggage
     volume_luggage=mass_luggage/density_luggage
     volume_cargo=mass_cargo/density_cargo
-    volume_cargocompartment=volume_cargo+(volume_luggage-volume_overhead)
+    if volume_luggage > volume_overhead:
+        volume_cargocompartment=volume_cargo+(volume_luggage-volume_overhead)
+    else:
+        volume_cargocompartment = volume_cargo
     height_cargo=(diameter_fuselage_inside/2)-((height_shoulder/2)+thickness_floor)
     area_cargocompartment = volume_cargocompartment / (0.8*length_cabin)
+
+    print(volume_luggage - volume_overhead)
+    print(area_cargocompartment)
 
     height_container=64*0.0254
     width_container=61.5*0.0254
