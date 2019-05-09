@@ -59,3 +59,11 @@ def W_P_climb_grad_calc(eff_prop,x,cV,C_D_tbp_curr,C_L_max_tbp_take_min,rho):
 def T_W_climb_grad_calc(cV,C_D_0_jet,A_jet,e_jet):
     T_W_climb_grad_jet= cV+2*sqrt(C_D_0_jet/(np.pi*A_jet*e_jet))
     return T_W_climb_grad_jet
+
+def W_P_maneuvring_calc(eff_prop,C_D_0_tbp,rho,V_cruise_tbp,x,n_max_man,A_tbp,e_tbp):
+    W_P_maneuvring_tbp = 1/eff_prop*((C_D_0_tbp*0.5*rho*V_cruise_tbp**3)/x+x*(n_max_man**2/(np.pi*A_tbp*e_tbp*rho*V_cruise_tbp)))**-1
+    return W_P_maneuvring_tbp
+
+def T_W_maneuvring_jet_calc(C_D_0_jet,rho,V_cruise_jet,x,n_max_man,A_jet,e_jet):
+    T_W_maneuvring_jet = (C_D_0_jet*0.5*rho*V_cruise_jet**2)/x + x*n_max_man**2/(np.pi*A_jet*e_jet*0.5*rho*V_cruise_jet**2)
+    return T_W_maneuvring_jet
