@@ -1,20 +1,27 @@
 from math import *
+
 #input parameters
-S = 200
-s1frac = 0.5
+S = 300
+s1frac = 0.55
 s2frac = 1 - s1frac
 
 S1 = S * s1frac
 S2 = S * s2frac
-AR = 10
+AR1 = 10
+AR2 = 10
 Fus_len = 23
+frac_qtrchord_fus = 0.4
 
-sweep1 = 40
-taper1 = 0.2*(2-sweep1*pi/180)
-b = sqrt(S1*AR)
-cr = 2*S1/(1+taper1)/b
-ct = taper1 * cr
-print(b,cr,ct)
-x = 2*taper1*S1/(1+taper1)/b
-sweep2 = -(1.4*x*b-0.8*S2)/(0.2*x*b-0.4*S2)*180/pi
-print(sweep2)
+taper1 = 0.35
+sweep1 = (2-taper1/0.2)*180/pi
+b = sqrt(S1*AR1)
+cr1 = 2*S1/(1+taper1)/b
+ct1 = taper1 * cr1
+print(b,cr1,ct1)
+
+ct2 = ct1
+cr2 = (2*S2-ct2*b)/b
+sweep2 = -atan((Fus_len - Fus_len*frac_qtrchord_fus - b/2*tan(sweep1/180*pi) - 0.75*cr2 )/b)*180/pi
+
+print(sweep1, sweep2)
+print(b, cr2, ct2)
