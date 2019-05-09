@@ -65,7 +65,7 @@ V_cruise_tbp = 100 #[m/s]
 C_D_0_tbp = 0.0030
 e_tbp = 0.85 #oswald efficiency factor
 eff_prop = 0.8
-cV = 0.083 #from CS23.65
+cV_tbp = 0.083 #from CS23.65
 
 #############DATA JETS##################
 MTOW_jet = 230000 #[N]
@@ -89,6 +89,7 @@ C_D_0_jet = 0.0030
 thrust_setting = 0.9
 A_jet = 10
 C_D_jet_curr = 0.02 #current C_D value
+cV_jet = 0.20
 
 ##########PROP CALCULATIONS FOR JETS SCROLL DOWN################
 #calculate stall speeds and the wing loading
@@ -128,8 +129,9 @@ for i in range(len(wing_loading_x)):
 #########Climb Gradient#####
 W_P_climb_grad_tbp = np.zeros(len(wing_loading_x))
 for i in range(len(wing_loading_x)):
-    W_P_climb_grad_tbp[i] = W_P_climb_grad_calc(eff_prop,wing_loading_x[i],cV,C_D_tbp_curr,C_L_max_tbp_take_min,rho)
+    W_P_climb_grad_tbp[i] = W_P_climb_grad_calc(eff_prop,wing_loading_x[i],cV_tbp,C_D_tbp_curr,C_L_max_tbp_take_min,rho)
 print(W_P_climb_grad_tbp)
+
 #####plotting the data#############
 l = np.linspace(0, 0.8, 200)
 x = np.linspace(0, 4000, 200)
@@ -200,6 +202,11 @@ T_W_climb_jet = np.zeros(len(wing_loading_x))
 for i in range(len(wing_loading_x)):
     T_W_climb_jet[i] = T_W_climb_calc(c,wing_loading_x[i],rho,C_L_max_jet_take_max,C_D_jet_curr)
 
+########Climb Gradient#########
+T_W_climb_grad_jet = np.zeros(len(wing_loading_x))
+for i in range(len(wing_loading_x)):
+    T_W_climb_grad_jet[i] = T_W_climb_grad_calc(cV_jet,C_D_0_jet,A_jet,e_jet)
+
 # the data
 l = np.linspace(0, 0.8, 200)
 x = np.linspace(0, 4000, 200)
@@ -220,12 +227,14 @@ ax1.axvline(W_S_landing_jet[1])
 ax1.axvline(W_S_landing_jet[2])
 ax1.plot(wing_loading_x,T_W_cruise_jet)
 ax1.plot(wing_loading_x,T_W_climb_jet)
+ax1.plot(wing_loading_x,T_W_climb_grad_jet)
 
 # plot filled parts of the graph
 plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = TOP_takeoff_jet[4,:], direction = "down")
 plotfiller(ax1, xlim, ylim, vline = W_S_landing_jet[0], direction = "right")
 plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = T_W_cruise_jet, direction = "down")
 plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = T_W_climb_jet, direction = "down")
+plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = T_W_climb_grad_jet, direction = "down")
 # plot cosmetics (add some legends/labels/title)
 ax1.set_ylim([0, ylim])
 ax1.set_xlim([0, xlim])
