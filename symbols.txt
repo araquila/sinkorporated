@@ -126,6 +126,7 @@ length_tail_cone: total length of the tail cone behind the circular fuselage  [m
 # Fuselage cross-section:
 diameter_fuselage_inside: inner diameter of the fuselage                                        [m]
 diameter_fuselage_outside: exterior diameter of the fuselage                                    [m]
+width_fuselage_outside: width of the fuselage, used for the lifting body                        [m]
 radius_fuselage: radius of the interior fuselage cross-section                                  [m]
 height_fuselage_centre: height from the top of the fuselage floor to the fuselage centre        [m]
 height_floor: height from the interior bottom of the fuselage to the bottom of the floor        [m]
