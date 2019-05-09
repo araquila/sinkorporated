@@ -122,7 +122,6 @@ W_P_climb_tbp = np.zeros(len(wing_loading_x))
 for i in range(len(wing_loading_x)):
     W_P_climb_tbp[i] = W_P_climb_calc(eff_prop,c,wing_loading_x[i],rho,A_tbp,e_tbp,C_D_0_tbp)
 print(W_P_climb_tbp)
-print
 #####plotting the data#############
 l = np.linspace(0, 0.8, 200)
 x = np.linspace(0, 4000, 200)

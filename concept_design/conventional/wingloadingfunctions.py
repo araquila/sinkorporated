@@ -46,3 +46,4 @@ def T_W_cruise_jet_calc(thrust_setting,weight_fraction,rho,rho0,C_D_0_jet,x,A_je
 
 def W_P_climb_calc(eff_prop,c,x,rho,A_tbp,e_tbp,C_D_0_tbp):
     W_P_climb = eff_prop/(c+sqrt(x)*sqrt(2/rho))/((1.345*((A_tbp*e_tbp)**0.75))/(C_D_0_tbp**0.25))
+    return W_P_climb
