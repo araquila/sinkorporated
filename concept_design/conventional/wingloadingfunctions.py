@@ -1,5 +1,6 @@
 #a list of the functions that are used to calculate the wing loading
 from math import *
+import numpy as np
 def V_stall_calc(W,rho,CL,S):
     V_stall = sqrt(2*W/(rho*CL*S))
     return V_stall
@@ -34,3 +35,11 @@ def T_W_calc(x,k,CL_TO):
 def W_S_landing_calc(CL_max,rho,V_landing,f):
     W_S_landing = CL_max*rho*V_landing**2/(2*f)
     return W_S_landing
+
+def W_P_cruise_tbp_calc(power_setting,weight_fraction,eff_prop,rho,rho0,C_D_0_tbp,x,A_tbp,V_cruise_tbp,e_tbp):
+    W_P_cruise_tbp = (power_setting/weight_fraction*eff_prop*(rho/rho0)**0.75)*((C_D_0_tbp*0.5*rho*V_cruise_tbp**3)/(weight_fraction*x)+(weight_fraction*x)/(np.pi*e_tbp*A_tbp*0.5*rho*V_cruise_tbp))**-1
+    return W_P_cruise_tbp
+
+def W_P_cruise_jet_calc(thrust_setting,weight_fraction,rho,rho0,C_D_0_jet,x,A_jet,V_cruise_jet,e_jet):
+    T_W_cruise_jet = weight_fraction/thrust_setting*(rho0/rho)**0.75*((C_D_0_jet*0.5*rho*V_cruise_jet**2)/(weight_fraction*x)+(weight_fraction*x)/(pi*A_jet*e_jet*0.5*rho*V_cruise_jet**2))
+    return T_W_cruise_jet
