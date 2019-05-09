@@ -29,23 +29,6 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     length_seats=n_rows*pitch_seats+(10*0.0254)
     volume_overhead=(n_os*area_overhead)*length_seats*k_os
 
-    #cargo compartment
-    density_luggage=170
-    density_cargo=160
-    mass_cargo=n_passenger*23
-    mass_luggage=n_passenger*mass_peroverheadluggage
-    volume_luggage=mass_luggage/density_luggage
-    volume_cargo=mass_cargo/density_cargo
-    volume_cargocompartment=volume_cargo+(volume_luggage-volume_overhead)
-    area_cargocompartment = volume_cargocompartment / (0.8*length_cabin)
-
-    height_container=64*0.0254
-    width_container=61.5*0.0254
-    base_container=60.4*0.0254
-    #structural dimensions
-    thickness_floor=0.150 #0.100-0.300
-    thickness_fuselage_skin_frame=0.150
-
     # Data measured from CATIA
     diameter_fuselage_inside = 2.9646
     diameter_fuselage_outside = 1.045*diameter_fuselage_inside + 0.084
@@ -53,7 +36,9 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     width_fuselage_inside = 3.931
     width_fuselage_outside = width_fuselage_inside + diff_outside_inside
 
-    height_cargo=(diameter_fuselage_inside/2)-((height_shoulder/2)+thickness_floor)
+    #structural dimensions
+    thickness_floor=0.150 #0.100-0.300
+    thickness_fuselage_skin_frame=0.150
 
                     #FUSELAGE TOP VIEW
     width_lavatory=36*0.0254
@@ -65,14 +50,30 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     length_cabin=length_seats+length_lavatory+length_galley
     print(length_cabin)
 
+    #cargo compartment
+    density_luggage=170
+    density_cargo=160
+    mass_cargo=n_passenger*23
+    mass_luggage=n_passenger*mass_peroverheadluggage
+    volume_luggage=mass_luggage/density_luggage
+    volume_cargo=mass_cargo/density_cargo
+    volume_cargocompartment=volume_cargo+(volume_luggage-volume_overhead)
+    height_cargo=(diameter_fuselage_inside/2)-((height_shoulder/2)+thickness_floor)
+    area_cargocompartment = volume_cargocompartment / (0.8*length_cabin)
+
+    height_container=64*0.0254
+    width_container=61.5*0.0254
+    base_container=60.4*0.0254
+
+
     nose_fineness=1.5 #can be altered using aerodynamic data
     nosecone_fineness=2.25 #from data
     length_nose=nose_fineness*diameter_fuselage_outside
     length_nosecone=nosecone_fineness*diameter_fuselage_outside
 
 
-    tail_fineness=1.6
-    tailcone_fineness=3 #2-4
+    tail_fineness=2
+    tailcone_fineness=3.5 #2-4
     length_tail=tail_fineness*diameter_fuselage_outside
     length_tailcone=tailcone_fineness*diameter_fuselage_outside
 
