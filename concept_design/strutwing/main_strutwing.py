@@ -1,5 +1,4 @@
 # MAIN OF THE STRUTTED AIRCRAFT SIZING PROGRAM
-<<<<<<< HEAD
 
 # Import modules
 from class1_conventional import Weights
@@ -53,5 +52,3 @@ for iter in range(50):
 
 print(MTOW_tbp/g, OEW_tbp/g, W_fuel_tbp/g)
 print(MTOW_jet/g, OEW_jet/g, W_fuel_jet/g)
-=======
->>>>>>> 16254bbe48c7c3b4b5d74bcb8149516ada4f8b34
