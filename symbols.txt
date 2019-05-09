@@ -220,6 +220,7 @@ V_landing_tbp: landing speed for a turboprop                                [m/s
 V_stall_tbp: stall speed for a turboprop in clean configuration             [m/s]
 V_stall_landing_tbp: stall speed for a turboprop in landing configuration   [m/s]
 V_max_tbp: maximum speed for a turboprop                                    [m/s]
+c: climb rate                                                               [m/s]
 
 # Range is in meters!
 range_cruise_jet: cruise range for a jet              [m]

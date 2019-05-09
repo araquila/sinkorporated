@@ -40,6 +40,9 @@ def W_P_cruise_tbp_calc(power_setting,weight_fraction,eff_prop,rho,rho0,C_D_0_tb
     W_P_cruise_tbp = (power_setting/weight_fraction*eff_prop*(rho/rho0)**0.75)*((C_D_0_tbp*0.5*rho*V_cruise_tbp**3)/(weight_fraction*x)+(weight_fraction*x)/(np.pi*e_tbp*A_tbp*0.5*rho*V_cruise_tbp))**-1
     return W_P_cruise_tbp
 
-def W_P_cruise_jet_calc(thrust_setting,weight_fraction,rho,rho0,C_D_0_jet,x,A_jet,V_cruise_jet,e_jet):
+def T_W_cruise_jet_calc(thrust_setting,weight_fraction,rho,rho0,C_D_0_jet,x,A_jet,V_cruise_jet,e_jet):
     T_W_cruise_jet = weight_fraction/thrust_setting*(rho0/rho)**0.75*((C_D_0_jet*0.5*rho*V_cruise_jet**2)/(weight_fraction*x)+(weight_fraction*x)/(pi*A_jet*e_jet*0.5*rho*V_cruise_jet**2))
     return T_W_cruise_jet
+
+def W_P_climb_calc(eff_prop,c,x,rho,A_tbp,e_tbp,C_D_0_tbp):
+    W_P_climb = eff_prop/(c+sqrt(x)*sqrt(2/rho))/((1.345*((A_tbp*e_tbp)**0.75))/(C_D_0_tbp**0.25))
