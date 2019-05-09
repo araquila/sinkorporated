@@ -28,7 +28,7 @@ W_empty_jet = M_empty_jet * g
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
 S = 1                               # Adjust per concept
-S_wet = 5 * S                       # Adjust per concept
+S_wet = 3.5 * S                       # Adjust per concept
 
 # Jet
 A_jet = 7                          # Adjust per concept
@@ -44,7 +44,7 @@ eff_loiter_tbp = 0.77       # [-]
 cp_cruise_tbp = 0.5         # (0.4-0.6) [lbs/hp/hr]
 cp_loiter_tbp = 0.6         # (0.5-0.7) [lbs/hp/hr]
 
-for iter in range(3):
+for iter in range(1):
     MTOW_jet, OEW_jet, W_fuel_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, jet = True)
     MTOW_tbp, OEW_tbp, W_fuel_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, tbp = True)
 
