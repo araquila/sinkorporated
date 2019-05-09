@@ -152,6 +152,7 @@ def enginedimensions(n_engines, P_TO_tbp, tbp=True):
         length_engine_envelope=length_engine
     return diameter_engine, length_engine, diameter_propeller
 
-print(fuselage(60,4,4,1))
-print(wing(0.72, 55, 19.5, 0.75))
-print(enginedimensions(2,5*10**6,))
+def empennage(V_h, V_v, l_h, l_v, S, b, c):
+    S_h = (V_h * S * c) / l_h
+    S_v = (V_v * S * b) / l_v
+    return S_h, S_v
