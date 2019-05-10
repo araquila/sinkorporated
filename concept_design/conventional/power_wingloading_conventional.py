@@ -80,7 +80,7 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     
     C_D_tbp_curr = 0.065 #current CD value THIS IS INPUT
     #take off parameter and propulsion
-    TOP_aquila_tbp =  #find from statistics THIS IS INPUT
+    TOP_aquila_tbp = 139 #find from statistics THIS IS INPUT
     power_setting = 0.9 #usually at 0.9 THIS IS INPUT
 #    V_cruise_tbp = 100 #[m/s] THIS IS INPUT
 #    C_D_0_tbp = 0.015 #THIS IS INPUT
@@ -158,6 +158,7 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     #ax1.plot(wing_loading_x,W_P_maneuvring_tbp)
     
     # plot filled parts of the graph
+
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = TOP_takeoff_tbp[4,:], direction = "up")
     plotfiller(ax1, xlim, ylim, vline = W_S_landing_tbp[0], direction = "right")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_cruise_tbp, direction = "up")
