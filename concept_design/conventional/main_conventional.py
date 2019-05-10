@@ -31,7 +31,7 @@ S = 1                               # Adjust per concept
 S_wet = 5 * S                       # Adjust per concept
 
 # Jet
-A_jet = 12                          # Adjust per concept
+A_jet = 9                          # Adjust per concept
 e_jet = 0.85                        # Adjust per concept
 cj_loiter_jet = 0.5                 # (0.4-0.6) [lbs/lbs/hr]
 cj_cruise_jet = 0.6                 # (0.5-0.9) [lbs/lbs/hr]
