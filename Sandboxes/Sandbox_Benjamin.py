@@ -33,7 +33,7 @@ width_headroom=width_cabin-2*(width_armrest+s_clearance)-width_seats
 #overhead storage
 k_os=1
 n_os=2
-area_overhead=0.2
+area_overhead=0.1
 length_seats=n_rows*pitch_seats+(10*0.0254)
 volume_overhead=(n_os*area_overhead)*length_seats*k_os
 
@@ -45,10 +45,7 @@ mass_luggage=n_passenger*mass_peroverheadluggage
 volume_luggage=mass_luggage/density_luggage
 volume_cargo=mass_cargo/density_cargo
 volume_cargocompartment=volume_cargo+(volume_luggage-volume_overhead)
-
-height_container=64*0.0254
-width_container=61.5*0.0254
-base_container=60.4*0.0254
+length_cargocompartment=volume_cargocompartment/(width_cabin*height_shoulder)
 #structural dimensions
 thickness_floor=0.150 #0.100-0.300
 thickness_fuselage_skin_frame=0.150
@@ -68,7 +65,7 @@ length_lavatory=36*0.0254
 width_galley=36*0.0254
 length_galley=30*0.0254
 
-length_cabin=length_seats+length_lavatory+length_galley
+length_cabin=length_seats+length_lavatory+length_galley+length_cargocompartment
 
 nose_fineness=1 #can be altered using aerodynamic data
 nosecone_fineness=2 #from data
@@ -87,7 +84,4 @@ overside_angle=35 #from table
 length_flightdeck=2.5
 
 length_fuselage=length_nose+length_cabin+length_tail
-print(width_seats)
-print(diameter_fuselage_inside/2)
-print(diameter_fuselage_inside)
-print(width_cabin)
+print(length_fuselage)
