@@ -144,7 +144,6 @@ def det_dihedral_angle(sweep, high = False, mid = False, low = False):
 
                     #ENGINE DIMENSIONS
 def enginedimensions_tbp(rho0, n_engines, P_TO_tbp):
-    pass
     #turboshaft dimensions
     diameter_engine=0.2*(P_TO_tbp/(1000*n_engines))**0.18
     length_engine=0.1*(P_TO_tbp/(1000*n_engines))**0.4
@@ -159,8 +158,6 @@ def enginedimensions_tbp(rho0, n_engines, P_TO_tbp):
 
 
 def enginedimensions_jet(rho0, n_engines, T_TO_jet, jettypeB=False, jettypeC=False):
-    pass
-
     bypass_ratio=8
     a_0=340.3 #[m/s]
     e_nozzle=0.97
