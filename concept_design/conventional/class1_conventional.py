@@ -77,3 +77,4 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
         OEW_tbp = W_empty_tbp + W_trapped_fuel_tbp + W_crew
 
         return MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0
+#RETARD
