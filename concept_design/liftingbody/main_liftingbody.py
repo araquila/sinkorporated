@@ -7,18 +7,19 @@ from power_wingloading_liftingbody import *
 from atmosphere import *
 
 # Decide whether you like jet or turboprop:
-jet = False
+jet = True
 tbp = True
 
 # Constants
 g = 9.8065
 R = 287
+gamma = 1.4
 
 # Atmospherical parameters
 temperature0 = 288.15
 temperature_gradient = -0.0065
 altitude = 25000 * 0.3048 # altitude in meters; this can be adjusted!
-temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R)
+temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 
 # Passengers and crew
 n_passenger = 60
@@ -37,6 +38,7 @@ M_empty_jet = 16300                 # Adjust per concept
 
 # Convert to weights
 W_payload = M_payload * g
+print("payload", M_payload)
 W_crew = M_crew * g
 W_empty_tbp = M_empty_tbp * g
 W_empty_jet = M_empty_jet * g
@@ -65,7 +67,7 @@ C_L = 0.4                            # during cruise
 C_fe_jet = 0.003
 S_jet = 60                               # Adjust per concept
 S_wet_jet = 3.5 * S_jet                  # Adjust per concept
-A_jet = 7                          # Adjust per concept
+A_jet = 10                          # Adjust per concept
 e_jet = 0.8                        # Adjust per concept
 cj_loiter_jet = 17/1e6         # [g/Ns]
 cj_cruise_jet = 19/1e6         # [g/Ns]
@@ -90,7 +92,7 @@ cV_jet = 0.20 #Climb gradient
 C_fe_tbp = 0.003
 S_tbp = 60                               # Adjust per concept
 S_wet_tbp = 3.5 * S_tbp                  # Adjust per concept
-A_tbp = 7                          # Adjust per concept
+A_tbp = 10                          # Adjust per concept
 e_tbp = 0.8                        # Adjust per concept
 eff_cruise_tbp = 0.85       # [-]
 eff_loiter_tbp = 0.77       # [-]
@@ -119,7 +121,7 @@ for iter in range(1):
         # Weight estimations
         MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet = Weights_Class_I_jet(W_empty_jet, W_payload, W_crew, C_fe_jet, S_jet, S_wet_jet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel)
         W_landing_jet = 0.98 * MTOW_jet
-        print(MTOW_jet)
+        print("jet:", MTOW_jet/g, OEW_jet/g, W_fuel_jet/g, C_D_0_jet)
         # Wing loading
         Wing_loading_jet(MTOW_jet, W_landing_jet, S_jet,  \
         C_L_max_jet_take_min, C_L_max_jet_take_max, C_L_max_jet_land_min, \
@@ -153,7 +155,7 @@ for iter in range(1):
         # Weight estimation
         MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp = Weights_Class_I_tbp(W_empty_tbp, W_payload, W_crew, C_fe_tbp, S_tbp, S_wet_tbp, A_tbp, e_tbp,  eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel)
         W_landing_tbp = 0.98 * MTOW_tbp
-        print(MTOW_tbp)
+        print("turboprop:",  MTOW_tbp/g, OEW_tbp/g, W_fuel_tbp/g, C_D_0_tbp)
         # Wing loading
         Wing_loading_tbp(MTOW_tbp, W_landing_tbp, S_tbp,  \
         C_L_max_tbp_take_min, C_L_max_tbp_take_max, C_L_max_tbp_land_min, \

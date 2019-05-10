@@ -153,13 +153,14 @@ def det_nose_lg_weight(W_l, N_l, L_n, N_mw, kneeling_nose_lg = False):
     nose_lg_weight = 0.032 * K_np * W_l**0.646 * N_l**0.2 * L_n**0.5 * N_nw**0.45
     return nose_lg_weight
 
-def det_nacelle_group_weight(pylon_mounted = False, W_ec = 0, propeller = False):
+def det_nacelle_group_weight(N_lt, N_w, N_z, N_en, S_n, pylon_mounted = False, W_ec = 0, W_engine = 0, propeller = False, thrust_reverser = False):
     """
     Inputs:
     N_lt = nacelle length in ft
     N_w = nacelle width in ft
     N_z = ultimate load factor = 1.5 * limit load factor
     N_en = number of engines
+    S_n = nacelle wetted area in ft^2
 
     conditional inputs:
     K_ng = factor for nacelles (1.017 for pylon mounted nacelle, 1.0 otherwise)
@@ -175,8 +176,201 @@ def det_nacelle_group_weight(pylon_mounted = False, W_ec = 0, propeller = False)
     K_ng = 1
     if pylon_mounted:
         K_ng = 1.017
+    if W_ec == 0 and W_engine == 0:
+        raise NameError("no propulsion??")
     K_p = 1
+    K_tr = 1
     if propeller:
         K_p = 1.4
+    if thrust_reverser:
+        K_tr = 1.18
     if W_ec == 0:
         W_ec = W_engine**0.901 * K_p * K_tr
+    nacelle_group_weight = 0.6724 * K_ng * N_lt**0.10 * N_w**0.294 * N_z**0.119 * W_ec**0.611 * N_en**0.984 * S_n**0.224
+    return nacelle_group_weight
+
+def det_engine_controls_weight(N_en, L_ec):
+    """
+    Inputs:
+    N_en = number of engines
+    L_ec = length from engine front to cockpit, total if multiengine, in ft
+
+    outputs:
+    engine controls weight in lb
+    """
+    engine_controls_weight = 5 * N_en + 0.8 * L_ec
+    return engine_controls_weight
+
+def det_starter_weight(N_en, W_engine):
+    """
+    for a pneumatic starter
+    inputs:
+    N_en = number of engines
+    W_engine = weight of each engine in lb
+
+    outputs:
+    nacelle group weight in lb
+    """
+    starter_weight = 49.19 * (N_en * W_engine / 1000)**0.541
+    return starter_weight
+
+def det_fuel_system_weight(V_t, V_i, V_p, N_t):
+    """
+    Inputs:
+    V_t = total fuel volume in gallons
+    V_i = total integral tank volume in gallons
+    V_p = total volume of self-sealing 'protected' tanks in gallons
+    N_t = number of fuel tanks
+
+    outputs:
+    fuel system weight in lb
+    """
+    fuel_system_weight = 2.405 * V_t**0.606 * (1 + V_i/V_t)**-1 * (1 + V_p/V_t)*N_t**0.5
+    return fuel_system_weight
+
+def det_flight_controls_weight(S_cs, I_y, N_f = 6, N_m = 1):
+    """
+    Inputs:
+    S_cs = total area of control surfaces
+    I_y = yawing moment of inertia in lb * ft^2
+
+    conditional inputs:
+    N_f = number of functions performed by controls, typically 4 - 7
+    N_m = number of mechanical functions, typically 0 - 2
+
+    outputs:
+    flight controls weight in lb
+    """
+    flight_controls_weight = 149.9* N_f**0.554 * (1 + N_m / N_f)^-1 * S_cs**0.2 *(I_y * 10**-6)**0.07
+    return flight_controls_weight
+
+def det_APU_weight(W_APU_uninstalled):
+    """
+    inputs:
+    W_APU_uninstalled = uninstalled weight of APU
+
+    outputs:
+    the weight of the installed APU in lb
+    """
+    APU_weight = 2.2 * W_APU_uninstalled
+    return APU_weight
+
+def det_instruments_weight(N_c, N_en, L_f, B_w, reciprocating = False, turboprop = False):
+    """
+    inputs:
+    N_c = number of crew
+    N_en = number of engines
+    L_f = total fuselage length in feet
+    B_w = wing span in feet
+
+    conditional inputs:
+    K_r = 1.133 for reciprocating engine, 1.0 otherwise
+    K_tbp = 0.793 for turboprop, 1.0 otherwise
+
+    outputs:
+    the instruments weight in lb
+    """
+    K_r = 1
+    if reciprocating:
+        K_r = 1.133
+    K_tbp - 1
+    if turboprop:
+        K_tbp = 0.793
+    instruments_weight = 4.509 * K_r * K_tbp * N_c**0.541 * N_en * (L_f + B_w)**0.5
+    return instruments_weight
+
+def det_hydraulics_weight(L_f, B_w, N_f = 6):
+    """
+    inputs:
+    L_f = total fuselage length in feet
+    B_w = wing span in feet
+
+    conditional inputs:
+    N_f = number of functions performed by controls, typically 4 - 7
+
+    outputs:
+    the hydraulics weight in lb
+    """
+    hydraulics_weight = 0.2673 * N_f * (L_f + B_w)**0.937
+    return hydraulics_weight
+
+def det_electrical_weight(R_kva = 50, N_gen = 0, N_en = 0):
+    """
+    inputs:
+    L_a = electrical routing distance, generators to avionics to cockpit, in ft
+
+    conditional inputs:
+    R_kva = system electrical rating typically 40-60 in kV * A
+    N_gen = number of generators, typically number of engines
+    N_en = number of engines
+
+    outputs:
+    the total weight of the electrical system in lb
+    """
+    if N_gen == 0:
+        N_gen = N_en
+    if N_gen == 0:
+        raise NameError("No generators?")
+    electrical_weight = 7.291 * R_kva**0.782 * L_a**0.346 * N_gen**0.10
+    return electrical
+
+def det_avionics_weight(W_uav = 1100):
+    """
+    conditional inputs:
+    W_uav = uninstalled avionics weight, typically 800-1400 lb
+
+    outputs:
+    the total weight of the avionics system in lb
+    """
+    avionics_weight = 1.73 * W_uav**0.983
+    return avionics_weight
+
+def det_furnishings_weight():
+    """
+    inputs:
+    N_c = number of crew
+    W_c = maximum cargo weight in lb
+    S_f = fuselage wetted area in feet^2
+
+    outputs:
+    the total weight of the furnishings in lb
+    """
+    furnishings_weight = 0.0577 * N_c**0.1 * W_c**0.393 * S_f**0.75
+    return furnishings_weight
+
+def det_aircond_weight(N_p, V_pr, W_uav = 1100):
+    """
+    inputs:
+    N_p = number of personnel on board (crew and passengers)
+    V_pr = volume of pressurised section in ft^3
+
+    conditional inputs:
+    W_uav = uninstalled avionics weight, typically 800-1400 lb
+
+    outputs:
+    the total weight of the furnishings in lb
+    """
+    aircond_weight = 62.36 * N_p**0.25 * (V_pr/1000)**0.604 * W_uav**0.10
+    return aircond_weight
+
+def det_anti_ice_weight(W_dg):
+    """
+    inputs:
+    W_dg = design gross weight in lb
+
+    outputs:
+    the total weight of the anti icing system in lb
+    """
+    anti_ice_weight = 0.002 * W_dg
+    return anti_ice_weight
+
+def det_handling_gear_weight(W_dg):
+    """
+    inputs:
+    W_dg = design gross weight in lb
+
+    outputs:
+    the total weight of the furnishings in lb
+    """
+    handling_gear_weight = 3.0 * 10**-4 * W_dg
+    return handling_gear_weight
