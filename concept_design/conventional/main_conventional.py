@@ -4,19 +4,29 @@
 from class1_conventional import Weights_Class_I
 from power_wingloading_conventional import wingloading_jet, wingloading_tbp
 from wingloadingfunctions import T_W_calc, W_P_climb_calc
-from class1sizing_conventional import fuselage
+from class1sizing_conventional import fuselage, det_quarter_chord_sweep, det_planform
+from atmosphere import atmosphere_calc
 import numpy as np
 
 # Gravitional constant
-g = 9.8065
+g = 9.80665
+R = 287
+
+# Atmospherical parameters
+temperature0 = 288.15
+temperature_gradient = -0.0065
+gamma = 1.4
 
 #############################General Data#######################################
 s_landing = 1400 #[m]
+altitude = 8000
 rho0 = 1.225 #[kg/m3]
 V_landing = 48.93 #[m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
 
 # GENERAL INPUTS!!!!!!!!!!!!###
-rho = 0.4292 #[kg/m3] altitude for cruise flight THIS IS INPUT
+
+#atmosphere
+temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 c = 10 #[m/s] climb rate THIS IS INPUT
 
 # Passengers and crew
@@ -55,6 +65,7 @@ cj_cruise_jet = 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
 V_cruise_jet =  200                 # [m/s]
 S_jet = 61
 TOP_jet = 6698
+M_cruise_jet = V_cruise_jet/speed_of_sound
 
 # Tbp
 A_tbp = 12
@@ -64,6 +75,8 @@ eff_loiter_tbp = 0.77               # [-]
 cp_cruise_tbp = 90e-9               # (0.4-0.6) [kg/ns]
 cp_loiter_tbp = 90e-9               # (0.5-0.7) [kg/ns]
 V_cruise_tbp = 150                  # [m/s]
+M_cruise_tbp = V_cruise_tbp/speed_of_sound
+C_L_cruise_tbp = 0.4
 S_tbp = 76
 TOP_tbp = 139
 
@@ -101,7 +114,8 @@ for iter in range(1):
     print('Length fuselage: ' + str(length_fuselage) + ' [m]')
     
     # Wing
-    
+    sweep_tbp = det_quarter_chord_sweep(M_cruise_tbp)
+    b_tbp, taper_tbp, root_chord_tbp, tip_chord_tbp, t_c_ratio_tbp = det_planform(S_tbp, A_tbp, M_cruise_tbp, C_L_cruise_tbp, sweep_tbp)
     
 #MTOM_jet = MTOW_jet / g
 #MTOM_tbp = MTOW_tbp / g
