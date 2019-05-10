@@ -25,7 +25,7 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
         f_used_fuel_jet = 1 - f_fuel_jet
 
         # Formula for the maximum take-off weight
-        MTOW_jet = (W_empty_jet + W_crew + W_payload) / (1 - (f_trapped_fuel + f_used_fuel_jet * (1 + f_reserve_jet)))
+        MTOW_jet = (W_empty_jet + W_crew + W_payload) / (1 - (f_trapped_fuel + f_used_fuel_jet))
 
         # Trapped fuel
         W_trapped_fuel_jet = f_trapped_fuel * MTOW_jet
@@ -35,12 +35,12 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
         # Reserve fuel
         W_reserve_fuel_jet = f_reserve_jet * W_used_fuel_jet
         # Total useful fuel
-        W_fuel_jet = W_used_fuel_jet + W_reserve_fuel_jet
+        W_fuel_jet = W_used_fuel_jet #+ W_reserve_fuel_jet
 
         # Determine the operative empty weight for a jet
         OEW_jet = W_empty_jet + W_trapped_fuel_jet + W_crew
 
-        return MTOW_jet, OEW_jet, W_fuel_jet
+        return MTOW_jet, OEW_jet, W_fuel_jet, C_D_0
 
 # THIS SECTION IS USED FOR TURBOPROP AIRCRAFT
     if tbp:
@@ -60,7 +60,7 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
         f_used_fuel_tbp = 1 - f_fuel_tbp
 
         # Formula for the maximum take-off weight
-        MTOW_tbp = (W_empty_tbp + W_crew + W_payload) / (1 - (f_trapped_fuel + f_used_fuel_tbp * (1 + f_reserve_tbp)))
+        MTOW_tbp = (W_empty_tbp + W_crew + W_payload) / (1 - (f_trapped_fuel + f_used_fuel_tbp))
 
         # Trapped fuel
         W_trapped_fuel_tbp = f_trapped_fuel * MTOW_tbp
@@ -71,9 +71,9 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
         # Reserve fuel
         W_reserve_fuel_tbp = f_reserve_tbp * W_used_fuel_tbp
         # Total useful fuel
-        W_fuel_tbp = W_used_fuel_tbp + W_reserve_fuel_tbp
+        W_fuel_tbp = W_used_fuel_tbp #+ W_reserve_fuel_tbp
 
         # Determine the operative empty weight for a turboprop
         OEW_tbp = W_empty_tbp + W_trapped_fuel_tbp + W_crew
 
-        return MTOW_tbp, OEW_tbp, W_fuel_tbp
+        return MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0

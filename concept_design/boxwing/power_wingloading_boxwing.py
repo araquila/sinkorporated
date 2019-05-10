@@ -3,6 +3,7 @@ from math import *
 from wingloadingfunctions import *
 import numpy as np
 import matplotlib.pyplot as plt
+from main_boxwing import class1box
 
 # plotting function
 def plotfiller(ax, xlim, ylim, x_data = 0, data = 0, vline = 0, direction = "right", alpha = 0.3, color = 'red'):
@@ -38,34 +39,36 @@ rho0 = 1.225 #[kg/m3]
 rho = 0.4 #[kg/m3]
 c = 20 #[m/s]
 V_landing = 48.93 #[m/s] maximum landing speed that is allowed on a runway of 1400 m
-weight_fraction = 0.8 #weight fraction of MTOW
-S = 48 #[m2]
+weight_fraction = 1. #weight fraction of MTOW
+S = 48000 #[m2]
 #graph data
 wing_loading_x = np.linspace(0.1,6000,200)
 
+MTOW_jet, OEW_jet, W_fuel_jet = class1box()
 #############DATA JETS##################
-MTOW_jet = 230000 #[N]
-OEW_jet = 150000 #[N]
-W_landing_jet = 202400 #[N]
+#MTOW_jet = 275365.44 #[N]
+#OEW_jet = 140811.41 #[N]
+W_landing_jet = MTOW_jet*weight_fraction #[N]
 
 #Coefficients
-C_L_max_jet_clean_min = 1.2
+C_L_max_jet_clean_min = 1.4
 C_L_max_jet_clean_max = 1.8
-C_L_max_jet_take_min = 1.6
-C_L_max_jet_take_max = 2.2
-C_L_max_jet_land_min = 1.8
-C_L_max_jet_land_max = 2.8
+C_L_max_jet_take_min = 1.8
+C_L_max_jet_take_max = 2.662
+C_L_max_jet_land_min = 1.6
+C_L_max_jet_land_max = 2.6
 
 #take off parameter jet
-TOP_aquila_jet_single = 6000
-TOP_aquile_jet_double = 6000
-V_cruise_jet = 200
-e_jet = 0.85
+TOP_aquila_jet_single = 6500
+TOP_aquila_jet_double = 6500
+V_cruise_jet = 230
+e_jet = 1.2
 C_D_0_jet = 0.0145
 thrust_setting = 0.9
-A_jet = 10
-C_D_jet_curr = 0.02 #current C_D value
-cV_jet = 0.20
+A_jet = 12
+C_D_jet_curr = 4*C_D_0_jet #current C_D value
+cV_jet = 0.2
+C_L_jet_curr = sqrt(3*C_D_0_jet*pi*A_jet*e_jet)
 
 
 ########jets################
@@ -74,7 +77,7 @@ V_stall_jet = V_stall_calc(MTOW_jet,rho0,C_L_max_jet_take_max,S)
 W_S_stall = W_S_calc(rho0,V_stall_jet,C_L_max_jet_take_max)
 
 ##########take-off################
-k = TOP_aquila_jet_single
+k = TOP_aquila_jet_double
 C_L_TO_min_jet = CL_TO_calc(C_L_max_jet_take_min)
 C_L_TO_max_jet = CL_TO_calc(C_L_max_jet_take_max)
 C_L_TO_range_jet = np.linspace(C_L_TO_min_jet,C_L_TO_max_jet,5)
@@ -101,7 +104,7 @@ for i in range(len(wing_loading_x)):
 ########Climb Rate#########
 T_W_climb_jet = np.zeros(len(wing_loading_x))
 for i in range(len(wing_loading_x)):
-    T_W_climb_jet[i] = T_W_climb_calc(c,wing_loading_x[i],rho,C_L_max_jet_take_max,C_D_jet_curr)
+    T_W_climb_jet[i] = T_W_climb_calc(c,wing_loading_x[i],rho,C_L_jet_curr,C_D_jet_curr)
 
 ########Climb Gradient#########
 T_W_climb_grad_jet = np.zeros(len(wing_loading_x))
@@ -119,7 +122,7 @@ x = np.linspace(0, 4000, 200)
 # initialise the figure
 fig, ax1 = plt.subplots(1,1)
 xlim = 4000
-ylim = 0.5
+ylim = 0.4
 
 # plot lines
 ax1.plot(wing_loading_x,TOP_takeoff_jet[0,:])
