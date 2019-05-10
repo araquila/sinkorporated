@@ -210,7 +210,5 @@ def tiresizing(MTOW, LCN):
     # Wheel = outer dimension x width - inner dimension
     # Main wheel = 0.84 x 0.25 - 0.41
     # Nose wheel = 0.46 x 0.11 - 0.25
-    
-    return tire_pressure, P_mw, P_nw
 
-print(tiresizing(245250, 25))
+    return tire_pressure, P_mw, P_nw
