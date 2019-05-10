@@ -32,22 +32,22 @@ S = 1
 S_wet = 5 * S                       
 
 # Jet
-A_jet = 12                          
+A_jet = 10                          
 e_jet = 0.8                         # Adjust per concept
-cj_loiter_jet = 19e-3               # (0.4-0.6) [g/j] Propfan: 0.441
-cj_cruise_jet = 19e-3               # (0.5-0.9) [g/j] Propfan: 0.441
+cj_loiter_jet = 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
+cj_cruise_jet = 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
 V_cruise_jet =  200                 # [m/s]
-S_jet = 73
+S_jet = 61
 
 # Tbp
 A_tbp = 12                          
 e_tbp = 0.85                        # Adjust per concept
 eff_cruise_tbp = 0.85               # [-]
 eff_loiter_tbp = 0.77               # [-]
-cp_cruise_tbp = 90e-6               # (0.4-0.6) [g/ns]
-cp_loiter_tbp = 90e-6               # (0.5-0.7) [g/ns]
+cp_cruise_tbp = 90e-9               # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = 90e-9               # (0.5-0.7) [kg/ns]
 V_cruise_tbp = 150                  # [m/s]
-S_tbp = 84
+S_tbp = 76
 
 # Iterator
 for iter in range(1):
