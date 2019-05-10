@@ -90,6 +90,7 @@ def enginedimensions(n_engines, T_TO_jet):
     e_tf=0.75
     T_t4=1500 #1350-1650 [K]
     G=(T_t4/600)-1.25
+    rho_0 = 1.225
 
     massflow=(T_TO_jet*(1+bypass_ratio))/(n_engines*a_0*math.sqrt(5*e_nozzle*G*(1+e_tf*bypass_ratio)))
                 #Intake dimensions
@@ -125,7 +126,7 @@ def enginedimensions(n_engines, T_TO_jet):
     #gas generator cowling at gas generator exit diameter
     diameter_gas_generator=0.55*diameter_gas_generato_fan
 
-    return length_nacelle, length_f, diameter_highlight, diameter_exit_fan, diameter_gas_generator
+    return length_nacelle, diameter_highlight, diameter_exit_fan, diameter_gas_generator
 
 
 print(fuselage(60,4,4,1))

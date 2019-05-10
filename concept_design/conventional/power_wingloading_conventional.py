@@ -4,7 +4,19 @@ from wingloadingfunctions import *
 import numpy as np
 import matplotlib.pyplot as plt
 
-# plotting function
+##############README############################################################
+#READ THIS FIRST!!!!!!!!!!!!!!!!!!!!
+#READ THIS FIRST!!!!!!!!!!!!!!!!!!!!
+#This code needs to be used together with wingloadingfunctions.py, so make sure
+#that you put them together in the same folder.
+#This code can indicate the allowed wing loadings, Cl, A so that one can size
+#the wing and HLD according to the requirements that have been set. By changing
+#the input variables can be changed according to your initial sizing.
+#running the script will give you diagrams. The white parts are the parts were
+#the requirements are met, red areas must be avoided.
+
+
+###############plotting function################################################
 def plotfiller(ax, xlim, ylim, x_data = 0, data = 0, vline = 0, direction = "right", alpha = 0.3, color = 'red'):
     """
     Inputs
@@ -28,27 +40,28 @@ def plotfiller(ax, xlim, ylim, x_data = 0, data = 0, vline = 0, direction = "rig
         ax.fill_between(x_data, topline, data, alpha = alpha, facecolor = color)
         return
 
-#general
+#############################General Data#######################################
 n_max_flap = 2
 n_max_clean = 2.5
 n_min = -1
 n_max_man = 4.4
 s_landing = 1400 #[m]
 rho0 = 1.225 #[kg/m3]
-rho = 0.4 #[kg/m3]
-c = 20 #[m/s]
-V_landing = 48.93 #[m/s] maximum landing speed that is allowed on a runway of 1400 m
-weight_fraction = 0.8 #weight fraction of MTOW
+V_landing = 48.93 #[m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
+#INPUTS!!!!!!!!!!!!###
+rho = 0.4 #[kg/m3] altitude for cruise flight THIS IS INPUT
+c = 10 #[m/s] climb rate THIS IS INPUT
+weight_fraction = 0.8 #weight fraction during cruise of MTOW THIS IS INPUT
 
 #graph data
 wing_loading_x = np.linspace(0.1,6000,200)
-#########DATATURBOPROP###############
-S = 48 #[m2]
-A_tbp = 19.5
+#########DATATURBOPROP##########################################################
+S = 48 #[m2] THIS IS INPUT
+A_tbp = 19.5 #THIS IS INPUT
 
-MTOW_tbp = 200000 #[N] fill in your MTOW for turboprop
-OEW_tbp = 120000 #[N] fill in your OEW for turboprop
-W_landing_tbp = 200000 #[N] fill in your landing weight for turboprop
+MTOW_tbp = 200000 #[N] fill in your MTOW for turboprop THIS IS INPUT
+OEW_tbp = 120000 #[N] fill in your OEW for turboprop THIS IS INPUT
+W_landing_tbp = 200000 #[N] fill in your landing weight for turboprop THIS IS INPUT
 
 #Coefficients
 C_L_max_tbp_clean_min = 1.5
@@ -58,20 +71,20 @@ C_L_max_tbp_take_max = 2.1
 C_L_max_tbp_land_min = 1.9
 C_L_max_tbp_land_max = 3.3
 
-C_D_tbp_curr = 0.065 #current CD value
+C_D_tbp_curr = 0.065 #current CD value THIS IS INPUT
 #take off parameter and propulsion
-TOP_aquila_tbp = 500
-power_setting = 0.9
-V_cruise_tbp = 100 #[m/s]
-C_D_0_tbp = 0.015
-e_tbp = 0.85 #oswald efficiency factor
-eff_prop = 0.85
-cV_tbp = 0.083 #from CS23.65
+TOP_aquila_tbp = 500 #find from statistics THIS IS INPUT
+power_setting = 0.9 #usually at 0.9 THIS IS INPUT
+V_cruise_tbp = 100 #[m/s] THIS IS INPUT
+C_D_0_tbp = 0.015 #THIS IS INPUT
+e_tbp = 0.85 #oswald efficiency factor THIS IS INPUT
+eff_prop = 0.85 #THIS IS INPUT
+cV_tbp = 0.083 #from CS23.65 climb gradient
 
-#############DATA JETS##################
-MTOW_jet = 230000 #[N]
-OEW_jet = 150000 #[N]
-W_landing_jet = 202400 #[N]
+#############################DATA JETS##########################################
+MTOW_jet = 230000 #[N] THIS IS INPUT
+OEW_jet = 150000 #[N] THIS IS INPUT
+W_landing_jet = 202400 #[N] THIS IS INPUT
 
 #Coefficients
 C_L_max_jet_clean_min = 1.2
@@ -82,17 +95,17 @@ C_L_max_jet_land_min = 1.8
 C_L_max_jet_land_max = 2.8
 
 #take off parameter jet
-TOP_aquila_jet_single = 6000
-TOP_aquile_jet_double = 6000
-V_cruise_jet = 200
-e_jet = 0.85
-C_D_0_jet = 0.0145
-thrust_setting = 0.9
-A_jet = 10
-C_D_jet_curr = 0.02 #current C_D value
-cV_jet = 0.20
+TOP_aquila_jet_single = 6000 #Take from statistics THIS IS INPUT
+TOP_aquile_jet_double = 6000 #Take from statistics THIS IS INPUT
+V_cruise_jet = 200 #[m/s] THIS IS INPUT
+e_jet = 0.85 #THIS IS INPUT
+C_D_0_jet = 0.0145 #THIS IS INPUT
+thrust_setting = 0.9 #THIS IS INPUT
+A_jet = 10 #THIS IS INPUT
+C_D_jet_curr = 0.02 #current C_D value THIS IS INPUT
+cV_jet = 0.20 #Climb gradient
 
-##########PROP CALCULATIONS FOR JETS SCROLL DOWN################
+####################PROP CALCULATIONS /FOR JETS SCROLL DOWN#####################
 #calculate stall speeds and the wing loading
 V_stall_tbp = V_stall_calc(MTOW_tbp,rho0,C_L_max_tbp_take_max,S)
 W_S_stall = W_S_calc(rho0,V_stall_tbp,C_L_max_tbp_take_max)
@@ -171,13 +184,13 @@ plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_maneuvring_tbp, 
 # plot cosmetics (add some legends/labels/title)
 ax1.set_ylim([0, ylim])
 ax1.set_xlim([0, xlim])
-ax1.legend(["takeoff CL =" + str(round(C_L_TO_range_tbp[0],2)), "takeoff CL =" + str(round(C_L_TO_range_tbp[2],2)), "takeoff CL =" + str(round(C_L_TO_range_tbp[4],2)),
+ax1.legend(["CL_TO =" + str(round(C_L_TO_range_tbp[0],2)), "CL_TO=" + str(round(C_L_TO_range_tbp[2],2)), "CL_TO =" + str(round(C_L_TO_range_tbp[4],2)),
 "landing CL =" + str(round(C_L_landing_range_tbp[0],2)),"landing CL =" + str(round(C_L_landing_range_tbp[1],2)),"landing CL =" + str(round(C_L_landing_range_tbp[2],2)),
 "Cruise A =" + str(round(A_tbp,2)), "Climb Rate A =" + str(round(A_tbp,2)), "Climb Grad A =" + str(round(A_tbp,2))])
 
 plt.show()
 
-########jets################
+##################################jets##########################################
 #calculate stall speeds and the wing loading
 V_stall_jet = V_stall_calc(MTOW_jet,rho0,C_L_max_jet_take_max,S)
 W_S_stall = W_S_calc(rho0,V_stall_jet,C_L_max_jet_take_max)
@@ -252,7 +265,7 @@ plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = T_W_climb_grad_jet, 
 # plot cosmetics (add some legends/labels/title)
 ax1.set_ylim([0, ylim])
 ax1.set_xlim([0, xlim])
-ax1.legend(["takeoff CL =" + str(round(C_L_TO_range_jet[0],2)), "takeoff CL =" + str(round(C_L_TO_range_jet[2],2)), "takeoff CL =" + str(round(C_L_TO_range_jet[4],2)),
+ax1.legend(["CL_TO =" + str(round(C_L_TO_range_jet[0],2)), "CL_TO =" + str(round(C_L_TO_range_jet[2],2)), "CL_TO =" + str(round(C_L_TO_range_jet[4],2)),
 "landing CL =" + str(round(C_L_landing_range_jet[0],2)),"landing CL =" + str(round(C_L_landing_range_jet[1],2)),"landing CL =" + str(round(C_L_landing_range_jet[2],2)),
 "Cruise A =" + str(round(A_jet,2)), "Climb Rate A =" + str(round(A_jet,2)), "Climb Grad A =" + str(round(A_jet,2))])
 plt.show()
