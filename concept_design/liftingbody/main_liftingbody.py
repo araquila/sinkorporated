@@ -4,13 +4,21 @@
 from class1_liftingbody import *
 from class1sizing_liftingbody import *
 from power_wingloading_liftingbody import *
+from atmosphere import *
 
 # Decide whether you like jet or turboprop:
 jet = True
 tbp = False
 
-# Gravitional constant
+# Constants
 g = 9.8065
+R = 287
+
+# Atmospherical parameters
+temperature0 = 288.15
+temperature_gradient = -0.0065
+altitude = 25000 * 0.3048 # altitude in meters; this can be adjusted!
+temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R)
 
 # Passengers and crew
 n_passenger = 60
@@ -56,8 +64,8 @@ S_jet = 60                               # Adjust per concept
 S_wet_jet = 3.5 * S_jet                  # Adjust per concept
 A_jet = 7                          # Adjust per concept
 e_jet = 0.8                        # Adjust per concept
-cj_loiter_jet = 0.5         # (0.4-0.6) [lbs/lbs/hr]
-cj_cruise_jet = 0.6         # (0.5-0.9) [lbs/lbs/hr]
+cj_loiter_jet = 0.017         # [g/Ns]
+cj_cruise_jet = 0.019         # [g/Ns]
 Mach_cruise_jet = 0.8
 
 #Coefficients
@@ -71,7 +79,7 @@ C_L_max_jet_land_max = 2.8
 #take off parameter jet
 TOP_aquila_jet_single = 6000 #Take from statistics THIS IS INPUT
 TOP_aquile_jet_double = 6000 #Take from statistics THIS IS INPUT
-V_cruise_jet = 200 #[m/s] THIS IS INPUT
+V_cruise_jet = Mach_cruise_jet * speed_of_sound #[m/s]
 thrust_setting = 0.9 #THIS IS INPUT
 C_D_jet_curr = 0.05 #current C_D value THIS IS INPUT
 cV_jet = 0.20 #Climb gradient
@@ -84,8 +92,8 @@ A_tbp = 7                          # Adjust per concept
 e_tbp = 0.8                        # Adjust per concept
 eff_cruise_tbp = 0.85       # [-]
 eff_loiter_tbp = 0.77       # [-]
-cp_cruise_tbp = 0.5         # (0.4-0.6) [lbs/hp/hr]
-cp_loiter_tbp = 0.6         # (0.5-0.7) [lbs/hp/hr]
+cp_cruise_tbp = 75/1e6         #  [g/J]
+cp_loiter_tbp = 90/1e6         #  [g/J]
 Mach_cruise_tbp = 0.6
 
 C_L_max_tbp_clean_min = 1.5
@@ -98,7 +106,7 @@ C_L_max_tbp_land_max = 3.3
 #take off parameter and propulsion
 TOP_aquila_tbp = 500 #find from statistics THIS IS INPUT
 power_setting = 0.9 #usually at 0.9 THIS IS INPUT
-V_cruise_tbp = 150 #[m/s] THIS IS INPUT
+V_cruise_tbp = Mach_cruise_tbp * speed_of_sound #[m/s]
 C_D_tbp_curr = 0.065 #current CD value THIS IS INPUT
 eff_prop = 0.85 #THIS IS INPUT
 cV_tbp = 0.083 #from CS23.65 climb gradient
@@ -118,10 +126,8 @@ for iter in range(1):
         # Wing sizing
         A = A_jet
         S = MTOW_jet/3500
-        print(MTOW_jet, S)
         Mach_cruise = Mach_cruise_jet
         taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral = wing(Mach_cruise, S, A, C_L, low=True)
-        print(taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral)
 
     if tbp == True:
         MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp = Weights_Class_I_tbp(W_empty_tbp, W_payload, W_crew, C_fe_tbp, S_tbp, S_wet_tbp, A_tbp, e_tbp,  eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel)
@@ -135,12 +141,10 @@ for iter in range(1):
         # Wing sizing
         A = A_tbp
         S = MTOW_tbp/2830
-        print(MTOW_tbp, S)
+
         Mach_cruise = Mach_cruise_jet
         taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral = wing(Mach_cruise, S, A, C_L, low=True)
-        print(taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral)
-
-
+        
 
 
 
