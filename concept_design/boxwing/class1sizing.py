@@ -1,4 +1,5 @@
 import math
+#FUSELAGE SIZING
 def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
 
     mass_perpassenger=195*0.45359237
@@ -10,24 +11,24 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
                 #CROSS SECTION
     #cabin layout
     n_rows=n_passenger/n_seats_abreast
-    width_seats=16*0.0254 #16-17
+    width_seats=17*0.0254 #16-17
     pitch_seats=31*0.0254 #30-32
-    head_room=1.5
-    height_shoulder=1.20
-    width_aisles=0.38 #min 38cm
+    head_room=1.7
+    height_shoulder=1.3
+    width_aisles=0.50 #min 38cm
     n_trolleys=6
     n_lavatories=1
     n_galleys=1
     width_armrest=0.05
     s_clearance=0.02
     #cabin width up to shoulder
-    width_cabin=(n_seats_abreast*width_seats)+(n_seats_abreast+n_aisles+1)*width_armrest+n_aisles*width_aisles+2*s_clearance
+    width_cabin=(n_seats_abreast*width_seats)+(n_seats_abreast)*width_armrest+n_aisles*width_aisles+2*s_clearance
     #cabin width at head of passengers
     width_headroom=width_cabin-2*(width_armrest+s_clearance)-width_seats
     #overhead storage
     k_os=1
     n_os=2
-    area_overhead=0.2
+    area_overhead=0.1
     length_seats=n_rows*pitch_seats+(10*0.0254)
     volume_overhead=(n_os*area_overhead)*length_seats*k_os
 
@@ -39,10 +40,10 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     volume_luggage=mass_luggage/density_luggage
     volume_cargo=mass_cargo/density_cargo
     volume_cargocompartment=volume_cargo+(volume_luggage-volume_overhead)
+    #length_cargo=volume_cargocompartment/(width_cabin*height_shoulder)
+    length_cargocompartment=2
 
-    height_container=64*0.0254
-    width_container=61.5*0.0254
-    base_container=60.4*0.0254
+
     #structural dimensions
     thickness_floor=0.150 #0.100-0.300
     thickness_fuselage_skin_frame=0.150
@@ -51,7 +52,10 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
 
     diameter_fuselage_outside=1.045*diameter_fuselage_inside+0.084
 
+
+
     height_cargo=(diameter_fuselage_inside/2)-((height_shoulder/2)+thickness_floor)
+    height_aisle=diameter_fuselage_inside-(thickness_floor+height_cargo)
 
                     #FUSELAGE TOP VIEW
     width_lavatory=36*0.0254
@@ -60,7 +64,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     width_galley=36*0.0254
     length_galley=30*0.0254
 
-    length_cabin=length_seats+length_lavatory+length_galley
+    length_cabin=length_seats+length_lavatory+length_galley+length_cargocompartment
 
     nose_fineness=1 #can be altered using aerodynamic data
     nosecone_fineness=2 #from data
@@ -81,6 +85,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     length_fuselage=length_nose+length_cabin+length_tail
 
     return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside
+
 def enginedimensions(n_engines, T_TO_jet):
 
 
@@ -127,7 +132,3 @@ def enginedimensions(n_engines, T_TO_jet):
     diameter_gas_generator=0.55*diameter_gas_generato_fan
 
     return length_nacelle, diameter_highlight, diameter_exit_fan, diameter_gas_generator
-
-
-print(fuselage(60,4,4,1))
-print(enginedimensions(2,100000))

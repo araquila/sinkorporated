@@ -1,15 +1,20 @@
 from math import *
+from class1sizing import fuselage
+from main_boxwing import class1box
 
+MTOW, OEW, WF = class1box()
 #input parameters for wing area
-S = 99
+WS = 3080
+S = MTOW/WS
+S = S * 1.36
 s1frac = 0.5
 s2frac = 1 - s1frac
-
+length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside = fuselage(60,4,4,1)
 S1 = S * s1frac
 S2 = S * s2frac
 AR1 = 10
 AR2 = 10
-Fus_len = 23
+Fus_len = length_fuselage
 frac_qtrchord_fus = 0.35
 
 #empennage initial input

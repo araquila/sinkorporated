@@ -46,7 +46,7 @@ n_engines = 2
 n_max_flap = 2
 n_max_clean = 2.5
 n_min = -1
-n_max_man = 4.4
+n_max_man = 2.5
 s_landing = 1400 #[m]
 rho0 = 1.225 #[kg/m3]
 V_landing = 48.93 #[m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
@@ -80,8 +80,7 @@ C_L_max_jet_land_min = 2.4
 C_L_max_jet_land_max = 2.8
 
 #take off parameter jet
-TOP_aquila_jet_single = 6000 #Take from statistics THIS IS INPUT
-TOP_aquile_jet_double = 6000 #Take from statistics THIS IS INPUT
+TOP_aquila_jet = 6698 #Take from statistics THIS IS INPUT
 V_cruise_jet = Mach_cruise_jet * speed_of_sound #[m/s]
 thrust_setting = 0.9 #THIS IS INPUT
 C_D_jet_curr = 0.05 #current C_D value THIS IS INPUT
@@ -107,7 +106,7 @@ C_L_max_tbp_land_min = 1.9
 C_L_max_tbp_land_max = 3.3
 
 #take off parameter and propulsion
-TOP_aquila_tbp = 500 #find from statistics THIS IS INPUT
+TOP_aquila_tbp = 139 #find from statistics THIS IS INPUT
 power_setting = 0.9 #usually at 0.9 THIS IS INPUT
 V_cruise_tbp = Mach_cruise_tbp * speed_of_sound #[m/s]
 C_D_tbp_curr = 0.065 #current CD value THIS IS INPUT
@@ -125,7 +124,7 @@ for iter in range(1):
         Wing_loading_jet(MTOW_jet, W_landing_jet, S_jet,  \
         C_L_max_jet_take_min, C_L_max_jet_take_max, C_L_max_jet_land_min, \
         C_L_max_jet_land_max, wing_loading_x,  \
-        V_landing, V_cruise_jet, rho0, thrust_setting,weight_fraction,rho, TOP_aquila_jet_single, \
+        V_landing, V_cruise_jet, rho0, thrust_setting, weight_fraction,rho, TOP_aquila_jet, \
         C_D_0_jet, C_D_jet_curr, A_jet, e_jet, c, cV_jet, n_max_man)
 
         # Fuselage sizing
@@ -178,9 +177,6 @@ for iter in range(1):
         # Wing dihedral - it requires input on wing position!
         dihedral = det_dihedral_angle(sweep_chord_0_25, low = True)
 
-        print(sweep_chord_0_25, b, taper, t_c_ratio)
-
         # Engine sizing
-        P_TO_tbp = MTOW_tbp/0.015
+        P_TO_tbp = MTOW_tbp/0.046
         diameter_engine, length_engine, diameter_propeller = enginedimensions_tbp(rho0, n_engines, P_TO_tbp)
-        print(diameter_engine, length_engine, diameter_propeller)
