@@ -179,7 +179,7 @@ plotfiller(ax1, xlim, ylim, vline = W_S_landing_tbp[0], direction = "right")
 plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_cruise_tbp, direction = "up")
 plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_climb_tbp, direction = "up")
 plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_climb_grad_tbp, direction = "up")
-plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_maneuvring_tbp, direction = "up")
+#plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_maneuvring_tbp, direction = "up")
 
 # plot cosmetics (add some legends/labels/title)
 ax1.set_ylim([0, ylim])
