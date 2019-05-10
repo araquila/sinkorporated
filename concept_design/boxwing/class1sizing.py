@@ -35,7 +35,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     #cargo compartment
     density_luggage=170
     density_cargo=160
-    mass_cargo=1000000
+    mass_cargo=0
     mass_luggage=n_passenger*mass_peroverheadluggage
     volume_luggage=mass_luggage/density_luggage
     volume_cargo=mass_cargo/density_cargo
@@ -132,7 +132,3 @@ def enginedimensions(n_engines, T_TO_jet):
     diameter_gas_generator=0.55*diameter_gas_generato_fan
 
     return length_nacelle, diameter_highlight, diameter_exit_fan, diameter_gas_generator
-
-
-print(fuselage(60,4,4,1))
-print(enginedimensions(2,100000))
