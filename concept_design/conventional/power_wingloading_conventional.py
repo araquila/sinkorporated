@@ -162,7 +162,7 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_cruise_tbp, direction = "up")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_climb_tbp, direction = "up")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_climb_grad_tbp, direction = "up")
-    plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_maneuvring_tbp, direction = "up")
+    #plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_maneuvring_tbp, direction = "up")
     
     # plot cosmetics (add some legends/labels/title)
     ax1.set_ylim([0, ylim])
@@ -266,13 +266,14 @@ def wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet):
     ax1.plot(wing_loading_x,T_W_cruise_jet)
     ax1.plot(wing_loading_x,T_W_climb_jet)
     ax1.plot(wing_loading_x,T_W_climb_grad_jet)
-    
+    #ax1.plot(wing_loading_x,T_W_maneuvring_jet)
     # plot filled parts of the graph
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = TOP_takeoff_jet[4,:], direction = "down")
     plotfiller(ax1, xlim, ylim, vline = W_S_landing_jet[0], direction = "right")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = T_W_cruise_jet, direction = "down")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = T_W_climb_jet, direction = "down")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = T_W_climb_grad_jet, direction = "down")
+    #plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = T_W_maneuvring_jet, direction = "down")
     # plot cosmetics (add some legends/labels/title)
     ax1.set_ylim([0, ylim])
     ax1.set_xlim([0, xlim])
