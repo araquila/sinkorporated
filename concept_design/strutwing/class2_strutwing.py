@@ -1,6 +1,17 @@
 # Class 2 weight estimation
 # Equations by Raymer 1989
 
+def ult_load_factor(MTOW):
+    if MTOW <= 4100:
+        n_max = 3.8
+    if 4100 < MTOW <= 50000:
+        n_max = 2.1 + (24000/(MTOW + 10000))
+    if MTOW > 50000:
+        n_max = 2.5
+    return n_max
+
+print(ult_load_factor(30000))
+
 def det_wing_weight(W_dg, N_z, S_w, AR, t_c_root, taper, quarter_chord_sweep, S_csw):
     """
     Inputs:
