@@ -10,8 +10,6 @@ def ult_load_factor(MTOW):
         n_max = 2.5
     return n_max
 
-print(ult_load_factor(30000))
-
 def det_wing_weight(W_dg, N_z, S_w, AR, t_c_root, taper, quarter_chord_sweep, S_csw):
     """
     Inputs:

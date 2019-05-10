@@ -65,6 +65,8 @@ l_v = 11                            # [m]
 # Fuselage
 n_seats_abreast = 4
 n_aisles = 1
+main_landing_pos = 11               # [m]
+nose_landing_pos = 3                # [m]
 
 # Iterator
 for iter in range(1):
@@ -76,9 +78,12 @@ for iter in range(1):
     c = 0.5*root_chord + 0.5*tip_chord
     diameter_engine, length_engine, diameter_propeller = enginedimensions(n_engines, P_TO_tbp)
     S_h, span_h, root_chord_h, tip_chord_h, sweepqc_h, sweepLE_h, S_v, span_v, root_chord_v, tip_chord_v, sweepLE_v = empennage(V_h, V_v, l_h, l_v, S_tbp, b, c)
+    wheel_height, lateral_position = undercarriage(main_landing_pos, nose_landing_pos, length_fuselage, length_tail, diameter_fuselage_outside)
+
 #    wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet)
 #    wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
 
 MTOM_tbp = MTOW_tbp / g
 
 print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))
+print(wheel_height, lateral_position)
