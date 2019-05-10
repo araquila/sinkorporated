@@ -11,68 +11,34 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
                 #CROSS SECTION
     #cabin layout
     n_rows=n_passenger/n_seats_abreast
-    width_seats=16*0.0254 #16-17
+    width_seats=17*0.0254 #16-17
     pitch_seats=31*0.0254 #30-32
-    head_room=1.5
-    height_shoulder=1.20
+    head_room=1.7
+    height_shoulder=1.30
     width_aisles=0.38 #min 38cm
     n_trolleys=6
     n_lavatories=1
     n_galleys=1
     width_armrest=0.05
-    s_clearance=0.0
+    s_clearance=0.02
 
     #overhead storage
     k_os=1
     n_os=2
-    area_overhead=0.2
+    area_overhead=0.3       # verified with CATIA model
     length_seats=n_rows*pitch_seats+(10*0.0254)
     volume_overhead=(n_os*area_overhead)*length_seats*k_os
 
-    #cargo compartment
-    density_luggage=170
-    density_cargo=160
-    mass_cargo=0
-    mass_luggage=n_passenger*mass_peroverheadluggage
-    volume_luggage=mass_luggage/density_luggage
-    volume_cargo=mass_cargo/density_cargo
-    volume_cargocompartment=volume_cargo+(volume_luggage-volume_overhead)
+    # Data measured from CATIA
+    diameter_fuselage_inside = 2.9646
+    diameter_fuselage_outside = 1.045*diameter_fuselage_inside + 0.084
+    diff_outside_inside = diameter_fuselage_outside - diameter_fuselage_inside
+    width_fuselage_inside = 3.931
+    width_fuselage_outside = width_fuselage_inside + diff_outside_inside
 
-    height_container=64*0.0254
-    width_container=61.5*0.0254
-    base_container=60.4*0.0254
     #structural dimensions
     thickness_floor=0.150 #0.100-0.300
     thickness_fuselage_skin_frame=0.150
-
-    # The number of bubbles depends on the number of seats abreast
-    if n_seats_abreast <= 6:
-        width_cabin = (n_seats_abreast*width_seats)+(n_seats_abreast+n_aisles+1)*width_armrest+n_aisles*width_aisles+2*s_clearance
-        #cabin width at head of passengers
-        width_headroom = width_cabin-2*(width_armrest+s_clearance)-width_seats
-        diameter_fuselage_inside = 2*math.sqrt(((height_shoulder/2)**2)+((width_cabin/2)**2))
-        diameter_fuselage_outside = 1.045*diameter_fuselage_inside+0.084
-
-        if n_seats_abreast <= 4:
-            # 1.6 is used to get enough head clearance; for larger values, this will reduce.
-            # For smaller values, the fuselage becomes smaller
-            width_fuselage_outside=1.6*diameter_fuselage_outside
-
-        elif 4 < n_seats_abreast and n_seats_abreast <= 6:
-            # 1.5 is used to get enough head clearance; for larger values, this will reduce.
-            # For smaller values, the fuselage becomes smaller
-            width_fuselage_outside=1.5*diameter_fuselage_outside
-
-    elif n_seats_abreast > 6:
-        # The height of the cabin does not change when there are more than 6 seats abreast; the width does change
-        width_cabin = (6*width_seats)+(6+n_aisles+1)*width_armrest+n_aisles*width_aisles+2*s_clearance
-        #cabin width at head of passengers
-        width_headroom = width_cabin-2*(width_armrest+s_clearance)-width_seats
-        diameter_fuselage_inside = 2*math.sqrt(((height_shoulder/2)**2)+((width_cabin/2)**2))
-        diameter_fuselage_outside = 1.045*diameter_fuselage_inside+0.084
-        width_fuselage_outside= 2.5 + (n_seats_abreast*width_seats)+(n_seats_abreast+n_aisles+1)*width_armrest+n_aisles*width_aisles+2*s_clearance
-
-    height_cargo=(diameter_fuselage_inside/2)-((height_shoulder/2)+thickness_floor)
 
                     #FUSELAGE TOP VIEW
     width_lavatory=36*0.0254
@@ -82,16 +48,37 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     length_galley=30*0.0254
 
     length_cabin=length_seats+length_lavatory+length_galley
-    print(length_cabin)
 
-    nose_fineness=1 #can be altered using aerodynamic data
-    nosecone_fineness=2 #from data
+    #cargo compartment
+    density_luggage=170
+    density_cargo=160
+    mass_cargo=n_passenger*23
+    mass_luggage=n_passenger*mass_peroverheadluggage
+    volume_luggage=mass_luggage/density_luggage
+    volume_cargo=mass_cargo/density_cargo
+    if volume_luggage > volume_overhead:
+        volume_cargocompartment=volume_cargo+(volume_luggage-volume_overhead)
+    else:
+        volume_cargocompartment = volume_cargo
+    height_cargo=(diameter_fuselage_inside/2)-((height_shoulder/2)+thickness_floor)
+    area_cargocompartment = volume_cargocompartment / (0.8*length_cabin)
+
+    print(volume_luggage - volume_overhead)
+    print(area_cargocompartment)
+
+    height_container=64*0.0254
+    width_container=61.5*0.0254
+    base_container=60.4*0.0254
+
+
+    nose_fineness=1.5 #can be altered using aerodynamic data
+    nosecone_fineness=2.25 #from data
     length_nose=nose_fineness*diameter_fuselage_outside
     length_nosecone=nosecone_fineness*diameter_fuselage_outside
 
 
-    tail_fineness=1.6
-    tailcone_fineness=3 #2-4
+    tail_fineness=2
+    tailcone_fineness=3.5 #2-4
     length_tail=tail_fineness*diameter_fuselage_outside
     length_tailcone=tailcone_fineness*diameter_fuselage_outside
 
