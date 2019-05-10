@@ -142,7 +142,7 @@ C_D_0_tbp, C_D_tbp_curr, A_tbp, eff_prop, e_tbp, c, cV_tbp, n_max_man):
 def Wing_loading_jet(MTOW_jet, W_landing_jet, S_jet, \
 C_L_max_jet_take_min, C_L_max_jet_take_max, C_L_max_jet_land_min, \
 C_L_max_jet_land_max, wing_loading_x,  \
-V_landing, V_cruise_jet, rho0, thrust_setting,weight_fraction,rho, TOP_aquila_jet_single, \
+V_landing, V_cruise_jet, rho0, thrust_setting,weight_fraction,rho, TOP_aquila_jet, \
 C_D_0_jet, C_D_jet_curr, A_jet, e_jet, c, cV_jet, n_max_man):
 
 #calculate stall speeds and the wing loading
@@ -150,7 +150,7 @@ C_D_0_jet, C_D_jet_curr, A_jet, e_jet, c, cV_jet, n_max_man):
     W_S_stall = W_S_calc(rho0,V_stall_jet,C_L_max_jet_take_max)
 
     ##########take-off################
-    k = TOP_aquila_jet_single
+    k = TOP_aquila_jet
     C_L_TO_min_jet = CL_TO_calc(C_L_max_jet_take_min)
     C_L_TO_max_jet = CL_TO_calc(C_L_max_jet_take_max)
     C_L_TO_range_jet = np.linspace(C_L_TO_min_jet,C_L_TO_max_jet,5)
