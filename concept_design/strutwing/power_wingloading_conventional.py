@@ -79,7 +79,7 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
 
     C_D_tbp_curr = 0.03 #current CD value THIS IS INPUT
     #take off parameter and propulsion
-    TOP_aquila_tbp = 120 #find from statistics THIS IS INPUT
+    TOP_aquila_tbp = 139 #find from statistics THIS IS INPUT
     power_setting = 0.9 #usually at 0.9 THIS IS INPUT
 #    V_cruise_tbp = 100 #[m/s] THIS IS INPUT
 #    C_D_0_tbp = 0.015 #THIS IS INPUT
