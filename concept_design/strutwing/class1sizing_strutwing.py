@@ -186,8 +186,3 @@ def undercarriage(main_landing_pos, nose_landing_pos, length_fuselage, length_ta
 
     lateral_position = (main_landing_pos + nose_landing_pos) / np.sqrt(((nose_landing_pos**2 * np.tan(np.radians(55))**2)/(wheel_height+0.3*diameter_fuselage_outside))-1)
     return wheel_height, lateral_position
-
-
-print(empennage(1.57, 0.07, 11, 11, 55, 32, 1.5))
-print(fuselage(60, 4, 4, 1))
-print(undercarriage(10.98, 3, 21.12, 4.54, 1.4))

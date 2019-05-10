@@ -17,7 +17,7 @@ M_payload = n_passenger * M_passenger
 M_crew = n_crew * M_crew_member
 f_trapped_fuel = 0.003      # Range 0.001-0.005
 M_empty_tbp = 13000
-M_empty_jet = 10000
+M_empty_jet = 15000
 
 # Convert to weights
 W_payload = M_payload * g
