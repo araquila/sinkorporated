@@ -41,14 +41,16 @@ V_cruise_jet =  200                 # [m/s]
 S_jet = 61
 
 # Tbp
-A_tbp = 19.5
+A_tbp = 18
 e_tbp = 0.85                        # Adjust per concept
 eff_cruise_tbp = 0.85               # [-]
 eff_loiter_tbp = 0.77               # [-]
 cp_cruise_tbp = 90e-9               # (0.4-0.6) [kg/ns]
 cp_loiter_tbp = 90e-9               # (0.5-0.7) [kg/ns]
 V_cruise_tbp = 150                  # [m/s]
-S_tbp = 66
+M_cruise_tbp = 0.72                 # [-]
+C_L_cruise = 0.8                    # [-]
+S_tbp = 62
 
 # Fuselage
 n_seats_abreast = 4
@@ -58,9 +60,13 @@ n_aisles = 1
 for iter in range(1):
     MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, tbp = True)
     length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
+    sweepqc = det_quarter_chord_sweep(M_cruise_tbp)
+    dihedral_angle = det_dihedral_angle(sweepqc, high=True)
+    b, taper, root_chord, tip_chord, t_c_ratio = det_planform(S_tbp, A_tbp, M_cruise_tbp, C_L_cruise, sweepqc)
 #    wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet)
 #    wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
 
 MTOM_tbp = MTOW_tbp / g
 
 print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))
+print(b, taper, root_chord, tip_chord, t_c_ratio)

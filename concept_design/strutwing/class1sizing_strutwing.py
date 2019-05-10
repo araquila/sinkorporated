@@ -111,7 +111,7 @@ def det_planform(S, AR, M_cruise, C_L_cruise, sweep, supercritical = False, delt
     root_chord = (2 * S)/((1 + taper) * b)
     tip_chord = taper * root_chord
     half_chord_sweep = np.arctan(np.tan(sweep) - (4 / AR) * (0.25 * (1 - taper)/(1 + taper)))
-    if 0.7 < M_cruise < 1:
+    if 0 < M_cruise < 1:
         if supercritical:
             t_c_ratio = min(0.18, (np.cos(half_chord_sweep)**3 * (0.935 - (M_cruise + delta_mach) * np.cos(half_chord_sweep)) - 0.115 * C_L_cruise**1.5) / np.cos(half_chord_sweep)**2)
         else:
