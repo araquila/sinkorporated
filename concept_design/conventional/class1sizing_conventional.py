@@ -40,7 +40,9 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     volume_luggage=mass_luggage/density_luggage
     volume_cargo=mass_cargo/density_cargo
     volume_cargocompartment=volume_cargo+(volume_luggage-volume_overhead)
-    length_cargocompartment=volume_cargocompartment/(width_cabin*height_shoulder)
+    #length_cargo=volume_cargocompartment/(width_cabin*height_shoulder)
+    length_cargocompartment=2
+
 
     #structural dimensions
     thickness_floor=0.150 #0.100-0.300
@@ -62,7 +64,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     width_galley=36*0.0254
     length_galley=30*0.0254
 
-    length_cabin=length_seats+length_lavatory+length_galley
+    length_cabin=length_seats+length_lavatory+length_galley+length_cargocompartment
 
     nose_fineness=1 #can be altered using aerodynamic data
     nosecone_fineness=2 #from data

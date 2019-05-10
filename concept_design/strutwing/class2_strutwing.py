@@ -1,6 +1,15 @@
 # Class 2 weight estimation
 # Equations by Raymer 1989
 
+def ult_load_factor(MTOW):
+    if MTOW <= 4100:
+        n_max = 3.8
+    if 4100 < MTOW <= 50000:
+        n_max = 2.1 + (24000/(MTOW + 10000))
+    if MTOW > 50000:
+        n_max = 2.5
+    return n_max
+
 def det_wing_weight(W_dg, N_z, S_w, AR, t_c_root, taper, quarter_chord_sweep, S_csw):
     """
     Inputs:
@@ -101,3 +110,45 @@ def det_fuselage_weight(W_dg, N_z, L, S_f, taper, B_w, quarter_chord_sweep, L_D_
     K_ws = 0.75 * (1 + 2 * taper)/(1 + taper) * (B_w * np.tan(quarter_chord_sweep)/L)
     fuselage_weight = 0.3280 * K_door * K_lg * (W_dg * N_z)**0.5 * L**0.25 * S_f**0.302 * (1 + K_ws)**0.04 * L_D_ratio**0.10
     return fuselage_weight
+
+def det_main_lg_weight(W_l, N_l, L_m, N_mw, N_mss, V_stall, kneeling_main_lg = False):
+    """
+    Inputs:
+    W_l = landing design weight in lb
+    N_l = ultimate landing load factor = N_gear * 1.5
+    L_m = length of the main landing gear in inches
+    N_mw = number of main wheels
+    N_mss = number of main gear shock struts
+    V_stall = stall speed in knots
+
+    conditional inputs:
+    K_mp = factor for landing gear (1.126 for kneeling landing gear, 1 otherwise)
+
+    outputs:
+    main landing gear weight in lb
+    """
+    K_mp = 1
+    if kneeling_main_lg:
+        K_mp = 1.126
+    main_lg_weight = 0.0106 * K_mp * W_l**0.888 * N_l**0.25 * L_m**0.4 * N_mw**0.321 * N_mss**-0.5 * V_stall**0.1
+    return main_lg_weight
+
+def det_nose_lg_weight(W_l, N_l, L_n, N_mw, kneeling_nose_lg = False):
+    """
+    Inputs:
+    W_l = landing design weight in lb
+    N_l = ultimate landing load factor = N_gear * 1.5
+    L_n = length of the nose landing gear in inches
+    N_mw = number of nose wheels
+
+    conditional inputs:
+    K_np = factor for landing gear (1.15 for kneeling gear, 1 otherwise)
+
+    outputs:
+    nose landing gear weight in lb
+    """
+    K_np = 1
+    if kneeling_nose_lg:
+        K_np = 1.15
+    nose_lg_weight = 0.032 * K_np * W_l**0.646 * N_l**0.2 * L_n**0.5 * N_nw**0.45
+    return nose_lg_weight
