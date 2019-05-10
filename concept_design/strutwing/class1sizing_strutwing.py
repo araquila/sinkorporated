@@ -179,4 +179,15 @@ def empennage(V_h, V_v, l_h, l_v, S, b, c):
 
     return S_h, span_h, root_chord_h, tip_chord_h, sweepqc_h, sweepLE_h, S_v, span_v, root_chord_v, tip_chord_v, sweepLE_v
 
+def undercarriage(main_landing_pos, nose_landing_pos, length_fuselage, length_tail, diameter_fuselage_outside):
+    dist_to_tail = length_fuselage - main_landing_pos - length_tail
+    scrap_angle = np.radians(15)
+    wheel_height = dist_to_tail * np.tan(scrap_angle)
+
+    lateral_position = (main_landing_pos + nose_landing_pos) / np.sqrt(((nose_landing_pos**2 * np.tan(np.radians(55))**2)/(wheel_height+0.3*diameter_fuselage_outside))-1)
+    return wheel_height, lateral_position
+
+
 print(empennage(1.57, 0.07, 11, 11, 55, 32, 1.5))
+print(fuselage(60, 4, 4, 1))
+print(undercarriage(10.98, 3, 21.12, 4.54, 1.4))
