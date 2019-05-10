@@ -59,8 +59,8 @@ C_L_max_jet_land_min = 1.6
 C_L_max_jet_land_max = 2.6
 
 #take off parameter jet
-TOP_aquila_jet_single = 6500
-TOP_aquila_jet_double = 6500
+TOP_aquila_jet_single = 6698
+TOP_aquila_jet_double = 6698
 V_cruise_jet = 230
 e_jet = 1.2
 C_D_0_jet = 0.0145
