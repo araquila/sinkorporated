@@ -80,7 +80,7 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     
     C_D_tbp_curr = 0.065 #current CD value THIS IS INPUT
     #take off parameter and propulsion
-    TOP_aquila_tbp = 500 #find from statistics THIS IS INPUT
+    TOP_aquila_tbp = 139 #find from statistics THIS IS INPUT
     power_setting = 0.9 #usually at 0.9 THIS IS INPUT
 #    V_cruise_tbp = 100 #[m/s] THIS IS INPUT
 #    C_D_0_tbp = 0.015 #THIS IS INPUT
@@ -158,6 +158,7 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     #ax1.plot(wing_loading_x,W_P_maneuvring_tbp)
     
     # plot filled parts of the graph
+
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = TOP_takeoff_tbp[4,:], direction = "up")
     plotfiller(ax1, xlim, ylim, vline = W_S_landing_tbp[0], direction = "right")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_cruise_tbp, direction = "up")
@@ -192,8 +193,8 @@ def wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet):
     C_L_max_jet_land_max = 2.8
     
     #take off parameter jet
-    TOP_aquila_jet_single = 6000 #Take from statistics THIS IS INPUT
-    TOP_aquila_jet_double = 6000 #Take from statistics THIS IS INPUT
+    TOP_aquila_jet = 6698 #Take from statistics THIS IS INPUT
+#    TOP_aquila_jet_double = 6000 #Take from statistics THIS IS INPUT
 #    V_cruise_jet = 200 #[m/s] THIS IS INPUT
 #    e_jet = 0.85 #THIS IS INPUT
 #    C_D_0_jet = 0.0145 #THIS IS INPUT
@@ -208,7 +209,7 @@ def wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet):
     W_S_stall = W_S_calc(rho0,V_stall_jet,C_L_max_jet_take_max)
     
     ##########take-off################
-    k = TOP_aquila_jet_single
+    k = TOP_aquila_jet
     C_L_TO_min_jet = CL_TO_calc(C_L_max_jet_take_min)
     C_L_TO_max_jet = CL_TO_calc(C_L_max_jet_take_max)
     C_L_TO_range_jet = np.linspace(C_L_TO_min_jet,C_L_TO_max_jet,5)
