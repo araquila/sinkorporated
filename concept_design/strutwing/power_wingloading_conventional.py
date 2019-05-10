@@ -79,7 +79,7 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
 
     C_D_tbp_curr = 0.03 #current CD value THIS IS INPUT
     #take off parameter and propulsion
-    TOP_aquila_tbp = 500 #find from statistics THIS IS INPUT
+    TOP_aquila_tbp = 120 #find from statistics THIS IS INPUT
     power_setting = 0.9 #usually at 0.9 THIS IS INPUT
 #    V_cruise_tbp = 100 #[m/s] THIS IS INPUT
 #    C_D_0_tbp = 0.015 #THIS IS INPUT
@@ -281,5 +281,3 @@ def wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet):
     "Cruise A =" + str(round(A_jet,2)), "Climb Rate A =" + str(round(A_jet,2)), "Climb Grad A =" + str(round(A_jet,2))])
     plt.show()
     return
-
-wingloading_tbp(MTOW_tbp = 25000*9.81, OEW_tbp=14000*9.81, S_tbp=55, A_tbp=19.5, V_cruise_tbp=150, e_tbp=0.9, eff_prop=0.85, C_D_0_tbp=0.015)

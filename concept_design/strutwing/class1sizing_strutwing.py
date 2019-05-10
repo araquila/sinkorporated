@@ -111,7 +111,7 @@ def det_planform(S, AR, M_cruise, C_L_cruise, sweep, supercritical = False, delt
     root_chord = (2 * S)/((1 + taper) * b)
     tip_chord = taper * root_chord
     half_chord_sweep = np.arctan(np.tan(sweep) - (4 / AR) * (0.25 * (1 - taper)/(1 + taper)))
-    if 0.7 < M_cruise < 1:
+    if 0 < M_cruise < 1:
         if supercritical:
             t_c_ratio = min(0.18, (np.cos(half_chord_sweep)**3 * (0.935 - (M_cruise + delta_mach) * np.cos(half_chord_sweep)) - 0.115 * C_L_cruise**1.5) / np.cos(half_chord_sweep)**2)
         else:
@@ -186,8 +186,3 @@ def undercarriage(main_landing_pos, nose_landing_pos, length_fuselage, length_ta
 
     lateral_position = (main_landing_pos + nose_landing_pos) / np.sqrt(((nose_landing_pos**2 * np.tan(np.radians(55))**2)/(wheel_height+0.3*diameter_fuselage_outside))-1)
     return wheel_height, lateral_position
-
-
-print(empennage(1.57, 0.07, 11, 11, 55, 32, 1.5))
-print(fuselage(60, 4, 4, 1))
-print(undercarriage(10.98, 3, 21.12, 4.54, 1.4))
