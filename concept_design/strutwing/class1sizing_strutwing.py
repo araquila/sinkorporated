@@ -41,6 +41,8 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     volume_luggage=mass_luggage/density_luggage
     volume_cargo=mass_cargo/density_cargo
     volume_cargocompartment=volume_cargo+(volume_luggage-volume_overhead)
+    #length_cargo=volume_cargocompartment/(width_cabin*height_shoulder)
+    length_cargocompartment=2
 
     height_container=64*0.0254
     width_container=61.5*0.0254
