@@ -6,8 +6,8 @@ from class1sizing_liftingbody import *
 from power_wingloading_liftingbody import *
 
 # Decide whether you like jet or turboprop:
-jet = False
-tbp = True
+jet = True
+tbp = False
 
 # Gravitional constant
 g = 9.8065
@@ -22,8 +22,8 @@ M_crew_member = 100
 M_payload = n_passenger * M_passenger
 M_crew = n_crew * M_crew_member
 f_trapped_fuel = 0.003              # Range 0.001-0.005
-M_empty_tbp = 10000                 # Adjust per concept
-M_empty_jet = 15000                 # Adjust per concept
+M_empty_tbp = 14400                 # Adjust per concept
+M_empty_jet = 16300                 # Adjust per concept
 
 # Convert to weights
 W_payload = M_payload * g
@@ -65,7 +65,7 @@ C_L_max_jet_clean_min = 1.2
 C_L_max_jet_clean_max = 1.8
 C_L_max_jet_take_min = 1.6
 C_L_max_jet_take_max = 2.2
-C_L_max_jet_land_min = 1.8
+C_L_max_jet_land_min = 2.4
 C_L_max_jet_land_max = 2.8
 
 #take off parameter jet
@@ -117,7 +117,8 @@ for iter in range(1):
         C_D_0_jet, C_D_jet_curr, A_jet, e_jet, c, cV_jet, n_max_man)
         # Wing sizing
         A = A_jet
-        S = 60
+        S = MTOW_jet/3500
+        print(MTOW_jet, S)
         Mach_cruise = Mach_cruise_jet
         taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral = wing(Mach_cruise, S, A, C_L, low=True)
         print(taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral)
@@ -133,7 +134,8 @@ for iter in range(1):
         C_D_0_tbp, C_D_tbp_curr, A_tbp, eff_prop, e_tbp, c, cV_tbp, n_max_man)
         # Wing sizing
         A = A_tbp
-        S = 40
+        S = MTOW_tbp/2830
+        print(MTOW_tbp, S)
         Mach_cruise = Mach_cruise_jet
         taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral = wing(Mach_cruise, S, A, C_L, low=True)
         print(taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral)
