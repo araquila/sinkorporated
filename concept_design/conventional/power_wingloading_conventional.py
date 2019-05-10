@@ -51,7 +51,7 @@ V_landing = 48.93 #[m/s] maximum landing speed that is allowed on a runway of 14
 #INPUTS!!!!!!!!!!!!###
 rho = 0.4 #[kg/m3] altitude for cruise flight THIS IS INPUT
 c = 10 #[m/s] climb rate THIS IS INPUT
-weight_fraction = 0.8 #weight fraction of MTOW THIS IS INPUT
+weight_fraction = 0.8 #weight fraction during cruise of MTOW THIS IS INPUT
 
 #graph data
 wing_loading_x = np.linspace(0.1,6000,200)
