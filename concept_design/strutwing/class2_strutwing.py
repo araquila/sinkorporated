@@ -152,3 +152,31 @@ def det_nose_lg_weight(W_l, N_l, L_n, N_mw, kneeling_nose_lg = False):
         K_np = 1.15
     nose_lg_weight = 0.032 * K_np * W_l**0.646 * N_l**0.2 * L_n**0.5 * N_nw**0.45
     return nose_lg_weight
+
+def det_nacelle_group_weight(pylon_mounted = False, W_ec = 0, propeller = False):
+    """
+    Inputs:
+    N_lt = nacelle length in ft
+    N_w = nacelle width in ft
+    N_z = ultimate load factor = 1.5 * limit load factor
+    N_en = number of engines
+
+    conditional inputs:
+    K_ng = factor for nacelles (1.017 for pylon mounted nacelle, 1.0 otherwise)
+    W_ec = weight of the engine and contents in lb
+    (approximated by 2.331 W_engine^0.901 * K_p * K_tr)
+    W_engine = weight of each engine in lb
+    K_p = 1.4 for propeller, 1.0 otherwise
+    K_tr = 1.18 for jet with thrust reverser, 1.0 otherwise
+
+    outputs:
+    nacelle group weight in lb
+    """
+    K_ng = 1
+    if pylon_mounted:
+        K_ng = 1.017
+    K_p = 1
+    if propeller:
+        K_p = 1.4
+    if W_ec == 0:
+        W_ec = W_engine**0.901 * K_p * K_tr
