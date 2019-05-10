@@ -7,8 +7,8 @@ from power_wingloading_liftingbody import *
 from atmosphere import *
 
 # Decide whether you like jet or turboprop:
-jet = True
-tbp = False
+jet = False
+tbp = True
 
 # Constants
 g = 9.8065
@@ -25,6 +25,8 @@ n_passenger = 60
 M_passenger = 102                   #(including luggage)
 n_crew = 4
 M_crew_member = 100
+n_seats_abreast = 6
+n_aisles = 2
 
 # Initial mass and fractions
 M_payload = n_passenger * M_passenger
@@ -40,6 +42,7 @@ W_empty_tbp = M_empty_tbp * g
 W_empty_jet = M_empty_jet * g
 
 # More general data
+n_engines = 2
 n_max_flap = 2
 n_max_clean = 2.5
 n_min = -1
@@ -64,8 +67,8 @@ S_jet = 60                               # Adjust per concept
 S_wet_jet = 3.5 * S_jet                  # Adjust per concept
 A_jet = 7                          # Adjust per concept
 e_jet = 0.8                        # Adjust per concept
-cj_loiter_jet = 0.017         # [g/Ns]
-cj_cruise_jet = 0.019         # [g/Ns]
+cj_loiter_jet = 17/1e6         # [g/Ns]
+cj_cruise_jet = 19/1e6         # [g/Ns]
 Mach_cruise_jet = 0.8
 
 #Coefficients
@@ -92,8 +95,8 @@ A_tbp = 7                          # Adjust per concept
 e_tbp = 0.8                        # Adjust per concept
 eff_cruise_tbp = 0.85       # [-]
 eff_loiter_tbp = 0.77       # [-]
-cp_cruise_tbp = 75/1e6         #  [g/J]
-cp_loiter_tbp = 90/1e6         #  [g/J]
+cp_cruise_tbp = 75/1e9         #  [g/J]
+cp_loiter_tbp = 90/1e9         #  [g/J]
 Mach_cruise_tbp = 0.6
 
 C_L_max_tbp_clean_min = 1.5
@@ -117,50 +120,50 @@ for iter in range(1):
         # Weight estimations
         MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet = Weights_Class_I_jet(W_empty_jet, W_payload, W_crew, C_fe_jet, S_jet, S_wet_jet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel)
         W_landing_jet = 0.98 * MTOW_jet
+        print(MTOW_jet)
         # Wing loading
         Wing_loading_jet(MTOW_jet, W_landing_jet, S_jet,  \
         C_L_max_jet_take_min, C_L_max_jet_take_max, C_L_max_jet_land_min, \
         C_L_max_jet_land_max, wing_loading_x,  \
         V_landing, V_cruise_jet, rho0, thrust_setting,weight_fraction,rho, TOP_aquila_jet_single, \
         C_D_0_jet, C_D_jet_curr, A_jet, e_jet, c, cV_jet, n_max_man)
+
+        # Fuselage sizing
+        length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
+
         # Wing sizing
         A = A_jet
-        S = MTOW_jet/3500
+        S = MTOW_jet/3500                   # Depends on loading diagrams!
         Mach_cruise = Mach_cruise_jet
         taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral = wing(Mach_cruise, S, A, C_L, low=True)
 
+        # Engine sizing
+        T_TO_jet = 0.325 * MTOW_jet          # Depends on loading diagrams!
+        length_nacelle, length_f, diameter_highlight, diameter_exit_fan, diameter_gas_generator = enginedimensions_jet(rho0, n_engines, T_TO_jet, jettypeC=True)
+
+
     if tbp == True:
+        # Weight estimation
         MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp = Weights_Class_I_tbp(W_empty_tbp, W_payload, W_crew, C_fe_tbp, S_tbp, S_wet_tbp, A_tbp, e_tbp,  eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel)
         W_landing_tbp = 0.98 * MTOW_tbp
+        print(MTOW_tbp)
         # Wing loading
         Wing_loading_tbp(MTOW_tbp, W_landing_tbp, S_tbp,  \
         C_L_max_tbp_take_min, C_L_max_tbp_take_max, C_L_max_tbp_land_min, \
         C_L_max_tbp_land_max, wing_loading_x,  \
         V_landing, V_cruise_tbp, rho0, power_setting,weight_fraction,rho, TOP_aquila_tbp, \
         C_D_0_tbp, C_D_tbp_curr, A_tbp, eff_prop, e_tbp, c, cV_tbp, n_max_man)
+
+        # Fuselage sizing
+        length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
+
         # Wing sizing
         A = A_tbp
         S = MTOW_tbp/2830
-
         Mach_cruise = Mach_cruise_jet
         taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral = wing(Mach_cruise, S, A, C_L, low=True)
-        
 
-
-
-# Sizing ---------------------------------------------------
-# Fuselage
-n_seats_abreast = 6
-n_aisles = 2
-
-length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
-
-print(length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside)
-
-# Wing
-A = A_jet
-S = S_jet
-Mach_cruise = Mach_cruise_jet
-taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral = wing(Mach_cruise, S, A, C_L, low=True)
-
-#print(taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral)
+        # Engine sizing
+        P_TO_tbp = MTOW_tbp/0.015
+        diameter_engine, length_engine, diameter_propeller = enginedimensions_tbp(rho0, n_engines, P_TO_tbp)
+        print(diameter_engine, length_engine, diameter_propeller)
