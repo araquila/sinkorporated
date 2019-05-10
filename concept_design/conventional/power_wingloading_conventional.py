@@ -50,7 +50,7 @@ rho0 = 1.225 #[kg/m3]
 V_landing = 48.93 #[m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
 #INPUTS!!!!!!!!!!!!###
 rho = 0.4 #[kg/m3] altitude for cruise flight THIS IS INPUT
-c = 10 #[m/s] THIS IS INPUT
+c = 10 #[m/s] climb rate THIS IS INPUT
 weight_fraction = 0.8 #weight fraction of MTOW THIS IS INPUT
 
 #graph data
