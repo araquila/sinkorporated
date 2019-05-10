@@ -132,10 +132,18 @@ for iter in range(1):
         length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
 
         # Wing sizing
+        # Required inputs
         A = A_jet
         S = MTOW_jet/3500                   # Depends on loading diagrams!
         Mach_cruise = Mach_cruise_jet
-        taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral = wing(Mach_cruise, S, A, C_L, low=True)
+        C_L_cruise = MTOW_jet / (0.5 * rho * V_cruise_jet**2 * S)
+        print(C_L_cruise)
+        # Wing sweep
+        sweep_chord_0_25 = det_quarter_chord_sweep(Mach_cruise, supercritical = False, delta_mach = 0.03)
+        # Wing planform
+        b, taper, root_chord, tip_chord, t_c_ratio = det_planform(S, A, Mach_cruise, C_L_cruise, sweep_chord_0_25, supercritical = False, delta_mach = 0.03)
+        # Wing dihedral - it requires input on wing position!
+        dihedral = det_dihedral_angle(sweep_chord_0_25, low = True)
 
         # Engine sizing
         T_TO_jet = 0.325 * MTOW_jet          # Depends on loading diagrams!
@@ -160,8 +168,17 @@ for iter in range(1):
         # Wing sizing
         A = A_tbp
         S = MTOW_tbp/2830
-        Mach_cruise = Mach_cruise_jet
-        taper, b, rootchord, tipchord, sweep_chord_0_5, sweep_chord_0_25, thickness_chord_ratio, dihedral = wing(Mach_cruise, S, A, C_L, low=True)
+        Mach_cruise = Mach_cruise_tbp
+        C_L_cruise = MTOW_tbp / (0.5 * rho * V_cruise_tbp**2 * S)
+        print(C_L_cruise)
+        # Wing sweep
+        sweep_chord_0_25 = det_quarter_chord_sweep(Mach_cruise, supercritical = False, delta_mach = 0.03)
+        # Wing planform
+        b, taper, root_chord, tip_chord, t_c_ratio = det_planform(S, A, Mach_cruise, C_L_cruise, sweep_chord_0_25, supercritical = False, delta_mach = 0.03)
+        # Wing dihedral - it requires input on wing position!
+        dihedral = det_dihedral_angle(sweep_chord_0_25, low = True)
+
+        print(sweep_chord_0_25, b, taper, t_c_ratio)
 
         # Engine sizing
         P_TO_tbp = MTOW_tbp/0.015
