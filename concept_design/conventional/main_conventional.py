@@ -187,7 +187,7 @@ for iter in range(1):
     C_L_des_tbp = C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp,f_cruise_end_tbp*MTOW_tbp)
     C_l_des_tbp = C_l_des(C_L_des_tbp,sweep_tbp)
 
-    print(f_cruise_start_jet, f_cruise_start_tbp)
+    
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
     for value in jet_data_list:
