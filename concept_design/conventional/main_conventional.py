@@ -208,22 +208,33 @@ for iter in range(1):
     n_max_jet = class2.ult_load_factor(kg_to_pounds(MTOW_jet/g))
     n_max_tbp = class2.ult_load_factor(kg_to_pounds(MTOW_tbp/g))
     
-    wing_weight_jet = class2.det_wing_weight(kg_to_pounds(MTOW_jet/g),n_max_jet*1.5,metersquared_to_feetsquared(S_jet),A_jet,t_c_ratio_jet,taper_jet,sweep_jet,metersquared_to_feetsquared(0.05*S_jet)) #DIT NOG FF CHECKEN
-    wing_weight_tbp = class2.det_wing_weight(kg_to_pounds(MTOW_tbp/g),n_max_tbp*1.5,metersquared_to_feetsquared(S_tbp),A_tbp,t_c_ratio_tbp,taper_tbp,sweep_tbp,metersquared_to_feetsquared(0.05*S_tbp)) #DIT NOG FF CHECKEN
-    wing_weight_jet = pounds_to_kg(wing_weight_jet)
-    wing_weight_tbp = pounds_to_kg(wing_weight_tbp)
+    wing_weight_jet = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOW_jet/g),n_max_jet*1.5,metersquared_to_feetsquared(S_jet),A_jet,t_c_ratio_jet,taper_jet,sweep_jet,metersquared_to_feetsquared(0.05*S_jet))) #DIT NOG FF CHECKEN
+    wing_weight_tbp = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOW_tbp/g),n_max_tbp*1.5,metersquared_to_feetsquared(S_tbp),A_tbp,t_c_ratio_tbp,taper_tbp,sweep_tbp,metersquared_to_feetsquared(0.05*S_tbp))) #DIT NOG FF CHECKEN
     
     # Append to data list
     tbp_data_list.append(('wing_weight_tbp', wing_weight_tbp))
     jet_data_list.append(('wing_weight_jet', wing_weight_jet))
     
     # Horizontal tail
-    hor_tail_weight_jet = class2.det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside),meter_to_feet(span_h_jet),kg_to_pounds(MTOW_jet/g),n_max_jet*1.5,metersquared_to_feetsquared(S_h_jet),meter_to_feet(l_h_jet),np.radians(sweepqc_h_jet),AR_h_jet,metersquared_to_feetsquared(0.3*S_h_jet))
-    hor_tail_weight_tbp = class2.det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside),meter_to_feet(span_h_tbp),kg_to_pounds(MTOW_tbp/g),n_max_tbp*1.5,metersquared_to_feetsquared(S_h_tbp),meter_to_feet(l_h_tbp),np.radians(sweepqc_h_tbp),AR_h_tbp,metersquared_to_feetsquared(0.3*S_h_tbp))
+    hor_tail_weight_jet = pounds_to_kg(class2.det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside),meter_to_feet(span_h_jet),kg_to_pounds(MTOW_jet/g),n_max_jet*1.5,metersquared_to_feetsquared(S_h_jet),meter_to_feet(l_h_jet),np.radians(sweepqc_h_jet),AR_h_jet,metersquared_to_feetsquared(0.3*S_h_jet)))
+    hor_tail_weight_tbp = pounds_to_kg(class2.det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside),meter_to_feet(span_h_tbp),kg_to_pounds(MTOW_tbp/g),n_max_tbp*1.5,metersquared_to_feetsquared(S_h_tbp),meter_to_feet(l_h_tbp),np.radians(sweepqc_h_tbp),AR_h_tbp,metersquared_to_feetsquared(0.3*S_h_tbp)))
     
     # Append to data list
     tbp_data_list.append(('hor_tail_weight_tbp', hor_tail_weight_tbp))
-    jet_data_list.append(('hor_tail_weight_jet', hor_tail_weight_jet))
+    jet_data_list.append(('hor_tail_weight_jet', hor_tail_weight_jet))    
+    
+    # Vertical tail
+    
+    ver_tail_weight_jet = pounds_to_kg(class2.det_vert_tail_weight(0,1,kg_to_pounds(MTOW_jet/g),n_max_jet*1.5,meter_to_feet(l_h_jet),metersquared_to_feetsquared(S_v_jet),np.radians(sweepLE_v_jet),AR_v_jet,t_c_ratio_jet))
+    ver_tail_weight_tbp = pounds_to_kg(class2.det_vert_tail_weight(0,1,kg_to_pounds(MTOW_tbp/g),n_max_tbp*1.5,meter_to_feet(l_h_tbp),metersquared_to_feetsquared(S_v_tbp),np.radians(sweepLE_v_tbp),AR_v_tbp,t_c_ratio_tbp))
+    
+    # Append to data list
+    tbp_data_list.append(('ver_tail_weight_tbp', ver_tail_weight_tbp))
+    jet_data_list.append(('ver_tail_weight_jet', ver_tail_weight_jet))
+    
+    # Fuselage
+    L_D_jet = 0.75*np.sqrt((np.pi*A_jet*e_jet)/(3*C_D_0_jet))
+    fuselage_weight_jet = pounds_to_kg(class2.det_fuselage_weight(kg_to_pounds*(MTOW_jet/g),1.5*n_max_jet,meter_to_feet(length_fuselage),metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage),taper_jet,meter_to_feet(b_jet),sweep_jet,L_D_jet))
     
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
