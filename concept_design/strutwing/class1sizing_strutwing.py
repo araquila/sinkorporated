@@ -84,7 +84,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
 
     length_fuselage=length_nose+length_cabin+length_tail
 
-    return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside
+    return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, diameter_fuselage_inside
 
                     #WING SIZING
 def det_quarter_chord_sweep(M_cruise, supercritical = False, delta_mach = 0.03):
