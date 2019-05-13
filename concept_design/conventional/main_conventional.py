@@ -4,8 +4,9 @@
 from class1_conventional import Weights_Class_I
 from power_wingloading_conventional import wingloading_jet, wingloading_tbp
 from wingloadingfunctions import T_W_calc, W_P_climb_calc
-from class1sizing_conventional import fuselage, det_quarter_chord_sweep, det_planform, det_dihedral_angle, enginedimensions
+from class1sizing_conventional import fuselage, det_quarter_chord_sweep, det_planform, det_dihedral_angle, enginedimensions, MAC, empennage, undercarriage, tiresizing
 from atmosphere import atmosphere_calc
+from cg_determination import x_lemac
 import numpy as np
 
 jet_data_list = []
@@ -89,14 +90,14 @@ n_engines_tbp = 2
 
 # Iterative sizing process
 for iter in range(1):
-    
+
     ## CLASS I
     MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, jet = True)
     MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, tbp = True)
-    
+
     jet_data_list.append(('MTOW_jet',MTOW_jet))
     tbp_data_list.append(('MTOW_tbp',MTOW_tbp))
-    
+
     ## WING LOADING AND POWER LOADING
     W_S_landing_jet = wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet)
     W_S_landing_tbp = wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
@@ -105,55 +106,55 @@ for iter in range(1):
     T_W_jet_range = np.zeros(len(W_S_landing_jet))
     for i in range(len(W_S_landing_jet)):
         T_W_jet_range[i] = T_W_calc(W_S_landing_jet[i],TOP_jet,1.32)
-    
+
     # W/P for tbp
     W_P_tbp = W_P_climb_calc(eff_cruise_tbp,c,W_S_landing_tbp[0][0],rho,A_tbp,e_tbp,C_D_0_tbp)
 
     # S for jet and tbp
-    S_jet = MTOW_jet/W_S_landing_jet[0] 
+    S_jet = MTOW_jet/W_S_landing_jet[0]
     S_tbp = MTOW_tbp/W_S_landing_tbp[0][0]
-        
+
     jet_data_list.append(('S_jet', S_jet))
     tbp_data_list.append(('S_tbp', S_tbp))
-    
+
     ## SIZING
     # Fuselage
     length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
     jet_data_list.append(('L_fuselage_jet ', length_fuselage))
     tbp_data_list.append(('L_fuselage_tbp ', length_fuselage))
-    
+
     # Wing tbp
     sweep_tbp = det_quarter_chord_sweep(M_cruise_tbp)
-    b_tbp, taper_tbp, root_chord_tbp, tip_chord_tbp, t_c_ratio_tbp = det_planform(S_tbp, A_tbp, M_cruise_tbp, C_L_cruise_tbp, sweep_tbp)    
+    b_tbp, taper_tbp, root_chord_tbp, tip_chord_tbp, t_c_ratio_tbp = det_planform(S_tbp, A_tbp, M_cruise_tbp, C_L_cruise_tbp, sweep_tbp)
     dihedral_angle_tbp = det_dihedral_angle(sweep_tbp, high=True)
-    
+
     tbp_data_list.append(('b_tbp ', b_tbp))
-    
+
     # Wing jet
     sweep_jet = det_quarter_chord_sweep(M_cruise_jet)
-    b_jet, taper_jet, root_chord_jet, tip_chord_jet, t_c_ratio_jet = det_planform(S_jet, A_jet, M_cruise_jet, C_L_cruise_jet, sweep_jet)    
+    b_jet, taper_jet, root_chord_jet, tip_chord_jet, t_c_ratio_jet = det_planform(S_jet, A_jet, M_cruise_jet, C_L_cruise_jet, sweep_jet)
     dihedral_angle_jet = det_dihedral_angle(sweep_tbp, low=True)
-    
+
     jet_data_list.append(('b_jet ', b_jet))
-    
+
     # Engines for jet and tbp
     P_TO_tbp = MTOW_tbp / W_P_tbp                    # Take-off power tbp [W]
     T_TO_jet = T_W_jet_range[0] * MTOW_jet              # Take-off thrust jet [N]
     diameter_engine_tbp, length_engine_tbp, diameter_propeller_tbp = enginedimensions(rho0,n_engines_tbp, P_TO_tbp, T_TO_jet, tbp=True)
     length_nacelle_jet, length_fan_cowling_jet, diameter_highlight_jet, diameter_exit_fan_jet, diameter_gas_generator_jet = enginedimensions(rho0,n_engines_jet, P_TO_tbp, T_TO_jet, jettypeB=True)
-    
+
     tbp_data_list.append(('diameter_propeller_tbp ', diameter_propeller_tbp))
-    jet_data_list.append(('diameter_highlight_jet ', diameter_highlight_jet)) 
-    
+    jet_data_list.append(('diameter_highlight_jet ', diameter_highlight_jet))
+
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
     for value in jet_data_list:
-        print(value[0] + ': ' + str(value[1]))    
-    print()      
+        print(value[0] + ': ' + str(value[1]))
+    print()
     print('### TBP VALUES ###')
     for value in tbp_data_list:
-        print(value[0] + ': ' + str(value[1]))      
-    
+        print(value[0] + ': ' + str(value[1]))
+
 #    print('Iteration: ' + str(iter + 1))
 #    print("################TURBOPROP ################")
 #    print("The mass of the turboprop is "+ str(MTOW_tbp) + " [kg]")
@@ -176,7 +177,7 @@ for iter in range(1):
 #    print("the taper ratio, root chrod and tip chord are " + str(t_c_ratio_jet) + " [- ]"+ str(root_chord_jet) + " [m]"+ str(tip_chord_jet) + " [m]")
 #    print("The cruise Mach number and the sweep are" + str(M_cruise_jet) + "[m] " + str(sweep_jet) + " [deg]")
 #    print("The nacelle length, fan cowling length, hightlight diamter, fan exit diamter and gas generattor diamter are " + str(length_nacelle_jet)  + " [m] " + str(length_fan_cowling_jet) + " [m] "  + str(diameter_highlight_jet) + " [m] " + str(diameter_exit_fan_jet)  + " [m] " + str(diameter_gas_generator_jet)  + " [m]")
-    
+
 #MTOM_jet = MTOW_jet / g
 #MTOM_tbp = MTOW_tbp / g
 #
