@@ -24,7 +24,9 @@ R = 287
 temperature0 = 288.15
 temperature_gradient = -0.0065
 gamma = 1.4
-rho0 = 1.225                        #[kg/m3]
+rho0 = 1.225                        # [kg/m3]
+q_jet = 0.5*rho*V_cruise_jet**2     # [n/m2]
+q_tbp = 0.5*rho*V_cruise_tbp**2     # [n/m2]
 
 # Flight parameters
 s_landing = 1400                    #[m]
@@ -190,8 +192,6 @@ for iter in range(1):
     jet_data_list.append(('S_v_jet', S_v_jet))
 
     ## CLASS II
-    q_jet = 0.5*rho*V_cruise_jet**2
-    q_tbp = 0.5*rho*V_cruise_tbp**2
     C_L_des_jet = C_L_des(q_jet,f_cruise_start_jet*MTOW_jet/S_jet,f_cruise_end_jet*MTOW_jet/S_jet)
     C_l_des_jet = C_l_des(C_L_des_jet,sweep_jet)
     C_L_des_tbp = C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp/S_tbp,f_cruise_end_tbp*MTOW_tbp/S_tbp)
@@ -200,6 +200,8 @@ for iter in range(1):
     # Append to data list
     tbp_data_list.append(('C_l_des_tbp', C_l_des_tbp))
     jet_data_list.append(('C_l_des_jet', C_l_des_jet))
+    
+    
     
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
