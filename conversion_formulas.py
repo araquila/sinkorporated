@@ -43,7 +43,7 @@ def feetcubed_to_metercubed(volume_in_feetcubed):
     return volume_in_metercubed
 
 def pounds_to_kg(mass_in_pounds):
-    mass_in_kg = 2.20462 * mass_in_pounds
+    mass_in_kg = mass_in_pounds / 2.20462
     return mass_in_kg
 
 def USdensity_to_ISdensity(US_density):

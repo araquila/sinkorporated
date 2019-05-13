@@ -84,7 +84,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
 
     length_fuselage=length_nose+length_cabin+length_tail
 
-    return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside
+    return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, diameter_fuselage_inside
 
                     #WING SIZING
 def det_quarter_chord_sweep(M_cruise, supercritical = False, delta_mach = 0.03):
@@ -179,7 +179,7 @@ def empennage(V_h, V_v, l_h, l_v, S, b, c):
     tip_chord_h = root_chord_h * taper_h
     sweepLE_h = sweepqc_h + np.degrees(np.arctan((0.25*root_chord_h-0.25*tip_chord_h)/(span_h/2)))
 
-    return S_h, span_h, root_chord_h, tip_chord_h, sweepqc_h, sweepLE_h, S_v, span_v, root_chord_v, tip_chord_v, sweepLE_v
+    return AR_h, AR_v, S_h, span_h, root_chord_h, tip_chord_h, sweepqc_h, sweepLE_h, S_v, span_v, root_chord_v, tip_chord_v, sweepLE_v
 
 def undercarriage(main_landing_pos, nose_landing_pos, length_fuselage, length_tail, diameter_fuselage_outside):
     dist_to_tail = length_fuselage - main_landing_pos - length_tail
