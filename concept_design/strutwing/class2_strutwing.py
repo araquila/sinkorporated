@@ -242,7 +242,7 @@ def det_flight_controls_weight(S_cs, I_y, N_f = 6, N_m = 1):
     outputs:
     flight controls weight in lb
     """
-    flight_controls_weight = 149.9* N_f**0.554 * (1 + N_m / N_f)^-1 * S_cs**0.2 *(I_y * 10**-6)**0.07
+    flight_controls_weight = 149.9* N_f**0.554 * (1 + N_m / N_f)**-1 * S_cs**0.2 *(I_y * 10**-6)**0.07
     return flight_controls_weight
 
 def det_APU_weight(W_APU_uninstalled):
