@@ -127,7 +127,7 @@ for iter in range(1):
     sweep_tbp = det_quarter_chord_sweep(M_cruise_tbp)
     b_tbp, taper_tbp, root_chord_tbp, tip_chord_tbp, t_c_ratio_tbp = det_planform(S_tbp, A_tbp, M_cruise_tbp, C_L_cruise_tbp, sweep_tbp)
     dihedral_angle_tbp = det_dihedral_angle(sweep_tbp, high=True)
-
+    MAC_tbp = MAC(root_chord_tbp, t_c_ratio_tbp)
     tbp_data_list.append(('b_tbp ', b_tbp))
 
     # Wing jet
@@ -145,6 +145,8 @@ for iter in range(1):
 
     tbp_data_list.append(('diameter_propeller_tbp ', diameter_propeller_tbp))
     jet_data_list.append(('diameter_highlight_jet ', diameter_highlight_jet))
+
+
 
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
