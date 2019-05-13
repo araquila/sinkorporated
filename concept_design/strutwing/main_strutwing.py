@@ -18,6 +18,7 @@ g = 9.8065
 n_passenger = 60
 M_passenger = 102                   #(including luggage)
 n_crew = 4
+n_pilots = 2
 M_crew_member = 100
 
 # Initial mass and fractions
