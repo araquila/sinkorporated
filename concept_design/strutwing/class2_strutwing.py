@@ -259,7 +259,7 @@ def det_APU_weight(W_APU_uninstalled):
 def det_instruments_weight(N_c, N_en, L_f, B_w, reciprocating = False, turboprop = False):
     """
     inputs:
-    N_c = number of crew
+    N_c = number of pilots
     N_en = number of engines
     L_f = total fuselage length in feet
     B_w = wing span in feet
@@ -274,7 +274,7 @@ def det_instruments_weight(N_c, N_en, L_f, B_w, reciprocating = False, turboprop
     K_r = 1
     if reciprocating:
         K_r = 1.133
-    K_tbp - 1
+    K_tbp = 1
     if turboprop:
         K_tbp = 0.793
     instruments_weight = 4.509 * K_r * K_tbp * N_c**0.541 * N_en * (L_f + B_w)**0.5
@@ -329,7 +329,7 @@ def det_avionics_weight(W_uav = 1100):
 def det_furnishings_weight(N_c, W_c, S_f):
     """
     inputs:
-    N_c = number of crew
+    N_c = number of pilots
     W_c = maximum cargo weight in lb
     S_f = fuselage wetted area in feet^2
 
