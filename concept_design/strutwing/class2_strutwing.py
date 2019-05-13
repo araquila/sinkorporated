@@ -134,7 +134,7 @@ def det_main_lg_weight(W_l, N_l, L_m, N_mw, N_mss, V_stall, kneeling_main_lg = F
     main_lg_weight = 0.0106 * K_mp * W_l**0.888 * N_l**0.25 * L_m**0.4 * N_mw**0.321 * N_mss**-0.5 * V_stall**0.1
     return main_lg_weight
 
-def det_nose_lg_weight(W_l, N_l, L_n, N_mw, kneeling_nose_lg = False):
+def det_nose_lg_weight(W_l, N_l, L_n, N_nw, kneeling_nose_lg = False):
     """
     Inputs:
     W_l = landing design weight in lb
