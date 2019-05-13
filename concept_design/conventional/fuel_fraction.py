@@ -6,7 +6,7 @@ import numpy as np
 
 g = 9.80665
 
-def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 12, cp_cruise_tbp = 0.5, LD_cruise_tbp = 14, cj_cruise_jet = 0.6, cp_loiter_tbp = 0.6, cj_loiter_jet = 0.5, LD_loiter_tbp = 15, LD_loiter_jet = 16 ,V_cruise_jet, V_cruise_tbp, jet = False, tbp = False):
+def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 12, cp_cruise_tbp = 0.5, LD_cruise_tbp = 14, cj_cruise_jet = 0.6, cp_loiter_tbp = 0.6, cj_loiter_jet = 0.5, LD_loiter_tbp = 15, LD_loiter_jet = 16 ,V_cruise_jet = 5, V_loiter_tbp = 5, jet = False, tbp = False):
 
     # Range for tbp and jet aircraft
     range_cruise_jet = 1850000     # [m]
