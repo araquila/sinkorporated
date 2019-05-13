@@ -143,7 +143,9 @@ from conversion_formulas import *
 
 MTOW_tbp = 20000
 
-handling_gear_weight = det_handling_gear_weight(kg_to_pounds(MTOW_tbp))
-anti_ice_weight = det_anti_ice_weight(kg_to_pounds(MTOW_tbp))
+
+det_furnishings_weight(n_crew, 13.608*60, metersquared_to_feetsquared(np.pi * diameter_fuselage_outside * length_fuselage)
 pres_vol = np.pi / 4 * diameter_fuselage_inside**2 * (length_nose + length_nose)
-aircond_weight = aircond_weight(n_passenger, pres_vol)
+aircond_weight = aircond_weight(n_passenger, metercubed_to_feetcubed(pres_vol))
+anti_ice_weight = det_anti_ice_weight(kg_to_pounds(MTOW_tbp))
+handling_gear_weight = det_handling_gear_weight(kg_to_pounds(MTOW_tbp))
