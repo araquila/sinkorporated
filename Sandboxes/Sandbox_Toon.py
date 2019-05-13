@@ -137,6 +137,13 @@ import sys
 import numpy as np
 
 sys.path.append(os.getcwd())
-from function1 import det_quarter_chord_sweep
 
-det_quarter_chord_sweep(0.8)
+from concept_design.strutwing.class2_strutwing import *
+from conversion_formulas import *
+
+MTOW_tbp = 20000
+
+handling_gear_weight = det_handling_gear_weight(kg_to_pounds(MTOW_tbp))
+anti_ice_weight = det_anti_ice_weight(kg_to_pounds(MTOW_tbp))
+pres_vol = np.pi / 4 * diameter_fuselage_inside**2 * (length_nose + length_nose)
+aircond_weight = aircond_weight(n_passenger, pres_vol)
