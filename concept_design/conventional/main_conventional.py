@@ -182,9 +182,9 @@ for iter in range(1):
     ## CLASS II
     q_jet = 0.5*rho*V_cruise_jet**2
     q_tbp = 0.5*rho*V_cruise_tbp**2
-    C_L_des_jet = C_L_des(q_jet,f_cruise_start_jet*MTOW_jet,f_cruise_end_jet*MTOW_jet)
+    C_L_des_jet = C_L_des(q_jet,f_cruise_start_jet*MTOW_jet/S_jet,f_cruise_end_jet*MTOW_jet/S_jet)
     C_l_des_jet = C_l_des(C_L_des_jet,sweep_jet)
-    C_L_des_tbp = C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp,f_cruise_end_tbp*MTOW_tbp)
+    C_L_des_tbp = C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp/S_tbp,f_cruise_end_tbp*MTOW_tbp/S_tbp)
     C_l_des_tbp = C_l_des(C_L_des_tbp,sweep_tbp)
 
     print(f_cruise_start_jet, f_cruise_start_tbp)
