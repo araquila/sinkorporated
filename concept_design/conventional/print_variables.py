@@ -1,6 +1,6 @@
 ## PRINT FUNCTION
-from main_conventional import *
-def print_variables():
+from main_conventional import MTOW_tbp
+def var():
     print('Iteration: ' + str(iter + 1))
     print("################TURBOPROP ################")
     print("The mass of the turboprop is "+ str(MTOW_tbp) + " [kg]")
@@ -23,4 +23,4 @@ def print_variables():
     print("the taper ratio, root chrod and tip chord are " + str(t_c_ratio_jet) + " [- ]"+ str(root_chord_jet) + " [m]"+ str(tip_chord_jet) + " [m]")
     print("The cruise Mach number and the sweep are" + str(M_cruise_jet) + "[m] " + str(sweep_jet) + " [deg]")
     print("The nacelle length, fan cowling length, hightlight diamter, fan exit diamter and gas generattor diamter are " + str(length_nacelle_jet)  + " [m] " + str(length_fan_cowling_jet) + " [m] "  + str(diameter_highlight_jet) + " [m] " + str(diameter_exit_fan_jet)  + " [m] " + str(diameter_gas_generator_jet)  + " [m]")
-    
+    return
