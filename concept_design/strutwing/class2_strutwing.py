@@ -80,8 +80,8 @@ def det_vert_tail_weight(H_ht, H_vt, W_dg, N_z, L_t, S_vt, quarter_chord_sweep_v
     outputs:
     vertical tail weight in lb
     """
-    if K_y == 1:
-        K_y = L_t
+    if K_z == 1:
+        K_z = L_t
     vert_tail_weight = 0.0026 * (1 + H_ht/H_vt)**0.225 * W_dg**0.556 * N_z**0.536 * L_t**-0.5 * S_vt**0.5 * K_z**0.875 * np.cos(quarter_chord_sweep_vt)**-1 * AR_vt**0.35 * t_c_root_vt**-0.5
     return vert_tail_weight
 
