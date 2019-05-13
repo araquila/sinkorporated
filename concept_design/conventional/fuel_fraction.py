@@ -6,7 +6,7 @@ import numpy as np
 
 g = 9.80665
 
-def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 12, cp_cruise_tbp = 0.5, LD_cruise_tbp = 14, cj_cruise_jet = 0.6, cp_loiter_tbp = 0.6, cj_loiter_jet = 0.5, LD_loiter_tbp = 15, LD_loiter_jet = 16 ,jet = False, tbp = False):
+def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 12, cp_cruise_tbp = 0.5, LD_cruise_tbp = 14, cj_cruise_jet = 0.6, cp_loiter_tbp = 0.6, cj_loiter_jet = 0.5, LD_loiter_tbp = 15, LD_loiter_jet = 16 ,jet = False, tbp = False, classII = False):
 
     # Range for tbp and jet aircraft
     range_cruise_jet = 1850000     # [m]
@@ -55,8 +55,13 @@ def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 
         f_fuel_tbp = f1_tbp * f2_tbp * f3_tbp * f4_tbp * f5_tbp * f6_tbp * f7_tbp * f8_tbp
 
         f_reserve_tbp = f6_tbp
-
-        return f_fuel_tbp, f_reserve_tbp
+        
+        if classII:
+            f_cruise_start = f1_tbp*f2_tbp*f3_tbp*f4_tbp
+            f_cruise_end = f_cruise_start*f5_tbp
+            return f_cruise_start, f_cruise_end
+        else:
+            return f_fuel_tbp, f_reserve_tbp
 
     # FUEL FRACTIONS FOR JET
     if jet:
@@ -82,7 +87,12 @@ def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 
         f_fuel_jet = f1_jet * f2_jet * f3_jet * f4_jet * f5_jet * f6_jet * f7_jet * f8_jet
         f_reserve_jet = f6_jet
 
-        return f_fuel_jet, f_reserve_jet
+        if classII:
+            f_cruise_start = f1_jet*f2_jet*f3_jet*f4_jet
+            f_cruise_end = f_cruise_start*f5_jet
+            return f_cruise_start, f_cruise_end
+        else:
+            return f_fuel_jet, f_reserve_jet
 
     # NO AIRCRAFT TYPE SPECIFIED
     else:
