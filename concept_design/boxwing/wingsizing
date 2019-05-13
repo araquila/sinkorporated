@@ -2,7 +2,9 @@ from math import *
 from class1sizing import fuselage
 from main_boxwing import class1box
 from class1sizing import enginedimensions
+from class2_boxwing import *
 
+g =  9.80665
 MTOW, OEW, WF = class1box()
 TW = 0.25
 length_fan_cowl, diameter_nacelle, length_generator, length_nacelle, diameter_highlight, diameter_exit_fan, diameter_gas_generator, diameter_inlet = enginedimensions(2, TW*MTOW)
@@ -33,6 +35,7 @@ print(b,cr1,ct1)
 
 ct2 = ct1
 cr2 = (2*S2-ct2*b)/b
+taper2 = ct2/cr2
 AR_v = 0.8
 sweepv = 30
 taperv = 0.7
@@ -45,6 +48,17 @@ sweep2 = -atan((Fus_len + vtail_xoffset - Fus_len*frac_qtrchord_fus - b/2*tan(sw
 
 print(sweep1, sweep2)
 print(b, cr2, ct2)
+
+kgtolbs = 2.20462262
+mtoft = 3.2808399
+MTOWlbs = MTOW/g*kgtolbs
+n_lim = ult_load_factor(MTOWlbs)
+n_ult = n_lim*1.5
+S_control_ail = 0.05*S
+S_control_elev = 0.03*S
+wing_weight1_conv = det_wing_weight(MTOWlbs, n_ult, S1*mtoft**2, AR1, 0.13, taper1, sweep1/180*pi, S_control_ail*mtoft**2)
+wing_weight2_conv = det_wing_weight(MTOWlbs, n_ult, S2*mtoft**2, AR2, 0.13, taper2, sweep2/180*pi, S_control_elev*mtoft**2)
+print(wing_weight1_conv, wing_weight2_conv)
 
 
 def cg_prandtl():

@@ -30,6 +30,11 @@ def det_wing_weight(W_dg, N_z, S_w, AR, t_c_root, taper, quarter_chord_sweep, S_
     wing_weight = 0.0051 * (W_dg * N_z)**0.557 * S_w**0.649 * AR**0.5 * t_c_root**-0.4 * (1 + taper)**0.1 * np.cos(quarter_chord_sweep)**-1 * S_csw**0.1
     return wing_weight
 
+def det_wing_weight_box(b, S, taper, sweep, MTOM, N, Vd, t_c, C1):
+    wing_weight_box = C1*((b*S*(1+2*taper)/(3+3*taper)/cos(sweep)*(MTOM*N/S)**0.3*(Vd/t_c)**0.5))**0.9
+
+    
+
 def det_hor_tail_weight(F_w, B_h, W_dg, N_z, S_ht, L_t, quarter_chord_sweep_ht, AR_ht, S_e, all_moving_unit = False, K_y = 0.3):
     """
     Inputs:
