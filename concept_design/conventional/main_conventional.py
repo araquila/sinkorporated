@@ -22,16 +22,16 @@ R = 287
 temperature0 = 288.15
 temperature_gradient = -0.0065
 gamma = 1.4
-rho0 = 1.225 #[kg/m3]
+rho0 = 1.225                        #[kg/m3]
 
 # Flight parameters
-s_landing = 1400 #[m]
+s_landing = 1400                    #[m]
 altitude = 8000
-V_landing = 48.93 #[m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
+V_landing = 48.93                   #[m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
 
 # Atmospherical parameters at cruise altitude
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
-c = 10 #[m/s] climb rate THIS IS INPUT
+c = 10                              #[m/s] climb rate THIS IS INPUT
 
 # Passengers and crew
 n_passenger = 60

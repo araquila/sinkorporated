@@ -146,6 +146,3 @@ def empennage(V_v, l_v, S, b):
     av_chord_v = span_v / AR_v
     root_chord_v = av_chord_v / (0.5*(1+taper_v))
     tip_chord_v = root_chord_v * taper_v
-
-
-print(enginedimensions(2,68841.36))
