@@ -57,6 +57,7 @@ V_cruise_tbp = 180                  # [m/s]
 M_cruise_tbp = 0.72                 # [-]
 C_L_cruise = 0.8                    # [-]
 S_tbp = 66                          # [m^2]
+V_stall_tbp = 46.3                  # [m/s]
 
 S_control = 3
 
@@ -95,6 +96,8 @@ print(det_wing_weight(kg_to_pounds(MTOW_tbp), ult_load_factor(kg_to_pounds(MTOW_
 print(det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside), meter_to_feet(span_h), kg_to_pounds(MTOW_tbp),  1.5*ult_load_factor(kg_to_pounds(MTOW_tbp)), meter_to_feet(S_h), meter_to_feet(l_h), np.radians(sweepqc_h), AR_h, meter_to_feet(0.3*S_h)))
 print(det_vert_tail_weight(meter_to_feet(span_v), meter_to_feet(span_v), kg_to_pounds(MTOW_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOW_tbp)), l_v, S_v, np.radians(sweepLE_v), AR_v, t_c_ratio))
 print(det_fuselage_weight(kg_to_pounds(MTOW_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOW_tbp)), meter_to_feet(length_cabin), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper, b, sweepqc, LD_cruise_tbp, fuselage_mounted_lg=True))
+print(det_main_lg_weight(kg_to_pounds(MTOW_tbp), 4.5, meter_to_inch(wheel_height), 4, 2, ms_to_knots(V_stall_tbp)))
+print(det_nose_lg_weight(kg_to_pounds(MTOW_tbp), 4.5, meter_to_inch(wheel_height), 2))
 
 MTOM_tbp = MTOW_tbp / g
 
