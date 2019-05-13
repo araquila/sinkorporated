@@ -148,7 +148,7 @@ def det_nose_lg_weight(W_l, N_l, L_n, N_nw, kneeling_nose_lg = False):
     W_l = landing design weight in lb
     N_l = ultimate landing load factor = N_gear * 1.5
     L_n = length of the nose landing gear in inches
-    N_mw = number of nose wheels
+    N_nw = number of nose wheels
 
     conditional inputs:
     K_np = factor for landing gear (1.15 for kneeling gear, 1 otherwise)
