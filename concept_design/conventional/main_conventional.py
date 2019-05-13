@@ -76,6 +76,7 @@ TOP_jet = 6698
 M_cruise_jet = V_cruise_jet/speed_of_sound
 C_L_cruise_jet = 0.4
 n_engines_jet = 2
+C_L_max_jet = 2.3
 
 # Empennage jet
 V_h_jet = 1.07                         # [-]
@@ -97,6 +98,7 @@ C_L_cruise_tbp = 0.4
 S_tbp = 76
 TOP_tbp = 139
 n_engines_tbp = 2
+C_L_max_tbp = 2.6
 
 # Empennage tbp
 V_h_tbp = 1.57                          # [-]
@@ -238,9 +240,48 @@ for iter in range(1):
     fuselage_weight_jet = pounds_to_kg(class2.det_fuselage_weight(kg_to_pounds(MTOW_jet/g), 1.5*n_max_jet, meter_to_feet(length_fuselage), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper_jet, meter_to_feet(b_jet), sweep_jet, L_D_jet, cargo_doors = 1, fuselage_mounted_lg = False))
     fuselage_weight_tbp = pounds_to_kg(class2.det_fuselage_weight(kg_to_pounds(MTOW_tbp/g), 1.5*n_max_tbp, meter_to_feet(length_fuselage), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper_tbp, meter_to_feet(b_tbp), sweep_tbp, L_D_tbp, cargo_doors = 1, fuselage_mounted_lg = False))
 
+    # Append to data list
     tbp_data_list.append(('fuselage_weight_tbp', fuselage_weight_tbp))
     jet_data_list.append(('fuselage_weight_jet', fuselage_weight_jet))
 
+    # Main landing gear
+    V_stall_jet = np.sqrt(2*MTOW_jet/(rho0*S_jet*C_L_max_jet))
+    V_stall_tbp = np.sqrt(2*MTOW_tbp/(rho0*S_tbp*C_L_max_tbp))
+    main_lg_weight_jet = pounds_to_kg(class2.det_main_lg_weight(kg_to_pounds(MTOW_jet/g),1.5*n_max_jet,meter_to_inch(wheel_height_jet),4,2,ms_to_knots(V_stall_jet),kneeling_main_lg = False))
+    main_lg_weight_tbp = pounds_to_kg(class2.det_main_lg_weight(kg_to_pounds(MTOW_tbp/g),1.5*n_max_tbp,meter_to_inch(wheel_height_tbp),4,2,ms_to_knots(V_stall_tbp),kneeling_main_lg = False))
+
+    # Append to data list
+    tbp_data_list.append(('main_lg_weight_tbp', main_lg_weight_tbp))
+    jet_data_list.append(('main_lg_weigth_jet', main_lg_weight_jet))
+
+    #Nose landing gear
+
+    nose_lg_weight_jet = pounds_to_kg(class2.det_nose_lg_weight(kg_to_pounds(MTOW_jet/g), 1.5*n_max_jet, meter_to_inch(wheel_height_jet), 2, kneeling_nose_lg = False))
+    nose_lg_weight_tbp = pounds_to_kg(class2.det_nose_lg_weight(kg_to_pounds(MTOW_tbp/g), 1.5*n_max_tbp, meter_to_inch(wheel_height_tbp), 2, kneeling_nose_lg = False))
+
+    # Append to data list
+
+    tbp_data_list.append(('nose_lg_weight_tbp', nose_lg_weight_tbp))
+    jet_data_list.append(('nose_lg_weight_jet', nose_lg_weight_jet))
+
+    # Nacelle
+
+    nacelle_group_weight_tbp = pounds_to_kg(class2.det_nacelle_group_weight(meter_to_feet(length_engine_tbp), meter_to_feet(diameter_engine_tbp), 1.5*n_max_tbp, 2, metersquared_to_feetsquared(np.pi * diameter_engine_tbp * length_engine_tbp), pylon_mounted = False, W_ec = kg_to_pounds(1200), W_engine = 0, propeller = False, thrust_reverser = False))
+
+    #Append to data list
+
+    tbp_data_list.append(('nacelle_group_weight_tbp', nacelle_group_weight_tbp))
+
+    # Engine controls weight
+    engine_controls_weight_jet = pounds_to_kg(class2.det_engine_controls_weight(2,40)
+    engine_controls_weight_tbp = pounds_to_kg(class2.det_engine_controls_weight(2,40)
+
+    # Append to data list
+    tbp_data_list.append(('engine_controls_weight_tbp', engine_controls_weight_tbp))
+    jet_data_list.append(('engine_controls_weight_jet', engine_controls_weight_jet))
+
+    # Starter weight
+    
     # Total weight
 
     ## PRINT RELEVANT DATA
