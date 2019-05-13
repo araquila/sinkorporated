@@ -20,7 +20,7 @@ def Weights_Class_I_jet(W_empty_jet, W_payload, W_crew, C_fe_jet, S_jet, S_wet_j
     C_D_loiter_jet = 2 * C_D_0_jet
     LD_loiter_jet = eff_liftingbody *  C_L_loiter_jet / C_D_loiter_jet
 
-    f_fuel_jet, f_reserve_jet = fuel_fraction(LD_cruise_jet = LD_cruise_jet, cj_cruise_jet = cj_cruise_jet, cj_loiter_jet = cj_loiter_jet, LD_loiter_jet = LD_loiter_jet, jet = True)
+    f_fuel_jet, f_reserve_jet, f_cruise_start_jet, f_cruise_end_jet = fuel_fraction(LD_cruise_jet = LD_cruise_jet, cj_cruise_jet = cj_cruise_jet, cj_loiter_jet = cj_loiter_jet, LD_loiter_jet = LD_loiter_jet, jet = True)
 
     # Used fuel
     f_used_fuel_jet = 1 - f_fuel_jet
@@ -41,7 +41,7 @@ def Weights_Class_I_jet(W_empty_jet, W_payload, W_crew, C_fe_jet, S_jet, S_wet_j
     # Determine the operative empty weight for a jet
     OEW_jet = W_empty_jet + W_trapped_fuel_jet + W_crew
 
-    return MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet
+    return MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet, f_cruise_start_jet, f_cruise_end_jet
 
 
 def Weights_Class_I_tbp(W_empty_tbp, W_payload, W_crew, C_fe_tbp, S_tbp, S_wet_tbp, A_tbp, e_tbp,  eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel):
@@ -61,7 +61,7 @@ def Weights_Class_I_tbp(W_empty_tbp, W_payload, W_crew, C_fe_tbp, S_tbp, S_wet_t
     LD_loiter_tbp = eff_liftingbody * C_L_loiter_tbp / C_D_loiter_tbp
 
     # Determine fuel fractions for a turboprop
-    f_fuel_tbp, f_reserve_tbp = fuel_fraction(LD_cruise_tbp = LD_cruise_tbp, eff_cruise_tbp = eff_cruise_tbp, eff_loiter_tbp = eff_loiter_tbp, cp_cruise_tbp = cp_cruise_tbp, cp_loiter_tbp = cp_loiter_tbp, tbp = True)
+    f_fuel_tbp, f_reserve_tbp, f_cruise_start_tbp, f_cruise_end_tbp = fuel_fraction(LD_cruise_tbp = LD_cruise_tbp, eff_cruise_tbp = eff_cruise_tbp, eff_loiter_tbp = eff_loiter_tbp, cp_cruise_tbp = cp_cruise_tbp, cp_loiter_tbp = cp_loiter_tbp, tbp = True)
 
     # Used fuel
     f_used_fuel_tbp = 1 - f_fuel_tbp
@@ -82,4 +82,4 @@ def Weights_Class_I_tbp(W_empty_tbp, W_payload, W_crew, C_fe_tbp, S_tbp, S_wet_t
     # Determine the operative empty weight for a turboprop
     OEW_tbp = W_empty_tbp + W_trapped_fuel_tbp + W_crew
 
-    return MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp
+    return MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp
