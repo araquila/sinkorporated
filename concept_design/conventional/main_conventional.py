@@ -8,8 +8,10 @@ from class1sizing_conventional import fuselage, det_quarter_chord_sweep, det_pla
 from atmosphere import atmosphere_calc
 from cg_determination import x_lemac_tbp, x_lemac_jet
 from fuel_fraction import fuel_fraction
-from class2_conventional import C_L_des, C_l_des
+from conversion_formulas import *
+import class2_conventional as class2
 import numpy as np
+
 
 jet_data_list = []
 tbp_data_list = []
@@ -25,8 +27,6 @@ temperature0 = 288.15
 temperature_gradient = -0.0065
 gamma = 1.4
 rho0 = 1.225                        # [kg/m3]
-q_jet = 0.5*rho*V_cruise_jet**2     # [n/m2]
-q_tbp = 0.5*rho*V_cruise_tbp**2     # [n/m2]
 
 # Flight parameters
 s_landing = 1400                    #[m]
@@ -103,6 +103,8 @@ V_h_tbp = 1.57                          # [-]
 V_v_tbp = 0.07                          # [-]
 nose_landing_pos_tbp = 3                # [m]
 
+q_jet = 0.5*rho*V_cruise_jet**2     # [n/m2]
+q_tbp = 0.5*rho*V_cruise_tbp**2     # [n/m2]
 
 # Iterative sizing process
 for iter in range(1):
@@ -192,21 +194,37 @@ for iter in range(1):
     jet_data_list.append(('S_v_jet', S_v_jet))
 
     ## CLASS II
-    C_L_des_jet = C_L_des(q_jet,f_cruise_start_jet*MTOW_jet/S_jet,f_cruise_end_jet*MTOW_jet/S_jet)
-    C_l_des_jet = C_l_des(C_L_des_jet,sweep_jet)
-    C_L_des_tbp = C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp/S_tbp,f_cruise_end_tbp*MTOW_tbp/S_tbp)
-    C_l_des_tbp = C_l_des(C_L_des_tbp,sweep_tbp)
+    # C_L and C_l des
+    C_L_des_jet = class2.C_L_des(q_jet,f_cruise_start_jet*MTOW_jet/S_jet,f_cruise_end_jet*MTOW_jet/S_jet)
+    C_l_des_jet = class2.C_l_des(C_L_des_jet,sweep_jet)
+    C_L_des_tbp = class2.C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp/S_tbp,f_cruise_end_tbp*MTOW_tbp/S_tbp)
+    C_l_des_tbp = class2.C_l_des(C_L_des_tbp,sweep_tbp)
 
     # Append to data list
     tbp_data_list.append(('C_l_des_tbp', C_l_des_tbp))
     jet_data_list.append(('C_l_des_jet', C_l_des_jet))
-<<<<<<< HEAD
     
+    # Wing weight
+    n_max_jet = class2.ult_load_factor(kg_to_pounds(MTOW_jet/g))
+    n_max_tbp = class2.ult_load_factor(kg_to_pounds(MTOW_tbp/g))
     
+    wing_weight_jet = class2.det_wing_weight(kg_to_pounds(MTOW_jet/g),n_max_jet*1.5,metersquared_to_feetsquared(S_jet),A_jet,t_c_ratio_jet,taper_jet,sweep_jet,metersquared_to_feetsquared(0.05*S_jet)) #DIT NOG FF CHECKEN
+    wing_weight_tbp = class2.det_wing_weight(kg_to_pounds(MTOW_tbp/g),n_max_tbp*1.5,metersquared_to_feetsquared(S_tbp),A_tbp,t_c_ratio_tbp,taper_tbp,sweep_tbp,metersquared_to_feetsquared(0.05*S_tbp)) #DIT NOG FF CHECKEN
+    wing_weight_jet = pounds_to_kg(wing_weight_jet)
+    wing_weight_tbp = pounds_to_kg(wing_weight_tbp)
     
-=======
-
->>>>>>> refs/remotes/origin/master
+    # Append to data list
+    tbp_data_list.append(('wing_weight_tbp', wing_weight_tbp))
+    jet_data_list.append(('wing_weight_jet', wing_weight_jet))
+    
+    # Horizontal tail
+    hor_tail_weight_jet = class2.det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside),meter_to_feet(span_h_jet),kg_to_pounds(MTOW_jet/g),n_max_jet*1.5,metersquared_to_feetsquared(S_h_jet),meter_to_feet(l_h_jet),np.radians(sweepqc_h_jet),AR_h_jet,metersquared_to_feetsquared(0.3*S_h_jet))
+    hor_tail_weight_tbp = class2.det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside),meter_to_feet(span_h_tbp),kg_to_pounds(MTOW_tbp/g),n_max_tbp*1.5,metersquared_to_feetsquared(S_h_tbp),meter_to_feet(l_h_tbp),np.radians(sweepqc_h_tbp),AR_h_tbp,metersquared_to_feetsquared(0.3*S_h_tbp))
+    
+    # Append to data list
+    tbp_data_list.append(('hor_tail_weight_tbp', hor_tail_weight_tbp))
+    jet_data_list.append(('hor_tail_weight_jet', hor_tail_weight_jet))
+    
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
     for value in jet_data_list:
