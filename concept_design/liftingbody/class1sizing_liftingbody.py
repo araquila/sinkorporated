@@ -32,10 +32,10 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
 
     # Data measured from CATIA
     diameter_fuselage_inside = 2.9646
-    diameter_fuselage_outside = 1.045*diameter_fuselage_inside + 0.084
+    diameter_fuselage_outside = 3.182
     diff_outside_inside = diameter_fuselage_outside - diameter_fuselage_inside
     width_fuselage_inside = 3.931
-    width_fuselage_outside = width_fuselage_inside + diff_outside_inside
+    width_fuselage_outside = 4.382
 
     #structural dimensions
     thickness_floor=0.150 #0.100-0.300
@@ -86,7 +86,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
 
     length_fuselage=length_nose+length_cabin+length_tail
 
-    return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside
+    return length_nose, length_nosecone, length_cabin, length_tail, length_tailcone, length_fuselage, diameter_fuselage_outside, width_fuselage_outside
 
                     #WING SIZING
 def det_quarter_chord_sweep(M_cruise, supercritical = False, delta_mach = 0.03):
@@ -198,3 +198,63 @@ def enginedimensions_jet(rho0, n_engines, T_TO_jet, jettypeB=False, jettypeC=Fal
     diameter_gas_generator=0.55*diameter_gas_generato_fan
 
     return length_nacelle, length_fan_cowl, diameter_highlight, diameter_exit_fan, diameter_gas_generator
+
+def empennage(V_h, V_v, l_h, l_v, S, b, c):
+    S_h = (V_h * S * c) / l_h
+    S_v = (V_v * S * b) / l_v
+
+    #Statistical Values
+    AR_v = 1.5
+    taper_v = 0.45
+    sweepLE_v = 40
+
+    AR_h = 4.5
+    taper_h = 0.35
+    sweepqc_h = 28
+
+    span_v = np.sqrt(AR_v * S_v)
+    av_chord_v = span_v / AR_v
+    root_chord_v = av_chord_v / (0.5*(1+taper_v))
+    tip_chord_v = root_chord_v * taper_v
+
+    span_h = np.sqrt(AR_h * S_h)
+    av_chord_h = span_h / AR_h
+    root_chord_h = av_chord_h / (0.5*(1+taper_h))
+    tip_chord_h = root_chord_h * taper_h
+    sweepLE_h = sweepqc_h + np.degrees(np.arctan((0.25*root_chord_h-0.25*tip_chord_h)/(span_h/2)))
+
+    return AR_h, AR_v, S_h, span_h, root_chord_h, tip_chord_h, sweepqc_h, sweepLE_h, S_v, span_v, root_chord_v, tip_chord_v, sweepLE_v
+
+def undercarriage(main_landing_pos, nose_landing_pos, length_fuselage, length_tail, diameter_fuselage_outside):
+    dist_to_tail = length_fuselage - main_landing_pos - length_tail
+    scrap_angle = np.radians(15)
+    wheel_height = dist_to_tail * np.tan(scrap_angle)
+
+    lateral_position = (main_landing_pos + nose_landing_pos) / np.sqrt(((nose_landing_pos**2 * np.tan(np.radians(55))**2)/(wheel_height+0.3*diameter_fuselage_outside))-1)
+    return wheel_height, lateral_position
+
+def tiresizing(MTOW, LCN):
+    # LCN is in the range of 25 when looking at reference aircraft
+    if 0 < LCN <= 100:
+        tire_pressure = 430*np.log(LCN) - 630
+    else:
+        print("That is not possible")
+    # This is jsut fixed: Our aircraft is not big enough for more wheels and not small enough for less wheels.
+    N_mw = 4
+    N_nw = 2
+
+    # If MTOW is entered in Newton: This will bring it back to kg
+    if MTOW > 100000:
+        MTOW = MTOW / 9.81
+
+    # Load on each wheel
+    P_mw = (0.92 * MTOW) / N_mw
+    P_nw = (0.08 * MTOW) / N_nw
+
+    # LOOK IN THE SLIDES FOR THE WHEEL DIMENSIONS MATCHING THE TIRE LOAD
+    # Probably the best dimensions will be:
+    # Wheel = outer dimension x width - inner dimension
+    # Main wheel = 0.84 x 0.25 - 0.41
+    # Nose wheel = 0.46 x 0.11 - 0.25
+
+    return tire_pressure, P_mw, P_nw

@@ -105,11 +105,18 @@ print(det_starter_weight(n_engines, kg_to_pounds(mass_engine)))
 print(det_fuel_system_weight(kg_to_pounds(W_fuel_tbp/g)/6.67632, kg_to_pounds(W_fuel_tbp/g)/6.67632, 0, n_fueltanks))
 print(det_flight_controls_weight(meter_to_feet(0.3*S_h+0.05*S_tbp), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOW_tbp/g)*0.34**2)/(4*32.19)))
 
-furnishings_weight = det_furnishings_weight(n_crew, 13.608*60, metersquared_to_feetsquared(np.pi * diameter_fuselage_outside * length_fuselage))
+
+
+instruments_weight = det_instruments_weight(n_pilots, n_engines, length_fuselage, wingspan, turboprop = True)
+hydraulics_weight = det_hydraulics_weight(meter_to_feet(length_fuselage), wingspan)
+electrical_weight = det_electrical_weight(meter_to_feet(length_fuselage), N_gen = 3)
+avionics_weight = det_avionics_weight()
+det_furnishings_weight(n_pilots, 13.608*60, metersquared_to_feetsquared(np.pi * diameter_fuselage_outside * length_fuselage))
 pres_vol = np.pi / 4 * diameter_fuselage_inside**2 * (length_nose + length_nose)
 aircond_weight = det_aircond_weight(n_passenger, metercubed_to_feetcubed(pres_vol))
 anti_ice_weight = det_anti_ice_weight(kg_to_pounds(MTOW_tbp/g))
 handling_gear_weight = det_handling_gear_weight(kg_to_pounds(MTOW_tbp/g))
+
 
 MTOM_tbp = MTOW_tbp / g
 

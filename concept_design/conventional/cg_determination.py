@@ -1,4 +1,3 @@
-from main_conventional.py import length_fuselage
 #data is taken from the Fokker F-27-200
 mf_structure_tbp = 0.284
 mf_empty_tbp = 0.537
@@ -18,7 +17,10 @@ mf_nacelle_jet = 0.016
 mf_landgear_jet = 0.051
 
 cgm_oew = 0.25 #with respect to the MAC
-cg_fus = 0.4 * length_fuselage
-def x_lemac(cg_fus,c,cgm_wing,mf_wing_group,mf_fuselage,cgm_oew):
-    x_lemac = cg_fus+c*(cgm_wing*(mf_wing_group/mf_fuselage)-cgm_oew*(1+mf_wing_group/mf_fuselage))
+def x_lemac_tbp(cg_fus,c_tbp):
+    x_lemac = cg_fus+c_tbp*(0.4*(0.118/0.099)-0.25*(1+0.118/0.099))
+    return x_lemac
+
+def x_lemac_jet(cg_fus,c_jet):
+    x_lemac = cg_fus+c_jet*(0.4*(0.128/0.093)-0.25*(1+0.128/0.093))
     return x_lemac

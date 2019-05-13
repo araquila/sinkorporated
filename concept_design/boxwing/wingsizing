@@ -1,8 +1,13 @@
 from math import *
 from class1sizing import fuselage
 from main_boxwing import class1box
+from class1sizing import enginedimensions
+from class2_boxwing import *
 
+g =  9.80665
 MTOW, OEW, WF = class1box()
+TW = 0.25
+length_fan_cowl, diameter_nacelle, length_generator, length_nacelle, diameter_highlight, diameter_exit_fan, diameter_gas_generator, diameter_inlet = enginedimensions(2, TW*MTOW)
 #input parameters for wing area
 WS = 3080
 S = MTOW/WS
@@ -30,6 +35,7 @@ print(b,cr1,ct1)
 
 ct2 = ct1
 cr2 = (2*S2-ct2*b)/b
+taper2 = ct2/cr2
 AR_v = 0.8
 sweepv = 30
 taperv = 0.7
@@ -43,12 +49,50 @@ sweep2 = -atan((Fus_len + vtail_xoffset - Fus_len*frac_qtrchord_fus - b/2*tan(sw
 print(sweep1, sweep2)
 print(b, cr2, ct2)
 
+kgtolbs = 2.20462262
+mtoft = 3.2808399
+MTOWlbs = MTOW/g*kgtolbs
+n_lim = ult_load_factor(MTOWlbs)
+n_ult = n_lim*1.5
+V_cruise = 229
+V_diving = 1.4*V_cruise
+alt_cruise = 35000/mtoft
+a_cruise = 296
+M_cruise = V_cruise/a_cruise
+M_cross = 0.935
+M_dd = M_cruise + 0.03
+qhat = 0.5*1.4*23842*M_cruise**2
+Clhat1 = MTOW/(qhat*S1)
+Clhat2 = MTOW/(qhat*S2)
+
+
+sweephalfchord1 = atan((sin(sweep1/180*pi)*b/2+ct1/4)/(b/2))
+sweephalfchord2 = atan((sin(sweep2/180*pi)*b/2+ct2/4)/(b/2))
+t_c1 = min((0.18, ((cos(sweephalfchord1)**3*(M_cross-M_dd*cos(sweephalfchord1))-0.115*Clhat1**1.5)/(cos(sweephalfchord1)**2))))
+t_c2 = min((0.18, ((cos(sweephalfchord2)**3*(M_cross-M_dd*cos(sweephalfchord2))-0.115*Clhat2**1.5)/(cos(sweephalfchord2)**2))))
+print(t_c1,t_c2)
+#desing cruise speed, diving speed, t_c
+S_control_ail = 0.05*S
+S_control_elev = 0.03*S
+
+#wing weights as conventional and box method
+wing_weight1_conv = det_wing_weight(MTOWlbs, n_ult, S1*mtoft**2, AR1, 0.13, taper1, sweep1/180*pi, S_control_ail*mtoft**2)
+wing_weight2_conv = det_wing_weight(MTOWlbs, n_ult, S2*mtoft**2, AR2, 0.13, taper2, sweep2/180*pi, S_control_elev*mtoft**2)
+wing_weight1_box = det_wing_weight_box(b, S1, taper1, sweep1, MTOW/g, n_ult, V_diving, t_c1, 0.028)
+wing_weight2_box = det_wing_weight_box(b, S2, taper2, sweep2, MTOW/g, n_ult, V_diving, t_c2, 0.028)
+print(wing_weight1_conv, wing_weight2_conv, wing_weight1_box, wing_weight2_box)
+print(det_wing_weight_box(b, S/1.36, taper1, sweep1, MTOW/g, n_ult, V_diving, t_c1, 0.034))
+
+#vertical tail weight
+
+
 
 def cg_prandtl():
     fus_cg = 0.47*Fus_len
     wing1_cg = frac_qtrchord_fus*Fus_len + sin(sweep1*pi/180)*0.35*b/2 + (cr1-(cr1-ct1)*0.35)*0.35
     wing2_cg = Fus_len - crv + sin(sweep2*pi/180)*0.35*b/2 + (cr2-(cr2-ct2)*0.35)*0.35 + sin(sweepv*pi/180)*bv + 0.25*ctv
     tailv_cg = Fus_len - crv + sin(sweepv*pi/180)*0.55*bv/2 + (crv-(crv-ctv)*0.55)*0.42
+    engine_cg = 0.75*Fus_len + 0.4*length_nacelle
 
 
 print(bv)
