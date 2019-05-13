@@ -6,7 +6,7 @@ from power_wingloading_conventional import wingloading_jet, wingloading_tbp
 from wingloadingfunctions import T_W_calc, W_P_climb_calc
 from class1sizing_conventional import fuselage, det_quarter_chord_sweep, det_planform, det_dihedral_angle, enginedimensions, MAC, empennage, undercarriage, tiresizing
 from atmosphere import atmosphere_calc
-from cg_determination import x_lemac
+from cg_determination import x_lemac_tbp, x_lemac_jet
 import numpy as np
 
 jet_data_list = []
@@ -134,7 +134,7 @@ for iter in range(1):
     sweep_jet = det_quarter_chord_sweep(M_cruise_jet)
     b_jet, taper_jet, root_chord_jet, tip_chord_jet, t_c_ratio_jet = det_planform(S_jet, A_jet, M_cruise_jet, C_L_cruise_jet, sweep_jet)
     dihedral_angle_jet = det_dihedral_angle(sweep_tbp, low=True)
-
+    MAC_jet = MAC(root_chord_jet, t_c_ratio_jet)
     jet_data_list.append(('b_jet ', b_jet))
 
     # Engines for jet and tbp
@@ -146,7 +146,9 @@ for iter in range(1):
     tbp_data_list.append(('diameter_propeller_tbp ', diameter_propeller_tbp))
     jet_data_list.append(('diameter_highlight_jet ', diameter_highlight_jet))
 
-
+    #CG and undercarriage
+    x_lemac_tbp = x_lemac_tbp(0.4*length_fuselage,MAC_tbp)
+    x_lemac_jet = x_lemac_jet(0.4*length_fuselage,MAC_jet)
 
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
