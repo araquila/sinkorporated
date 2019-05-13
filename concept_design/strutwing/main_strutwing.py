@@ -8,6 +8,8 @@ from class1_conventional import Weights_Class_I
 from power_wingloading_conventional import wingloading_jet, wingloading_tbp
 from class1sizing_strutwing import *
 from conversion_formulas import *
+from class2_strutwing import *
+import numpy as np
 
 # Gravitional constant
 g = 9.8065
@@ -56,6 +58,8 @@ M_cruise_tbp = 0.72                 # [-]
 C_L_cruise = 0.8                    # [-]
 S_tbp = 66                          # [m^2]
 
+S_control = 3
+
 # Engine
 n_engines = 2                       # [-]
 P_TO_tbp = 5.8e6                    # [W]
@@ -86,6 +90,9 @@ for iter in range(50):
 
 #    wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet)
     #wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
+
+print(det_wing_weight(kg_to_pounds(MTOW_tbp), ult_load_factor(kg_to_pounds(MTOW_tbp)), metersquared_to_feetsquared(S_tbp), A_tbp, t_c_ratio, taper, sweepqc, metersquared_to_feetsquared(S_control)))
+
 
 MTOM_tbp = MTOW_tbp / g
 
