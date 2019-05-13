@@ -177,7 +177,7 @@ for iter in range(1):
     tbp_data_list.append(('S_v_tbp', S_v_tbp))
     jet_data_list.append(('S_v_jet', S_v_jet))
     
-    #Class II###################
+    ## CLASS II
     
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
