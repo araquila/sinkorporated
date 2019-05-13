@@ -125,6 +125,10 @@ def det_planform(S, AR, M_cruise, C_L_cruise, sweep, supercritical = False, delt
         raise NameError("Going supersonic now, are we?")
     return b, taper, root_chord, tip_chord, t_c_ratio
 
+def MAC(root_chord,t_c_ratio):
+    MAC = root_chord*(2/3)*((1+t_c_ratio+t_c_ratio**2)/(1+t_c_ratio))
+    return MAC
+
 def det_dihedral_angle(sweep, high = False, mid = False, low = False):
     dihedral = sweep * 18 / np.pi
     if high:
@@ -161,10 +165,10 @@ def enginedimensions(rho_0,n_engines, P_TO_tbp, T_TO_jet, tbp=False, jet=True, j
         e_tf=0.75
         T_t4=1500 #1350-1650 [K]
         G=(T_t4/600)-1.25
-    
+
         massflow=(T_TO_jet*(1+bypass_ratio))/(n_engines*a_0*math.sqrt(5*e_nozzle*G*(1+e_tf*bypass_ratio)))
         print(massflow,rho_0,a_0)
-        print(T_TO_jet)                 
+        print(T_TO_jet)
                     #Intake dimensions
         inlet_spinner_ratio=0.05*(1+(rho_0*a_0)/massflow+3*bypass_ratio/(1+bypass_ratio))
         diameter_inlet=1.65*math.sqrt((massflow/(rho_0*a_0)+0.0050)/(1-(inlet_spinner_ratio)**2))
@@ -195,5 +199,5 @@ def enginedimensions(rho_0,n_engines, P_TO_tbp, T_TO_jet, tbp=False, jet=True, j
         diameter_gas_generato_fan=diameter_exit_fan*((0.089+4.5)/(0.067+5.8))**2
         #gas generator cowling at gas generator exit diameter
         diameter_gas_generator=0.55*diameter_gas_generato_fan
-    
+
         return length_nacelle, length_fan_cowl, diameter_highlight, diameter_exit_fan, diameter_gas_generator
