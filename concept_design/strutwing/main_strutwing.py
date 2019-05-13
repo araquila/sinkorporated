@@ -1,9 +1,13 @@
 # MAIN OF THE CONVENTIAL AIRCRAFT SIZING PROGRAM
+import os
+import sys
+sys.path.append(os.getcwd())
 
 # Import modules
 from class1_conventional import Weights_Class_I
 from power_wingloading_conventional import wingloading_jet, wingloading_tbp
 from class1sizing_strutwing import *
+from conversion_formulas import *
 
 # Gravitional constant
 g = 9.8065

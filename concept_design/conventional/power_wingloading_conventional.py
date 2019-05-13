@@ -174,7 +174,7 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     "Cruise A =" + str(round(A_tbp,2)), "Climb Rate A =" + str(round(A_tbp,2)), "Climb Grad A =" + str(round(A_tbp,2))])
 
     plt.show()
-    return W_S_landing_tbp
+    return W_S_landing_tbp, c
 
 def wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet):
     ##################################jets##########################################
