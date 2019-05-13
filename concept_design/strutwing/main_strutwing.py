@@ -9,8 +9,6 @@ from power_wingloading_conventional import wingloading_jet, wingloading_tbp
 from class1sizing_strutwing import *
 from conversion_formulas import *
 
-print(meter_to_inch(1))
-
 # Gravitional constant
 g = 9.8065
 
