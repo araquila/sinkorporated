@@ -125,6 +125,10 @@ def det_planform(S, AR, M_cruise, C_L_cruise, sweep, supercritical = False, delt
         raise NameError("Going supersonic now, are we?")
     return b, taper, root_chord, tip_chord, t_c_ratio
 
+def MAC(root_chord,t_c_ratio):
+    MAC = root_chord*(2/3)*((1+t_c_ratio+t_c_ratio**2)/(1+t_c_ratio))
+    return MAC
+
 def det_dihedral_angle(sweep, high = False, mid = False, low = False):
     dihedral = sweep * 18 / np.pi
     if high:
@@ -161,10 +165,10 @@ def enginedimensions(rho_0,n_engines, P_TO_tbp, T_TO_jet, tbp=False, jet=True, j
         e_tf=0.75
         T_t4=1500 #1350-1650 [K]
         G=(T_t4/600)-1.25
-    
+
         massflow=(T_TO_jet*(1+bypass_ratio))/(n_engines*a_0*math.sqrt(5*e_nozzle*G*(1+e_tf*bypass_ratio)))
         print(massflow,rho_0,a_0)
-        print(T_TO_jet)                 
+        print(T_TO_jet)
                     #Intake dimensions
         inlet_spinner_ratio=0.05*(1+(rho_0*a_0)/massflow+3*bypass_ratio/(1+bypass_ratio))
         diameter_inlet=1.65*math.sqrt((massflow/(rho_0*a_0)+0.0050)/(1-(inlet_spinner_ratio)**2))
@@ -195,5 +199,65 @@ def enginedimensions(rho_0,n_engines, P_TO_tbp, T_TO_jet, tbp=False, jet=True, j
         diameter_gas_generato_fan=diameter_exit_fan*((0.089+4.5)/(0.067+5.8))**2
         #gas generator cowling at gas generator exit diameter
         diameter_gas_generator=0.55*diameter_gas_generato_fan
-    
+
         return length_nacelle, length_fan_cowl, diameter_highlight, diameter_exit_fan, diameter_gas_generator
+
+def empennage(V_h, V_v, l_h, l_v, S, b, c):
+    S_h = (V_h * S * c) / l_h
+    S_v = (V_v * S * b) / l_v
+
+    #Statistical Values
+    AR_v = 1.5
+    taper_v = 0.45
+    sweepLE_v = 40
+
+    AR_h = 4.5
+    taper_h = 0.35
+    sweepqc_h = 28
+
+    span_v = np.sqrt(AR_v * S_v)
+    av_chord_v = span_v / AR_v
+    root_chord_v = av_chord_v / (0.5*(1+taper_v))
+    tip_chord_v = root_chord_v * taper_v
+
+    span_h = np.sqrt(AR_h * S_h)
+    av_chord_h = span_h / AR_h
+    root_chord_h = av_chord_h / (0.5*(1+taper_h))
+    tip_chord_h = root_chord_h * taper_h
+    sweepLE_h = sweepqc_h + np.degrees(np.arctan((0.25*root_chord_h-0.25*tip_chord_h)/(span_h/2)))
+
+    return AR_h, AR_v, S_h, span_h, root_chord_h, tip_chord_h, sweepqc_h, sweepLE_h, S_v, span_v, root_chord_v, tip_chord_v, sweepLE_v
+
+def undercarriage(main_landing_pos, nose_landing_pos, length_fuselage, length_tail, diameter_fuselage_outside):
+    dist_to_tail = length_fuselage - main_landing_pos - length_tail
+    scrap_angle = np.radians(15)
+    wheel_height = dist_to_tail * np.tan(scrap_angle)
+
+    lateral_position = (main_landing_pos + nose_landing_pos) / np.sqrt(((nose_landing_pos**2 * np.tan(np.radians(55))**2)/(wheel_height+0.3*diameter_fuselage_outside))-1)
+    return wheel_height, lateral_position
+
+def tiresizing(MTOW, LCN):
+    # LCN is in the range of 25 when looking at reference aircraft
+    if 0 < LCN <= 100:
+        tire_pressure = 430*np.log(LCN) - 630
+    else:
+        print("That is not possible")
+    # This is jsut fixed: Our aircraft is not big enough for more wheels and not small enough for less wheels.
+    N_mw = 4
+    N_nw = 2
+
+    # If MTOW is entered in Newton: This will bring it back to kg
+    if MTOW > 100000:
+        MTOW = MTOW / 9.81
+
+    # Load on each wheel
+    P_mw = (0.92 * MTOW) / N_mw
+    P_nw = (0.08 * MTOW) / N_nw
+
+    # LOOK IN THE SLIDES FOR THE WHEEL DIMENSIONS MATCHING THE TIRE LOAD
+    # Probably the best dimensions will be:
+    # Wheel = outer dimension x width - inner dimension
+    # Main wheel = 0.84 x 0.25 - 0.41
+    # Nose wheel = 0.46 x 0.11 - 0.25
+
+    return tire_pressure, P_mw, P_nw
