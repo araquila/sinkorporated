@@ -141,7 +141,7 @@ def det_dihedral_angle(sweep, high = False, mid = False, low = False):
 
                     #ENGINE DIMENSIONS
 
-def enginedimensions(n_engines, P_TO_tbp, T_TO_jet, tbp=False, jet=True, jettypeB=False, jettypeC=False):
+def enginedimensions(rho_0,n_engines, P_TO_tbp, T_TO_jet, tbp=False, jet=True, jettypeB=False, jettypeC=False):
                     #TURBOPROP
     if tbp:
         #turboshaft dimensions
@@ -163,6 +163,8 @@ def enginedimensions(n_engines, P_TO_tbp, T_TO_jet, tbp=False, jet=True, jettype
         G=(T_t4/600)-1.25
     
         massflow=(T_TO_jet*(1+bypass_ratio))/(n_engines*a_0*math.sqrt(5*e_nozzle*G*(1+e_tf*bypass_ratio)))
+        print(massflow,rho_0,a_0)
+        print(T_TO_jet)                 
                     #Intake dimensions
         inlet_spinner_ratio=0.05*(1+(rho_0*a_0)/massflow+3*bypass_ratio/(1+bypass_ratio))
         diameter_inlet=1.65*math.sqrt((massflow/(rho_0*a_0)+0.0050)/(1-(inlet_spinner_ratio)**2))
@@ -194,4 +196,4 @@ def enginedimensions(n_engines, P_TO_tbp, T_TO_jet, tbp=False, jet=True, jettype
         #gas generator cowling at gas generator exit diameter
         diameter_gas_generator=0.55*diameter_gas_generato_fan
     
-        return length_nacelle, length_f, diameter_highlight, diameter_exit_fan, diameter_gas_generator
+        return length_nacelle, length_fan_cowl, diameter_highlight, diameter_exit_fan, diameter_gas_generator
