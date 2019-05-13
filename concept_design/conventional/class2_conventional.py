@@ -322,7 +322,7 @@ def det_electrical_weight(L_a, R_kva = 50, N_gen = 0, N_en = 0):
     if N_gen == 0:
         raise NameError("No generators?")
     electrical_weight = 7.291 * R_kva**0.782 * L_a**0.346 * N_gen**0.10
-    return electrical
+    return electrical_weight
 
 def det_avionics_weight(W_uav = 1100):
     """

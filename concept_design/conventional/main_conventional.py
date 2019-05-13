@@ -118,6 +118,9 @@ for iter in range(1):
     jet_data_list.append(('MTOW_jet',MTOW_jet))
     tbp_data_list.append(('MTOW_tbp',MTOW_tbp))
 
+    MTOM_jet = MTOW_jet/g
+    MTOM_tbp = MTOW_jet/g
+
     ## WING LOADING AND POWER LOADING
     W_S_landing_jet = wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet)
     W_S_landing_tbp = wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
@@ -140,7 +143,7 @@ for iter in range(1):
 
     ## SIZING
     # Fuselage
-    length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
+    length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, diameter_fuselage_inside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
 
     # Append to data list
     jet_data_list.append(('L_fuselage_jet ', length_fuselage))
@@ -273,16 +276,110 @@ for iter in range(1):
     tbp_data_list.append(('nacelle_group_weight_tbp', nacelle_group_weight_tbp))
 
     # Engine controls weight
-    engine_controls_weight_jet = pounds_to_kg(class2.det_engine_controls_weight(2,40)
-    engine_controls_weight_tbp = pounds_to_kg(class2.det_engine_controls_weight(2,40)
+    engine_controls_weight_jet = pounds_to_kg(class2.det_engine_controls_weight(2,40))
+    engine_controls_weight_tbp = pounds_to_kg(class2.det_engine_controls_weight(2,40))
 
     # Append to data list
     tbp_data_list.append(('engine_controls_weight_tbp', engine_controls_weight_tbp))
     jet_data_list.append(('engine_controls_weight_jet', engine_controls_weight_jet))
 
     # Starter weight
-    
+    starter_weight_jet = pounds_to_kg(class2.det_starter_weight(2, kg_to_pounds(800)))
+    starter_weight_tbp = pounds_to_kg(class2.det_starter_weight(2, kg_to_pounds(600)))
+
+    # Append to data list
+
+    tbp_data_list.append(('starter_weight_tbp', starter_weight_tbp))
+    jet_data_list.append(('starter_weight_jet', starter_weight_jet))
+
+    # Fuel system
+
+    flight_controls_weight_jet = pounds_to_kg(class2.det_flight_controls_weight(metersquared_to_feetsquared(0.3*S_h_jet+0.05*S_jet), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_jet)*0.34**2)/(4*32.19), N_f = 6, N_m = 1))
+    flight_controls_weight_tbp = pounds_to_kg(class2.det_flight_controls_weight(metersquared_to_feetsquared(0.3*S_h_tbp+0.05*S_tbp), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_tbp)*0.34**2)/(4*32.19), N_f = 6, N_m = 1))
+
+    # Append to data list
+
+    tbp_data_list.append(('flight_controls_weight_tbp', flight_controls_weight_tbp))
+    jet_data_list.append(('flight_controls_weight_jet', flight_controls_weight_jet))
+
+    # Instruments
+
+    instruments_weight_jet = pounds_to_kg(class2.det_instruments_weight(2, 2, meter_to_feet(length_fuselage), meter_to_feet(b_jet), reciprocating = False, turboprop = True))
+    instruments_weight_tbp = pounds_to_kg(class2.det_instruments_weight(2, 2, meter_to_feet(length_fuselage), meter_to_feet(b_tbp), reciprocating = False, turboprop = True))
+
+    # Append to data list
+
+    tbp_data_list.append(('instruments_weight_tbp', instruments_weight_tbp))
+    jet_data_list.append(('instruments_weight_jet', instruments_weight_jet))
+
+    # Hydraulics
+
+    hydraulics_weight_jet = pounds_to_kg(class2.det_hydraulics_weight(meter_to_feet(length_fuselage), meter_to_feet(b_jet), N_f = 6))
+    hydraulics_weight_tbp = pounds_to_kg(class2.det_hydraulics_weight(meter_to_feet(length_fuselage), meter_to_feet(b_tbp), N_f = 6))
+
+    # Append to data list
+
+    tbp_data_list.append(('hydraulics_weight_tbp', hydraulics_weight_tbp))
+    jet_data_list.append(('hydraulics_weight_jet', hydraulics_weight_jet))
+
+    # Electrical
+
+    electrical_weight_jet = pounds_to_kg(class2.det_electrical_weight(200, R_kva = 50, N_gen = 0, N_en = 2)) #plug in better numbers
+    electrical_weight_tbp = pounds_to_kg(class2.det_electrical_weight(200, R_kva = 50, N_gen = 0, N_en = 2)) #plug in better numbers
+
+    # Append to data list
+    tbp_data_list.append(('electrical_weight_tbp', electrical_weight_tbp))
+    jet_data_list.append(('electrical_weight_jet', electrical_weight_jet))
+
+    # Avionics
+
+    avionics_weight_jet = pounds_to_kg(class2.det_avionics_weight(W_uav = 1100))
+    avionics_weight_tbp = pounds_to_kg(class2.det_avionics_weight(W_uav = 1100))
+
+    # Append to data list
+    tbp_data_list.append(('avionics_weight_tbp', avionics_weight_tbp))
+    jet_data_list.append(('avionics_weight_jet', avionics_weight_jet))
+
+    # Furnishings
+    furnishings_weight_jet = pounds_to_kg(class2.det_furnishings_weight(2, kg_to_pounds(13.608*60), metersquared_to_feetsquared(np.pi * diameter_fuselage_outside * length_fuselage)))
+    furnishings_weight_tbp = pounds_to_kg(class2.det_furnishings_weight(2, kg_to_pounds(13.608*60), metersquared_to_feetsquared(np.pi * diameter_fuselage_outside * length_fuselage)))
+
+    # Append to data list
+    tbp_data_list.append(('furnishings_weight_tbp', furnishings_weight_tbp))
+    jet_data_list.append(('furnishings_weight_jet', furnishings_weight_jet))
+
+    # Airconditioning
+    pres_vol = np.pi / 4 * diameter_fuselage_inside**2 * (length_nose + length_nose)
+    aircond_weight_jet = pounds_to_kg(class2.det_aircond_weight(n_passenger+n_crew, metercubed_to_feetcubed(pres_vol), W_uav = 1100))
+    aircond_weight_tbp = pounds_to_kg(class2.det_aircond_weight(n_passenger+n_crew, metercubed_to_feetcubed(pres_vol), W_uav = 1100))
+
+    # Append to data list
+    tbp_data_list.append(('aircond_weight_tbp', aircond_weight_tbp))
+    jet_data_list.append(('aircond_weight_jet', aircond_weight_jet))
+
+    # Anti-ice
+    anti_ice_weight_jet = pounds_to_kg(class2.det_anti_ice_weight(kg_to_pounds(MTOW_jet)))
+    anti_ice_weight_tbp = pounds_to_kg(class2.det_anti_ice_weight(kg_to_pounds(MTOW_tbp)))
+
+    # Append to data list
+    tbp_data_list.append(('anti_ice_weight_tbp', anti_ice_weight_tbp))
+    jet_data_list.append(('anti_ice_weight_jet', anti_ice_weight_jet))
+
+    # Handling gear
+    handling_gear_weight_jet = pounds_to_kg(class2.det_handling_gear_weight(kg_to_pounds(MTOW_jet)))
+    handling_gear_weight_tbp = pounds_to_kg(class2.det_handling_gear_weight(kg_to_pounds(MTOW_tbp)))
+
+    # Append to data list
+    tbp_data_list.append(('handling_gear_weight_tbp', handling_gear_weight_tbp))
+    jet_data_list.append(('handling_gear_weight_jet', handling_gear_weight_jet))
+
     # Total weight
+    OEW_new_jet = wing_weight_jet + hor_tail_weight_jet + ver_tail_weight_jet + fuselage_weight_jet + main_lg_weight_jet + nose_lg_weight_jet + engine_controls_weight_jet + starter_weight_jet + flight_controls_weight_jet + instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet + aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet
+    OEW_new_tbp = wing_weight_tbp + hor_tail_weight_tbp + ver_tail_weight_tbp + fuselage_weight_tbp + main_lg_weight_tbp + nose_lg_weight_tbp + nacelle_group_weight_tbp + engine_controls_weight_tbp + starter_weight_tbp + flight_controls_weight_tbp + instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_jet + aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp
+
+    # Append to data list
+    tbp_data_list.append(('OEW_new_tbp', OEW_new_tbp))
+    jet_data_list.append(('OEW_new_jet', OEW_new_jet))
 
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
