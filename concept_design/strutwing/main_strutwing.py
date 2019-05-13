@@ -99,6 +99,12 @@ print(det_fuselage_weight(kg_to_pounds(MTOW_tbp), 1.5*ult_load_factor(kg_to_poun
 print(det_main_lg_weight(kg_to_pounds(MTOW_tbp), 4.5, meter_to_inch(wheel_height), 4, 2, ms_to_knots(V_stall_tbp)))
 print(det_nose_lg_weight(kg_to_pounds(MTOW_tbp), 4.5, meter_to_inch(wheel_height), 2))
 
+furnishings_weight = det_furnishings_weight(n_crew, 13.608*60, metersquared_to_feetsquared(np.pi * diameter_fuselage_outside * length_fuselage))
+pres_vol = np.pi / 4 * diameter_fuselage_inside**2 * (length_nose + length_nose)
+aircond_weight = det_aircond_weight(n_passenger, metercubed_to_feetcubed(pres_vol))
+anti_ice_weight = det_anti_ice_weight(kg_to_pounds(MTOW_tbp))
+handling_gear_weight = det_handling_gear_weight(kg_to_pounds(MTOW_tbp))
+
 MTOM_tbp = MTOW_tbp / g
 
 print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))

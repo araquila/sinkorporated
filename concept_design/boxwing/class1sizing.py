@@ -89,7 +89,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
 def enginedimensions(n_engines, T_TO_jet):
 
 
-    bypass_ratio=8
+    bypass_ratio=5
     a_0=340.3 #[m/s]
     e_nozzle=0.97
     e_tf=0.75
@@ -107,6 +107,7 @@ def enginedimensions(n_engines, T_TO_jet):
     jettypeB = True
     jettypeC = False
     if jettypeB:
+        phi_fan_cowling = 1.
         c_l_nacelle=9.8
         delta_l_nacelle=0.05
         beta_nacelle=0.35
@@ -131,4 +132,17 @@ def enginedimensions(n_engines, T_TO_jet):
     #gas generator cowling at gas generator exit diameter
     diameter_gas_generator=0.55*diameter_gas_generato_fan
 
-    return length_nacelle, diameter_highlight, diameter_exit_fan, diameter_gas_generator
+    return length_fan_cowl, diameter_nacelle, length_generator, length_nacelle, diameter_highlight, diameter_exit_fan, diameter_gas_generator, diameter_inlet
+
+def empennage(V_v, l_v, S, b):
+    S_v = (V_v * S * b) / l_v
+
+    #Statistical Values
+    AR_v = 1.5
+    taper_v = 0.7
+    sweepLE_v = 35
+
+    span_v = np.sqrt(AR_v * S_v)
+    av_chord_v = span_v / AR_v
+    root_chord_v = av_chord_v / (0.5*(1+taper_v))
+    tip_chord_v = root_chord_v * taper_v
