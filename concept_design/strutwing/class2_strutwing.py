@@ -326,7 +326,7 @@ def det_avionics_weight(W_uav = 1100):
     avionics_weight = 1.73 * W_uav**0.983
     return avionics_weight
 
-def det_furnishings_weight():
+def det_furnishings_weight(N_c, W_c, S_f):
     """
     inputs:
     N_c = number of crew
