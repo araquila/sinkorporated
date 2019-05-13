@@ -70,7 +70,7 @@ A_jet = 10
 e_jet = 0.8                         # Adjust per concept
 cj_loiter_jet = 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
 cj_cruise_jet = 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
-V_cruise_jet =  200                 # [m/s]
+V_cruise_jet =  236.11                 # [m/s]
 S_jet = 61
 TOP_jet = 6698
 M_cruise_jet = V_cruise_jet/speed_of_sound
@@ -137,7 +137,7 @@ for iter in range(1):
     ## SIZING
     # Fuselage
     length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
-    
+
     # Append to data list
     jet_data_list.append(('L_fuselage_jet ', length_fuselage))
     tbp_data_list.append(('L_fuselage_tbp ', length_fuselage))
@@ -147,7 +147,7 @@ for iter in range(1):
     b_tbp, taper_tbp, root_chord_tbp, tip_chord_tbp, t_c_ratio_tbp = det_planform(S_tbp, A_tbp, M_cruise_tbp, C_L_cruise_tbp, sweep_tbp)
     dihedral_angle_tbp = det_dihedral_angle(sweep_tbp, high=True)
     MAC_tbp = MAC(root_chord_tbp, t_c_ratio_tbp)
-    
+
     # Append to data list
     tbp_data_list.append(('b_tbp ', b_tbp))
 
@@ -156,7 +156,7 @@ for iter in range(1):
     b_jet, taper_jet, root_chord_jet, tip_chord_jet, t_c_ratio_jet = det_planform(S_jet, A_jet, M_cruise_jet, C_L_cruise_jet, sweep_jet)
     dihedral_angle_jet = det_dihedral_angle(sweep_tbp, low=True)
     MAC_jet = MAC(root_chord_jet, t_c_ratio_jet)
-   
+
     # Append to data list
     jet_data_list.append(('b_jet ', b_jet))
 
@@ -165,7 +165,7 @@ for iter in range(1):
     T_TO_jet = T_W_jet_range[0] * MTOW_jet              # Take-off thrust jet [N]
     diameter_engine_tbp, length_engine_tbp, diameter_propeller_tbp = enginedimensions(rho0,n_engines_tbp, P_TO_tbp, T_TO_jet, tbp=True)
     length_nacelle_jet, length_fan_cowling_jet, diameter_highlight_jet, diameter_exit_fan_jet, diameter_gas_generator_jet = enginedimensions(rho0,n_engines_jet, P_TO_tbp, T_TO_jet, jettypeB=True)
-    
+
     # Append to data list
     tbp_data_list.append(('diameter_propeller_tbp ', diameter_propeller_tbp))
     jet_data_list.append(('diameter_highlight_jet ', diameter_highlight_jet))
@@ -200,9 +200,13 @@ for iter in range(1):
     # Append to data list
     tbp_data_list.append(('C_l_des_tbp', C_l_des_tbp))
     jet_data_list.append(('C_l_des_jet', C_l_des_jet))
+<<<<<<< HEAD
     
     
     
+=======
+
+>>>>>>> refs/remotes/origin/master
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
     for value in jet_data_list:
