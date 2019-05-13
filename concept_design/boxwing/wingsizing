@@ -33,3 +33,18 @@ sweep2 = -atan((Fus_len + vtail_xoffset - Fus_len*frac_qtrchord_fus - b/2*tan(sw
 
 print(sweep1, sweep2)
 print(b, cr2, ct2)
+
+AR_v = 1.5
+sweepv = 30
+taperv = 0.7
+ctv = cr2
+crv = ctv/taperv
+bv = AR_v*(ctv+crv)/2
+def cg_prandtl():
+    fus_cg = 0.47*Fus_len
+    wing1_cg = frac_qtrchord_fus*Fus_len + sin(sweep1)*0.35*b/2 + (cr1-(cr1-ct1)*0.35)*0.35
+    wing2_cg = Fus_len - crv + sin(sweep2)*0.35*b/2 + (cr2-(cr2-ct2)*0.35)*0.35 + sin(sweepv)*bv + 0.25*ctv
+    tailv_cg = Fus_len - crv + sin(sweepv)*0.55*bv/2 + (crv-(crv-ctv)*0.55)*0.42
+
+
+print(bv)
