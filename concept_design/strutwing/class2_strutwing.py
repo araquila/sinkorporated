@@ -57,7 +57,7 @@ def det_hor_tail_weight(F_w, B_h, W_dg, N_z, S_ht, L_t, quarter_chord_sweep_ht, 
         K_uht = 1.143
     if K_y == 0.3:
         K_y = 0.3 * L_t
-    hor_tail_weight = 0.0379 * K_uht * (1 + F_w/B_h)**-0.25 * W_dg**0.639 * N_z**0.10 * S_ht**0.75 * L_t^-1 * K_y**0.704 * np.cos(quarter_chord_sweep_ht)**-1 * A_h**0.166 * (1 + S_e/S_ht)**0.1
+    hor_tail_weight = 0.0379 * K_uht * (1 + F_w/B_h)**-0.25 * W_dg**0.639 * N_z**0.10 * S_ht**0.75 * L_t**-1 * K_y**0.704 * np.cos(quarter_chord_sweep_ht)**-1 * AR_ht**0.166 * (1 + S_e/S_ht)**0.1
     return hor_tail_weight
 
 def det_vert_tail_weight(H_ht, H_vt, W_dg, N_z, L_t, S_vt, quarter_chord_sweep_vt, AR_vt, t_c_root_vt, K_z = 1):
@@ -80,8 +80,8 @@ def det_vert_tail_weight(H_ht, H_vt, W_dg, N_z, L_t, S_vt, quarter_chord_sweep_v
     outputs:
     vertical tail weight in lb
     """
-    if K_y == 1:
-        K_y = L_t
+    if K_z == 1:
+        K_z = L_t
     vert_tail_weight = 0.0026 * (1 + H_ht/H_vt)**0.225 * W_dg**0.556 * N_z**0.536 * L_t**-0.5 * S_vt**0.5 * K_z**0.875 * np.cos(quarter_chord_sweep_vt)**-1 * AR_vt**0.35 * t_c_root_vt**-0.5
     return vert_tail_weight
 
@@ -242,7 +242,7 @@ def det_flight_controls_weight(S_cs, I_y, N_f = 6, N_m = 1):
     outputs:
     flight controls weight in lb
     """
-    flight_controls_weight = 149.9* N_f**0.554 * (1 + N_m / N_f)^-1 * S_cs**0.2 *(I_y * 10**-6)**0.07
+    flight_controls_weight = 149.9* N_f**0.554 * (1 + N_m / N_f)**-1 * S_cs**0.2 *(I_y * 10**-6)**0.07
     return flight_controls_weight
 
 def det_APU_weight(W_APU_uninstalled):

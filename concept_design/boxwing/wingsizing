@@ -7,18 +7,19 @@ MTOW, OEW, WF = class1box()
 WS = 3080
 S = MTOW/WS
 S = S * 1.36
+
 s1frac = 0.5
 s2frac = 1 - s1frac
 length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside = fuselage(60,4,4,1)
 S1 = S * s1frac
 S2 = S * s2frac
-AR1 = 10
-AR2 = 10
+AR1 = 12
+AR2 = 12
 Fus_len = length_fuselage
 frac_qtrchord_fus = 0.35
 
 #empennage initial input
-vtail_xoffset = 1
+
 
 taper1 = 0.3
 sweep1 = (2-taper1/0.2)*180/pi
@@ -29,7 +30,25 @@ print(b,cr1,ct1)
 
 ct2 = ct1
 cr2 = (2*S2-ct2*b)/b
+AR_v = 0.8
+sweepv = 30
+taperv = 0.7
+ctv = cr2
+crv = ctv/taperv
+bv = AR_v*(ctv+crv)/2
+Sv = bv**2 / AR_v
+vtail_xoffset = -crv + sin(sweepv*pi/180)*bv + ctv
 sweep2 = -atan((Fus_len + vtail_xoffset - Fus_len*frac_qtrchord_fus - b/2*tan(sweep1/180*pi) - 0.75*cr2 )/(b/2))*180/pi
 
 print(sweep1, sweep2)
 print(b, cr2, ct2)
+
+
+def cg_prandtl():
+    fus_cg = 0.47*Fus_len
+    wing1_cg = frac_qtrchord_fus*Fus_len + sin(sweep1*pi/180)*0.35*b/2 + (cr1-(cr1-ct1)*0.35)*0.35
+    wing2_cg = Fus_len - crv + sin(sweep2*pi/180)*0.35*b/2 + (cr2-(cr2-ct2)*0.35)*0.35 + sin(sweepv*pi/180)*bv + 0.25*ctv
+    tailv_cg = Fus_len - crv + sin(sweepv*pi/180)*0.55*bv/2 + (crv-(crv-ctv)*0.55)*0.42
+
+
+print(bv)
