@@ -295,7 +295,7 @@ def det_hydraulics_weight(L_f, B_w, N_f = 6):
     hydraulics_weight = 0.2673 * N_f * (L_f + B_w)**0.937
     return hydraulics_weight
 
-def det_electrical_weight(R_kva = 50, N_gen = 0, N_en = 0):
+def det_electrical_weight(L_a, R_kva = 50, N_gen = 0, N_en = 0):
     """
     inputs:
     L_a = electrical routing distance, generators to avionics to cockpit, in ft
