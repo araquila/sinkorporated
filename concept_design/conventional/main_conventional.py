@@ -7,6 +7,8 @@ from wingloadingfunctions import T_W_calc, W_P_climb_calc
 from class1sizing_conventional import fuselage, det_quarter_chord_sweep, det_planform, det_dihedral_angle, enginedimensions, MAC, empennage, undercarriage, tiresizing
 from atmosphere import atmosphere_calc
 from cg_determination import x_lemac_tbp, x_lemac_jet
+from fuel_fraction import fuel_fraction
+from class2_conventional import C_L_des, C_l_des
 import numpy as np
 
 jet_data_list = []
@@ -103,8 +105,8 @@ nose_landing_pos_tbp = 3                # [m]
 for iter in range(1):
 
     ## CLASS I
-    MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, jet = True)
-    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, tbp = True)
+    MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet, f_cruise_start_jet, f_cruise_end_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, jet = True)
+    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, tbp = True)
 
     jet_data_list.append(('MTOW_jet',MTOW_jet))
     tbp_data_list.append(('MTOW_tbp',MTOW_tbp))
@@ -178,7 +180,14 @@ for iter in range(1):
     jet_data_list.append(('S_v_jet', S_v_jet))
 
     ## CLASS II
-    
+    q_jet = 0.5*rho*V_cruise_jet**2
+    q_tbp = 0.5*rho*V_cruise_tbp**2
+    C_L_des_jet = C_L_des(q_jet,f_cruise_start_jet*MTOW_jet,f_cruise_end_jet*MTOW_jet)
+    C_l_des_jet = C_l_des(C_L_des_jet,sweep_jet)
+    C_L_des_tbp = C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp,f_cruise_end_tbp*MTOW_tbp)
+    C_l_des_tbp = C_l_des(C_L_des_tbp,sweep_tbp)
+
+    print(f_cruise_start_jet, f_cruise_start_tbp)
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
     for value in jet_data_list:
