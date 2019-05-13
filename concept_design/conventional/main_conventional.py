@@ -4,7 +4,7 @@
 from class1_conventional import Weights_Class_I
 from power_wingloading_conventional import wingloading_jet, wingloading_tbp
 from wingloadingfunctions import T_W_calc, W_P_climb_calc
-from class1sizing_conventional import fuselage, det_quarter_chord_sweep, det_planform
+from class1sizing_conventional import fuselage, det_quarter_chord_sweep, det_planform, det_dihedral_angle, enginedimensions
 from atmosphere import atmosphere_calc
 import numpy as np
 
@@ -66,6 +66,8 @@ V_cruise_jet =  200                 # [m/s]
 S_jet = 61
 TOP_jet = 6698
 M_cruise_jet = V_cruise_jet/speed_of_sound
+C_L_cruise_jet = 0.4
+n_engines_jet = 2
 
 # Tbp
 A_tbp = 12
@@ -79,6 +81,8 @@ M_cruise_tbp = V_cruise_tbp/speed_of_sound
 C_L_cruise_tbp = 0.4
 S_tbp = 76
 TOP_tbp = 139
+n_engines_tbp = 2
+
 
 # Iterator
 for iter in range(1):
@@ -99,7 +103,7 @@ for iter in range(1):
     for i in range(len(W_S_landing_jet)):
         T_W_jet_range[i] = T_W_calc(W_S_landing_jet[i],TOP_jet,1.32)
     
-    P_W_tbp = W_P_climb_calc(eff_cruise_tbp,c,W_S_landing_tbp[0][0],rho,A_tbp,e_tbp,C_D_0_tbp)
+    W_P_tbp = W_P_climb_calc(eff_cruise_tbp,c,W_S_landing_tbp[0][0],rho,A_tbp,e_tbp,C_D_0_tbp)
 
     S_jet = MTOW_jet/W_S_landing_jet[0] #deze is iets anders   
     S_tbp = MTOW_tbp/W_S_landing_tbp[0][0]
@@ -107,15 +111,26 @@ for iter in range(1):
     print('Jet S: ' + str(S_jet) + ' [m^2]')
     print('Tbp S: ' + str(S_tbp) + ' [m^2]')
     
-    
     ## SIZING
     # Fuselage
     length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
     print('Length fuselage: ' + str(length_fuselage) + ' [m]')
     
-    # Wing
+    # Wing tbp
     sweep_tbp = det_quarter_chord_sweep(M_cruise_tbp)
-    b_tbp, taper_tbp, root_chord_tbp, tip_chord_tbp, t_c_ratio_tbp = det_planform(S_tbp, A_tbp, M_cruise_tbp, C_L_cruise_tbp, sweep_tbp)
+    b_tbp, taper_tbp, root_chord_tbp, tip_chord_tbp, t_c_ratio_tbp = det_planform(S_tbp, A_tbp, M_cruise_tbp, C_L_cruise_tbp, sweep_tbp)    
+    dihedral_angle_tbp = det_dihedral_angle(sweep_tbp, high=True)
+    
+    # Wing jet
+    sweep_jet = det_quarter_chord_sweep(M_cruise_jet)
+    b_jet, taper_jet, root_chord_jet, tip_chord_jet, t_c_ratio_jet = det_planform(S_jet, A_jet, M_cruise_jet, C_L_cruise_jet, sweep_jet)    
+    dihedral_angle_jet = det_dihedral_angle(sweep_tbp, low=True)
+    
+    # Engine
+    P_TO_tbp = MTOW_tbp / W_P_tbp                    # Take-off power tbp [W]
+    T_TO_jet = T_W_jet_range * MTOW_jet              # Take-off thrust jet [N]
+    diameter_engine_tbp, length_engine_tbp, diameter_propeller_tbp = enginedimensions(rho0,n_engines_tbp, P_TO_tbp, T_TO_jet, tbp=True)
+    length_nacelle_jet, length_f_jet, diameter_highlight_jet, diameter_exit_fan_jet, diameter_gas_generator_jet = enginedimensions(rho0,n_engines_jet, P_TO_tbp, T_TO_jet, jettypeB=True)
     
 #MTOM_jet = MTOW_jet / g
 #MTOM_tbp = MTOW_tbp / g
