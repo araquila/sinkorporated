@@ -73,6 +73,12 @@ M_cruise_jet = V_cruise_jet/speed_of_sound
 C_L_cruise_jet = 0.4
 n_engines_jet = 2
 
+# Empennage jet
+V_h_jet = 1.07                         # [-]
+V_v_jet = 0.085                          # [-]
+nose_landing_pos_jet = 3                # [m]
+
+
 # Other tbp parameters
 A_tbp = 12
 e_tbp = 0.85                        # Adjust per concept
@@ -86,6 +92,11 @@ C_L_cruise_tbp = 0.4
 S_tbp = 76
 TOP_tbp = 139
 n_engines_tbp = 2
+
+# Empennage tbp
+V_h_tbp = 1.57                          # [-]
+V_v_tbp = 0.07                          # [-]
+nose_landing_pos_tbp = 3                # [m]
 
 
 # Iterative sizing process
@@ -149,7 +160,15 @@ for iter in range(1):
     #CG and undercarriage
     x_lemac_tbp = x_lemac_tbp(0.4*length_fuselage,MAC_tbp)
     x_lemac_jet = x_lemac_jet(0.4*length_fuselage,MAC_jet)
-
+    l_h_jet, l_v_jet = 0.9*length_fuselage-(x_lemac_jet+0.25*MAC_jet), 0.9*length_fuselage-(x_lemac_jet+0.25*MAC_jet)                           # [m]
+    l_h_tbp, l_v_tbp = 0.9*length_fuselage-(x_lemac_tbp+0.25*MAC_tbp), 0.9*length_fuselage-(x_lemac_tbp+0.25*MAC_tbp)
+    main_landing_pos_jet = x_lemac_jet+0.4*MAC_jet               # [m]
+    main_landing_pos_tbp = x_lemac_tbp+0.4*MAC_tbp             # [m]
+    AR_h_jet, AR_v_jet, S_h_jet, span_h_jet, root_chord_h_jet, tip_chord_h_jet, sweepqc_h_jet, sweepLE_h_jet, S_v_jet, span_v_jet, root_chord_v_jet, tip_chord_v_jet, sweepLE_v_jet = empennage(V_h_jet, V_v_jet, l_h_jet, l_v_jet, S_jet, b_jet, MAC_jet)
+    wheel_height_jet, lateral_position_jet = undercarriage(main_landing_pos_jet, nose_landing_pos_jet, length_fuselage, length_tail, diameter_fuselage_outside)
+    AR_h_tbp, AR_v_tbp, S_h_tbp, span_h_tbp, root_chord_h_tbp, tip_chord_h_tbp, sweepqc_h_tbp, sweepLE_h_tbp, S_v_tbp, span_v_tbp, root_chord_v_tbp, tip_chord_v_tbp, sweepLE_v_tbp = empennage(V_h_tbp, V_v_tbp, l_h_tbp, l_v_tbp, S_tbp, b_tbp, MAC_tbp)
+    wheel_height_tbp, lateral_position_tbp = undercarriage(main_landing_pos_tbp, nose_landing_pos_tbp, length_fuselage, length_tail, diameter_fuselage_outside)
+    ## PRINT RELEVANT DATA
     ## PRINT RELEVANT DATA
     print('### JET VALUES ###')
     for value in jet_data_list:
