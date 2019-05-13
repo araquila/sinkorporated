@@ -2,9 +2,11 @@
 
 # Import modules
 from class1_liftingbody import *
+from class2_liftingbody import *
 from class1sizing_liftingbody import *
 from power_wingloading_liftingbody import *
 from atmosphere import *
+from conversion_formulas import *
 
 # Decide whether you like jet or turboprop:
 jet = True
@@ -66,7 +68,7 @@ C_L = 0.4                            # during cruise
 ################################## Jet #######################################
 C_fe_jet = 0.003
 S_jet = 60                               # Adjust per concept
-S_wet_jet = 4 * S_jet                  # Adjust per concept
+S_wet_jet = 4.5 * S_jet                  # Adjust per concept
 A_jet = 12                          # Adjust per concept
 e_jet = 0.85                        # Adjust per concept
 cj_loiter_jet = 17/1e6         # [g/Ns]
@@ -120,8 +122,9 @@ cV_tbp = 0.083 #from CS23.65 climb gradient
 # Weight estimation and wing loading----------------------------------------
 for iter in range(1):
     if jet == True:
+        ##################### CLASS I ############################
         # Weight estimations
-        MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet = Weights_Class_I_jet(W_empty_jet, W_payload, W_crew, C_fe_jet, S_jet, S_wet_jet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel)
+        MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I_jet(W_empty_jet, W_payload, W_crew, C_fe_jet, S_jet, S_wet_jet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel)
         W_landing_jet = 0.98 * MTOW_jet
         #print("jet:", W_fuel_jet/MTOW_jet, MTOW_jet/g, OEW_jet/g, W_fuel_jet/g, C_D_0_jet)
         # Wing loading
@@ -132,7 +135,7 @@ for iter in range(1):
         C_D_0_jet, C_D_jet_curr, A_jet, e_jet, c, cV_jet, n_max_man)
 
         # Fuselage sizing
-        length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
+        length_nose, length_nosecone, length_cabin, length_tail, length_tailcone, length_fuselage, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
 
         # Wing sizing
         # Required inputs
@@ -140,7 +143,7 @@ for iter in range(1):
         S = MTOW_jet/W_S_jet                   # Depends on loading diagrams!
         Mach_cruise = Mach_cruise_jet
         C_L_cruise = MTOW_jet / (0.5 * rho * V_cruise_jet**2 * S)
-        print("Cruise:", C_L_cruise, S)
+        print("Cruise:", C_L_cruise, S, MTOW_jet)
         # Wing sweep
         sweep_chord_0_25 = det_quarter_chord_sweep(Mach_cruise, supercritical = False, delta_mach = 0.03)
         # Determine required surface area of the wing
@@ -151,7 +154,7 @@ for iter in range(1):
         # Wing dihedral - it requires input on wing position!
         dihedral = det_dihedral_angle(sweep_chord_0_25, low = True)
         MAC = S_wing/b
-        print("Wing:", length_cabin, length_fuselage, S_wing, b, taper, dihedral)
+        print("Wing:", S_wing, b, taper, dihedral, t_c_ratio)
         # Engine sizing
         T_TO_jet = 0.296 * MTOW_jet          # Depends on loading diagrams!
         length_nacelle, length_f, diameter_highlight, diameter_exit_fan, diameter_gas_generator = enginedimensions_jet(rho0, n_engines, T_TO_jet, jettypeC=True)
@@ -174,9 +177,39 @@ for iter in range(1):
         tire_pressure, P_mw, P_nw = tiresizing(MTOW_jet, LCN)
         print("Tires:", tire_pressure, P_mw, P_nw)
 
+        ##################### CLASS II ############################
+
+        n_max_man = ult_load_factor(MTOW_jet)
+
+        # Determine design C_L and c_l
+        q = 0.5 * rho * V_cruise_jet**2
+        W_S_cruise_start = MTOW_jet * f_cruise_start_jet / S_wing
+        W_S_cruise_end = MTOW_jet * f_cruise_end_jet / S_wing
+        C_L_des = C_L_des(q, W_S_cruise_start, W_S_cruise_end)
+        print("Design C_L:",C_L_des)
+
+        C_l_des = C_l_des(C_L_des, sweep_chord_0_25)
+        print("Design c_l", C_l_des)
+
+        # Determine weight of the wing
+        W_dg = kg_to_pounds(MTOW_jet/g)
+        N_z = 1.5*n_max_man
+        S_w = metersquared_to_feetsquared(S_wing)
+        S_csw = 0.05*S_w
+        wing_weight = g*pounds_to_kg(det_wing_weight(W_dg, N_z, S_w, A_jet, t_c_ratio, taper, sweep_chord_0_25, S_csw))
+        print("Wing weight:", wing_weight)
+
+        # Determine weight of the horizontal tail
+        length_fus_min_cones = length_fuselage - length_nosecone - length_tailcone
+        B_w = meter_to_feet(b)
+        S_f = metersquared_to_feetsquared(length_fuselage*(diameter_fuselage_outside+2.4)*0.9)
+        fuselage_weight = g*pounds_to_kg(det_fuselage_weight(W_dg, N_z, length_fus_min_cones, S_f, taper, B_w, sweep_chord_0_25, LD_cruise_jet, cargo_doors = 1, fuselage_mounted_lg = False))
+        print("Fuselage weight:", fuselage_weight)
+        # elevator = 0.33
+
     if tbp == True:
         # Weight estimation
-        MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp = Weights_Class_I_tbp(W_empty_tbp, W_payload, W_crew, C_fe_tbp, S_tbp, S_wet_tbp, A_tbp, e_tbp,  eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel)
+        MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I_tbp(W_empty_tbp, W_payload, W_crew, C_fe_tbp, S_tbp, S_wet_tbp, A_tbp, e_tbp,  eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel)
         W_landing_tbp = 0.98 * MTOW_tbp
         print("turboprop:", W_fuel_tbp/MTOW_tbp, MTOW_tbp/g, OEW_tbp/g, W_fuel_tbp/g, C_D_0_tbp)
         # Wing loading
@@ -187,7 +220,7 @@ for iter in range(1):
         C_D_0_tbp, C_D_tbp_curr, A_tbp, eff_prop, e_tbp, c, cV_tbp, n_max_man)
 
         # Fuselage sizing
-        length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
+        length_nose, length_nosecone, length_cabin, length_tail, length_tailcone, length_fuselage, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
 
         # Wing sizing
         A = A_tbp
