@@ -1,7 +1,7 @@
             #SI tu US
 
 def meter_to_inch(length_in_meter):
-    length_in_inch = 39.3701 * length_meter
+    length_in_inch = 39.3701 * length_in_meter
     return length_in_inch
 
 def meter_to_feet(length_in_meter):
