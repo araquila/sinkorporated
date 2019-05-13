@@ -54,6 +54,21 @@ mtoft = 3.2808399
 MTOWlbs = MTOW/g*kgtolbs
 n_lim = ult_load_factor(MTOWlbs)
 n_ult = n_lim*1.5
+V_cruise = 229
+alt_cruise = 35000/mtoft
+a_cruise = 296
+M_cruise = V_cruise/a_cruise
+M_cross = 0.935
+M_dd = M_cruise + 0.03
+qhat = 0.5*1.4*23842*M_cruise**2
+Clhat1 = MTOW/(qhat*S1)
+Clhat2 = MTOW/(qhat*S2)
+sweephalfchord1 = atan((sin(sweep1/180*pi)*b/2+ct1/4)/(b/2))
+sweephalfchord2 = atan((sin(sweep2/180*pi)*b/2+ct2/4)/(b/2))
+t_c1 = min((0.18, ((cos(sweephalfchord1)**3*(M_cross-M_dd*cos(sweephalfchord1))-0.115*Clhat1**1.5)/(cos(sweephalfchord1)**2))))
+t_c2 = min((0.18, ((cos(sweephalfchord2)**3*(M_cross-M_dd*cos(sweephalfchord2))-0.115*Clhat2**1.5)/(cos(sweephalfchord2)**2))))
+print(t_c1,t_c2)
+#desing cruise speed, diving speed, t_c
 S_control_ail = 0.05*S
 S_control_elev = 0.03*S
 wing_weight1_conv = det_wing_weight(MTOWlbs, n_ult, S1*mtoft**2, AR1, 0.13, taper1, sweep1/180*pi, S_control_ail*mtoft**2)
