@@ -11,6 +11,7 @@ from cg_determination import x_lemac_tbp_calc, x_lemac_jet_calc
 from fuel_fraction import fuel_fraction
 from conversion_formulas import *
 import class2_conventional as class2
+from sustainability_functions import CO2_calc
 import numpy as np
 
 ## INPUTS AND CONSTANTS
@@ -22,17 +23,17 @@ V_landing = 48.93                   #[m/s] maximum landing speed that is allowed
 
 # Atmospherical parameters at cruise altitude
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
-c = 10                              #[m/s] climb rate THIS IS INPUT
 
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
 S = 1
 S_wet = 5 * S
+c = 10                                  #[m/s]
 
 # Other jet parameters
 A_jet = 10
-e_jet = 0.8                         # Adjust per concept
-V_cruise_jet =  236.11                 # [m/s]
+e_jet = 0.8                         
+V_cruise_jet =  236.11                  # [m/s]
 S_jet = 61
 TOP_jet = 6698
 M_cruise_jet = V_cruise_jet/speed_of_sound
@@ -40,19 +41,19 @@ C_L_cruise_jet = 0.4
 C_L_max_jet = 2.3
 C_L_max_land_jet = 2.3
 C_L_max_TO_jet = 1.7
-range_cruise_jet = 1850000          # [m]
-endurance_loiter_jet = 2700         # [s]
+range_cruise_jet = 1850000               # [m]
+endurance_loiter_jet = 2700              # [s]
 
 # Empennage jet
-V_h_jet = 1.07                         # [-]
+V_h_jet = 1.07                           # [-]
 V_v_jet = 0.085                          # [-]
-nose_landing_pos_jet = 3                # [m]
+nose_landing_pos_jet = 3                 # [m]
 
 # Other tbp parameters
 A_tbp = 12
-e_tbp = 0.85                        # Adjust per concept
-V_loiter_tbp = 80                   # [m/s]
-V_cruise_tbp = 180                  # [m/s]
+e_tbp = 0.85                             # Adjust per concept
+V_loiter_tbp = 80                        # [m/s]
+V_cruise_tbp = 180                       # [m/s]
 M_cruise_tbp = V_cruise_tbp/speed_of_sound
 C_L_cruise_tbp = 0.8
 S_tbp = 76
@@ -60,28 +61,28 @@ TOP_tbp = 139
 C_L_max_tbp = 2.6
 C_L_max_land_tbp = 2.6
 C_L_max_TO_tbp = 1.6
-range_cruise_tbp = 1850000         # [m]
-endurance_loiter_tbp = 2700         # [s]
+range_cruise_tbp = 1850000               # [m]
+endurance_loiter_tbp = 2700              # [s]
 
 # Empennage tbp
-V_h_tbp = 1.57                          # [-]
-V_v_tbp = 0.07                          # [-]
-nose_landing_pos_tbp = 3                # [m]
+V_h_tbp = 1.57                           # [-]
+V_v_tbp = 0.07                           # [-]
+nose_landing_pos_tbp = 3                 # [m]
 
 # Dynamic pressure
-q_jet = 0.5*rho*V_cruise_jet**2     # [n/m2]
-q_tbp = 0.5*rho*V_cruise_tbp**2     # [n/m2]
+q_jet = 0.5*rho*V_cruise_jet**2          # [n/m2]
+q_tbp = 0.5*rho*V_cruise_tbp**2          # [n/m2]
 
 # Engine characteristics
-thrust_to_weight_jet = 2/3*73.21        # [N/kg]
-cj_loiter_jet = 12.5e-6               # (0.4-0.6) [g/j] Propfan: 0.441
-cj_cruise_jet = 12.5e-6               # (0.5-0.9) [g/j] Propfan: 0.441
+thrust_to_weight_jet = 2/3*73.21         # [N/kg]
+cj_loiter_jet = 12.5e-6                  # (0.4-0.6) [g/j] Propfan: 0.441
+cj_cruise_jet = 12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
-power_to_weight_tbp = 4000          # [W/kg]
-eff_cruise_tbp = 0.85               # [-]
-eff_loiter_tbp = 0.77               # [-]
-cp_cruise_tbp = 90e-9               # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = 90e-9               # (0.5-0.7) [kg/ns]
+power_to_weight_tbp = 4000               # [W/kg]
+eff_cruise_tbp = 0.85                    # [-]
+eff_loiter_tbp = 0.77                    # [-]
+cp_cruise_tbp = 0.8 * 90e-9              # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = 0.8 * 90e-9              # (0.5-0.7) [kg/ns]
 
 # Iterative sizing process
 for iter in range(10):
@@ -353,8 +354,6 @@ def print_flight_char_data():
     print_list(flight_char_data_jet)
     print_list(flight_char_data_tbp)
     
-print('MTOM tbp: ' + str(MTOM_tbp))
-print('MTOM jet: ' + str(MTOM_jet))
 #Calculate performance for 1000 km trip
 MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, jet = True, tbp = False)
 MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
@@ -362,4 +361,13 @@ MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruis
 fuel_per_passenger_jet_1000 = (W_fuel_jet_1000/n_passenger)/g
 fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
 
-print(fuel_per_passenger_jet_1000,fuel_per_passenger_tbp_1000)
+CO2_tbp = CO2_calc(fuel_per_passenger_tbp_1000)
+CO2_jet = CO2_calc(fuel_per_passenger_jet_1000)
+
+print('MTOM tbp: ' + str(MTOM_tbp))
+print('Fuel per passenger per 1000 km tbp: ' + str(fuel_per_passenger_tbp_1000))
+print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp))
+print()
+print('MTOM jet: ' + str(MTOM_jet))
+print('Fuel per passenger per 1000 km propfan: ' + str(fuel_per_passenger_jet_1000))
+print('CO2 per passanger per 1000 km propfan: ' + str(CO2_jet))
