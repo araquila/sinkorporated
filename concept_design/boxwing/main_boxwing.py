@@ -61,7 +61,5 @@ M_empty_jet = 13874.75
 
 for i in range(50):
     MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet = class1box(M_empty_jet)
-    M_empty_jet, geometrylistfuselage, geometrylistwings, geometrylistvtail = iterempty(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet)
-    print(M_empty_jet)
-
-print(geometrylistfuselage)
+    M_empty_jet, geometrylistfuselage, geometrylistwings, geometrylistvtail, x_cg , Fus_len= iterempty(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet)
+    print(M_empty_jet, x_cg, Fus_len)
