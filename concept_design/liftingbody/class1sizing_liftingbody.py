@@ -201,7 +201,7 @@ def enginedimensions_jet(rho0, n_engines, T_TO_jet, jettypeB=False, jettypeC=Fal
     #gas generator cowling at gas generator exit diameter
     diameter_gas_generator=0.55*diameter_gas_generato_fan
 
-    return length_nacelle, length_fan_cowl, diameter_highlight, diameter_exit_fan, diameter_gas_generator
+    return length_nacelle, length_fan_cowl, diameter_highlight, diameter_exit_fan, diameter_gas_generator, diameter_nacelle
 
 def empennage(V_h, V_v, l_h, l_v, S, b, c):
     S_h = (V_h * S * c) / l_h
