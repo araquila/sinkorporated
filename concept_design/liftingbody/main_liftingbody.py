@@ -2,13 +2,14 @@
 
 # Import modules
 from constant_variables import *
-from class1_liftingbody import *
-from class2_liftingbody import *
-from class1sizing_liftingbody import *
-from power_wingloading_liftingbody import *
+from class1_liftingbody import Weights_Class_I_jet, Weights_Class_I_tbp
+from power_wingloading_liftingbody import wingloading_jet, wingloading_tbp
+from wingloadingfunctions import T_W_calc, W_P_climb_calc
+from class1sizing_liftingbody import fuselage, det_quarter_chord_sweep, det_planform, det_dihedral_angle, enginedimensions_jet, enginedimensions_tbp, MAC, empennage, undercarriage, tiresizing
 from atmosphere import atmosphere_calc
-from conversion_formulas import *
 from cg_determination import x_lemac_tbp_calc, x_lemac_jet_calc
+from fuel_fraction import fuel_fraction
+from conversion_formulas import *
 import class2_liftingbody as class2
 import numpy as np
 
