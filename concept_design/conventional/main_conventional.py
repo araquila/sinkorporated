@@ -40,7 +40,7 @@ C_L_cruise_jet = 0.4
 C_L_max_jet = 2.3
 C_L_max_land_jet = 2.3
 C_L_max_TO_jet = 1.7
-range_cruise_jet = 18500000         # [m]
+range_cruise_jet = 1850000          # [m]
 endurance_loiter_jet = 2700         # [s]
 
 # Empennage jet
