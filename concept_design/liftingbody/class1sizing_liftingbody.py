@@ -140,6 +140,10 @@ def det_dihedral_angle(sweep, high = False, mid = False, low = False):
     else:
         raise NameError("Where is the wing?")
 
+def MAC(root_chord,t_c_ratio):
+    MAC = root_chord*(2/3)*((1+t_c_ratio+t_c_ratio**2)/(1+t_c_ratio))
+    return MAC
+
 
 
                     #ENGINE DIMENSIONS
