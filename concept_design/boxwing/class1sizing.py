@@ -146,3 +146,37 @@ def empennage(V_v, l_v, S, b):
     av_chord_v = span_v / AR_v
     root_chord_v = av_chord_v / (0.5*(1+taper_v))
     tip_chord_v = root_chord_v * taper_v
+
+def undercarriage(main_landing_pos, nose_landing_pos, length_fuselage, length_tail, diameter_fuselage_outside):
+    dist_to_tail = length_fuselage - main_landing_pos - length_tail
+    scrap_angle = np.radians(15)
+    wheel_height = dist_to_tail * np.tan(scrap_angle)
+
+    lateral_position = (main_landing_pos + nose_landing_pos) / np.sqrt(((nose_landing_pos**2 * np.tan(np.radians(55))**2)/(wheel_height+0.3*diameter_fuselage_outside))-1)
+    return wheel_height, lateral_position
+
+def tiresizing(MTOW, LCN):
+    # LCN is in the range of 25 when looking at reference aircraft
+    if 0 < LCN <= 100:
+        tire_pressure = 430*np.log(LCN) - 630
+    else:
+        print("That is not possible")
+    # This is jsut fixed: Our aircraft is not big enough for more wheels and not small enough for less wheels.
+    N_mw = 4
+    N_nw = 2
+
+    # If MTOW is entered in Newton: This will bring it back to kg
+    if MTOW > 100000:
+        MTOW = MTOW / 9.81
+
+    # Load on each wheel
+    P_mw = (0.92 * MTOW) / N_mw
+    P_nw = (0.08 * MTOW) / N_nw
+
+    # LOOK IN THE SLIDES FOR THE WHEEL DIMENSIONS MATCHING THE TIRE LOAD
+    # Probably the best dimensions will be:
+    # Wheel = outer dimension x width - inner dimension
+    # Main wheel = 0.84 x 0.25 - 0.41
+    # Nose wheel = 0.46 x 0.11 - 0.25
+
+    return tire_pressure, P_mw, P_nw
