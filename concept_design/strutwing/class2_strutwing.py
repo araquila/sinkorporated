@@ -43,7 +43,7 @@ def det_hor_tail_weight(F_w, B_h, W_dg, N_z, S_ht, L_t, quarter_chord_sweep_ht, 
     """
     Inputs:
     F_w = fuselage width at horizontal tail intersection in ft
-    B_h = horizontal tail span
+    B_h = horizontal tail span in ft
     W_dg = design gross weigth in lb
     N_z = ultimate load factor = 1.5 * limit load factor
     S_ht = horizontal tail area in ft^2
