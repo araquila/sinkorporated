@@ -95,24 +95,18 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     W_S_stall = W_S_calc(rho0,V_stall_tbp,C_L_max_tbp_take_max)
 
     ##########take-off################
+    C_L_TO_tbp = CL_TO_calc(C_L_max_TO_tbp)
     k = TOP_aquila_tbp
-    C_L_TO_min_tbp = CL_TO_calc(C_L_max_tbp_take_min)
-    C_L_TO_max_tbp = CL_TO_calc(C_L_max_tbp_take_max)
-    C_L_TO_range_tbp = np.linspace(C_L_TO_min_tbp,C_L_TO_max_tbp,5)
-    TOP_takeoff_tbp = np.zeros(shape=(len(C_L_TO_range_tbp),len(wing_loading_x)))
-    for i in range(len(TOP_takeoff_tbp)):
-        for j in range(len(wing_loading_x)):
-            TOP_takeoff_tbp[i,j] = W_P_calc(wing_loading_x[j],k,C_L_TO_range_tbp[i])
+    TOP_takeoff_tbp = np.zeros(len(wing_loading_x))
+    for i in range(len(wing_loading_x)):
+        TOP_takeoff_tbp[i] = W_P_calc(wing_loading_x[i],k,C_L_TO_tbp)
 
     ##########landing#################
     #in this parth the wing loading during landing is calculated
     #this is done by using the maximum allowed landing speed (same for all aircraft)
     #the maximum minimum allowed wing loading is plotted in the wing loading diagram
     f = W_landing_tbp/MTOW_tbp
-    C_L_landing_range_tbp = np.linspace(C_L_max_tbp_land_min,C_L_max_tbp_land_max,3)
-    W_S_landing_tbp = [0,0,0]
-    for i in range(len(C_L_landing_range_tbp)):
-        W_S_landing_tbp[i] = W_S_landing_calc(C_L_landing_range_tbp[i],rho0,V_landing,f)
+    W_S_landing_tbp = W_S_landing_calc(C_L_max_land_tbp,rho0,V_landing,f)
 
     ########Cruise###########
     W_P_cruise_tbp = np.zeros(len(wing_loading_x))
@@ -144,14 +138,8 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     ylim = 0.4
 
     # plot lines
-    ax1.plot(wing_loading_x,TOP_takeoff_tbp[0,:], label= 'Inline label')
-    #ax1.plot(wing_loading_x,TOP_takeoff_tbp[1,:])
-    ax1.plot(wing_loading_x,TOP_takeoff_tbp[2,:], label = 'Inline label')
-    #ax1.plot(wing_loading_x,TOP_takeoff_tbp[3,:])
-    ax1.plot(wing_loading_x,TOP_takeoff_tbp[4,:])
-    ax1.axvline(W_S_landing_tbp[0])
-    ax1.axvline(W_S_landing_tbp[1])
-    ax1.axvline(W_S_landing_tbp[2])
+    ax1.plot(wing_loading_x,TOP_takeoff_tbp)
+    ax1.axvline(W_S_landing_tbp)
     ax1.plot(wing_loading_x,W_P_cruise_tbp)
     ax1.plot(wing_loading_x,W_P_climb_tbp)
     ax1.plot(wing_loading_x,W_P_climb_grad_tbp)
@@ -159,8 +147,8 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
 
     # plot filled parts of the graph
 
-    plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = TOP_takeoff_tbp[4,:], direction = "up")
-    plotfiller(ax1, xlim, ylim, vline = W_S_landing_tbp[0], direction = "right")
+    plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = TOP_takeoff_tbp, direction = "up")
+    plotfiller(ax1, xlim, ylim, vline = W_S_landing_tbp, direction = "right")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_cruise_tbp, direction = "up")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_climb_tbp, direction = "up")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_climb_grad_tbp, direction = "up")
@@ -169,12 +157,14 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     # plot cosmetics (add some legends/labels/title)
     ax1.set_ylim([0, ylim])
     ax1.set_xlim([0, xlim])
-    ax1.legend(["CL_TO =" + str(round(C_L_TO_range_tbp[0],2)), "CL_TO=" + str(round(C_L_TO_range_tbp[2],2)), "CL_TO =" + str(round(C_L_TO_range_tbp[4],2)),
-    "landing CL =" + str(round(C_L_landing_range_tbp[0],2)),"landing CL =" + str(round(C_L_landing_range_tbp[1],2)),"landing CL =" + str(round(C_L_landing_range_tbp[2],2)),
-    "Cruise A =" + str(round(A_tbp,2)), "Climb Rate A =" + str(round(A_tbp,2)), "Climb Grad A =" + str(round(A_tbp,2))])
-
+#    ax1.legend(["CL_TO =" + str(round(C_L_TO_range_tbp[0],2)), "CL_TO=" + str(round(C_L_TO_range_tbp[2],2)), "CL_TO =" + str(round(C_L_TO_range_tbp[4],2)),
+#    "landing CL =" + str(round(C_L_landing_range_tbp[0],2)),"landing CL =" + str(round(C_L_landing_range_tbp[1],2)),"landing CL =" + str(round(C_L_landing_range_tbp[2],2)),
+#    "Cruise A =" + str(round(A_tbp,2)), "Climb Rate A =" + str(round(A_tbp,2)), "Climb Grad A =" + str(round(A_tbp,2))])
+    # Calculating the critical wing and power loading
+    critical_power_loadings = [W_P_calc(W_S_landing_tbp,k,C_L_TO_tbp), W_P_cruise_tbp_calc(power_setting,weight_fraction,eff_prop,rho,rho0,C_D_0_tbp,W_S_landing_tbp,A_tbp,V_cruise_tbp,e_tbp), W_P_climb_calc(eff_prop,c,W_S_landing_tbp,rho,A_tbp,e_tbp,C_D_0_tbp), W_P_climb_grad_calc(eff_prop,W_S_landing_tbp,cV_tbp,C_D_tbp_curr,C_L_max_tbp_take_min,rho)]
+    W_P_critical_tbp = min(critical_power_loadings)
 #    plt.show()
-    return W_S_landing_tbp, c
+    return W_S_landing_tbp, W_P_critical_tbp
 
 def wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet,C_L_max_land_jet,C_L_max_TO_jet):
     ##################################jets##########################################
@@ -257,6 +247,7 @@ def wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet,C_
     ax1.plot(wing_loading_x,T_W_climb_jet)
     ax1.plot(wing_loading_x,T_W_climb_grad_jet)
     #ax1.plot(wing_loading_x,T_W_maneuvring_jet)
+    
     # plot filled parts of the graph
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = TOP_takeoff_jet, direction = "down")
     plotfiller(ax1, xlim, ylim, vline = W_S_landing_jet, direction = "right")
@@ -270,5 +261,5 @@ def wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet,C_
 #    ax1.legend(["CL_TO =" + str(round(C_L_TO_range_jet[0],2)), "CL_TO =" + str(round(C_L_TO_range_jet[2],2)), "CL_TO =" + str(round(C_L_TO_range_jet[4],2)),
 #    "landing CL =" + str(round(C_L_landing_range_jet[0],2)),"landing CL =" + str(round(C_L_landing_range_jet[1],2)),"landing CL =" + str(round(C_L_landing_range_jet[2],2)),
 #    "Cruise A =" + str(round(A_jet,2)), "Climb Rate A =" + str(round(A_jet,2)), "Climb Grad A =" + str(round(A_jet,2))])
-    plt.show()
+#    plt.show()
     return W_S_landing_jet
