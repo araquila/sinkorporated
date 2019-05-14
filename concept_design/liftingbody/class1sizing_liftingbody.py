@@ -162,7 +162,7 @@ def enginedimensions_tbp(rho0, n_engines, P_TO_tbp):
 
 
 def enginedimensions_jet(rho0, n_engines, T_TO_jet, jettypeB=False, jettypeC=False):
-    bypass_ratio=8
+    bypass_ratio=12
     a_0=340.3 #[m/s]
     e_nozzle=0.97
     e_tf=0.75

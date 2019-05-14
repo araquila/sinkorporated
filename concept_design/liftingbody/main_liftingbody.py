@@ -22,7 +22,7 @@ V_landing = 48.93                   #[m/s] maximum landing speed that is allowed
 
 # Atmospherical parameters at cruise altitude
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
-c = 10                              #[m/s] climb rate THIS IS INPUT
+c = 12                              #[m/s] climb rate THIS IS INPUT
 
 # General aircraft parameters
 C_L_fuselage = 0.08
@@ -55,7 +55,7 @@ V_loiter_tbp = 60                   # [m/s]
 V_cruise_tbp = 180                  # [m/s]
 M_cruise_tbp = V_cruise_tbp/speed_of_sound
 C_L_cruise_tbp = 0.8
-S_tbp = 76
+S_tbp = 60
 S_wet_tbp = 4.5 * S_tbp
 TOP_tbp = 139
 C_L_max_tbp = 2.6
@@ -72,9 +72,10 @@ q_jet = 0.5*rho*V_cruise_jet**2     # [n/m2]
 q_tbp = 0.5*rho*V_cruise_tbp**2     # [n/m2]
 
 # Engine characteristics
+engine_gear_mass = pounds_to_kg(250)    # additional mass due to geared turbofan
 thrust_to_weight_jet = 73.21        # [N/kg]
-cj_loiter_jet = 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
-cj_cruise_jet = 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
+cj_loiter_jet = 19e-6 / 1.16              # (0.4-0.6) [g/j] Propfan: 0.441
+cj_cruise_jet = 19e-6 / 1.16              # (0.5-0.9) [g/j] Propfan: 0.441
 
 power_to_weight_tbp = 4000          # [W/kg]
 eff_cruise_tbp = 0.85               # [-]
@@ -102,6 +103,9 @@ for iter in range(10):
 
     jet_data_list.append(('MTOM_jet',MTOM_jet))
     tbp_data_list.append(('MTOM_tbp',MTOM_tbp))
+
+    jet_data_list.append(('fuel_weight_jet',W_fuel_jet/g))
+    tbp_data_list.append(('fuel_weight_tbp',W_fuel_tbp/g))
 
     # Wing loading
     W_S_landing_jet = wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet,C_L_max_land_jet,C_L_max_TO_jet)
@@ -154,6 +158,7 @@ for iter in range(10):
     P_TO_tbp = MTOW_tbp / W_P_critical                       # Take-off power tbp [W]
     length_nacelle_jet, length_fan_cowling_jet, diameter_highlight_jet, diameter_exit_fan_jet, diameter_gas_generator_jet, diameter_nacelle_jet = enginedimensions_jet(rho0, n_engines, T_TO_jet, jettypeC=True)
     diameter_engine_tbp, length_engine_tbp, diameter_propeller_tbp = enginedimensions_tbp(rho0,n_engines_tbp, P_TO_tbp)
+
     #CG determination
     x_lemac_jet = x_lemac_jet_calc(0.4*length_fuselage,MAC_jet)
     x_lemac_tbp = x_lemac_tbp_calc(0.4*length_fuselage,MAC_tbp)
@@ -215,6 +220,8 @@ for iter in range(10):
     # Fuselage
     fuselage_weight_jet = pounds_to_kg(class2.det_fuselage_weight(kg_to_pounds(MTOW_jet/g), 1.5*n_max_jet, meter_to_feet(length_fuselage), metersquared_to_feetsquared(length_fuselage*(diameter_fuselage_outside+2.4)*0.9), taper_jet, meter_to_feet(b_jet), sweep_jet, LD_cruise_jet, cargo_doors = 1, fuselage_mounted_lg = False))
     fuselage_weight_tbp = pounds_to_kg(class2.det_fuselage_weight(kg_to_pounds(MTOW_tbp/g), 1.5*n_max_tbp, meter_to_feet(length_fuselage), metersquared_to_feetsquared(length_fuselage*(diameter_fuselage_outside+2.4)*0.9), taper_tbp, meter_to_feet(b_tbp), sweep_tbp, LD_cruise_tbp, cargo_doors = 1, fuselage_mounted_lg = False))
+    tbp_data_list.append(('fuselage_weight_tbp', fuselage_weight_tbp))
+    jet_data_list.append(('fuselage_weight_jet', fuselage_weight_jet))
 
     # Main landing gear
     V_stall_jet = np.sqrt(2*MTOW_jet/(rho0*S_jet*C_L_max_jet))
@@ -228,7 +235,9 @@ for iter in range(10):
 
     # Engine weight
     M_engine_tbp = P_TO_tbp / power_to_weight_tbp
-    M_engine_jet = T_TO_jet / thrust_to_weight_jet
+    M_engine_jet = T_TO_jet / thrust_to_weight_jet + engine_gear_mass
+    tbp_data_list.append(('engine_weight_tbp', M_engine_tbp))
+    jet_data_list.append(('engine_weight_jet', M_engine_jet))
 
     # Nacelle
     nacelle_group_weight_jet = pounds_to_kg(class2.det_nacelle_group_weight(meter_to_feet(length_nacelle_jet), meter_to_feet(diameter_nacelle_jet), 1.5*n_max_jet, 2, metersquared_to_feetsquared(np.pi * diameter_nacelle_jet * length_nacelle_jet), pylon_mounted = True, W_ec = 0, W_engine = kg_to_pounds(M_engine_jet/2), propeller = False, thrust_reverser = False))
