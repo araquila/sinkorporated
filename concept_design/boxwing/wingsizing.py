@@ -3,6 +3,7 @@ from class1sizing import enginedimensions, undercarriage, fuselage, tiresizing
 from class2_boxwing import *
 from wingloadingfunctions import V_stall_calc
 
+
 def iterempty(MTOW, OEW, WF, LD):
     g =  9.80665
 
@@ -152,12 +153,16 @@ def iterempty(MTOW, OEW, WF, LD):
     geometrylistvtail = (('Height vtail', bv), ('Area vtail', Sv), ('Sweep vtail', sweepv), ('Root chord vtail', crv), ('Tip chord vtail', ctv)  )
 
 
+    #cg calc
 
-    return Empty_mass_new, geometrylistfuselage, geometrylistwings, geometrylistvtail
-
-def cg_prandtl():
     fus_cg = 0.47*Fus_len
     wing1_cg = frac_qtrchord_fus*Fus_len + sin(sweep1*pi/180)*0.35*b/2 + (cr1-(cr1-ct1)*0.35)*0.35
     wing2_cg = Fus_len - crv + sin(sweep2*pi/180)*0.35*b/2 + (cr2-(cr2-ct2)*0.35)*0.35 + sin(sweepv*pi/180)*bv + 0.25*ctv
     tailv_cg = Fus_len - crv + sin(sweepv*pi/180)*0.55*bv/2 + (crv-(crv-ctv)*0.55)*0.42
     engine_cg = 0.75*Fus_len + 0.4*length_nacelle
+    noselg_cg = 0.085*Fus_len
+    mainlg_cg = 0.58*Fus_len
+    
+
+
+    return Empty_mass_new, geometrylistfuselage, geometrylistwings, geometrylistvtail
