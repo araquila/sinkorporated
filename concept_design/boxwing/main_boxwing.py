@@ -45,22 +45,31 @@ def class1box(M_empty_jet):
     cj_loiter_jet = 19e-6       # (0.4-0.6) [lbs/lbs/hr]
     cj_cruise_jet = 19e-6      # (0.5-0.9) [lbs/lbs/hr]
 
+    V_cruise_jet = 229
 
+    range_cruise_jet = 1850000
+
+    endurance_loiter_jet = 2700
 
         # CLASS I ESTIMATION
 
-    MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet =  Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel, jet = True)
+    MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet =  Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel, V_cruise_jet, range_cruise_jet, endurance_loiter_jet, jet = True)
 
 
     W_empty_jet = (OEW_jet-W_crew)-f_trapped_fuel*MTOW_jet
 
-    return MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet
+    return MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet
 
 
 M_empty_jet = 13874.75
-
+g = 9.80665
 for i in range(50):
-    MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet = class1box(M_empty_jet)
-    M_empty_jet, geometrylistfuselage, geometrylistwings, geometrylistvtail, mainlg_cg = iterempty(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet)
+    MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet = class1box(M_empty_jet)
+    M_empty_jet, geometrylistfuselage, geometrylistwings, geometrylistvtail, mainlg_cg, wing_weight1_box, wing_weight2_box, x_cg, noselg_cg= iterempty(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet)
     print(M_empty_jet, mainlg_cg, MTOW_jet/9.81)
 print(geometrylistfuselage)
+print(wing_weight1_box,wing_weight2_box, x_cg)
+
+Fn = (mainlg_cg-x_cg)/(mainlg_cg-noselg_cg)
+print(W_fuel_jet/g)
+print(W_used_fuel_jet/g)
