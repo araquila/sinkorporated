@@ -16,7 +16,7 @@ import numpy as np
 
 ## INPUTS AND CONSTANTS
 # fuel efficiency
-chosen_fuel_energy_density = energy_density_LNG
+chosen_fuel_energy_density = energy_density_HHV
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 # Flight parameters
 s_landing = 1400                    #[m]
