@@ -65,7 +65,7 @@ V_stall_tbp = 46.3                  # [m/s]
 n_engines = 2                       # [-]
 P_TO_tbp = 5.8e6                    # [W]
 pos_engine = 10                     # [m]
-mass_engine = 300                   # [kg]
+mass_engine = 450                   # [kg]
 n_fueltanks = 2                     # [-]
 
 # Empennage
@@ -112,6 +112,7 @@ for iter in range(5):
     loading_power_tbp = 0.05
 
     S_tbp = MTOW_tbp / loading_wing_tbp
+    print(S_tbp)
     P_TO_tbp = MTOW_tbp / loading_power_tbp
     MTOM_tbp = MTOW_tbp / g
     #wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
@@ -171,7 +172,7 @@ for iter in range(5):
     W_starter = pounds_to_kg(det_starter_weight(n_engines, kg_to_pounds(mass_engine)))
     W_fuel_system = pounds_to_kg(det_fuel_system_weight(kg_to_pounds(W_fuel_tbp/g)/6.67632, kg_to_pounds(W_fuel_tbp/g)/6.67632, 0, n_fueltanks))
     W_flight_control = pounds_to_kg(det_flight_controls_weight(meter_to_feet(0.3*S_h+0.05*S_tbp), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_tbp)*0.34**2)/(4*32.19)))
-    # APU_weight = det_APU_weight(W_APU_uninstalled)
+    APU_weight = det_APU_weight(200)
     W_instruments = pounds_to_kg(det_instruments_weight(n_pilots, n_engines, length_fuselage, b, turboprop = True))
     W_hydraulics = hydraulics_weight = pounds_to_kg(det_hydraulics_weight(meter_to_feet(length_fuselage), b))
     W_electrical = electrical_weight = pounds_to_kg(det_electrical_weight(meter_to_feet(length_fuselage), N_gen = 3))
@@ -193,7 +194,7 @@ for iter in range(5):
     class2["starter weight"].append(W_starter)
     class2["fuel system weight"].append(W_fuel_system)
     class2["flight controls weight"].append(W_flight_control)
-    class2["APU weight"].append(0)
+    class2["APU weight"].append(APU_weight)
     class2["instruments weight"].append(W_instruments)
     class2["hydraulics weight"].append(W_hydraulics)
     class2["electrical system weight"].append(W_electrical)
