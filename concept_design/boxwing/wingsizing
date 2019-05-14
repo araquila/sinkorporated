@@ -5,7 +5,8 @@ from class1sizing import enginedimensions
 from class2_boxwing import *
 
 g =  9.80665
-MTOW, OEW, WF = class1box()
+MTOW, OEW, WF, LD = class1box()
+print(LD)
 TW = 0.25
 length_fan_cowl, diameter_nacelle, length_generator, length_nacelle, diameter_highlight, diameter_exit_fan, diameter_gas_generator, diameter_inlet = enginedimensions(2, TW*MTOW)
 #input parameters for wing area
