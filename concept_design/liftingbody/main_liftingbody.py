@@ -165,7 +165,7 @@ for iter in range(1):
         l_h = length_fuselage/2
         l_v = length_fuselage/2
         AR_h, AR_v, S_h, span_h, root_chord_h, tip_chord_h, sweepqc_h, sweepLE_h, S_v, span_v, root_chord_v, tip_chord_v, sweepLE_v = empennage(V_h, V_v, l_h, l_v, S_wing, b, MAC)
-        print("Horizontal tail:", S_h, span_h)
+        print("Horizontal tail:", S_h, span_h, sweepqc_h)
         print("Vertical tail:", S_v, span_v)
 
         # Undercarriage sizing
@@ -199,13 +199,49 @@ for iter in range(1):
         wing_weight = g*pounds_to_kg(det_wing_weight(W_dg, N_z, S_w, A_jet, t_c_ratio, taper, sweep_chord_0_25, S_csw))
         print("Wing weight:", wing_weight)
 
-        # Determine weight of the horizontal tail
-        length_fus_min_cones = length_fuselage - length_nosecone - length_tailcone
+        # Determine weight of the fuselage
         B_w = meter_to_feet(b)
         S_f = metersquared_to_feetsquared(length_fuselage*(diameter_fuselage_outside+2.4)*0.9)
-        fuselage_weight = g*pounds_to_kg(det_fuselage_weight(W_dg, N_z, length_fus_min_cones, S_f, taper, B_w, sweep_chord_0_25, LD_cruise_jet, cargo_doors = 1, fuselage_mounted_lg = False))
+        fuselage_weight = g*pounds_to_kg(det_fuselage_weight(W_dg, N_z, length_fuselage, S_f, taper, B_w, sweep_chord_0_25, LD_cruise_jet, cargo_doors = 1, fuselage_mounted_lg = False))
         print("Fuselage weight:", fuselage_weight)
-        # elevator = 0.33
+
+        # Determine weight of the horizontal tail
+        F_w = meter_to_feet(width_fuselage_outside)
+        span_ht = meter_to_feet(span_h)
+        S_ht = metersquared_to_feetsquared(S_h)
+        L_t = meter_to_feet(10)
+        quarter_chord_sweep_ht = radians(sweepqc_h)
+        S_e = 0.33*S_ht
+        hor_tail_weight = g*pounds_to_kg(det_hor_tail_weight(F_w, span_ht, W_dg, N_z, S_ht, L_t, quarter_chord_sweep_ht, AR_h, S_e, all_moving_unit = False, K_y = 0.3))
+        print("Horizontal weight:", hor_tail_weight)
+
+        # Determine weight of the vertical tail
+        H_ht = meter_to_feet(span_v)
+        H_vt = meter_to_feet(span_v)
+        S_vt = metersquared_to_feetsquared(S_v)
+        quarter_chord_sweep_vt = radians(sweepLE_v) - 0.1
+        t_c_root_vt = 0.14
+        vert_tail_weight = g*pounds_to_kg(det_vert_tail_weight(H_ht, H_vt, W_dg, N_z, L_t, S_vt, quarter_chord_sweep_vt, AR_v, t_c_root_vt, K_z = 1))
+        print("Adjust line 222 for quarter chord sweep vertical tail")
+        print("Vertical tail weight:", vert_tail_weight)
+
+        # Determine weight of the landing gear
+        W_l = kg_to_pounds(W_landing_jet)
+        N_l = 4.5
+        # Main landing gear
+        L_m = meter_to_inch(wheel_height)
+        N_mw = 4
+        N_mss = 2
+        V_stall = ms_to_knots(45)
+        main_lg_weight = g*pounds_to_kg(det_main_lg_weight(W_l, N_l, L_m, N_mw, N_mss, V_stall, kneeling_main_lg = False))
+        print("Adjust stall speed in line 234")
+        print("Main landing gear weight:", main_lg_weight, "   Wait... This is weird...")
+
+        # Nose landing gear
+        L_n = meter_to_inch(wheel_height + 0.2)
+        N_nw = 2
+        nose_lg_weight = g*pounds_to_kg(det_nose_lg_weight(W_l, N_l, L_n, N_nw, kneeling_nose_lg = False))
+        print("Nose landing gear weight:", nose_lg_weight)
 
     if tbp == True:
         # Weight estimation

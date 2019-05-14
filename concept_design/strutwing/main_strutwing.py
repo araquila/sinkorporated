@@ -45,6 +45,7 @@ e_jet = 0.8                         # Adjust per concept
 cj_loiter_jet = 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
 cj_cruise_jet = 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
 V_cruise_jet =  200                 # [m/s]
+V_loiter_jet = 150
 S_jet = 61
 
 # Tbp
@@ -80,8 +81,17 @@ main_landing_pos = 11               # [m]
 nose_landing_pos = 3                # [m]
 
 # Iterator
-for iter in range(50):
-    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, LD_cruise_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, tbp = True)
+for iter in range(1):
+    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_jet, tbp = True)
+
+    #wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
+
+    loading_wing_tbp = 3500.
+    loading_power_tbp = 0.05
+
+    S_tbp = MTOW_tbp / loading_wing_tbp
+    P_TO_tbp = MTOW_tbp / loading_power_tbp
+
     length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, diameter_fuselage_inside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
     sweepqc = det_quarter_chord_sweep(M_cruise_tbp)
     dihedral_angle = det_dihedral_angle(sweepqc, high=True)
@@ -91,8 +101,6 @@ for iter in range(50):
     AR_h, AR_v, S_h, span_h, root_chord_h, tip_chord_h, sweepqc_h, sweepLE_h, S_v, span_v, root_chord_v, tip_chord_v, sweepLE_v = empennage(V_h, V_v, l_h, l_v, S_tbp, b, c)
     wheel_height, lateral_position = undercarriage(main_landing_pos, nose_landing_pos, length_fuselage, length_tail, diameter_fuselage_outside)
     MTOM_tbp = MTOW_tbp / g
-#    wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet)
-    #wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
 
 class2 = {"Wing": []}
 print(class2)

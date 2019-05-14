@@ -5,7 +5,8 @@ from class1sizing import enginedimensions
 from class2_boxwing import *
 
 g =  9.80665
-MTOW, OEW, WF = class1box()
+MTOW, OEW, WF, LD = class1box()
+print(LD)
 TW = 0.25
 length_fan_cowl, diameter_nacelle, length_generator, length_nacelle, diameter_highlight, diameter_exit_fan, diameter_gas_generator, diameter_inlet = enginedimensions(2, TW*MTOW)
 #input parameters for wing area
@@ -15,7 +16,8 @@ S = S * 1.36
 
 s1frac = 0.5
 s2frac = 1 - s1frac
-length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside = fuselage(60,4,4,1)
+length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, length_nosecone, length_tailcone = fuselage(60,4,4,1)
+print(fuselage(60,4,4,1))
 S1 = S * s1frac
 S2 = S * s2frac
 AR1 = 12
@@ -76,15 +78,23 @@ S_control_ail = 0.05*S
 S_control_elev = 0.03*S
 
 #wing weights as conventional and box method
-wing_weight1_conv = det_wing_weight(MTOWlbs, n_ult, S1*mtoft**2, AR1, 0.13, taper1, sweep1/180*pi, S_control_ail*mtoft**2)
-wing_weight2_conv = det_wing_weight(MTOWlbs, n_ult, S2*mtoft**2, AR2, 0.13, taper2, sweep2/180*pi, S_control_elev*mtoft**2)
+wing_weight1_conv = det_wing_weight(MTOWlbs, n_ult, S1*mtoft**2, AR1, 0.13, taper1, sweep1/180*pi, S_control_ail*mtoft**2)/kgtolbs
+wing_weight2_conv = det_wing_weight(MTOWlbs, n_ult, S2*mtoft**2, AR2, 0.13, taper2, sweep2/180*pi, S_control_elev*mtoft**2)/kgtolbs
 wing_weight1_box = det_wing_weight_box(b, S1, taper1, sweep1, MTOW/g, n_ult, V_diving, t_c1, 0.028)
 wing_weight2_box = det_wing_weight_box(b, S2, taper2, sweep2, MTOW/g, n_ult, V_diving, t_c2, 0.028)
 print(wing_weight1_conv, wing_weight2_conv, wing_weight1_box, wing_weight2_box)
 print(det_wing_weight_box(b, S/1.36, taper1, sweep1, MTOW/g, n_ult, V_diving, t_c1, 0.034))
 
 #vertical tail weight
+vert_tail_weight = det_vert_tail_weight(bv*mtoft, bv*mtoft, MTOWlbs, n_ult, sin(sweep1/180*pi)*b/2+ct1/4, Sv*mtoft**2, sweepv, AR_v, 0.18, 1)/kgtolbs
+print(vert_tail_weight)
 
+#fuselage_weight
+fuselage_weight = det_fuselage_weight(MTOWlbs, n_ult, (Fus_len - length_nosecone - length_tailcone)*mtoft, (Fus_len - length_nosecone - length_tailcone)*mtoft*(pi*(diameter_fuselage_outside*mtoft)), taper1, b*mtoft, sweep1/180*pi, 16, 1, 1)/kgtolbs
+print(fuselage_weight)
+
+#landing gear
+#main_lg_weight = det_main_lg_weight(MTOWlbs, 4.5, )
 
 
 def cg_prandtl():

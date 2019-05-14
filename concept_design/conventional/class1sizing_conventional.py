@@ -85,7 +85,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
 
     length_fuselage=length_nose+length_cabin+length_tail
 
-    return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside
+    return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, diameter_fuselage_inside
 
                     #WING SIZING
 def det_quarter_chord_sweep(M_cruise, supercritical = False, delta_mach = 0.03):
@@ -198,7 +198,7 @@ def enginedimensions(rho_0,n_engines, P_TO_tbp, T_TO_jet, tbp=False, jet=True, j
         #gas generator cowling at gas generator exit diameter
         diameter_gas_generator=0.55*diameter_gas_generato_fan
 
-        return length_nacelle, length_fan_cowl, diameter_highlight, diameter_exit_fan, diameter_gas_generator
+        return length_nacelle, length_fan_cowl, diameter_highlight, diameter_exit_fan, diameter_gas_generator, diameter_nacelle
 
 def empennage(V_h, V_v, l_h, l_v, S, b, c):
     S_h = (V_h * S * c) / l_h
