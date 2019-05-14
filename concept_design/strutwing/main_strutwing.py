@@ -112,7 +112,6 @@ for iter in range(5):
     loading_power_tbp = 0.05
 
     S_tbp = MTOW_tbp / loading_wing_tbp
-    print(S_tbp)
     P_TO_tbp = MTOW_tbp / loading_power_tbp
     MTOM_tbp = MTOW_tbp / g
     #wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
@@ -162,8 +161,8 @@ for iter in range(5):
     #W_wing = pounds_to_kg(0.82 * det_wing_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), metersquared_to_feetsquared(S_tbp), A_tbp, t_c_ratio, taper, np.radians(sweepqc), metersquared_to_feetsquared(0.05*S_tbp)))
     W_wing = det_wing_weight_new(b, S_tbp, sweepqc, taper, MTOM_tbp, V_cruise_tbp, t_c_ratio)
     W_h = pounds_to_kg(det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside), meter_to_feet(span_h), kg_to_pounds(MTOM_tbp),  1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(S_h), meter_to_feet(l_h), np.radians(sweepqc_h), AR_h, metersquared_to_feetsquared(0.3*S_h)))
-    W_v = pounds_to_kg(det_vert_tail_weight(meter_to_feet(span_v), meter_to_feet(span_v), kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), l_v, S_v, np.radians(sweepLE_v), AR_v, t_c_ratio))
-    W_fus = pounds_to_kg(det_fuselage_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(length_fuselage), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper, b, sweepqc, LD_cruise_tbp, fuselage_mounted_lg=True))
+    W_v = pounds_to_kg(det_vert_tail_weight(meter_to_feet(span_v), meter_to_feet(span_v), kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(l_v), metersquared_to_feetsquared(S_v), np.radians(sweepLE_v), AR_v, t_c_ratio))
+    W_fus = pounds_to_kg(det_fuselage_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(length_fuselage), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper, meter_to_feet(b), sweepqc, LD_cruise_tbp, fuselage_mounted_lg=True))
     W_ml = pounds_to_kg(det_main_lg_weight(kg_to_pounds(MTOM_tbp), 4.5, meter_to_inch(wheel_height), 4, 2, ms_to_knots(V_stall_tbp)))
     W_nl = pounds_to_kg(det_nose_lg_weight(kg_to_pounds(MTOM_tbp), 4.5, meter_to_inch(wheel_height), 2))
     W_nacelle = pounds_to_kg(det_nacelle_group_weight(meter_to_feet(length_engine), meter_to_feet(diameter_engine), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), n_engines, metersquared_to_feetsquared(np.pi * diameter_engine * length_engine), W_ec = kg_to_pounds(mass_engine), propeller=True, thrust_reverser=True))
@@ -173,15 +172,15 @@ for iter in range(5):
     W_fuel_system = pounds_to_kg(det_fuel_system_weight(kg_to_pounds(W_fuel_tbp/g)/6.67632, kg_to_pounds(W_fuel_tbp/g)/6.67632, 0, n_fueltanks))
     W_flight_control = pounds_to_kg(det_flight_controls_weight(meter_to_feet(0.3*S_h+0.05*S_tbp), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_tbp)*0.34**2)/(4*32.19)))
     APU_weight = det_APU_weight(200)
-    W_instruments = pounds_to_kg(det_instruments_weight(n_pilots, n_engines, length_fuselage, b, turboprop = True))
-    W_hydraulics = hydraulics_weight = pounds_to_kg(det_hydraulics_weight(meter_to_feet(length_fuselage), b))
-    W_electrical = electrical_weight = pounds_to_kg(det_electrical_weight(meter_to_feet(length_fuselage), N_gen = 3))
-    W_avionics = avionics_weight = pounds_to_kg(det_avionics_weight())
+    W_instruments = pounds_to_kg(det_instruments_weight(n_pilots, n_engines, meter_to_feet(length_fuselage), meter_to_feet(b), turboprop = True))
+    W_hydraulics = pounds_to_kg(det_hydraulics_weight(meter_to_feet(length_fuselage), meter_to_feet(b)))
+    W_electrical = pounds_to_kg(det_electrical_weight(meter_to_feet(length_fuselage), N_gen = 3))
+    W_avionics = pounds_to_kg(det_avionics_weight())
     W_furnishings = pounds_to_kg(det_furnishings_weight(n_pilots, 30*60, metersquared_to_feetsquared(np.pi * diameter_fuselage_outside * length_fuselage)))
-    pres_vol = np.pi / 4 * diameter_fuselage_inside**2 * (length_nose + length_nose)
-    W_airco = aircond_weight = pounds_to_kg(det_aircond_weight(n_passenger, metercubed_to_feetcubed(pres_vol)))
-    W_anti_ice = anti_ice_weight = pounds_to_kg(det_anti_ice_weight(kg_to_pounds(MTOM_tbp)))
-    W_handling_gear = handling_gear_weight = pounds_to_kg(det_handling_gear_weight(kg_to_pounds(MTOM_tbp)))
+    pres_vol = np.pi / 4 * diameter_fuselage_inside**2 * (length_nose + length_cabin)
+    W_airco = pounds_to_kg(det_aircond_weight(n_passenger+n_crew, metercubed_to_feetcubed(pres_vol)))
+    W_anti_ice = pounds_to_kg(det_anti_ice_weight(kg_to_pounds(MTOM_tbp)))
+    W_handling_gear = pounds_to_kg(det_handling_gear_weight(kg_to_pounds(MTOM_tbp)))
     class2["wing weight"].append(W_wing)
     class2["horizontal tail weight"].append(W_h)
     class2["vertical tail weight"].append(W_v)

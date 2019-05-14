@@ -13,7 +13,7 @@ def density_calc(temperature, temperature0, temperature_gradient, g, R):
     return rho
 
 def speed_of_sound_calc(gamma, R, temperature):
-    speed_of_sound = np.sqrt(gamma * R * temperature)
+    speed_of_sound = np.sqrt(gamma*R*temperature)
     return speed_of_sound
 
 def atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma):
