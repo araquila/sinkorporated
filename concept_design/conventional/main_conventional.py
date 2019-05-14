@@ -112,8 +112,8 @@ q_tbp = 0.5*rho*V_cruise_tbp**2     # [n/m2]
 for iter in range(1):
 
     ## CLASS I
-    MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet, f_cruise_start_jet, f_cruise_end_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, jet = True, tbp = False)
-    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, tbp = True, jet = False)
+    MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet, f_cruise_start_jet, f_cruise_end_jet, L_D_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, jet = True, tbp = False)
+    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, L_D_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, tbp = True, jet = False)
 
     jet_data_list.append(('MTOW_jet',MTOW_jet))
     tbp_data_list.append(('MTOW_tbp',MTOW_tbp))
@@ -238,8 +238,6 @@ for iter in range(1):
     jet_data_list.append(('ver_tail_weight_jet', ver_tail_weight_jet))
 
     # Fuselage
-    L_D_jet = 0.75*np.sqrt((np.pi*A_jet*e_jet)/(3*C_D_0_jet))
-    L_D_tbp = 0.75*np.sqrt((np.pi*A_tbp*e_tbp)/(3*C_D_0_tbp))
     fuselage_weight_jet = pounds_to_kg(class2.det_fuselage_weight(kg_to_pounds(MTOW_jet/g), 1.5*n_max_jet, meter_to_feet(length_fuselage), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper_jet, meter_to_feet(b_jet), sweep_jet, L_D_jet, cargo_doors = 1, fuselage_mounted_lg = False))
     fuselage_weight_tbp = pounds_to_kg(class2.det_fuselage_weight(kg_to_pounds(MTOW_tbp/g), 1.5*n_max_tbp, meter_to_feet(length_fuselage), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper_tbp, meter_to_feet(b_tbp), sweep_tbp, L_D_tbp, cargo_doors = 1, fuselage_mounted_lg = False))
 
@@ -258,21 +256,17 @@ for iter in range(1):
     jet_data_list.append(('main_lg_weigth_jet', main_lg_weight_jet))
 
     #Nose landing gear
-
     nose_lg_weight_jet = pounds_to_kg(class2.det_nose_lg_weight(kg_to_pounds(MTOW_jet/g), 1.5*n_max_jet, meter_to_inch(wheel_height_jet), 2, kneeling_nose_lg = False))
     nose_lg_weight_tbp = pounds_to_kg(class2.det_nose_lg_weight(kg_to_pounds(MTOW_tbp/g), 1.5*n_max_tbp, meter_to_inch(wheel_height_tbp), 2, kneeling_nose_lg = False))
 
     # Append to data list
-
     tbp_data_list.append(('nose_lg_weight_tbp', nose_lg_weight_tbp))
     jet_data_list.append(('nose_lg_weight_jet', nose_lg_weight_jet))
 
     # Nacelle
-
     nacelle_group_weight_tbp = pounds_to_kg(class2.det_nacelle_group_weight(meter_to_feet(length_engine_tbp), meter_to_feet(diameter_engine_tbp), 1.5*n_max_tbp, 2, metersquared_to_feetsquared(np.pi * diameter_engine_tbp * length_engine_tbp), pylon_mounted = False, W_ec = kg_to_pounds(1200), W_engine = 0, propeller = False, thrust_reverser = False))
 
     #Append to data list
-
     tbp_data_list.append(('nacelle_group_weight_tbp', nacelle_group_weight_tbp))
 
     # Engine controls weight
@@ -288,27 +282,22 @@ for iter in range(1):
     starter_weight_tbp = pounds_to_kg(class2.det_starter_weight(2, kg_to_pounds(600)))
 
     # Append to data list
-
     tbp_data_list.append(('starter_weight_tbp', starter_weight_tbp))
     jet_data_list.append(('starter_weight_jet', starter_weight_jet))
 
     # Fuel system
-
     flight_controls_weight_jet = pounds_to_kg(class2.det_flight_controls_weight(metersquared_to_feetsquared(0.3*S_h_jet+0.05*S_jet), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_jet)*0.34**2)/(4*32.19), N_f = 6, N_m = 1))
     flight_controls_weight_tbp = pounds_to_kg(class2.det_flight_controls_weight(metersquared_to_feetsquared(0.3*S_h_tbp+0.05*S_tbp), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_tbp)*0.34**2)/(4*32.19), N_f = 6, N_m = 1))
 
     # Append to data list
-
     tbp_data_list.append(('flight_controls_weight_tbp', flight_controls_weight_tbp))
     jet_data_list.append(('flight_controls_weight_jet', flight_controls_weight_jet))
 
     # Instruments
-
     instruments_weight_jet = pounds_to_kg(class2.det_instruments_weight(2, 2, meter_to_feet(length_fuselage), meter_to_feet(b_jet), reciprocating = False, turboprop = True))
     instruments_weight_tbp = pounds_to_kg(class2.det_instruments_weight(2, 2, meter_to_feet(length_fuselage), meter_to_feet(b_tbp), reciprocating = False, turboprop = True))
 
     # Append to data list
-
     tbp_data_list.append(('instruments_weight_tbp', instruments_weight_tbp))
     jet_data_list.append(('instruments_weight_jet', instruments_weight_jet))
 
@@ -318,12 +307,10 @@ for iter in range(1):
     hydraulics_weight_tbp = pounds_to_kg(class2.det_hydraulics_weight(meter_to_feet(length_fuselage), meter_to_feet(b_tbp), N_f = 6))
 
     # Append to data list
-
     tbp_data_list.append(('hydraulics_weight_tbp', hydraulics_weight_tbp))
     jet_data_list.append(('hydraulics_weight_jet', hydraulics_weight_jet))
 
     # Electrical
-
     electrical_weight_jet = pounds_to_kg(class2.det_electrical_weight(200, R_kva = 50, N_gen = 0, N_en = 2)) #plug in better numbers
     electrical_weight_tbp = pounds_to_kg(class2.det_electrical_weight(200, R_kva = 50, N_gen = 0, N_en = 2)) #plug in better numbers
 
@@ -382,6 +369,8 @@ for iter in range(1):
     jet_data_list.append(('OEW_new_jet', OEW_new_jet))
 
     ## PRINT RELEVANT DATA
+    print('Iteration: ' + str(iter+1))
+    print()
     print('### JET VALUES ###')
     for value in jet_data_list:
         print(value[0] + ': ' + str(value[1]))
