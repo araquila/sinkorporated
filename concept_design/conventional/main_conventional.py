@@ -12,10 +12,6 @@ from conversion_formulas import *
 import class2_conventional as class2
 import numpy as np
 
-
-jet_data_list = []
-tbp_data_list = []
-
 ## INPUTS AND CONSTANTS
 
 # Gravitional constant
@@ -110,7 +106,10 @@ q_tbp = 0.5*rho*V_cruise_tbp**2     # [n/m2]
 
 # Iterative sizing process
 for iter in range(5):
-
+    
+    jet_data_list = []
+    tbp_data_list = []
+    
     ## CLASS I
     MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet, f_cruise_start_jet, f_cruise_end_jet, L_D_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, jet = True, tbp = False)
     MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, L_D_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, tbp = True, jet = False)
@@ -381,3 +380,4 @@ for iter in range(5):
     print('### TBP VALUES ###')
     for value in tbp_data_list:
         print(value[0] + ': ' + str(value[1]))
+    print('----------------------------------------------------')
