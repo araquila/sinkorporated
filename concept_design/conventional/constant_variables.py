@@ -33,3 +33,9 @@ W_empty_jet = M_empty_jet * g
 
 n_engines_jet = 2
 n_engines_tbp = 2
+
+# Fuels
+energy_density_kerosene = 43 #[MJ/kg]
+energy_density_LNG = 53.6 #[MJ/kg]
+energy_density_HHV = 141.6 #[MJ/kg]
+energy_density_LHV = 119.93 #[MJ/kg]
