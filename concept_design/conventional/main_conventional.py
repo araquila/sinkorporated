@@ -15,7 +15,9 @@ from sustainability_functions import CO2_calc
 import numpy as np
 
 ## INPUTS AND CONSTANTS
-
+# fuel efficiency
+chosen_fuel_energy_density = energy_density_LNG
+fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 # Flight parameters
 s_landing = 1400                    #[m]
 altitude = 8000
@@ -32,7 +34,7 @@ c = 10                                  #[m/s]
 
 # Other jet parameters
 A_jet = 10
-e_jet = 0.8                         
+e_jet = 0.8
 V_cruise_jet =  236.11                  # [m/s]
 S_jet = 61
 TOP_jet = 6698
@@ -75,14 +77,14 @@ q_tbp = 0.5*rho*V_cruise_tbp**2          # [n/m2]
 
 # Engine characteristics
 thrust_to_weight_jet = 2/3*73.21         # [N/kg]
-cj_loiter_jet = 12.5e-6                  # (0.4-0.6) [g/j] Propfan: 0.441
-cj_cruise_jet = 12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
+cj_loiter_jet = fuel_efficiency_factor*12.5e-6                  # (0.4-0.6) [g/j] Propfan: 0.441
+cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
 power_to_weight_tbp = 4000               # [W/kg]
 eff_cruise_tbp = 0.85                    # [-]
 eff_loiter_tbp = 0.77                    # [-]
-cp_cruise_tbp = 0.8 * 90e-9              # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = 0.8 * 90e-9              # (0.5-0.7) [kg/ns]
+cp_cruise_tbp = 0.8*fuel_efficiency_factor * 90e-9              # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = 0.8*fuel_efficiency_factor * 90e-9              # (0.5-0.7) [kg/ns]
 
 # Iterative sizing process
 for iter in range(10):
@@ -95,7 +97,7 @@ for iter in range(10):
     MTOM_tbp = MTOW_tbp/g
 
     #--------------------------------------------------------------------------
-    
+
     ## WING LOADING AND POWER LOADING
     W_S_landing_jet = wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet,C_L_max_land_jet,C_L_max_TO_jet)
     W_S_landing_tbp, W_P_critical = wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp, C_L_max_land_tbp,C_L_max_TO_tbp)
@@ -123,7 +125,7 @@ for iter in range(10):
     sweep_jet = det_quarter_chord_sweep(M_cruise_jet)
     b_jet, taper_jet, root_chord_jet, tip_chord_jet, t_c_ratio_jet = det_planform(S_jet, A_jet, M_cruise_jet, C_L_cruise_jet, sweep_jet)
     dihedral_angle_jet = det_dihedral_angle(sweep_tbp, low=True)
-    MAC_jet = MAC(root_chord_jet, t_c_ratio_jet)   
+    MAC_jet = MAC(root_chord_jet, t_c_ratio_jet)
 
     # Engines for jet and tbp
     P_TO_tbp = MTOW_tbp / W_P_critical                      # Take-off power tbp [W]
@@ -147,7 +149,7 @@ for iter in range(10):
     wheel_height_tbp, lateral_position_tbp = undercarriage(main_landing_pos_tbp, nose_landing_pos_tbp, length_fuselage, length_tail, diameter_fuselage_outside)
 
     #--------------------------------------------------------------------------
-    
+
     ## CLASS II
     # C_L and C_l des
     C_L_cruise_jet = class2.C_L_des(q_jet,f_cruise_start_jet*MTOW_jet/S_jet,f_cruise_end_jet*MTOW_jet/S_jet)
@@ -269,7 +271,7 @@ def print_list(items):
 def print_mass_data():
     mass_data_jet = []
     mass_data_tbp = []
-    
+
     mass_data_jet.append('### Masses of components for jet in [kg] ###')
     mass_data_tbp.append('### Masses of components for tbp in [kg] ###')
     mass_data_jet.append(('MTOM_jet',MTOM_jet))
@@ -314,14 +316,14 @@ def print_mass_data():
     mass_data_jet.append(('anti_ice_weight_jet', anti_ice_weight_jet))
     mass_data_tbp.append(('handling_gear_weight_tbp', handling_gear_weight_tbp))
     mass_data_jet.append(('handling_gear_weight_jet', handling_gear_weight_jet))
-    
+
     print_list(mass_data_jet)
     print_list(mass_data_tbp)
-    
+
 def print_size_data():
     size_data_jet = []
     size_data_tbp = []
-    
+
     size_data_jet.append('### Dimensions and areas for jet in [m] and [m^2] ###')
     size_data_tbp.append('### Dimensions and areas for tbp in [m] and [m^2] ###')
     size_data_jet.append(('L_fuselage_jet ', length_fuselage))
@@ -336,24 +338,24 @@ def print_size_data():
     size_data_jet.append(('S_h_jet', S_h_jet))
     size_data_tbp.append(('S_v_tbp', S_v_tbp))
     size_data_jet.append(('S_v_jet', S_v_jet))
-    
+
     print_list(size_data_jet)
     print_list(size_data_tbp)
-    
+
 def print_flight_char_data():
     flight_char_data_jet = []
     flight_char_data_tbp = []
-    
+
     flight_char_data_jet.append('### Flight char data for jet ###')
     flight_char_data_tbp.append('### Flight char data for tbp ###')
     flight_char_data_tbp.append(('C_l_des_tbp', C_l_des_tbp))
     flight_char_data_jet.append(('C_l_des_jet', C_l_des_jet))
     flight_char_data_jet.append(('fuel_per_passenger',fuel_per_passenger_jet))
     flight_char_data_tbp.append(('fuel_per_passenger',fuel_per_passenger_tbp))
-    
+
     print_list(flight_char_data_jet)
     print_list(flight_char_data_tbp)
-    
+
 #Calculate performance for 1000 km trip
 MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, jet = True, tbp = False)
 MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
