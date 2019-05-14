@@ -76,10 +76,11 @@ def iterempty(MTOW, OEW, WF, LD):
     sweephalfchord2 = atan((sin(sweep2/180*pi)*b/2+ct2/4)/(b/2))
     t_c1 = min((0.18, ((cos(sweephalfchord1)**3*(M_cross-M_dd*cos(sweephalfchord1))-0.115*Clhat1**1.5)/(cos(sweephalfchord1)**2))))
     t_c2 = min((0.18, ((cos(sweephalfchord2)**3*(M_cross-M_dd*cos(sweephalfchord2))-0.115*Clhat2**1.5)/(cos(sweephalfchord2)**2))))
-    
+
     #desing cruise speed, diving speed, t_c
     S_control_ail = 0.05*S
     S_control_elev = 0.03*S
+
 
     #wing weights as conventional and box method
     wing_weight1_conv = det_wing_weight(MTOWlbs, n_ult, S1*mtoft**2, AR1, 0.13, taper1, sweep1/180*pi, S_control_ail*mtoft**2)/kgtolbs
@@ -146,11 +147,17 @@ def iterempty(MTOW, OEW, WF, LD):
 
     Empty_mass_new= 800*2 + wing_weight1_box + wing_weight2_box + fuselage_weight + vert_tail_weight + main_lg_weight + nose_lg_weight + nacelle_group_weight + engine_control_weight + starter_weight + fuel_system_weight + flight_controls_weight + apu_weight + instruments_weight + hydraulics_weight + electrical_weight + avionics_weight+ furnishings_weight + aircond_weight + anti_ice_weight + handling_gear_weight
 
-    return Empty_mass_new
+    geometrylistfuselage = (('Length fuselage nose', length_nose), ('Length cabin', length_cabin), ('Lenght fuselage tail', length_tail), ('Length fuselage', length_fuselage), ('Length nosecone', length_nosecone), ('Length tailcone', length_tailcone), ('Diameter outside fuselage', diameter_fuselage_outside))
+    geometrylistwings = (('Total wing area', S), ('Wing span', b), ('Fore wing area', S1) ,('Aft wing area', S2), ('Fore root chord', cr1), ('Fore tip chord', ct1), ('Aft root chord', cr2), ('Aft tip chord', ct2), ('Fore qc sweep', sweep1), ('Aft qc sweep', sweep2), ('Fore wing position', Fus_len*frac_qtrchord_fus) )
+    geometrylistvtail = (('Height vtail', bv), ('Area vtail', Sv), ('Sweep vtail', sweepv), ('Root chord vtail', crv), ('Tip chord vtail', ctv)  )
 
-#def cg_prandtl():
-#    fus_cg = 0.47*Fus_len
-#    wing1_cg = frac_qtrchord_fus*Fus_len + sin(sweep1*pi/180)*0.35*b/2 + (cr1-(cr1-ct1)*0.35)*0.35
-#    wing2_cg = Fus_len - crv + sin(sweep2*pi/180)*0.35*b/2 + (cr2-(cr2-ct2)*0.35)*0.35 + sin(sweepv*pi/180)*bv + 0.25*ctv
-#    tailv_cg = Fus_len - crv + sin(sweepv*pi/180)*0.55*bv/2 + (crv-(crv-ctv)*0.55)*0.42
-#    engine_cg = 0.75*Fus_len + 0.4*length_nacelle
+
+
+    return Empty_mass_new, geometrylistfuselage, geometrylistwings, geometrylistvtail
+
+def cg_prandtl():
+    fus_cg = 0.47*Fus_len
+    wing1_cg = frac_qtrchord_fus*Fus_len + sin(sweep1*pi/180)*0.35*b/2 + (cr1-(cr1-ct1)*0.35)*0.35
+    wing2_cg = Fus_len - crv + sin(sweep2*pi/180)*0.35*b/2 + (cr2-(cr2-ct2)*0.35)*0.35 + sin(sweepv*pi/180)*bv + 0.25*ctv
+    tailv_cg = Fus_len - crv + sin(sweepv*pi/180)*0.55*bv/2 + (crv-(crv-ctv)*0.55)*0.42
+    engine_cg = 0.75*Fus_len + 0.4*length_nacelle
