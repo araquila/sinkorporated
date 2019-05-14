@@ -17,10 +17,10 @@ mf_nacelle_jet = 0.016
 mf_landgear_jet = 0.051
 
 cgm_oew = 0.25 #with respect to the MAC
-def x_lemac_tbp(cg_fus,c_tbp):
+def x_lemac_tbp_calc(cg_fus,c_tbp):
     x_lemac = cg_fus+c_tbp*(0.4*(0.118/0.099)-0.25*(1+0.118/0.099))
     return x_lemac
 
-def x_lemac_jet(cg_fus,c_jet):
+def x_lemac_jet_calc(cg_fus,c_jet):
     x_lemac = cg_fus+c_jet*(0.4*(0.128/0.093)-0.25*(1+0.128/0.093))
     return x_lemac
