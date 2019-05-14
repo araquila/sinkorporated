@@ -162,7 +162,7 @@ def det_nose_lg_weight(W_l, N_l, L_n, N_nw, kneeling_nose_lg = False):
     nose_lg_weight = 0.032 * K_np * W_l**0.646 * N_l**0.2 * L_n**0.5 * N_nw**0.45
     return nose_lg_weight
 
-def det_nacelle_group_weight(N_lt, N_w, N_z, N_en, S_n, pylon_mounted = False, W_ec = 0, W_engine = 0, propeller = False, thrust_reverser = False):
+def det_nacelle_group_weight(N_lt, N_w, N_z, N_en, S_n, W_engine, pylon_mounted = False, W_ec = 0, propeller = False, thrust_reverser = False):
     """
     Inputs:
     N_lt = nacelle length in ft
@@ -194,7 +194,7 @@ def det_nacelle_group_weight(N_lt, N_w, N_z, N_en, S_n, pylon_mounted = False, W
     if thrust_reverser:
         K_tr = 1.18
     if W_ec == 0:
-        W_ec = W_engine**0.901 * K_p * K_tr
+        W_ec = 2.331 * W_engine**0.901 * K_p * K_tr
     nacelle_group_weight = 0.6724 * K_ng * N_lt**0.10 * N_w**0.294 * N_z**0.119 * W_ec**0.611 * N_en**0.984 * S_n**0.224
     return nacelle_group_weight
 
@@ -321,7 +321,7 @@ def det_electrical_weight(L_a, R_kva = 50, N_gen = 0, N_en = 0):
     if N_gen == 0:
         raise NameError("No generators?")
     electrical_weight = 7.291 * R_kva**0.782 * L_a**0.346 * N_gen**0.10
-    return electrical
+    return electrical_weight
 
 def det_avionics_weight(W_uav = 1100):
     """
