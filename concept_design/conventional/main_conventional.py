@@ -373,3 +373,9 @@ for iter in range(5):
     for value in tbp_data_list:
         print(value[0] + ': ' + str(value[1]))
     print('----------------------------------------------------')
+
+fuel_per_passenger_jet = W_fuel_jet/n_passenger
+fuel_per_passenger_tbp = W_fuel_tbp/n_passenger
+
+print(fuel_per_passenger_jet/g)
+print(fuel_per_passenger_tbp/g)
