@@ -1,4 +1,5 @@
 import math
+import numpy as np
 #FUSELAGE SIZING
 def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
 
