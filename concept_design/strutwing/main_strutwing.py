@@ -88,21 +88,33 @@ class1sizing_htail = {"Horizontal Tail Span": [], "Quarter Chord Sweep": [], "Ta
 class1sizing_vtail = {"Vertical Tail Span": [], "Leading Edge Sweep": [], "Taper": [], "Root Chord": [], "T/C Ratio": [], "Aspect Ratio": []}
 class1sizing_gear = {"Gear Vertical Height": [], "Gear Lateral Position": []}
 
-# Iterator
+class2 = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
+class2["flight controls weight"] = []
+class2["APU weight"] = []
+class2["instruments weight"] = []
+class2["hydraulics weight"] = []
+class2["electrical system weight"] = []
+class2["avionics weight"] = []
+class2["furnishings weight"] = []
+class2["airconditioning weight"] = []
+class2["anti icing system weight"] = []
+class2["handling gear weight"] = []
+
+
+# FUnctions
 for iter in range(5):
     MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_jet, tbp = True)
 
     class1["MTOW"].append(MTOW_tbp)
     class1["OEW"].append(OEW_tbp)
     class1["Fuel"].append(W_fuel_tbp)
-    #wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
-
     loading_wing_tbp = 3500.
     loading_power_tbp = 0.05
 
     S_tbp = MTOW_tbp / loading_wing_tbp
     P_TO_tbp = MTOW_tbp / loading_power_tbp
     MTOM_tbp = MTOW_tbp / g
+    #wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
 
 
     length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, diameter_fuselage_inside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
@@ -146,19 +158,6 @@ for iter in range(5):
     class1sizing_gear["Gear Lateral Position"].append(lateral_position)
 
 
-class2 = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
-class2["flight controls weight"] = []
-class2["APU weight"] = []
-class2["instruments weight"] = []
-class2["hydraulics weight"] = []
-class2["electrical system weight"] = []
-class2["avionics weight"] = []
-class2["furnishings weight"] = []
-class2["airconditioning weight"] = []
-class2["anti icing system weight"] = []
-class2["handling gear weight"] = []
-
-def class2_weight_estimation():
     W_wing = 0.82 * det_wing_weight(kg_to_pounds(MTOM_tbp), ult_load_factor(kg_to_pounds(MTOM_tbp)), metersquared_to_feetsquared(S_tbp), A_tbp, t_c_ratio, taper, sweepqc, metersquared_to_feetsquared(0.05*S_tbp))
     W_h = det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside), meter_to_feet(span_h), kg_to_pounds(MTOM_tbp),  1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(S_h), meter_to_feet(l_h), np.radians(sweepqc_h), AR_h, metersquared_to_feetsquared(0.3*S_h))
     W_v = det_vert_tail_weight(meter_to_feet(span_v), meter_to_feet(span_v), kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), l_v, S_v, np.radians(sweepLE_v), AR_v, t_c_ratio)
@@ -201,14 +200,11 @@ def class2_weight_estimation():
     class2["anti icing system weight"].append(W_anti_ice)
     class2["handling gear weight"].append(W_handling_gear)
 
-class2_weight_estimation()
-total = 0
-for system in class2:
-    total += class2[system][-1]
+    total_empty_weight_tbp = W_wing + W_h + W_v + W_fus + W_ml + W_nl + W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear
+    total_empty_weight_tbp = pounds_to_kg(total_empty_weight_tbp)
+    W_empty_tbp = total_empty_weight_tbp * g
 
-
-print(class2)
-print(pounds_to_kg(total))
-
+    print(MTOM_tbp)
+    print(class1)
 
 print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))
