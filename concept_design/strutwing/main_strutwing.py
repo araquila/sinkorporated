@@ -88,7 +88,7 @@ class1sizing_htail = {"Horizontal Tail Span": [], "Quarter Chord Sweep": [], "Ta
 class1sizing_vtail = {"Vertical Tail Span": [], "Leading Edge Sweep": [], "Taper": [], "Root Chord": [], "T/C Ratio": [], "Aspect Ratio": []}
 class1sizing_gear = {"Gear Vertical Height": [], "Gear Lateral Position": []}
 
-class2 = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
+class2 = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
 class2["flight controls weight"] = []
 class2["APU weight"] = []
 class2["instruments weight"] = []
@@ -165,6 +165,7 @@ for iter in range(5):
     W_ml = pounds_to_kg(det_main_lg_weight(kg_to_pounds(MTOM_tbp), 4.5, meter_to_inch(wheel_height), 4, 2, ms_to_knots(V_stall_tbp)))
     W_nl = pounds_to_kg(det_nose_lg_weight(kg_to_pounds(MTOM_tbp), 4.5, meter_to_inch(wheel_height), 2))
     W_nacelle = pounds_to_kg(det_nacelle_group_weight(meter_to_feet(length_engine), meter_to_feet(diameter_engine), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), n_engines, metersquared_to_feetsquared(np.pi * diameter_engine * length_engine), W_ec = kg_to_pounds(mass_engine), propeller=True, thrust_reverser=True))
+    W_engine = 2 * mass_engine
     W_engine_controls = pounds_to_kg(det_engine_controls_weight(n_engines, n_engines*meter_to_feet(pos_engine)))
     W_starter = pounds_to_kg(det_starter_weight(n_engines, kg_to_pounds(mass_engine)))
     W_fuel_system = pounds_to_kg(det_fuel_system_weight(kg_to_pounds(W_fuel_tbp/g)/6.67632, kg_to_pounds(W_fuel_tbp/g)/6.67632, 0, n_fueltanks))
@@ -174,7 +175,7 @@ for iter in range(5):
     W_hydraulics = hydraulics_weight = pounds_to_kg(det_hydraulics_weight(meter_to_feet(length_fuselage), b))
     W_electrical = electrical_weight = pounds_to_kg(det_electrical_weight(meter_to_feet(length_fuselage), N_gen = 3))
     W_avionics = avionics_weight = pounds_to_kg(det_avionics_weight())
-    W_furnishings = pounds_to_kg(det_furnishings_weight(n_pilots, 13.608*60, metersquared_to_feetsquared(np.pi * diameter_fuselage_outside * length_fuselage)))
+    W_furnishings = pounds_to_kg(det_furnishings_weight(n_pilots, 30*60, metersquared_to_feetsquared(np.pi * diameter_fuselage_outside * length_fuselage)))
     pres_vol = np.pi / 4 * diameter_fuselage_inside**2 * (length_nose + length_nose)
     W_airco = aircond_weight = pounds_to_kg(det_aircond_weight(n_passenger, metercubed_to_feetcubed(pres_vol)))
     W_anti_ice = anti_ice_weight = pounds_to_kg(det_anti_ice_weight(kg_to_pounds(MTOM_tbp)))
@@ -186,6 +187,7 @@ for iter in range(5):
     class2["main landing gear weight"].append(W_ml)
     class2["nose landing gear weight"].append(W_nl)
     class2["nacelle group weight"].append(W_engine_controls)
+    class2["engine weight"].append(W_engine)
     class2["engine controls weight"].append(W_engine_controls)
     class2["starter weight"].append(W_starter)
     class2["fuel system weight"].append(W_fuel_system)
@@ -204,7 +206,5 @@ for iter in range(5):
     W_empty_tbp = total_empty_weight_tbp * g
 
 print(class1sizing_wing)
-print(class1sizing_htail)
-print(class1sizing_vtail)
 print(class2)
 print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))
