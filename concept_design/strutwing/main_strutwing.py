@@ -158,7 +158,13 @@ def class2_weight_estimation():
     class2["handling gear weight"].append(W_handling_gear)
 
 class2_weight_estimation()
+total = 0
+for system in class2:
+    total += class2[system][-1]
+
+
 print(class2)
+print(pounds_to_kg(total))
 
 
 print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))
