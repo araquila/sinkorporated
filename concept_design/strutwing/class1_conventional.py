@@ -3,7 +3,7 @@ import numpy as np
 from fuel_fraction import fuel_fraction
 
 # FUNCTION
-def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, jet = False, tbp = False):
+def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel,  V_cruise_jet, V_loiter_tbp,jet = False, tbp = False):
 
     # Find C_D_0
     C_D_0 = C_fe * S_wet/S
@@ -19,7 +19,7 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
         C_D_loiter_jet = 2 * C_D_0
         LD_loiter_jet = C_L_loiter_jet / C_D_loiter_jet
 
-        f_fuel_jet, f_reserve_jet = fuel_fraction(LD_cruise_jet = LD_cruise_jet, cj_cruise_jet = cj_cruise_jet, cj_loiter_jet = cj_loiter_jet, LD_loiter_jet = LD_loiter_jet, jet = True)
+        f_fuel_jet, f_reserve_jet, f_cruise_start_jet, f_cruise_end_jet = fuel_fraction(LD_cruise_jet = LD_cruise_jet, cj_cruise_jet = cj_cruise_jet, cj_loiter_jet = cj_loiter_jet, LD_loiter_jet = LD_loiter_jet, V_cruise_jet = V_cruise_jet, jet = True)
 
         # Used fuel
         f_used_fuel_jet = 1 - f_fuel_jet
@@ -40,7 +40,7 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
         # Determine the operative empty weight for a jet
         OEW_jet = W_empty_jet + W_trapped_fuel_jet + W_crew
 
-        return MTOW_jet, OEW_jet, W_fuel_jet, C_D_0
+        return MTOW_jet, OEW_jet, W_fuel_jet, C_D_0, f_cruise_start_jet, f_cruise_end_jet
 
 # THIS SECTION IS USED FOR TURBOPROP AIRCRAFT
     if tbp:
@@ -54,7 +54,7 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
         LD_loiter_tbp = C_L_loiter_tbp / C_D_loiter_tbp
 
         # Determine fuel fractions for a turboprop
-        f_fuel_tbp, f_reserve_tbp = fuel_fraction(LD_loiter_tbp = LD_loiter_tbp, LD_cruise_tbp = LD_cruise_tbp, eff_cruise_tbp = eff_cruise_tbp, eff_loiter_tbp = eff_loiter_tbp, cp_cruise_tbp = cp_cruise_tbp, cp_loiter_tbp = cp_loiter_tbp, tbp = True)
+        f_fuel_tbp, f_reserve_tbp,f_cruise_start_tbp, f_cruise_end_tbp = fuel_fraction(LD_loiter_tbp = LD_loiter_tbp, LD_cruise_tbp = LD_cruise_tbp, eff_cruise_tbp = eff_cruise_tbp, eff_loiter_tbp = eff_loiter_tbp, cp_cruise_tbp = cp_cruise_tbp, cp_loiter_tbp = cp_loiter_tbp, V_loiter_tbp = V_loiter_tbp,tbp = True)
 
         # Used fuel
         f_used_fuel_tbp = 1 - f_fuel_tbp
@@ -76,4 +76,5 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
         # Determine the operative empty weight for a turboprop
         OEW_tbp = W_empty_tbp + W_trapped_fuel_tbp + W_crew
 
-        return MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0, LD_cruise_tbp
+        return MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp
+#RETARD
