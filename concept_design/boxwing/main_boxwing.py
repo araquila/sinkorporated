@@ -54,4 +54,4 @@ def class1box():
 
         W_empty_jet = (OEW_jet-W_crew)-f_trapped_fuel*MTOW_jet
 
-    return MTOW_jet, OEW_jet, W_fuel_jet
+    return MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet
