@@ -3,7 +3,7 @@
 # Import modules
 from constant_variables import *
 from class1_conventional import Weights_Class_I
-from power_wingloading_conventional import wingloading_jet, wingloading_tbp
+from power_wingloading_conventional_redone import wingloading_jet, wingloading_tbp
 from wingloadingfunctions import T_W_calc, W_P_climb_calc
 from class1sizing_conventional import fuselage, det_quarter_chord_sweep, det_planform, det_dihedral_angle, enginedimensions, MAC, empennage, undercarriage, tiresizing
 from atmosphere import atmosphere_calc
@@ -38,6 +38,8 @@ TOP_jet = 6698
 M_cruise_jet = V_cruise_jet/speed_of_sound
 C_L_cruise_jet = 0.4
 C_L_max_jet = 2.3
+C_L_max_land_jet = 2.6
+C_L_max_TO_jet = 1.9
 
 # Empennage jet
 V_h_jet = 1.07                         # [-]
@@ -54,6 +56,8 @@ C_L_cruise_tbp = 0.8
 S_tbp = 76
 TOP_tbp = 139
 C_L_max_tbp = 2.6
+C_L_max_land_tbp = 2.6
+C_L_max_TO_tbp = 1.9
 
 # Empennage tbp
 V_h_tbp = 1.57                          # [-]
@@ -92,19 +96,17 @@ for iter in range(1):
     tbp_data_list.append(('MTOM_tbp',MTOM_tbp))
 
     ## WING LOADING AND POWER LOADING
-    W_S_landing_jet = wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet)
-    W_S_landing_tbp = wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
-
+    W_S_landing_jet = wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet,C_L_max_land_jet,C_L_max_TO_jet)
+    W_S_landing_tbp = wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp,C_L_max_land_tbp,C_L_max_TO_tbp)
+    
     # T/W for jet
-    T_W_jet_range = np.zeros(len(W_S_landing_jet))
-    for i in range(len(W_S_landing_jet)):
-        T_W_jet_range[i] = T_W_calc(W_S_landing_jet[i],TOP_jet,1.32)
+    T_W_jet_range = T_W_calc(W_S_landing_jet,TOP_jet,1.32)
 
     # W/P for tbp
     W_P_tbp = W_P_climb_calc(eff_cruise_tbp,c,W_S_landing_tbp[0][0],rho,A_tbp,e_tbp,C_D_0_tbp)
 
     # S for jet and tbp
-    S_jet = MTOW_jet/W_S_landing_jet[0]
+    S_jet = MTOW_jet/W_S_landing_jet
     S_tbp = MTOW_tbp/W_S_landing_tbp[0][0]
 
     # Append to data list
@@ -139,7 +141,7 @@ for iter in range(1):
 
     # Engines for jet and tbp
     P_TO_tbp = MTOW_tbp / W_P_tbp                       # Take-off power tbp [W]
-    T_TO_jet = T_W_jet_range[0] * MTOW_jet              # Take-off thrust jet [N]
+    T_TO_jet = T_W_jet_range * MTOW_jet              # Take-off thrust jet [N]
     diameter_engine_tbp, length_engine_tbp, diameter_propeller_tbp = enginedimensions(rho0,n_engines_tbp, P_TO_tbp, T_TO_jet, tbp=True)
     length_nacelle_jet, length_fan_cowling_jet, diameter_highlight_jet, diameter_exit_fan_jet, diameter_gas_generator_jet, diameter_nacelle_jet = enginedimensions(rho0,n_engines_jet, P_TO_tbp, T_TO_jet, jettypeB=True)
 
