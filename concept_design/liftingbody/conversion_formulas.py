@@ -16,6 +16,10 @@ def metercubed_to_feetcubed(volume_in_metercubed):
     volume_in_feetcubed = 35.3147 * volume_in_metercubed
     return volume_in_feetcubed
 
+def metercubed_to_gallon(volume_in_metercubed):
+    volume_in_gallon = 264.1720523581 * volume_in_metercubed
+    return volume_in_gallon
+
 def kg_to_pounds(mass_in_kg):
     mass_in_pounds = 2.20462 * mass_in_kg
     return mass_in_pounds
@@ -50,6 +54,6 @@ def USdensity_to_ISdensity(US_density):
     ISdensity = 0.062428 * US_density
     return ISdensity
 
-def ms_to_knots(velocity_in_knots):
+def knots_to_ms(velocity_in_knots):
     velocity_in_ms = 1.94384 * velocity_in_knots
     return velocity_in_ms
