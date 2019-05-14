@@ -171,7 +171,7 @@ for iter in range(5):
     P_TO_tbp = MTOW_tbp / W_P_tbp                    # Take-off power tbp [W]
     T_TO_jet = T_W_jet_range[0] * MTOW_jet              # Take-off thrust jet [N]
     diameter_engine_tbp, length_engine_tbp, diameter_propeller_tbp = enginedimensions(rho0,n_engines_tbp, P_TO_tbp, T_TO_jet, tbp=True)
-    length_nacelle_jet, length_fan_cowling_jet, diameter_highlight_jet, diameter_exit_fan_jet, diameter_gas_generator_jet = enginedimensions(rho0,n_engines_jet, P_TO_tbp, T_TO_jet, jettypeB=True)
+    length_nacelle_jet, length_fan_cowling_jet, diameter_highlight_jet, diameter_exit_fan_jet, diameter_gas_generator_jet, diameter_nacelle_jet = enginedimensions(rho0,n_engines_jet, P_TO_tbp, T_TO_jet, jettypeB=True)
 
     # Append to data list
     tbp_data_list.append(('diameter_propeller_tbp ', diameter_propeller_tbp))
@@ -264,10 +264,13 @@ for iter in range(5):
     jet_data_list.append(('nose_lg_weight_jet', nose_lg_weight_jet))
 
     # Nacelle
-    nacelle_group_weight_tbp = pounds_to_kg(class2.det_nacelle_group_weight(meter_to_feet(length_engine_tbp), meter_to_feet(diameter_engine_tbp), 1.5*n_max_tbp, 2, metersquared_to_feetsquared(np.pi * diameter_engine_tbp * length_engine_tbp), pylon_mounted = False, W_ec = kg_to_pounds(1200), W_engine = 0, propeller = False, thrust_reverser = False))
+    nacelle_group_weight_jet = pounds_to_kg(class2.det_nacelle_group_weight(meter_to_feet(length_nacelle_jet), meter_to_feet(diameter_nacelle_jet), 1.5*n_max_jet, 2, metersquared_to_feetsquared(np.pi * diameter_nacelle_jet * length_nacelle_jet), pylon_mounted = True, W_ec = 0, W_engine = kg_to_pounds(820), propeller = False, thrust_reverser = False))
+    nacelle_group_weight_tbp = pounds_to_kg(class2.det_nacelle_group_weight(meter_to_feet(length_engine_tbp), meter_to_feet(diameter_engine_tbp), 1.5*n_max_tbp, 2, metersquared_to_feetsquared(np.pi * diameter_engine_tbp * length_engine_tbp), pylon_mounted = True, W_ec = 0, W_engine = kg_to_pounds(700), propeller = True, thrust_reverser = False))
 
     #Append to data list
     tbp_data_list.append(('nacelle_group_weight_tbp', nacelle_group_weight_tbp))
+    tbp_data_list.append(('nacelle_group_weight_jet', nacelle_group_weight_jet))
+
 
     # Engine controls weight
     engine_controls_weight_jet = pounds_to_kg(class2.det_engine_controls_weight(2,40))
