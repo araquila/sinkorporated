@@ -2,10 +2,6 @@
 from math import *
 import numpy as np
 def V_stall_calc(W,rho,CL,S):
-    print(W)
-    print(rho)
-    print(CL)
-    print(S)
     V_stall = sqrt(2*W/(rho*CL*S))
     return V_stall
 
