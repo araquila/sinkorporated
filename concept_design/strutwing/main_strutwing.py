@@ -158,7 +158,7 @@ for iter in range(5):
     class1sizing_gear["Gear Lateral Position"].append(lateral_position)
 
 
-    W_wing = 0.82 * det_wing_weight(kg_to_pounds(MTOM_tbp), ult_load_factor(kg_to_pounds(MTOM_tbp)), metersquared_to_feetsquared(S_tbp), A_tbp, t_c_ratio, taper, sweepqc, metersquared_to_feetsquared(0.05*S_tbp))
+    W_wing = 0.82 * det_wing_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), metersquared_to_feetsquared(S_tbp), A_tbp, t_c_ratio, taper, np.radians(sweepqc), metersquared_to_feetsquared(0.05*S_tbp))
     W_h = det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside), meter_to_feet(span_h), kg_to_pounds(MTOM_tbp),  1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(S_h), meter_to_feet(l_h), np.radians(sweepqc_h), AR_h, metersquared_to_feetsquared(0.3*S_h))
     W_v = det_vert_tail_weight(meter_to_feet(span_v), meter_to_feet(span_v), kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), l_v, S_v, np.radians(sweepLE_v), AR_v, t_c_ratio)
     W_fus = det_fuselage_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(length_fuselage), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper, b, sweepqc, LD_cruise_tbp, fuselage_mounted_lg=True)
@@ -204,7 +204,8 @@ for iter in range(5):
     total_empty_weight_tbp = pounds_to_kg(total_empty_weight_tbp)
     W_empty_tbp = total_empty_weight_tbp * g
 
-    print(MTOM_tbp)
-    print(class1)
-
+print(class1sizing_wing)
+print(class1sizing_htail)
+print(class1sizing_vtail)
+print(class2)
 print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))
