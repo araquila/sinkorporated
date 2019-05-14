@@ -1,6 +1,7 @@
 # MAIN OF THE CONVENTIAL AIRCRAFT SIZING PROGRAM
 
 # Import modules
+from constant_variables import *
 from class1_conventional import Weights_Class_I
 from power_wingloading_conventional import wingloading_jet, wingloading_tbp
 from wingloadingfunctions import T_W_calc, W_P_climb_calc
@@ -14,15 +15,7 @@ import numpy as np
 
 ## INPUTS AND CONSTANTS
 
-# Gravitional constant
-g = 9.80665
-R = 287
 
-# Atmospherical parameters
-temperature0 = 288.15
-temperature_gradient = -0.0065
-gamma = 1.4
-rho0 = 1.225                        # [kg/m3]
 
 # Flight parameters
 s_landing = 1400                    #[m]
@@ -33,28 +26,12 @@ V_landing = 48.93                   #[m/s] maximum landing speed that is allowed
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 c = 10                              #[m/s] climb rate THIS IS INPUT
 
-# Passengers and crew
-n_passenger = 60
-M_passenger = 102                   #(including luggage)
-n_crew = 4
-M_crew_member = 100
 
-# Cabin layout
-n_seats_abreast = 4
-n_aisles = 1
 
-# Initial mass and fractions
-M_payload = n_passenger * M_passenger
-M_crew = n_crew * M_crew_member
-f_trapped_fuel = 0.003              # Range 0.001-0.005
-M_empty_tbp = 14400
-M_empty_jet = 16300
 
-# Convert to weights
-W_payload = M_payload * g
-W_crew = M_crew * g
-W_empty_tbp = M_empty_tbp * g
-W_empty_jet = M_empty_jet * g
+
+
+
 
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
@@ -105,7 +82,7 @@ q_jet = 0.5*rho*V_cruise_jet**2     # [n/m2]
 q_tbp = 0.5*rho*V_cruise_tbp**2     # [n/m2]
 
 # Iterative sizing process
-for iter in range(5):
+for iter in range(1):
     
     jet_data_list = []
     tbp_data_list = []
@@ -167,7 +144,7 @@ for iter in range(5):
     jet_data_list.append(('b_jet ', b_jet))
 
     # Engines for jet and tbp
-    P_TO_tbp = MTOW_tbp / W_P_tbp                    # Take-off power tbp [W]
+    P_TO_tbp = MTOW_tbp / W_P_tbp                       # Take-off power tbp [W]
     T_TO_jet = T_W_jet_range[0] * MTOW_jet              # Take-off thrust jet [N]
     diameter_engine_tbp, length_engine_tbp, diameter_propeller_tbp = enginedimensions(rho0,n_engines_tbp, P_TO_tbp, T_TO_jet, tbp=True)
     length_nacelle_jet, length_fan_cowling_jet, diameter_highlight_jet, diameter_exit_fan_jet, diameter_gas_generator_jet, diameter_nacelle_jet = enginedimensions(rho0,n_engines_jet, P_TO_tbp, T_TO_jet, jettypeB=True)
@@ -183,8 +160,8 @@ for iter in range(5):
     l_h_jet, l_v_jet = 0.9*length_fuselage-(x_lemac_jet+0.25*MAC_jet), 0.9*length_fuselage-(x_lemac_jet+0.25*MAC_jet)                           # [m]
     l_h_tbp, l_v_tbp = 0.9*length_fuselage-(x_lemac_tbp+0.25*MAC_tbp), 0.9*length_fuselage-(x_lemac_tbp+0.25*MAC_tbp)
 
-    main_landing_pos_jet = x_lemac_jet+0.4*MAC_jet               # [m]
-    main_landing_pos_tbp = x_lemac_tbp+0.4*MAC_tbp             # [m]
+    main_landing_pos_jet = x_lemac_jet+0.4*MAC_jet      # [m]
+    main_landing_pos_tbp = x_lemac_tbp+0.4*MAC_tbp      # [m]
 
     AR_h_jet, AR_v_jet, S_h_jet, span_h_jet, root_chord_h_jet, tip_chord_h_jet, sweepqc_h_jet, sweepLE_h_jet, S_v_jet, span_v_jet, root_chord_v_jet, tip_chord_v_jet, sweepLE_v_jet = empennage(V_h_jet, V_v_jet, l_h_jet, l_v_jet, S_jet, b_jet, MAC_jet)
     wheel_height_jet, lateral_position_jet = undercarriage(main_landing_pos_jet, nose_landing_pos_jet, length_fuselage, length_tail, diameter_fuselage_outside)
@@ -211,9 +188,12 @@ for iter in range(5):
     # Wing weight
     n_max_jet = class2.ult_load_factor(kg_to_pounds(MTOW_jet/g))
     n_max_tbp = class2.ult_load_factor(kg_to_pounds(MTOW_tbp/g))
+    
+    qc_sweep_tbp = det_quarter_chord_sweep(M_cruise_tbp)
+    qc_sweep_jet = det_quarter_chord_sweep(M_cruise_jet)
 
-    wing_weight_jet = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOW_jet/g),n_max_jet*1.5,metersquared_to_feetsquared(S_jet),A_jet,t_c_ratio_jet,taper_jet,sweep_jet,metersquared_to_feetsquared(0.05*S_jet))) #DIT NOG FF CHECKEN
-    wing_weight_tbp = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOW_tbp/g),n_max_tbp*1.5,metersquared_to_feetsquared(S_tbp),A_tbp,t_c_ratio_tbp,taper_tbp,sweep_tbp,metersquared_to_feetsquared(0.05*S_tbp))) #DIT NOG FF CHECKEN
+    wing_weight_jet = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOW_jet/g),n_max_jet*1.5,metersquared_to_feetsquared(S_jet),A_jet,t_c_ratio_jet,taper_jet,qc_sweep_jet,metersquared_to_feetsquared(0.05*S_jet))) #DIT NOG FF CHECKEN
+    wing_weight_tbp = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOW_tbp/g),n_max_tbp*1.5,metersquared_to_feetsquared(S_tbp),A_tbp,t_c_ratio_tbp,taper_tbp,qc_sweep_tbp,metersquared_to_feetsquared(0.05*S_tbp))) #DIT NOG FF CHECKEN
 
     # Append to data list
     tbp_data_list.append(('wing_weight_tbp', wing_weight_tbp))
@@ -268,7 +248,7 @@ for iter in range(5):
 
     #Append to data list
     tbp_data_list.append(('nacelle_group_weight_tbp', nacelle_group_weight_tbp))
-    tbp_data_list.append(('nacelle_group_weight_jet', nacelle_group_weight_jet))
+    jet_data_list.append(('nacelle_group_weight_jet', nacelle_group_weight_jet))
 
 
     # Engine controls weight
