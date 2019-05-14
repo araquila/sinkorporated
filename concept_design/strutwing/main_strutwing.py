@@ -170,7 +170,7 @@ for iter in range(5):
     W_engine_controls = pounds_to_kg(det_engine_controls_weight(n_engines, n_engines*meter_to_feet(pos_engine)))
     W_starter = pounds_to_kg(det_starter_weight(n_engines, kg_to_pounds(mass_engine)))
     W_fuel_system = pounds_to_kg(det_fuel_system_weight(kg_to_pounds(W_fuel_tbp/g)/6.67632, kg_to_pounds(W_fuel_tbp/g)/6.67632, 0, n_fueltanks))
-    W_flight_control = pounds_to_kg(det_flight_controls_weight(meter_to_feet(0.3*S_h+0.05*S_tbp), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_tbp)*0.34**2)/(4*32.19)))
+    W_flight_control = pounds_to_kg(det_flight_controls_weight(metersquared_to_feetsquared(0.3*S_h+0.05*S_tbp), (meter_to_feet(length_fuselage)**2 * kg_to_pounds(MTOM_tbp)*0.34**2)/(4*32.19)))
     APU_weight = det_APU_weight(200)
     W_instruments = pounds_to_kg(det_instruments_weight(n_pilots, n_engines, meter_to_feet(length_fuselage), meter_to_feet(b), turboprop = True))
     W_hydraulics = pounds_to_kg(det_hydraulics_weight(meter_to_feet(length_fuselage), meter_to_feet(b)))
