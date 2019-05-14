@@ -112,7 +112,6 @@ for iter in range(5):
     loading_power_tbp = 0.05
 
     S_tbp = MTOW_tbp / loading_wing_tbp
-    print(S_tbp)
     P_TO_tbp = MTOW_tbp / loading_power_tbp
     MTOM_tbp = MTOW_tbp / g
     #wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
@@ -162,8 +161,8 @@ for iter in range(5):
     #W_wing = pounds_to_kg(0.82 * det_wing_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), metersquared_to_feetsquared(S_tbp), A_tbp, t_c_ratio, taper, np.radians(sweepqc), metersquared_to_feetsquared(0.05*S_tbp)))
     W_wing = det_wing_weight_new(b, S_tbp, sweepqc, taper, MTOM_tbp, V_cruise_tbp, t_c_ratio)
     W_h = pounds_to_kg(det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside), meter_to_feet(span_h), kg_to_pounds(MTOM_tbp),  1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(S_h), meter_to_feet(l_h), np.radians(sweepqc_h), AR_h, metersquared_to_feetsquared(0.3*S_h)))
-    W_v = pounds_to_kg(det_vert_tail_weight(meter_to_feet(span_v), meter_to_feet(span_v), kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), l_v, S_v, np.radians(sweepLE_v), AR_v, t_c_ratio))
-    W_fus = pounds_to_kg(det_fuselage_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(length_fuselage), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper, b, sweepqc, LD_cruise_tbp, fuselage_mounted_lg=True))
+    W_v = pounds_to_kg(det_vert_tail_weight(meter_to_feet(span_v), meter_to_feet(span_v), kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(l_v), metersquared_to_feetsquared(S_v), np.radians(sweepLE_v), AR_v, t_c_ratio))
+    W_fus = pounds_to_kg(det_fuselage_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(length_fuselage), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper, meter_to_feet(b), sweepqc, LD_cruise_tbp, fuselage_mounted_lg=True))
     W_ml = pounds_to_kg(det_main_lg_weight(kg_to_pounds(MTOM_tbp), 4.5, meter_to_inch(wheel_height), 4, 2, ms_to_knots(V_stall_tbp)))
     W_nl = pounds_to_kg(det_nose_lg_weight(kg_to_pounds(MTOM_tbp), 4.5, meter_to_inch(wheel_height), 2))
     W_nacelle = pounds_to_kg(det_nacelle_group_weight(meter_to_feet(length_engine), meter_to_feet(diameter_engine), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), n_engines, metersquared_to_feetsquared(np.pi * diameter_engine * length_engine), W_ec = kg_to_pounds(mass_engine), propeller=True, thrust_reverser=True))
