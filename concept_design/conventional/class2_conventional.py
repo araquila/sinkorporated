@@ -20,6 +20,10 @@ def ult_load_factor(MTOW):
         n_max = 2.5
     return n_max
 
+def det_wing_weight_revised(Cl,b,S_w,qc_sweep,taper,M_TOM,N_max,V_dive,t_c_ratio):
+    wing_weight_revised = Cl*((b*S_w)/np.cos(qc_sweep)*(1+2*taper)/(3+3*taper)*((M_TOM*N_max)/S_w)**0.3*(V_dive/t_c_ratio)**0.5)**0.9
+    return wing_weight_revised
+
 def det_wing_weight(W_dg, N_z, S_w, AR, t_c_root, taper, quarter_chord_sweep, S_csw):
     """
     Inputs:

@@ -36,7 +36,7 @@ def det_wing_weight(W_dg, N_z, S_w, AR, t_c_root, taper, quarter_chord_sweep, S_
 
 def det_wing_weight_new(b, S_tbp, sweepqc, taper, MTOM_tbp, V_cruise_tbp, t_c_ratio):
 
-    wing_weight = 0.021*(((b*S_tbp)/np.cos(np.radians(sweepqc)))*((1+2*taper)/(3+3*taper))*((MTOM_tbp*1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)))/S_tbp)**0.3*((4*V_cruise_tbp)/t_c_ratio)**0.5)**0.9
+    wing_weight = 0.021*(((b*S_tbp)/np.cos(np.radians(sweepqc)))*((1+2*taper)/(3+3*taper))*((MTOM_tbp*1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)))/S_tbp)**0.3*((1.4*V_cruise_tbp)/t_c_ratio)**0.5)**0.9
     return wing_weight
 
 def det_hor_tail_weight(F_w, B_h, W_dg, N_z, S_ht, L_t, quarter_chord_sweep_ht, AR_ht, S_e, all_moving_unit = False, K_y = 0.3):
