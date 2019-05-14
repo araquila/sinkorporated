@@ -363,8 +363,8 @@ MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruis
 fuel_per_passenger_jet_1000 = (W_fuel_jet_1000/n_passenger)/g
 fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
 
-CO2_tbp = CO2_calc(fuel_per_passenger_tbp_1000)
-CO2_jet = CO2_calc(fuel_per_passenger_jet_1000)
+CO2_tbp = CO2_calc(fuel_per_passenger_tbp_1000,chosen_fuel_energy_density)
+CO2_jet = CO2_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
 
 print('MTOM tbp: ' + str(MTOM_tbp))
 print('Fuel per passenger per 1000 km tbp: ' + str(fuel_per_passenger_tbp_1000))
