@@ -52,7 +52,7 @@ V_v_jet = 0.085                          # [-]
 nose_landing_pos_jet = 3                 # [m]
 
 # Other tbp parameters
-A_tbp = 12
+A_tbp = 16
 e_tbp = 0.85                             # Adjust per concept
 V_loiter_tbp = 80                        # [m/s]
 V_cruise_tbp = 180                       # [m/s]
