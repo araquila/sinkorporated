@@ -80,10 +80,21 @@ n_aisles = 1
 main_landing_pos = 11               # [m]
 nose_landing_pos = 3                # [m]
 
+class1 = {"MTOW": [], "OEW": [], "Fuel": []}
+class1sizing_fuselage = {"Length Fuselage": [], "Diameter Fuselage": []}
+class1sizing_wing = {"Wing Span": [], "Quarter Chord Sweep": [], "Dihedral": [], "Taper": [], "Root Chord": [], "T/C Ratio": [], "Aspect Ratio": []}
+class1sizing_engine = {"Engine Diameter": [], "Engine Length": [], "Propeller Diameter": []}
+class1sizing_htail = {"Horizontal Tail Span": [], "Quarter Chord Sweep": [], "Taper": [], "Root Chord": [], "T/C Ratio": [], "Aspect Ratio": []}
+class1sizing_vtail = {"Vertical Tail Span": [], "Leading Edge Sweep": [], "Taper": [], "Root Chord": [], "T/C Ratio": [], "Aspect Ratio": []}
+class1sizing_gear = {"Gear Vertical Height": [], "Gear Lateral Position": []}
+
 # Iterator
-for iter in range(1):
+for iter in range(5):
     MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_jet, tbp = True)
 
+    class1["MTOW"].append(MTOW_tbp)
+    class1["OEW"].append(OEW_tbp)
+    class1["Fuel"].append(W_fuel_tbp)
     #wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
 
     loading_wing_tbp = 3500.
@@ -91,16 +102,49 @@ for iter in range(1):
 
     S_tbp = MTOW_tbp / loading_wing_tbp
     P_TO_tbp = MTOW_tbp / loading_power_tbp
+    MTOM_tbp = MTOW_tbp / g
+
 
     length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, diameter_fuselage_inside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
+    class1sizing_fuselage["Length Fuselage"].append(length_fuselage)
+    class1sizing_fuselage["Diameter Fuselage"].append(diameter_fuselage_outside)
+
     sweepqc = det_quarter_chord_sweep(M_cruise_tbp)
     dihedral_angle = det_dihedral_angle(sweepqc, high=True)
     b, taper, root_chord, tip_chord, t_c_ratio = det_planform(S_tbp, A_tbp, M_cruise_tbp, C_L_cruise, sweepqc)
     c = 0.5*root_chord + 0.5*tip_chord
+    class1sizing_wing["Wing Span"].append(b)
+    class1sizing_wing["Quarter Chord Sweep"].append(sweepqc)
+    class1sizing_wing["Dihedral"].append(dihedral_angle)
+    class1sizing_wing["Taper"].append(taper)
+    class1sizing_wing["Root Chord"].append(root_chord)
+    class1sizing_wing["T/C Ratio"].append(t_c_ratio)
+    class1sizing_wing["Aspect Ratio"].append(A_tbp)
+
     diameter_engine, length_engine, diameter_propeller = enginedimensions(n_engines, P_TO_tbp)
+    class1sizing_engine["Engine Diameter"].append(diameter_engine)
+    class1sizing_engine["Engine Length"].append(length_engine)
+    class1sizing_engine["Propeller Diameter"].append(diameter_propeller)
+
     AR_h, AR_v, S_h, span_h, root_chord_h, tip_chord_h, sweepqc_h, sweepLE_h, S_v, span_v, root_chord_v, tip_chord_v, sweepLE_v = empennage(V_h, V_v, l_h, l_v, S_tbp, b, c)
+    class1sizing_htail["Horizontal Tail Span"].append(span_h)
+    class1sizing_htail["Quarter Chord Sweep"].append(sweepqc_h)
+    class1sizing_htail["Taper"].append(tip_chord_h/root_chord_h)
+    class1sizing_htail["Root Chord"].append(root_chord_h)
+    class1sizing_htail["T/C Ratio"].append(0)
+    class1sizing_htail["Aspect Ratio"].append(AR_h)
+
+    class1sizing_vtail["Vertical Tail Span"].append(span_v)
+    class1sizing_vtail["Leading Edge Sweep"].append(sweepLE_v)
+    class1sizing_vtail["Taper"].append(tip_chord_v/root_chord_v)
+    class1sizing_vtail["Root Chord"].append(root_chord_v)
+    class1sizing_vtail["T/C Ratio"].append(0)
+    class1sizing_vtail["Aspect Ratio"].append(AR_v)
+
     wheel_height, lateral_position = undercarriage(main_landing_pos, nose_landing_pos, length_fuselage, length_tail, diameter_fuselage_outside)
-    MTOM_tbp = MTOW_tbp / g
+    class1sizing_gear["Gear Vertical Height"].append(wheel_height)
+    class1sizing_gear["Gear Lateral Position"].append(lateral_position)
+
 
 class2 = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
 class2["flight controls weight"] = []

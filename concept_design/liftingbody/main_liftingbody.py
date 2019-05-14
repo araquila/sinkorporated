@@ -26,6 +26,7 @@ temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperatu
 # Passengers and crew
 n_passenger = 60
 M_passenger = 102                   #(including luggage)
+n_pilots = 2
 n_crew = 4
 M_crew_member = 100
 n_seats_abreast = 6
@@ -126,6 +127,7 @@ for iter in range(1):
         # Weight estimations
         MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I_jet(W_empty_jet, W_payload, W_crew, C_fe_jet, S_jet, S_wet_jet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel)
         W_landing_jet = 0.98 * MTOW_jet
+        MTOM_jet = MTOW_jet/g
         #print("jet:", W_fuel_jet/MTOW_jet, MTOW_jet/g, OEW_jet/g, W_fuel_jet/g, C_D_0_jet)
         # Wing loading
         Wing_loading_jet(MTOW_jet, W_landing_jet, S_jet,  \
@@ -135,12 +137,13 @@ for iter in range(1):
         C_D_0_jet, C_D_jet_curr, A_jet, e_jet, c, cV_jet, n_max_man)
 
         # Fuselage sizing
-        length_nose, length_nosecone, length_cabin, length_tail, length_tailcone, length_fuselage, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
+        length_nose, length_nosecone, length_cabin, length_tail, length_tailcone, length_fuselage, diameter_fuselage_inside, diameter_fuselage_outside, width_fuselage_outside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
 
         # Wing sizing
         # Required inputs
         A = A_jet
         S = MTOW_jet/W_S_jet                   # Depends on loading diagrams!
+        S_wet = 4.5 * S
         Mach_cruise = Mach_cruise_jet
         C_L_cruise = MTOW_jet / (0.5 * rho * V_cruise_jet**2 * S)
         print("Cruise:", C_L_cruise, S, MTOW_jet)
@@ -158,6 +161,7 @@ for iter in range(1):
         # Engine sizing
         T_TO_jet = 0.296 * MTOW_jet          # Depends on loading diagrams!
         length_nacelle, length_f, diameter_highlight, diameter_exit_fan, diameter_gas_generator = enginedimensions_jet(rho0, n_engines, T_TO_jet, jettypeC=True)
+        print(metersquared_to_feetsquared(length_nacelle*diameter_highlight))
 
         # Empennage sizing
         V_h = 0.7
@@ -196,14 +200,14 @@ for iter in range(1):
         N_z = 1.5*n_max_man
         S_w = metersquared_to_feetsquared(S_wing)
         S_csw = 0.05*S_w
-        wing_weight = g*pounds_to_kg(det_wing_weight(W_dg, N_z, S_w, A_jet, t_c_ratio, taper, sweep_chord_0_25, S_csw))
-        print("Wing weight:", wing_weight)
+        W_wing = g*pounds_to_kg(det_wing_weight(W_dg, N_z, S_w, A_jet, t_c_ratio, taper, sweep_chord_0_25, S_csw))
+        #print("Wing weight:", wing_weight)
 
         # Determine weight of the fuselage
         B_w = meter_to_feet(b)
         S_f = metersquared_to_feetsquared(length_fuselage*(diameter_fuselage_outside+2.4)*0.9)
-        fuselage_weight = g*pounds_to_kg(det_fuselage_weight(W_dg, N_z, length_fuselage, S_f, taper, B_w, sweep_chord_0_25, LD_cruise_jet, cargo_doors = 1, fuselage_mounted_lg = False))
-        print("Fuselage weight:", fuselage_weight)
+        W_fus = g*pounds_to_kg(det_fuselage_weight(W_dg, N_z, length_fuselage, S_f, taper, B_w, sweep_chord_0_25, LD_cruise_jet, cargo_doors = 1, fuselage_mounted_lg = False))
+        #print("Fuselage weight:", fuselage_weight)
 
         # Determine weight of the horizontal tail
         F_w = meter_to_feet(width_fuselage_outside)
@@ -212,36 +216,50 @@ for iter in range(1):
         L_t = meter_to_feet(10)
         quarter_chord_sweep_ht = radians(sweepqc_h)
         S_e = 0.33*S_ht
-        hor_tail_weight = g*pounds_to_kg(det_hor_tail_weight(F_w, span_ht, W_dg, N_z, S_ht, L_t, quarter_chord_sweep_ht, AR_h, S_e, all_moving_unit = False, K_y = 0.3))
-        print("Horizontal weight:", hor_tail_weight)
+        W_h = g*pounds_to_kg(det_hor_tail_weight(F_w, span_ht, W_dg, N_z, S_ht, L_t, quarter_chord_sweep_ht, AR_h, S_e, all_moving_unit = False, K_y = 0.3))
+        #print("Horizontal weight:", hor_tail_weight)
 
         # Determine weight of the vertical tail
         H_ht = meter_to_feet(span_v)
-        H_vt = meter_to_feet(span_v)
-        S_vt = metersquared_to_feetsquared(S_v)
         quarter_chord_sweep_vt = radians(sweepLE_v) - 0.1
         t_c_root_vt = 0.14
-        vert_tail_weight = g*pounds_to_kg(det_vert_tail_weight(H_ht, H_vt, W_dg, N_z, L_t, S_vt, quarter_chord_sweep_vt, AR_v, t_c_root_vt, K_z = 1))
-        print("Adjust line 222 for quarter chord sweep vertical tail")
-        print("Vertical tail weight:", vert_tail_weight)
 
-        # Determine weight of the landing gear
-        W_l = kg_to_pounds(W_landing_jet)
+        print("Adjust W_v line for quarter chord sweep vertical tail")
+
+        W_l = kg_to_pounds(W_landing_jet)/g
         N_l = 4.5
-        # Main landing gear
-        L_m = meter_to_inch(wheel_height)
-        N_mw = 4
-        N_mss = 2
-        V_stall = ms_to_knots(45)
-        main_lg_weight = g*pounds_to_kg(det_main_lg_weight(W_l, N_l, L_m, N_mw, N_mss, V_stall, kneeling_main_lg = False))
-        print("Adjust stall speed in line 234")
-        print("Main landing gear weight:", main_lg_weight, "   Wait... This is weird...")
 
-        # Nose landing gear
-        L_n = meter_to_inch(wheel_height + 0.2)
-        N_nw = 2
-        nose_lg_weight = g*pounds_to_kg(det_nose_lg_weight(W_l, N_l, L_n, N_nw, kneeling_nose_lg = False))
-        print("Nose landing gear weight:", nose_lg_weight)
+        V_stall = ms_to_knots(45)
+
+        print("Adjust stall speed in line 234")
+
+        N_en = 2
+        W_engine = kg_to_pounds(800)
+        L_ec = meter_to_feet(N_en * length_fuselage - 3)
+        fuel_density = 800 #kg/m^3
+        N_t = 3
+
+        W_v = g*pounds_to_kg(det_vert_tail_weight(H_ht, meter_to_feet(span_v), W_dg, N_z, L_t, metersquared_to_feetsquared(S_v), quarter_chord_sweep_vt, AR_v, t_c_root_vt, K_z = 1))
+        W_ml = g*pounds_to_kg(det_main_lg_weight(W_l, N_l, meter_to_inch(wheel_height), 4, 2, V_stall, kneeling_main_lg = False))
+        W_nl = g*pounds_to_kg(det_nose_lg_weight(W_l, N_l, meter_to_inch(wheel_height + 0.2), 2, kneeling_nose_lg = False))
+        W_nacelle = g*pounds_to_kg(W_engine + det_nacelle_group_weight(meter_to_feet(length_nacelle), meter_to_feet(diameter_highlight), N_z, N_en, N_lt * pi * N_w, W_engine, pylon_mounted = True, propeller = False, thrust_reverser = True))
+        W_engine_controls = g*pounds_to_kg(det_engine_controls_weight(N_en, L_ec))
+        W_starter = g*pounds_to_kg(det_starter_weight(N_en, W_engine))
+        W_fuel_system = g*pounds_to_kg(det_fuel_system_weight(metercubed_to_gallon((W_fuel_jet/g)/fuel_density), metercubed_to_gallon((W_fuel_jet/g)/fuel_density), 0, N_t))
+        W_flight_control = g*pounds_to_kg(det_flight_controls_weight(meter_to_feet(0.3*S_h+0.05*S_wing), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_jet)*0.34**2)/(4*32.19)))
+        W_instruments = g*pounds_to_kg(det_instruments_weight(n_pilots, n_engines, length_fuselage, b, turboprop = False))
+        W_hydraulics = hydraulics_weight = g*pounds_to_kg(det_hydraulics_weight(meter_to_feet(length_fuselage), b))
+        W_electrical = electrical_weight = g*pounds_to_kg(det_electrical_weight(meter_to_feet(length_fuselage), N_gen = 2))
+        W_avionics = avionics_weight = g*pounds_to_kg(det_avionics_weight())
+        W_furnishings = g*pounds_to_kg(det_furnishings_weight(n_pilots, kg_to_pounds(n_passenger*23), metersquared_to_feetsquared(S_wet - 2*S_wing)))
+        pres_vol = np.pi / 4 * diameter_fuselage_inside**2 * (length_nose + length_nose)
+        W_airco = aircond_weight = g*pounds_to_kg(det_aircond_weight(n_passenger, metercubed_to_feetcubed(pres_vol)))
+        W_anti_ice = anti_ice_weight = g*pounds_to_kg(det_anti_ice_weight(kg_to_pounds(MTOM_jet)))
+        W_handling_gear = handling_gear_weight = g*pounds_to_kg(det_handling_gear_weight(kg_to_pounds(MTOM_jet)))
+        APU_weight = g*pounds_to_kg(det_APU_weight(kg_to_pounds(200)))
+        OEW_new_jet = W_wing + W_h + W_v + W_fus + W_ml + W_nl + W_nacelle + W_engine_controls + W_starter + W_fuel_system + \
+        W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear
+        print("Jet:", OEW_new_jet)
 
     if tbp == True:
         # Weight estimation
