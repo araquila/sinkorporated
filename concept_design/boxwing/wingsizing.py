@@ -146,7 +146,7 @@ def iterempty(MTOW, OEW, WF, LD):
     #handling_gear_weight
     handling_gear_weight = det_handling_gear_weight(MTOWlbs)/kgtolbs
 
-    Empty_mass_new= 800*2 + wing_weight1_box + wing_weight2_box + fuselage_weight + vert_tail_weight + main_lg_weight + nose_lg_weight + nacelle_group_weight + engine_control_weight + starter_weight + fuel_system_weight + flight_controls_weight + apu_weight + instruments_weight + hydraulics_weight + electrical_weight + avionics_weight+ furnishings_weight + aircond_weight + anti_ice_weight + handling_gear_weight
+    Empty_mass_new= 820*2 + wing_weight1_box + wing_weight2_box + fuselage_weight + vert_tail_weight + main_lg_weight + nose_lg_weight + nacelle_group_weight + engine_control_weight + starter_weight + fuel_system_weight + flight_controls_weight + apu_weight + instruments_weight + hydraulics_weight + electrical_weight + avionics_weight+ furnishings_weight + aircond_weight + anti_ice_weight + handling_gear_weight
 
     geometrylistfuselage = (('Length fuselage nose', length_nose), ('Length cabin', length_cabin), ('Lenght fuselage tail', length_tail), ('Length fuselage', length_fuselage), ('Length nosecone', length_nosecone), ('Length tailcone', length_tailcone), ('Diameter outside fuselage', diameter_fuselage_outside))
     geometrylistwings = (('Total wing area', S), ('Wing span', b), ('Fore wing area', S1) ,('Aft wing area', S2), ('Fore root chord', cr1), ('Fore tip chord', ct1), ('Aft root chord', cr2), ('Aft tip chord', ct2), ('Fore qc sweep', sweep1), ('Aft qc sweep', sweep2), ('Fore wing position', Fus_len*frac_qtrchord_fus) )
@@ -162,7 +162,8 @@ def iterempty(MTOW, OEW, WF, LD):
     engine_cg = 0.75*Fus_len + 0.4*length_nacelle
     noselg_cg = 0.085*Fus_len
     mainlg_cg = 0.58*Fus_len
-    
+
+    x_cg = (fus_cg*(fuselage_weight+furnishings_weight) + wing1_cg*wing_weight1_box + wing2_cg*wing_weight2_box + tailv_cg*vert_tail_weight+engine_cg*(2*820+nacelle_group_weight) + noselg_cg*nose_lg_weight + mainlg_cg*main_lg_weight)/(820*2 + wing_weight1_box + wing_weight2_box + fuselage_weight + vert_tail_weight + main_lg_weight + nose_lg_weight + nacelle_group_weight + furnishings_weight)
 
 
-    return Empty_mass_new, geometrylistfuselage, geometrylistwings, geometrylistvtail
+    return Empty_mass_new, geometrylistfuselage, geometrylistwings, geometrylistvtail, x_cg, Fus_len
