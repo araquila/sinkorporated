@@ -84,7 +84,7 @@ cp_cruise_tbp = 90e-9               # (0.4-0.6) [kg/ns]
 cp_loiter_tbp = 90e-9               # (0.5-0.7) [kg/ns]
 
 # Iterative sizing process
-for iter in range(50):
+for iter in range(5):
 
     jet_data_list = []
     tbp_data_list = []
@@ -188,6 +188,9 @@ for iter in range(50):
 
     qc_sweep_tbp = det_quarter_chord_sweep(M_cruise_tbp)
     qc_sweep_jet = det_quarter_chord_sweep(M_cruise_jet)
+
+#    wing_weight_jet = class2.det_wing_weight_revised(0.034,b_jet,S_jet,qc_sweep_jet,taper_jet,MTOM_jet,1.5*n_max_jet,1.4*V_cruise_jet,t_c_ratio_jet)
+#    wing_weight_tbp = class2.det_wing_weight_revised(0.034,b_tbp,S_tbp,qc_sweep_tbp,taper_tbp,MTOM_tbp,1.5*n_max_tbp,1.4*V_cruise_tbp,t_c_ratio_tbp)
 
     wing_weight_jet = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOM_jet),(n_max_jet*1.5),metersquared_to_feetsquared(S_jet),A_jet,t_c_ratio_jet,taper_jet,qc_sweep_jet,metersquared_to_feetsquared(0.05*S_jet)))
     wing_weight_tbp = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOM_tbp),(n_max_tbp*1.5),metersquared_to_feetsquared(S_tbp),A_tbp,t_c_ratio_tbp,taper_tbp,qc_sweep_tbp,metersquared_to_feetsquared(0.05*S_tbp)))
