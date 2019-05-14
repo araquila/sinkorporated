@@ -146,15 +146,20 @@ for iter in range(5):
     class1sizing_gear["Gear Lateral Position"].append(lateral_position)
 
 
-class2 = {"Wing": []}
-print(class2)
-class2["Wing"].append(1)
-print(class2)
-class2["Wing"].append(2)
-print(class2)
+class2 = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
+class2["flight controls weight"] = []
+class2["APU weight"] = []
+class2["instruments weight"] = []
+class2["hydraulics weight"] = []
+class2["electrical system weight"] = []
+class2["avionics weight"] = []
+class2["furnishings weight"] = []
+class2["airconditioning weight"] = []
+class2["anti icing system weight"] = []
+class2["handling gear weight"] = []
 
 def class2_weight_estimation():
-    W_wing = det_wing_weight(kg_to_pounds(MTOM_tbp), ult_load_factor(kg_to_pounds(MTOM_tbp)), metersquared_to_feetsquared(S_tbp), A_tbp, t_c_ratio, taper, sweepqc, metersquared_to_feetsquared(0.05*S_tbp))
+    W_wing = 0.82 * det_wing_weight(kg_to_pounds(MTOM_tbp), ult_load_factor(kg_to_pounds(MTOM_tbp)), metersquared_to_feetsquared(S_tbp), A_tbp, t_c_ratio, taper, sweepqc, metersquared_to_feetsquared(0.05*S_tbp))
     W_h = det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside), meter_to_feet(span_h), kg_to_pounds(MTOM_tbp),  1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(S_h), meter_to_feet(l_h), np.radians(sweepqc_h), AR_h, metersquared_to_feetsquared(0.3*S_h))
     W_v = det_vert_tail_weight(meter_to_feet(span_v), meter_to_feet(span_v), kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), l_v, S_v, np.radians(sweepLE_v), AR_v, t_c_ratio)
     W_fus = det_fuselage_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), meter_to_feet(length_fuselage), metersquared_to_feetsquared(np.pi*diameter_fuselage_outside*length_fuselage), taper, b, sweepqc, LD_cruise_tbp, fuselage_mounted_lg=True)
@@ -165,6 +170,7 @@ def class2_weight_estimation():
     W_starter = det_starter_weight(n_engines, kg_to_pounds(mass_engine))
     W_fuel_system = det_fuel_system_weight(kg_to_pounds(W_fuel_tbp/g)/6.67632, kg_to_pounds(W_fuel_tbp/g)/6.67632, 0, n_fueltanks)
     W_flight_control = det_flight_controls_weight(meter_to_feet(0.3*S_h+0.05*S_tbp), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_tbp)*0.34**2)/(4*32.19))
+    # APU_weight = det_APU_weight(W_APU_uninstalled)
     W_instruments = det_instruments_weight(n_pilots, n_engines, length_fuselage, b, turboprop = True)
     W_hydraulics = hydraulics_weight = det_hydraulics_weight(meter_to_feet(length_fuselage), b)
     W_electrical = electrical_weight = det_electrical_weight(meter_to_feet(length_fuselage), N_gen = 3)
@@ -174,6 +180,29 @@ def class2_weight_estimation():
     W_airco = aircond_weight = det_aircond_weight(n_passenger, metercubed_to_feetcubed(pres_vol))
     W_anti_ice = anti_ice_weight = det_anti_ice_weight(kg_to_pounds(MTOM_tbp))
     W_handling_gear = handling_gear_weight = det_handling_gear_weight(kg_to_pounds(MTOM_tbp))
+    class2["wing weight"].append(W_wing)
+    class2["horizontal tail weight"].append(W_h)
+    class2["vertical tail weight"].append(W_v)
+    class2["fuselage weight"].append(W_fus)
+    class2["main landing gear weight"].append(W_ml)
+    class2["nose landing gear weight"].append(W_nl)
+    class2["nacelle group weight"].append(W_engine_controls)
+    class2["engine controls weight"].append(W_engine_controls)
+    class2["starter weight"].append(W_starter)
+    class2["fuel system weight"].append(W_fuel_system)
+    class2["flight controls weight"].append(W_flight_control)
+    class2["APU weight"].append(0)
+    class2["instruments weight"].append(W_instruments)
+    class2["hydraulics weight"].append(W_hydraulics)
+    class2["electrical system weight"].append(W_electrical)
+    class2["avionics weight"].append(W_avionics)
+    class2["furnishings weight"].append(W_furnishings)
+    class2["airconditioning weight"].append(W_airco)
+    class2["anti icing system weight"].append(W_anti_ice)
+    class2["handling gear weight"].append(W_handling_gear)
+
+class2_weight_estimation()
+print(class2)
 
 
 print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))
