@@ -202,7 +202,7 @@ for iter in range(5):
     class2["anti icing system weight"].append(W_anti_ice)
     class2["handling gear weight"].append(W_handling_gear)
 
-    total_empty_weight_tbp = W_wing + W_h + W_v + W_fus + W_ml + W_nl + W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear
+    total_empty_weight_tbp = W_wing + W_h + W_v + W_fus + W_ml + W_nl + W_nacelle + W_engine + W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear
     W_empty_tbp = total_empty_weight_tbp * g
 
 print(class1sizing_wing)
