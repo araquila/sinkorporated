@@ -38,8 +38,8 @@ TOP_jet = 6698
 M_cruise_jet = V_cruise_jet/speed_of_sound
 C_L_cruise_jet = 0.4
 C_L_max_jet = 2.3
-C_L_max_land_jet = 2.3
-C_L_max_TO_jet = 1.7
+C_L_max_land_jet = 2.6
+C_L_max_TO_jet = 1.9
 
 # Empennage jet
 V_h_jet = 1.07                         # [-]
@@ -57,7 +57,7 @@ S_tbp = 76
 TOP_tbp = 139
 C_L_max_tbp = 2.6
 C_L_max_land_tbp = 2.6
-C_L_max_TO_tbp = 1.6
+C_L_max_TO_tbp = 1.9
 
 # Empennage tbp
 V_h_tbp = 1.57                          # [-]
@@ -98,7 +98,7 @@ for iter in range(50):
     ## WING LOADING AND POWER LOADING
     W_S_landing_jet = wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet,C_L_max_land_jet,C_L_max_TO_jet)
     W_S_landing_tbp, W_P_critical = wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp, C_L_max_land_tbp,C_L_max_TO_tbp)
-    
+
     # T/W for jet
     T_W_jet_range = T_W_calc(W_S_landing_jet,TOP_jet,1.32)
 
@@ -169,10 +169,10 @@ for iter in range(50):
 
     ## CLASS II
     # C_L and C_l des
-    C_L_des_jet = class2.C_L_des(q_jet,f_cruise_start_jet*MTOW_jet/S_jet,f_cruise_end_jet*MTOW_jet/S_jet)
-    C_l_des_jet = class2.C_l_des(C_L_des_jet,sweep_jet)
-    C_L_des_tbp = class2.C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp/S_tbp,f_cruise_end_tbp*MTOW_tbp/S_tbp)
-    C_l_des_tbp = class2.C_l_des(C_L_des_tbp,sweep_tbp)
+    C_L_cruise_jet = class2.C_L_des(q_jet,f_cruise_start_jet*MTOW_jet/S_jet,f_cruise_end_jet*MTOW_jet/S_jet)
+    C_l_des_jet = class2.C_l_des(C_L_cruise_jet,sweep_jet)
+    C_L_cruise_tbp = class2.C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp/S_tbp,f_cruise_end_tbp*MTOW_tbp/S_tbp)
+    C_l_des_tbp = class2.C_l_des(C_L_cruise_tbp,sweep_tbp)
 
     # Append to data list
     tbp_data_list.append(('C_l_des_tbp', C_l_des_tbp))
@@ -184,9 +184,9 @@ for iter in range(50):
 
     qc_sweep_tbp = det_quarter_chord_sweep(M_cruise_tbp)
     qc_sweep_jet = det_quarter_chord_sweep(M_cruise_jet)
-    
+
     wing_weight_jet = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOM_jet),(n_max_jet*1.5),metersquared_to_feetsquared(S_jet),A_jet,t_c_ratio_jet,taper_jet,qc_sweep_jet,metersquared_to_feetsquared(0.05*S_jet)))
-    wing_weight_tbp = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOM_tbp),(n_max_tbp*1.5),metersquared_to_feetsquared(S_tbp),A_tbp,t_c_ratio_tbp,taper_tbp,qc_sweep_tbp,metersquared_to_feetsquared(0.05*S_tbp))) 
+    wing_weight_tbp = pounds_to_kg(class2.det_wing_weight(kg_to_pounds(MTOM_tbp),(n_max_tbp*1.5),metersquared_to_feetsquared(S_tbp),A_tbp,t_c_ratio_tbp,taper_tbp,qc_sweep_tbp,metersquared_to_feetsquared(0.05*S_tbp)))
 
     # Append to data list
     tbp_data_list.append(('wing_weight_tbp', wing_weight_tbp))
@@ -237,7 +237,7 @@ for iter in range(50):
     # Engine weight
     M_engine_tbp = P_TO_tbp / power_to_weight_tbp
     M_engine_jet = T_TO_jet / thrust_to_weight_jet
-    
+
     # Nacelle
     nacelle_group_weight_jet = pounds_to_kg(class2.det_nacelle_group_weight(meter_to_feet(length_nacelle_jet), meter_to_feet(diameter_nacelle_jet), 1.5*n_max_jet, 2, metersquared_to_feetsquared(np.pi * diameter_nacelle_jet * length_nacelle_jet), pylon_mounted = True, W_ec = 0, W_engine = kg_to_pounds(M_engine_jet/2), propeller = False, thrust_reverser = False))
     nacelle_group_weight_tbp = pounds_to_kg(class2.det_nacelle_group_weight(meter_to_feet(length_engine_tbp), meter_to_feet(diameter_engine_tbp), 1.5*n_max_tbp, 2, metersquared_to_feetsquared(np.pi * diameter_engine_tbp * length_engine_tbp), pylon_mounted = True, W_ec = 0, W_engine = kg_to_pounds(M_engine_jet/2), propeller = True, thrust_reverser = False))
