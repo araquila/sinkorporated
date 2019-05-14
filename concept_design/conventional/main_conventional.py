@@ -38,15 +38,10 @@ TOP_jet = 6698
 M_cruise_jet = V_cruise_jet/speed_of_sound
 C_L_cruise_jet = 0.4
 C_L_max_jet = 2.3
-<<<<<<< HEAD
 C_L_max_land_jet = 2.3
 C_L_max_TO_jet = 1.7
 range_cruise_jet = 18500000         # [m]
 endurance_loiter_jet = 2700         # [s]
-=======
-C_L_max_land_jet = 2.6
-C_L_max_TO_jet = 1.9
->>>>>>> refs/remotes/origin/master
 
 # Empennage jet
 V_h_jet = 1.07                         # [-]
@@ -64,13 +59,9 @@ S_tbp = 76
 TOP_tbp = 139
 C_L_max_tbp = 2.6
 C_L_max_land_tbp = 2.6
-<<<<<<< HEAD
 C_L_max_TO_tbp = 1.6
 range_cruise_tbp = 18500000         # [m]
 endurance_loiter_tbp = 2700         # [s]
-=======
-C_L_max_TO_tbp = 1.9
->>>>>>> refs/remotes/origin/master
 
 # Empennage tbp
 V_h_tbp = 1.57                          # [-]
