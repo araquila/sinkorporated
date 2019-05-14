@@ -89,7 +89,7 @@ for iter in range(1):
     loading_wing_tbp = 3500.
     loading_power_tbp = 0.05
 
-    S = MTOW_tbp / loading_wing_tbp
+    S_tbp = MTOW_tbp / loading_wing_tbp
     P_TO_tbp = MTOW_tbp / loading_power_tbp
 
     length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, diameter_fuselage_inside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
@@ -109,7 +109,6 @@ W_fus = det_fuselage_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_po
 W_ml = det_main_lg_weight(kg_to_pounds(MTOM_tbp), 4.5, meter_to_inch(wheel_height), 4, 2, ms_to_knots(V_stall_tbp))
 W_nl = det_nose_lg_weight(kg_to_pounds(MTOM_tbp), 4.5, meter_to_inch(wheel_height), 2)
 W_nacelle = det_nacelle_group_weight(meter_to_feet(length_engine), meter_to_feet(diameter_engine), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), n_engines, metersquared_to_feetsquared(np.pi * diameter_engine * length_engine), W_ec = kg_to_pounds(mass_engine), propeller=True, thrust_reverser=True)
-print(W_nacelle)
 W_engine_controls = det_engine_controls_weight(n_engines, n_engines*meter_to_feet(pos_engine))
 W_starter = det_starter_weight(n_engines, kg_to_pounds(mass_engine))
 W_fuel_system = det_fuel_system_weight(kg_to_pounds(W_fuel_tbp/g)/6.67632, kg_to_pounds(W_fuel_tbp/g)/6.67632, 0, n_fueltanks)
