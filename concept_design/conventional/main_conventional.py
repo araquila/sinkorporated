@@ -13,16 +13,25 @@ from conversion_formulas import *
 import class2_conventional as class2
 import numpy as np
 
-## INPUTS
+## INPUTS AND CONSTANTS
+
+
 
 # Flight parameters
-s_landing = 1400                            # [m]
-altitude = 8000                             # [m]
-V_landing = 48.93                           # [m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
+s_landing = 1400                    #[m]
+altitude = 8000
+V_landing = 48.93                   #[m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
 
 # Atmospherical parameters at cruise altitude
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
-c = 10                                      #[m/s] climb rate THIS IS INPUT
+c = 10                              #[m/s] climb rate THIS IS INPUT
+
+
+
+
+
+
+
 
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
@@ -31,53 +40,53 @@ S_wet = 5 * S
 
 # Other jet parameters
 A_jet = 10
-e_jet = 0.8                                 # Adjust per concept
-cj_loiter_jet = 19e-6                       # (0.4-0.6) [g/j] Propfan: 0.441
-cj_cruise_jet = 19e-6                       # (0.5-0.9) [g/j] Propfan: 0.441
-V_cruise_jet =  236.11                      # [m/s]
-S_jet = 61                                  # [m^2]
-TOP_jet = 6698                              
+e_jet = 0.8                         # Adjust per concept
+cj_loiter_jet = 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
+cj_cruise_jet = 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
+V_cruise_jet =  236.11                 # [m/s]
+S_jet = 61
+TOP_jet = 6698
 M_cruise_jet = V_cruise_jet/speed_of_sound
 C_L_cruise_jet = 0.4
 n_engines_jet = 2
 C_L_max_jet = 2.3
 
 # Empennage jet
-V_h_jet = 1.07                              
-V_v_jet = 0.085                             
-nose_landing_pos_jet = 3                    # [m]
+V_h_jet = 1.07                         # [-]
+V_v_jet = 0.085                          # [-]
+nose_landing_pos_jet = 3                # [m]
 
 # Other tbp parameters
 A_tbp = 12
-e_tbp = 0.85                                
-eff_cruise_tbp = 0.85                       
-eff_loiter_tbp = 0.77                       
-cp_cruise_tbp = 90e-9                       # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = 90e-9                       # (0.5-0.7) [kg/ns]
-V_loiter_tbp = 80                           # [m/s]
-V_cruise_tbp = 150                          # [m/s]
+e_tbp = 0.85                        # Adjust per concept
+eff_cruise_tbp = 0.85               # [-]
+eff_loiter_tbp = 0.77               # [-]
+cp_cruise_tbp = 90e-9               # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = 90e-9               # (0.5-0.7) [kg/ns]
+V_loiter_tbp = 80                   # [m/s]
+V_cruise_tbp = 150                  # [m/s]
 M_cruise_tbp = V_cruise_tbp/speed_of_sound
 C_L_cruise_tbp = 0.4
-S_tbp = 7                                   # [m^2]
+S_tbp = 76
 TOP_tbp = 139
 n_engines_tbp = 2
 C_L_max_tbp = 2.6
 
 # Empennage tbp
-V_h_tbp = 1.57                              
-V_v_tbp = 0.07                              
-nose_landing_pos_tbp = 3                    # [m]
+V_h_tbp = 1.57                          # [-]
+V_v_tbp = 0.07                          # [-]
+nose_landing_pos_tbp = 3                # [m]
 
 # Dynamic pressure
-q_jet = 0.5*rho*V_cruise_jet**2             # [n/m2]
-q_tbp = 0.5*rho*V_cruise_tbp**2             # [n/m2]
+q_jet = 0.5*rho*V_cruise_jet**2     # [n/m2]
+q_tbp = 0.5*rho*V_cruise_tbp**2     # [n/m2]
 
 # Iterative sizing process
 for iter in range(1):
-    
+
     jet_data_list = []
     tbp_data_list = []
-    
+
     ## CLASS I
     MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet, f_cruise_start_jet, f_cruise_end_jet, L_D_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, jet = True, tbp = False)
     MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, L_D_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, tbp = True, jet = False)
@@ -179,7 +188,7 @@ for iter in range(1):
     # Wing weight
     n_max_jet = class2.ult_load_factor(kg_to_pounds(MTOW_jet/g))
     n_max_tbp = class2.ult_load_factor(kg_to_pounds(MTOW_tbp/g))
-    
+
     qc_sweep_tbp = det_quarter_chord_sweep(M_cruise_tbp)
     qc_sweep_jet = det_quarter_chord_sweep(M_cruise_jet)
 
@@ -259,6 +268,15 @@ for iter in range(1):
     jet_data_list.append(('starter_weight_jet', starter_weight_jet))
 
     # Fuel system
+    n_fueltanks = 2
+    W_fuel_system_jet = pounds_to_kg(class2.det_fuel_system_weight(kg_to_pounds(W_fuel_jet/g)/6.67632, kg_to_pounds(W_fuel_jet/g)/6.67632, 0, n_fueltanks))
+    W_fuel_system_tbp = pounds_to_kg(class2.det_fuel_system_weight(kg_to_pounds(W_fuel_tbp/g)/6.67632, kg_to_pounds(W_fuel_tbp/g)/6.67632, 0, n_fueltanks))
+
+    # Append to data list
+    tbp_data_list.append(('W_fuel_system_tbp', W_fuel_system_tbp))
+    jet_data_list.append(('W_fuel_system_jet', W_fuel_system_jet))
+
+    # Flight controls
     flight_controls_weight_jet = pounds_to_kg(class2.det_flight_controls_weight(metersquared_to_feetsquared(0.3*S_h_jet+0.05*S_jet), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_jet)*0.34**2)/(4*32.19), N_f = 6, N_m = 1))
     flight_controls_weight_tbp = pounds_to_kg(class2.det_flight_controls_weight(metersquared_to_feetsquared(0.3*S_h_tbp+0.05*S_tbp), (meter_to_feet(length_fuselage)**2*kg_to_pounds(MTOM_tbp)*0.34**2)/(4*32.19), N_f = 6, N_m = 1))
 
@@ -275,6 +293,7 @@ for iter in range(1):
     jet_data_list.append(('instruments_weight_jet', instruments_weight_jet))
 
     # Hydraulics
+
     hydraulics_weight_jet = pounds_to_kg(class2.det_hydraulics_weight(meter_to_feet(length_fuselage), meter_to_feet(b_jet), N_f = 6))
     hydraulics_weight_tbp = pounds_to_kg(class2.det_hydraulics_weight(meter_to_feet(length_fuselage), meter_to_feet(b_tbp), N_f = 6))
 
@@ -291,6 +310,7 @@ for iter in range(1):
     jet_data_list.append(('electrical_weight_jet', electrical_weight_jet))
 
     # Avionics
+
     avionics_weight_jet = pounds_to_kg(class2.det_avionics_weight(W_uav = 1100))
     avionics_weight_tbp = pounds_to_kg(class2.det_avionics_weight(W_uav = 1100))
 
@@ -332,12 +352,12 @@ for iter in range(1):
     jet_data_list.append(('handling_gear_weight_jet', handling_gear_weight_jet))
 
     # Total weight
-    W_empty_jet = wing_weight_jet + hor_tail_weight_jet + ver_tail_weight_jet + fuselage_weight_jet + main_lg_weight_jet + nose_lg_weight_jet + engine_controls_weight_jet + starter_weight_jet + flight_controls_weight_jet + instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet + aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet
-    W_empty_tbp = wing_weight_tbp + hor_tail_weight_tbp + ver_tail_weight_tbp + fuselage_weight_tbp + main_lg_weight_tbp + nose_lg_weight_tbp + nacelle_group_weight_tbp + engine_controls_weight_tbp + starter_weight_tbp + flight_controls_weight_tbp + instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_jet + aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp
+    W_empty_jet = wing_weight_jet + hor_tail_weight_jet + ver_tail_weight_jet + fuselage_weight_jet + main_lg_weight_jet + nose_lg_weight_jet + nacelle_group_weight_jet+ engine_controls_weight_jet + starter_weight_jet + W_fuel_system_jet+ flight_controls_weight_jet + instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet + aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet
+    W_empty_tbp = wing_weight_tbp + hor_tail_weight_tbp + ver_tail_weight_tbp + fuselage_weight_tbp + main_lg_weight_tbp + nose_lg_weight_tbp + nacelle_group_weight_tbp + engine_controls_weight_tbp + starter_weight_tbp + W_fuel_system_tbp+ flight_controls_weight_tbp + instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_jet + aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp
 
     # Append to data list
-    tbp_data_list.append(('W_empty_tbp', W_empty_tbp))
-    jet_data_list.append(('W_empty_jet', W_empty_jet))
+    tbp_data_list.append(('W_empty_jet', W_empty_jet))
+    jet_data_list.append(('W_empty_tbp', W_empty_tbp))
 
     ## PRINT RELEVANT DATA
     print('Iteration: ' + str(iter+1))
