@@ -11,7 +11,7 @@ from cg_determination import x_lemac_tbp_calc, x_lemac_jet_calc
 from fuel_fraction import fuel_fraction
 from conversion_formulas import *
 import class2_conventional as class2
-from sustainability_functions import CO2_calc
+from sustainability_functions import CO2_calc, NOX_calc
 import numpy as np
 
 ## INPUTS AND CONSTANTS
@@ -367,6 +367,9 @@ fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
 CO2_tbp = CO2_calc(fuel_per_passenger_tbp_1000,chosen_fuel_energy_density)
 CO2_jet = CO2_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
 
+NOX_tbp = NOX_calc(fuel_per_passenger_tbp_1000,chosen_fuel_energy_density)
+NOX_jet = NOX_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
+
 range_cruise_jet_time = 1000000
 range_cruise_tbp_time = 1000000
 t_climb = altitude/c
@@ -383,9 +386,11 @@ t_tbp = (t_climb+t_cruise_tbp+t_descent_tbp)/3600 #hours
 print('MTOM tbp: ' + str(MTOM_tbp))
 print('Fuel per passenger per 1000 km tbp: ' + str(fuel_per_passenger_tbp_1000))
 print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp))
+print('NOX per passenger per 1000 km tbp: ' + str(NOX_tbp) + ' in kg')
 print('time for a ' + str(range_cruise_tbp_time/1000) + 'km trip is ' + str(t_tbp) + '[h]')
 print()
 print('MTOM jet: ' + str(MTOM_jet))
 print('Fuel per passenger per 1000 km propfan: ' + str(fuel_per_passenger_jet_1000))
 print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet))
+print('NOX per passenger per 1000 km jet: ' + str(NOX_jet) + ' in kg')
 print('time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(t_jet) + '[h]')
