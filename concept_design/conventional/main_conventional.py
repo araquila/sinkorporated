@@ -380,12 +380,14 @@ t_descent_tbp = altitude/7.112 #descent of 1400 feet per minute
 t_jet = (t_climb+t_cruise_jet+t_descent_jet)/3600 #hours
 t_tbp = (t_climb+t_cruise_tbp+t_descent_tbp)/3600 #hours
 
-print('MTOM tbp: ' + str(MTOM_tbp))
-print('Fuel per passenger per 1000 km tbp: ' + str(fuel_per_passenger_tbp_1000))
-print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp))
-print('time for a ' + str(range_cruise_tbp_time/1000) + 'km trip is ' + str(t_tbp) + '[h]')
+print('MTOM tbp: ' + str(round(MTOM_tbp,2)) + ' [kg]')
+print('Fueltype: HHV')
+print('Fuel per passenger per 1000 km tbp: ' + str(round(fuel_per_passenger_tbp_1000,2)) + ' [kg]')
+print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp) + ' [kg]')
+print('Time for a ' + str(range_cruise_tbp_time/1000) + 'km trip is ' + str(round(t_tbp,2)) + '[h]')
 print()
-print('MTOM jet: ' + str(MTOM_jet))
-print('Fuel per passenger per 1000 km propfan: ' + str(fuel_per_passenger_jet_1000))
-print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet))
-print('time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(t_jet) + '[h]')
+print('MTOM propfan: ' + str(round(MTOM_jet,2)) + ' [kg]')
+print('Fueltype: HHV')
+print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)) + ' [kg]')
+print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
+print('Time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(round(t_jet,2)) + '[h]')
