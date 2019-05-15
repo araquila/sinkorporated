@@ -4,7 +4,7 @@ from constant_variables import *
 
 # Flight parameters
 s_landing = 1400                    #[m]
-altitude = feet_to_meter(25000)     # from feet to meter
+altitude = 10000 #feet_to_meter(25000)     # 8000 m for tbp, 10000 m for jet
 V_landing = 48.93                   #[m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
 range_cruise_jet = 1850000          # [m]
 range_cruise_tbp = 1850000          # [m]
@@ -37,7 +37,7 @@ C_L_max_land_jet = 2.6
 C_L_max_TO_jet = 1.9
 
 # Empennage jet
-V_h_jet = 0.7                        # [-]
+V_h_jet = 1.07                        # [-]
 V_v_jet = 0.085                          # [-]
 nose_landing_pos_jet = 3                # [m]
 
@@ -63,7 +63,7 @@ C_L_max_land_tbp = 2.6
 C_L_max_TO_tbp = 1.9
 
 # Empennage tbp
-V_h_tbp = 0.8                          # [-]
+V_h_tbp = 1.57                          # [-]
 V_v_tbp = 0.07                          # [-]
 nose_landing_pos_tbp = 3                # [m]
 
