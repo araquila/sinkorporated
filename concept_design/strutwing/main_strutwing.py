@@ -6,6 +6,7 @@ sys.path.append(os.getcwd())
 # Import modules
 from class1_conventional import Weights_Class_I
 from power_wingloading_conventional_redone import wingloading_jet, wingloading_tbp
+import sustainability_functions as sf
 from wingloadingfunctions import T_W_calc, W_P_climb_calc
 from class1sizing_strutwing import *
 from conversion_formulas import *
@@ -225,6 +226,10 @@ for iter in range(5):
 print(class1sizing_wing)
 print(class2)
 print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))
+
+#Emission Calculations
+CO2_emission = sf.CO2_calc(W_fuel_tbp/(g*n_passenger), 43)
+NOX_emission = sf.NOX_calc(W_fuel_tbp/(g*n_passenger), 43)
 
 
 if piechart:
