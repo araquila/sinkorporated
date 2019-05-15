@@ -195,3 +195,29 @@ if jet:
     diameter_gas_generator=0.55*diameter_gas_generato_fan
 
     return length_nacelle, length_f, diameter_highlight, diameter_exit_fan, diameter_gas_generator
+
+def empennage(V_h, V_v, l_h, l_v, S, b, c):
+    S_h = (V_h * S * c) / l_h
+    S_v = (V_v * S * b) / l_v
+
+    #Statistical Values
+    AR_v = 1.5
+    taper_v = 0.45
+    sweepLE_v = 40
+
+    AR_h = 4.5
+    taper_h = 0.35
+    sweepqc_h = 28
+
+    span_v = np.sqrt(AR_v * S_v)
+    av_chord_v = span_v / AR_v
+    root_chord_v = av_chord_v / (0.5*(1+taper_v))
+    tip_chord_v = root_chord_v * taper_v
+
+    span_h = np.sqrt(AR_h * S_h)
+    av_chord_h = span_h / AR_h
+    root_chord_h = av_chord_h / (0.5*(1+taper_h))
+    tip_chord_h = root_chord_h * taper_h
+    sweepLE_h = sweepqc_h + np.degrees(np.arctan((0.25*root_chord_h-0.25*tip_chord_h)/(span_h/2)))
+
+    return S_h, span_h, root_chord_h, tip_chord_h, sweepqc_h, sweepLE_h, S_v, span_v, root_chord_v, tip_chord_v, sweepLE_v
