@@ -149,6 +149,7 @@ for iter in range(10):
     # Engine weight
     M_engine_tbp = P_TO_tbp / power_to_weight_tbp
     M_engine_jet = T_TO_jet / thrust_to_weight_jet + engine_gear_mass
+    print(engine_gear_mass)
 
     # Nacelle
     nacelle_group_weight_jet = pounds_to_kg(class2.det_nacelle_group_weight(meter_to_feet(length_nacelle_jet), meter_to_feet(diameter_nacelle_jet), 1.5*n_max_jet, 2, metersquared_to_feetsquared(np.pi * diameter_nacelle_jet * length_nacelle_jet), pylon_mounted = True, W_ec = 0, W_engine = kg_to_pounds(M_engine_jet/2), propeller = False, thrust_reverser = False))
