@@ -11,12 +11,12 @@ from cg_determination import x_lemac_tbp_calc, x_lemac_jet_calc
 from fuel_fraction import fuel_fraction
 from conversion_formulas import *
 import class2_conventional as class2
-from sustainability_functions import CO2_calc
+from sustainability_functions import CO2_calc, NOX_calc, prop_noise
 import numpy as np
 
 ## INPUTS AND CONSTANTS
 # fuel efficiency
-chosen_fuel_energy_density = energy_density_HHV
+chosen_fuel_energy_density = energy_density_kerosene
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
 # Flight parameters
@@ -77,7 +77,7 @@ q_jet = 0.5*rho*V_cruise_jet**2          # [n/m2]
 q_tbp = 0.5*rho*V_cruise_tbp**2          # [n/m2]
 
 # Engine characteristics
-thrust_to_weight_jet = 2/3*73.21         # [N/kg]
+thrust_to_weight_jet = 2/3*73.21         # [N/kg] #add 2/3 if propfan is used
 cj_loiter_jet = fuel_efficiency_factor*12.5e-6                  # (0.4-0.6) [g/j] Propfan: 0.441
 cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
@@ -367,10 +367,35 @@ fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
 CO2_tbp = CO2_calc(fuel_per_passenger_tbp_1000,chosen_fuel_energy_density)
 CO2_jet = CO2_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
 
-print('MTOM tbp: ' + str(round(MTOM_tbp,2)))
-print('Fuel per passenger per 1000 km tbp: ' + str(round(fuel_per_passenger_tbp_1000,2)))
-print('CO2 per passanger per 1000 km tbp: ' + str(round(CO2_tbp,2)))
+NOX_tbp = NOX_calc(fuel_per_passenger_tbp_1000,chosen_fuel_energy_density)
+NOX_jet = NOX_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
+
+range_cruise_jet_time = 1000000
+range_cruise_tbp_time = 1000000
+t_climb = altitude/c
+d_horizontal_climb_jet = altitude/0.2
+d_horizontal_climb_tbp = altitude/0.083
+t_cruise_jet = (range_cruise_jet_time-d_horizontal_climb_jet)/V_cruise_jet
+t_cruise_tbp = (range_cruise_tbp_time-d_horizontal_climb_tbp)/V_cruise_tbp
+t_descent_jet = altitude/7.112 #descent of 1400 feet per minute
+t_descent_tbp = altitude/7.112 #descent of 1400 feet per minute
+
+t_jet = (t_climb+t_cruise_jet+t_descent_jet)/3600 #hours
+t_tbp = (t_climb+t_cruise_tbp+t_descent_tbp)/3600 #hours
+
+print('MTOM tbp: ' + str(round(MTOM_tbp,2)) + ' [kg]')
+print('Fueltype: HHV')
+print('Fuel per passenger per 1000 km tbp: ' + str(round(fuel_per_passenger_tbp_1000,2)) + ' [kg]')
+print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp) + ' [kg]')
+print('NOX per passenger per 1000 km tbp: ' + str(NOX_tbp) + ' [kg]')
+print('Time for a ' + str(range_cruise_tbp_time/1000) + 'km trip is ' + str(round(t_tbp,2)) + '[h]')
 print()
-print('MTOM jet: ' + str(round(MTOM_jet,2)))
-print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)))
-print('CO2 per passanger per 1000 km propfan: ' + str(round(CO2_jet,2)))
+print('MTOM propfan: ' + str(round(MTOM_jet,2)) + ' [kg]')
+print('Fueltype: HHV')
+print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)) + ' [kg]')
+print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
+print('NOX per passenger per 1000 km propfan: ' + str(NOX_jet) + ' [kg]')
+print('Time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(round(t_jet,2)) + '[h]')
+
+SPL = prop_noise(diameter_propeller_tbp,6,1800,1850,1,speed_of_sound)
+print(SPL)

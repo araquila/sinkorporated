@@ -3,6 +3,12 @@
 # Import modules
 from class1_boxwing import Weights_Class_I
 from wingsizing import iterempty
+from sustainability_functions import CO2_calc
+from constant_variables import *
+
+chosen_fuel_energy_density = energy_density_kerosene
+fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
+
 def class1box(M_empty_jet):
 
     # Gravitional constant
@@ -56,7 +62,15 @@ def class1box(M_empty_jet):
     MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet =  Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel, V_cruise_jet, range_cruise_jet, endurance_loiter_jet, jet = True)
 
 
+
     W_empty_jet = (OEW_jet-W_crew)-f_trapped_fuel*MTOW_jet
+    MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, LD_cruise_jet, W_used_fuel_jet  = Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel, V_cruise_jet, 1000*1000, 0, jet = True, tbp = False)
+
+    fuel_per_passenger_jet_1000 = (W_fuel_jet_1000/n_passenger)/g
+    CO2_jet = fuel_per_passenger_jet_1000*3.0
+    print('MTOM jet: ' + str(round(MTOW_jet/g,2)))
+    print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)))
+    print('CO2 per passanger per 1000 km propfan: ' + str(round(CO2_jet,2)))
 
     return MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet
 
@@ -65,11 +79,11 @@ M_empty_jet = 13874.75
 g = 9.80665
 for i in range(50):
     MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet = class1box(M_empty_jet)
-    M_empty_jet, geometrylistfuselage, geometrylistwings, geometrylistvtail, mainlg_cg, wing_weight1_box, wing_weight2_box, x_cg, noselg_cg= iterempty(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet)
+    M_empty_jet, geometrylistfuselage, geometrylistwings, geometrylistvtail, mainlg_cg, wing_weight1_box, wing_weight2_box, x_cg, noselg_cg, S= iterempty(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet)
     print(M_empty_jet, mainlg_cg, MTOW_jet/9.81)
 print(geometrylistfuselage)
 print(wing_weight1_box,wing_weight2_box, x_cg)
 
 Fn = (mainlg_cg-x_cg)/(mainlg_cg-noselg_cg)
 print(W_fuel_jet/g)
-print(W_used_fuel_jet/g)
+print(W_used_fuel_jet/g/60, S)
