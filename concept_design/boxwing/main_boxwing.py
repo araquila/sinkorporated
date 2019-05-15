@@ -7,6 +7,9 @@ from sustainability_functions import CO2_calc
 from constant_variables import *
 from class1sizing import *
 from math import *
+from atmosphere import atmosphere_calc
+import numpy as np
+
 chosen_fuel_energy_density = energy_density_kerosene
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
@@ -100,10 +103,15 @@ def C_L_des(q,W_S_cruise_start,W_S_cruise_end):
 def C_l_des(C_L_des,sweep):
     C_l_des = C_L_des/cos(sweep)**2
     return C_l_des
+altitude = 8000
+gamma = 1.4
+temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
+
+
 S_jet = S
 V_cruise_jet = 229
 g =  9.80665
-
+altitude = 10000
 
 TW = 0.25
 #input parameters for wing area
@@ -149,8 +157,8 @@ Sv = bv**2 / AR_v
 vtail_xoffset = -crv + sin(sweepv*pi/180)*bv + ctv
 sweep2 = -atan((Fus_len + vtail_xoffset - Fus_len*frac_qtrchord_fus - b/2*tan(sweep1/180*pi) - 0.75*cr2 )/(b/2))*180/pi
 
-C_L_des1 = C_L_des(0.4*(V_cruise_jet**2)/2,f_cruise_start_jet*MTOW_jet/2/S1,f_cruise_end_jet*MTOW_jet/2/S1)
-C_L_des2 = C_L_des(0.4*(V_cruise_jet**2)/2,f_cruise_start_jet*MTOW_jet/2/S2,f_cruise_end_jet*MTOW_jet/2/S2)
+C_L_des1 = C_L_des(rho*(V_cruise_jet**2)/2,f_cruise_start_jet*MTOW_jet/2/S1,f_cruise_end_jet*MTOW_jet/2/S1)
+C_L_des2 = C_L_des(rho*(V_cruise_jet**2)/2,f_cruise_start_jet*MTOW_jet/2/S2,f_cruise_end_jet*MTOW_jet/2/S2)
 
 C_l_des1 = C_l_des(C_L_des1,sweep1*pi/180)
 C_l_des2 = C_l_des(C_L_des2,sweep2*pi/180)
