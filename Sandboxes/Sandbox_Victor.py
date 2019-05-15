@@ -13,3 +13,4 @@ def non_recurring_cost(m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems
     return c_total_nonrecurring_2019/1000000
 
 print(non_recurring_cost(1,1,1,1,1,1,1))
+print('dit werkt wel kut toon')
