@@ -11,7 +11,7 @@ from cg_determination import x_lemac_tbp_calc, x_lemac_jet_calc
 from fuel_fraction import fuel_fraction
 from conversion_formulas import *
 import class2_conventional as class2
-from sustainability_functions import CO2_calc, NOX_calc
+from sustainability_functions import CO2_calc, NOX_calc, prop_noise, airframe_noise
 import numpy as np
 
 ## INPUTS AND CONSTANTS
@@ -396,3 +396,7 @@ print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_
 print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
 print('NOX per passenger per 1000 km propfan: ' + str(NOX_jet) + ' [kg]')
 print('Time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(round(t_jet,2)) + '[h]')
+
+#SPL_engine = prop_noise()
+SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
+print(SPL)
