@@ -367,10 +367,25 @@ fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
 CO2_tbp = CO2_calc(fuel_per_passenger_tbp_1000,chosen_fuel_energy_density)
 CO2_jet = CO2_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
 
-print('MTOM tbp: ' + str(round(MTOM_tbp,2)))
-print('Fuel per passenger per 1000 km tbp: ' + str(round(fuel_per_passenger_tbp_1000,2)))
-print('CO2 per passanger per 1000 km tbp: ' + str(round(CO2_tbp,2)))
+range_cruise_jet_time = 1000000
+range_cruise_tbp_time = 1000000
+t_climb = altitude/c
+d_horizontal_climb_jet = altitude/0.2
+d_horizontal_climb_tbp = altitude/0.083
+t_cruise_jet = (range_cruise_jet_time-d_horizontal_climb_jet)/V_cruise_jet
+t_cruise_tbp = (range_cruise_tbp_time-d_horizontal_climb_tbp)/V_cruise_tbp
+t_descent_jet = altitude/7.112 #descent of 1400 feet per minute
+t_descent_tbp = altitude/7.112 #descent of 1400 feet per minute
+
+t_jet = (t_climb+t_cruise_jet+t_descent_jet)/3600 #hours
+t_tbp = (t_climb+t_cruise_tbp+t_descent_tbp)/3600 #hours
+
+print('MTOM tbp: ' + str(MTOM_tbp))
+print('Fuel per passenger per 1000 km tbp: ' + str(fuel_per_passenger_tbp_1000))
+print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp))
+print('time for a ' + str(range_cruise_tbp_time/1000) + 'km trip is ' + str(t_tbp) + '[h]')
 print()
-print('MTOM jet: ' + str(round(MTOM_jet,2)))
-print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)))
-print('CO2 per passanger per 1000 km propfan: ' + str(round(CO2_jet,2)))
+print('MTOM jet: ' + str(MTOM_jet))
+print('Fuel per passenger per 1000 km propfan: ' + str(fuel_per_passenger_jet_1000))
+print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet))
+print('time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(t_jet) + '[h]')
