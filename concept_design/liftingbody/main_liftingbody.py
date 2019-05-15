@@ -11,6 +11,7 @@ from atmosphere import atmosphere_calc
 from cg_determination import x_lemac_tbp_calc, x_lemac_jet_calc
 from fuel_fraction import fuel_fraction
 from conversion_formulas import *
+from sustainability_functions import CO2_calc, NOX_calc
 import class2_liftingbody as class2
 import numpy as np
 
@@ -210,12 +211,8 @@ for iter in range(10):
     W_empty_jet =  M_empty_jet * g
     W_empty_tbp =  M_empty_tbp * g
 
-#Calculate performance for 1000 km trip
-MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe_jet, C_fe_tbp, S_wing_jet, S_wing_tbp, S_wet_jet, S_wet_tbp, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, jet = True, tbp = False)
-MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe_jet, C_fe_tbp, S_wing_jet, S_wing_tbp, S_wet_jet, S_wet_tbp, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
-
-fuel_per_passenger_jet_1000 = (W_fuel_jet_1000/n_passenger)/g
-fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
+    fuel_per_passenger_jet = (W_fuel_jet/n_passenger)/g
+    fuel_per_passenger_tbp = (W_fuel_tbp/n_passenger)/g
 
 
 ## PRINT RELEVANT DATA
@@ -315,8 +312,43 @@ def print_flight_char_data():
     print_list(flight_char_data_jet)
     print_list(flight_char_data_tbp)
 
+#Calculate performance for 1000 km trip
+MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe_jet, C_fe_tbp, S_wing_jet, S_wing_tbp, S_wet_jet, S_wet_tbp, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, jet = True, tbp = False)
+MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe_jet, C_fe_tbp, S_wing_jet, S_wing_tbp, S_wet_jet, S_wet_tbp, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
+
+fuel_per_passenger_jet_1000 = (W_fuel_jet_1000/n_passenger)/g
+fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
+
+CO2_tbp = CO2_calc(fuel_per_passenger_tbp_1000,energy_density_kerosene)
+CO2_jet = CO2_calc(fuel_per_passenger_jet_1000,energy_density_kerosene)
+
+NOX_tbp = NOX_calc(fuel_per_passenger_tbp_1000,energy_density_kerosene)
+NOX_jet = NOX_calc(fuel_per_passenger_jet_1000,energy_density_kerosene)
+
+range_cruise_jet_time = 1000000
+range_cruise_tbp_time = 1000000
+t_climb = altitude/c
+d_horizontal_climb_jet = altitude/0.2
+d_horizontal_climb_tbp = altitude/0.083
+t_cruise_jet = (range_cruise_jet_time-d_horizontal_climb_jet)/V_cruise_jet
+t_cruise_tbp = (range_cruise_tbp_time-d_horizontal_climb_tbp)/V_cruise_tbp
+t_descent_jet = altitude/7.112 #descent of 1400 feet per minute
+t_descent_tbp = altitude/7.112 #descent of 1400 feet per minute
+
+t_jet = (t_climb+t_cruise_jet+t_descent_jet)/3600 #hours
+t_tbp = (t_climb+t_cruise_tbp+t_descent_tbp)/3600 #hours
+
 print('MTOM tbp: ' + str(MTOM_tbp))
+print('Fuel per passenger per 1000 km tbp: ' + str(fuel_per_passenger_tbp_1000))
+print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp))
+print('NOX per passenger per 1000 km tbp: ' + str(NOX_tbp) + ' in kg')
+print('time for a ' + str(range_cruise_tbp_time/1000) + 'km trip is ' + str(t_tbp) + '[h]')
+print()
 print('MTOM jet: ' + str(MTOM_jet))
+print('Fuel per passenger per 1000 km propfan: ' + str(fuel_per_passenger_jet_1000))
+print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet))
+print('NOX per passenger per 1000 km jet: ' + str(NOX_jet) + ' in kg')
+print('time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(t_jet) + '[h]')
 
 
 # Print data
