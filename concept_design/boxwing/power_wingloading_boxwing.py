@@ -44,7 +44,7 @@ S = 48000 #[m2]
 #graph data
 wing_loading_x = np.linspace(0.1,6000,200)
 
-MTOW_jet, OEW_jet, W_fuel_jet , L_D = class1box(13483.623678910562)
+MTOW_jet, OEW_jet, W_fuel_jet , L_D, W_used_fuel_jet = class1box(13483.623678910562)
 #############DATA JETS##################
 #MTOW_jet = 275365.44 #[N]
 #OEW_jet = 140811.41 #[N]
