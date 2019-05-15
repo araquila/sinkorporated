@@ -16,7 +16,7 @@ import numpy as np
 
 ## INPUTS AND CONSTANTS
 # fuel efficiency
-chosen_fuel_energy_density = energy_density_LNG
+chosen_fuel_energy_density = energy_density_HHV
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 # Flight parameters
 s_landing = 1400                    #[m]
@@ -52,7 +52,7 @@ V_v_jet = 0.085                          # [-]
 nose_landing_pos_jet = 3                 # [m]
 
 # Other tbp parameters
-A_tbp = 12
+A_tbp = 16
 e_tbp = 0.85                             # Adjust per concept
 V_loiter_tbp = 80                        # [m/s]
 V_cruise_tbp = 180                       # [m/s]
