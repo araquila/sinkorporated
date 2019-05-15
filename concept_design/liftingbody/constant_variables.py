@@ -10,7 +10,7 @@ rho0 = 1.225                        # [kg/m3]
 
 # Passengers and crew
 n_passenger = 60
-M_passenger = 102                   #(including luggage)
+M_passenger = 105                   #(including luggage)
 n_crew = 4
 M_crew_member = 100
 
