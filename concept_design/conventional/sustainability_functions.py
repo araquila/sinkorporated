@@ -29,5 +29,9 @@ def prop_noise(D,B,n_p,P_br,N_p,c):
     # P_br engine power (kW)
     # N_p number of propellers
     M_t = np.pi*D*n_p/(c*60)
-    SPL_max = 83.4 + 15.3*np.log(P_br)-20*np.log(D)+38.5*M_t-3*(B-2)+10*np.log(N_p)
+    SPL_max = 83.4 + 15.3*np.log10(P_br)-20*np.log10(D)+38.5*M_t-3*(B-2)+10*np.log10(N_p)
     return SPL_max
+
+def airframe_noise(V_cruise,W):
+    SPL_airframe = 10*np.log10(V_cruise**5)+10*np.log10(W)-74
+    return SPL_airframe
