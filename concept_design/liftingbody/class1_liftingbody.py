@@ -13,7 +13,7 @@ def Weights_Class_I_jet(W_empty_jet, W_payload, W_crew, C_fe_jet, S_jet, S_wet_j
 
     # Determine the maximum L/D for jets
     LD_cruise_jet = eff_liftingbody * 3/4 * np.sqrt((np.pi * A_jet * e_jet) / (3 * C_D_0_jet))
-#    print(LD_cruise_jet)
+
     # Requirements for loiter
     # CL/CD during loiter for a jet
     C_L_loiter_jet = np.sqrt(C_D_0_jet * np.pi * A_jet * e_jet)
@@ -24,7 +24,7 @@ def Weights_Class_I_jet(W_empty_jet, W_payload, W_crew, C_fe_jet, S_jet, S_wet_j
 
     # Used fuel
     f_used_fuel_jet = 1 - f_fuel_jet
-
+    print(W_empty_jet, f_used_fuel_jet)
     # Formula for the maximum take-off weight
     MTOW_jet = (W_empty_jet + W_crew + W_payload) / (1 - (f_trapped_fuel + f_used_fuel_jet))
 
@@ -51,9 +51,9 @@ def Weights_Class_I_tbp(W_empty_tbp, W_payload, W_crew, C_fe_tbp, S_tbp, S_wet_t
 
     # Improved efficiency compared to regular desicrete wing and body aircraft
     eff_liftingbody = 1.19
-# Determine the maximum L/D for a turboprop
+    # Determine the maximum L/D for a turboprop
     LD_cruise_tbp = eff_liftingbody * np.sqrt((np.pi * A_tbp * e_tbp) / (4 * C_D_0_tbp))
-#    print(LD_cruise_tbp)
+
     # Requirements for loiter
     # CL/CD during loiter for a turboprop
     C_L_loiter_tbp = np.sqrt(3 * C_D_0_tbp * np.pi * A_tbp * e_tbp)
@@ -65,7 +65,7 @@ def Weights_Class_I_tbp(W_empty_tbp, W_payload, W_crew, C_fe_tbp, S_tbp, S_wet_t
 
     # Used fuel
     f_used_fuel_tbp = 1 - f_fuel_tbp
-
+    print(W_empty_tbp, f_used_fuel_tbp)
     # Formula for the maximum take-off weight
     MTOW_tbp = (W_empty_tbp + W_crew + W_payload) / (1 - (f_trapped_fuel + f_used_fuel_tbp))
 
