@@ -18,6 +18,7 @@ import numpy as np
 # fuel efficiency
 chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
+
 # Flight parameters
 s_landing = 1400                    #[m]
 altitude = 8000
@@ -366,10 +367,10 @@ fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
 CO2_tbp = CO2_calc(fuel_per_passenger_tbp_1000,chosen_fuel_energy_density)
 CO2_jet = CO2_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
 
-print('MTOM tbp: ' + str(MTOM_tbp))
-print('Fuel per passenger per 1000 km tbp: ' + str(fuel_per_passenger_tbp_1000))
-print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp))
+print('MTOM tbp: ' + str(round(MTOM_tbp,2)))
+print('Fuel per passenger per 1000 km tbp: ' + str(round(fuel_per_passenger_tbp_1000,2)))
+print('CO2 per passanger per 1000 km tbp: ' + str(round(CO2_tbp,2)))
 print()
-print('MTOM jet: ' + str(MTOM_jet))
-print('Fuel per passenger per 1000 km propfan: ' + str(fuel_per_passenger_jet_1000))
-print('CO2 per passanger per 1000 km propfan: ' + str(CO2_jet))
+print('MTOM jet: ' + str(round(MTOM_jet,2)))
+print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)))
+print('CO2 per passanger per 1000 km propfan: ' + str(round(CO2_jet,2)))
