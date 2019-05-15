@@ -166,4 +166,4 @@ def iterempty(MTOW, OEW, WF, LD):
     beta = 15*pi/180
     mainlg_cg = 15.54 + (wheel_height+diameter_fuselage_outside/2)*tan(beta)+0.5
     x_cg = (fus_cg*(fuselage_weight+furnishings_weight) + wing1_cg*wing_weight1_box + wing2_cg*wing_weight2_box + tailv_cg*vert_tail_weight+engine_cg*(2*820+nacelle_group_weight) + noselg_cg*nose_lg_weight + mainlg_cg*main_lg_weight)/(820*2 + wing_weight1_box + wing_weight2_box + fuselage_weight + vert_tail_weight + main_lg_weight + nose_lg_weight + nacelle_group_weight + furnishings_weight)
-    return Empty_mass_new, geometrylistfuselage, geometrylistwings, geometrylistvtail, mainlg_cg, wing_weight1_box, wing_weight2_box, x_cg, noselg_cg
+    return Empty_mass_new, geometrylistfuselage, geometrylistwings, geometrylistvtail, mainlg_cg, wing_weight1_box, wing_weight2_box, x_cg, noselg_cg, S
