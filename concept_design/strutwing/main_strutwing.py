@@ -11,6 +11,11 @@ from class1sizing_strutwing import *
 from conversion_formulas import *
 from class2_strutwing import *
 import numpy as np
+import matplotlib.pyplot as plt
+
+#Do you want a pie chart?
+piechart = False
+
 
 # Gravitional constant
 g = 9.8065
@@ -208,11 +213,22 @@ for iter in range(5):
     class2["handling gear weight"].append(W_handling_gear)
 
     total = 0
+    weight_fractions = []
+    weight_label = []
     for item in class2:
         total += class2[item][-1]
+        weight_fractions.append(class2[item][-1])
+        weight_label.append(item)
 
     W_empty_tbp = total * g
 
 print(class1sizing_wing)
 print(class2)
 print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))
+
+
+if piechart:
+    patches, texts, values = plt.pie(weight_fractions, counterclock = False, startangle=90, autopct='%1.11f%%')
+    plt.legend(patches, weight_label, loc="best", fontsize = 'x-large')
+    plt.axis('equal')
+    plt.show()
