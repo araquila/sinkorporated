@@ -5,7 +5,8 @@ sys.path.append(os.getcwd())
 
 # Import modules
 from class1_conventional import Weights_Class_I
-from power_wingloading_conventional import wingloading_jet, wingloading_tbp
+from power_wingloading_conventional_redone import wingloading_jet, wingloading_tbp
+from wingloadingfunctions import T_W_calc, W_P_climb_calc
 from class1sizing_strutwing import *
 from conversion_formulas import *
 from class2_strutwing import *
@@ -60,6 +61,9 @@ M_cruise_tbp = 0.72                 # [-]
 C_L_cruise = 0.8                    # [-]
 S_tbp = 66                          # [m^2]
 V_stall_tbp = 46.3                  # [m/s]
+C_L_max_land_tbp = 2.4              # [-]
+C_L_max_TO_tbp = 1.4                # [-]
+
 
 # Engine
 n_engines = 2                       # [-]
@@ -101,21 +105,21 @@ class2["anti icing system weight"] = []
 class2["handling gear weight"] = []
 
 
-# FUnctions
+# Iterator
 for iter in range(5):
     MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_jet, tbp = True)
 
     class1["MTOW"].append(MTOW_tbp)
     class1["OEW"].append(OEW_tbp)
     class1["Fuel"].append(W_fuel_tbp)
-    loading_wing_tbp = 3500.
-    loading_power_tbp = 0.05
 
-    S_tbp = MTOW_tbp / loading_wing_tbp
-    P_TO_tbp = MTOW_tbp / loading_power_tbp
+    #Wing and Power Loading
+    W_S_landing_tbp, W_P_critical = wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp, C_L_max_land_tbp, C_L_max_TO_tbp)
+
+    # S for jet and tbp
+    S_tbp = MTOW_tbp/W_S_landing_tbp
+    P_TO_tbp = MTOW_tbp / W_P_critical
     MTOM_tbp = MTOW_tbp / g
-    #wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_cruise_tbp, C_D_0_tbp)
-
 
     length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, diameter_fuselage_inside = fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles)
     class1sizing_fuselage["Length Fuselage"].append(length_fuselage)
