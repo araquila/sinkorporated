@@ -16,7 +16,7 @@ import numpy as np
 
 ## INPUTS AND CONSTANTS
 # fuel efficiency
-chosen_fuel_energy_density = energy_density_kerosene
+chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
 # Flight parameters
@@ -403,3 +403,9 @@ SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
 SPL_total = total_noise(SPL_turbofan,SPL_airframe)
 SPL_distance = noise_distance(SPL_total,450,2500)
 print(SPL_turbofan,SPL_airframe,SPL_total,SPL_distance)
+
+print(C_l_des_tbp,t_c_ratio_tbp)
+print(C_l_des_jet)
+
+print_size_data()
+print(t_c_ratio)
