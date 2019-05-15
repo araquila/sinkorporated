@@ -137,6 +137,16 @@ import sys
 import numpy as np
 
 sys.path.append(os.getcwd())
-from function1 import det_quarter_chord_sweep
 
-det_quarter_chord_sweep(0.8)
+from concept_design.strutwing.class2_strutwing import *
+from conversion_formulas import *
+
+# instruments_weight = det_instruments_weight(n_pilots, n_engines, length_fuselage, wingspan, turboprop = True)
+# hydraulics_weight = det_hydraulics_weight(meter_to_feet(length_fuselage), wingspan)
+# electrical_weight = det_electrical_weight(meter_to_feet(length_fuselage), N_gen = 3)
+# avionics_weight = det_avionics_weight()
+# det_furnishings_weight(n_pilots, 13.608*60, metersquared_to_feetsquared(np.pi * diameter_fuselage_outside * length_fuselage))
+# pres_vol = np.pi / 4 * diameter_fuselage_inside**2 * (length_nose + length_nose)
+# aircond_weight = det_aircond_weight(n_passenger, metercubed_to_feetcubed(pres_vol))
+# anti_ice_weight = det_anti_ice_weight(kg_to_pounds(MTOW_tbp))
+# handling_gear_weight = det_handling_gear_weight(kg_to_pounds(MTOW_tbp))

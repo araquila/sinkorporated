@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 #the input variables can be changed according to your initial sizing.
 #running the script will give you diagrams. The white parts are the parts were
 #the requirements are met, red areas must be avoided.
-
+#for matthijs this is the new version
 
 ###############plotting function################################################
 def plotfiller(ax, xlim, ylim, x_data = 0, data = 0, vline = 0, direction = "right", alpha = 0.3, color = 'red'):
@@ -80,7 +80,11 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
 
     C_D_tbp_curr = 0.065 #current CD value THIS IS INPUT
     #take off parameter and propulsion
+<<<<<<< HEAD
     TOP_aquila_tbp = 1000 #find from statistics THIS IS INPUT
+=======
+    TOP_aquila_tbp = 139 #find from statistics THIS IS INPUT
+>>>>>>> 018cc949cb2d19aa2f50d3e706909f93015b5b14
     power_setting = 0.9 #usually at 0.9 THIS IS INPUT
 #    V_cruise_tbp = 100 #[m/s] THIS IS INPUT
 #    C_D_0_tbp = 0.015 #THIS IS INPUT
@@ -158,6 +162,7 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     #ax1.plot(wing_loading_x,W_P_maneuvring_tbp)
 
     # plot filled parts of the graph
+
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = TOP_takeoff_tbp[4,:], direction = "up")
     plotfiller(ax1, xlim, ylim, vline = W_S_landing_tbp[0], direction = "right")
     plotfiller(ax1, xlim, ylim, x_data = wing_loading_x, data = W_P_cruise_tbp, direction = "up")
@@ -172,8 +177,13 @@ def wingloading_tbp(MTOW_tbp, OEW_tbp, S_tbp, A_tbp, V_cruise_tbp, e_tbp, eff_pr
     "landing CL =" + str(round(C_L_landing_range_tbp[0],2)),"landing CL =" + str(round(C_L_landing_range_tbp[1],2)),"landing CL =" + str(round(C_L_landing_range_tbp[2],2)),
     "Cruise A =" + str(round(A_tbp,2)), "Climb Rate A =" + str(round(A_tbp,2)), "Climb Grad A =" + str(round(A_tbp,2))])
 
+<<<<<<< HEAD
     plt.show()
     return
+=======
+#    plt.show()
+    return W_S_landing_tbp, c
+>>>>>>> 018cc949cb2d19aa2f50d3e706909f93015b5b14
 
 def wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet):
     ##################################jets##########################################
@@ -282,4 +292,4 @@ def wingloading_jet(MTOW_jet,OEW_jet,V_cruise_jet,e_jet,C_D_0_jet,A_jet,S_jet):
     "landing CL =" + str(round(C_L_landing_range_jet[0],2)),"landing CL =" + str(round(C_L_landing_range_jet[1],2)),"landing CL =" + str(round(C_L_landing_range_jet[2],2)),
     "Cruise A =" + str(round(A_jet,2)), "Climb Rate A =" + str(round(A_jet,2)), "Climb Grad A =" + str(round(A_jet,2))])
     plt.show()
-    return
+    return W_S_landing_jet

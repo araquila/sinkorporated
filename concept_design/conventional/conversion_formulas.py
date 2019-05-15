@@ -28,14 +28,6 @@ def ms_to_knots(velocity_in_ms):
     velocity_in_knots = 1.94384 * velocity_in_ms
     return velocity_in_knots
 
-def metercubed_to_USgallon(volume_in_metercubed):
-    volume_in_USgallon = 264.172 * volume_in_metercubed
-    return volume_in_USgallon
-
-def kilogram_square_meter_to_pound_square_foot(moi_in_kilogram_square_meter):
-    moi_in_pound_square_foot = 23.73036 * moi_in_kilogram_square_meter
-    return moi_in_pound_square_foot
-
                 #US to SI
 
 def feet_to_meter(length_in_feet):
@@ -47,7 +39,7 @@ def feetsquared_to_metersquared(area_in_feetsquared):
     return area_in_metersquared
 
 def feetcubed_to_metercubed(volume_in_feetcubed):
-    volume_in_metercubed = volume_in_feetcubed / 35.3147
+    volume_in_metercubed = 35.3147 * volume_in_feetcubed
     return volume_in_metercubed
 
 def pounds_to_kg(mass_in_pounds):
@@ -55,17 +47,9 @@ def pounds_to_kg(mass_in_pounds):
     return mass_in_kg
 
 def USdensity_to_ISdensity(US_density):
-    ISdensity = US_density / 0.062428
+    ISdensity = 0.062428 * US_density
     return ISdensity
 
 def ms_to_knots(velocity_in_knots):
-    velocity_in_ms = velocity_in_knots / 1.94384
+    velocity_in_ms = 1.94384 * velocity_in_knots
     return velocity_in_ms
-
-def USgallon_to_metercubed(volume_in_USgallon):
-    volume_in_metercubed = volume_in_USgallon / 264.172
-    return volume_in_metercubed
-
-def pound_square_foot_to_kilogran_square_meter(moi_in_pound_square_foot):
-    moi_in_kilogram_square_meter = moi_in_pound_square_foot / 23.73036
-    return moi_in_kilogram_square_meter

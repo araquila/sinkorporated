@@ -37,14 +37,14 @@ n_max_man = 4.4
 s_landing = 1400 #[m]
 rho0 = 1.225 #[kg/m3]
 rho = 0.4 #[kg/m3]
-c = 20 #[m/s]
+c = 10 #[m/s]
 V_landing = 48.93 #[m/s] maximum landing speed that is allowed on a runway of 1400 m
 weight_fraction = 1. #weight fraction of MTOW
 S = 48000 #[m2]
 #graph data
 wing_loading_x = np.linspace(0.1,6000,200)
 
-MTOW_jet, OEW_jet, W_fuel_jet = class1box()
+MTOW_jet, OEW_jet, W_fuel_jet , L_D = class1box(13483.623678910562)
 #############DATA JETS##################
 #MTOW_jet = 275365.44 #[N]
 #OEW_jet = 140811.41 #[N]
@@ -59,8 +59,8 @@ C_L_max_jet_land_min = 1.6
 C_L_max_jet_land_max = 2.6
 
 #take off parameter jet
-TOP_aquila_jet_single = 6500
-TOP_aquila_jet_double = 6500
+TOP_aquila_jet_single = 6698
+TOP_aquila_jet_double = 6698
 V_cruise_jet = 230
 e_jet = 1.2
 C_D_0_jet = 0.0145
