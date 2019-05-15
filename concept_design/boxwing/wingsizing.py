@@ -2,6 +2,7 @@ from math import *
 from class1sizing import enginedimensions, undercarriage, fuselage, tiresizing
 from class2_boxwing import *
 from wingloadingfunctions import V_stall_calc
+from constant_variables import *
 
 
 def iterempty(MTOW, OEW, WF, LD):
@@ -144,6 +145,11 @@ def iterempty(MTOW, OEW, WF, LD):
 
     #handling_gear_weight
     handling_gear_weight = det_handling_gear_weight(MTOWlbs)/kgtolbs
+
+    #energy_total = WF*energy_density_kerosene/g*10**6
+    #energy_density_battery = 1.26e6
+    #mass_battery = 0.1 * energy_total/energy_density_battery
+
 
     Empty_mass_new= 820*2 + wing_weight1_box + wing_weight2_box + fuselage_weight + vert_tail_weight + main_lg_weight + nose_lg_weight + nacelle_group_weight + engine_control_weight + starter_weight + fuel_system_weight + flight_controls_weight + apu_weight + instruments_weight + hydraulics_weight + electrical_weight + avionics_weight+ furnishings_weight + aircond_weight + anti_ice_weight + handling_gear_weight
 

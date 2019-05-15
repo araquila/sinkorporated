@@ -1,6 +1,7 @@
 # IMPORTS
 import numpy as np
 from fuel_fraction import fuel_fraction
+from constant_variables import *
 
 # FUNCTION
 def Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel,  V_cruise_jet, range_cruise_jet, endurance_loiter_jet, jet = False, tbp = False):
@@ -36,7 +37,8 @@ def Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet
         # Total useful fuel
         W_fuel_jet = W_used_fuel_jet #+ W_reserve_fuel_jet
 
+
         # Determine the operative empty weight for a jet
         OEW_jet = W_empty_jet + W_trapped_fuel_jet + W_crew
 
-        return MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet
+        return MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet, f_cruise_start_jet, f_cruise_end_jet

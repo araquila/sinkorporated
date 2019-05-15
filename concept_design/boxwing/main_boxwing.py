@@ -5,7 +5,8 @@ from class1_boxwing import Weights_Class_I
 from wingsizing import iterempty
 from sustainability_functions import CO2_calc
 from constant_variables import *
-
+from class1sizing import *
+from math import *
 chosen_fuel_energy_density = energy_density_kerosene
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
@@ -59,12 +60,12 @@ def class1box(M_empty_jet):
 
         # CLASS I ESTIMATION
 
-    MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet =  Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel, V_cruise_jet, range_cruise_jet, endurance_loiter_jet, jet = True)
+    MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet, f_cruise_start_jet, f_cruise_end_jet =  Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel, V_cruise_jet, range_cruise_jet, endurance_loiter_jet, jet = True)
 
 
 
     W_empty_jet = (OEW_jet-W_crew)-f_trapped_fuel*MTOW_jet
-    MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, LD_cruise_jet, W_used_fuel_jet  = Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel, V_cruise_jet, 1000*1000, 0, jet = True, tbp = False)
+    MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, LD_cruise_jet, W_used_fuel_jet, f_cruise_start_jet, f_cruise_end_jet = Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel, V_cruise_jet, 1000*1000, 0, jet = True, tbp = False)
 
     fuel_per_passenger_jet_1000 = (W_fuel_jet_1000/n_passenger)/g
     CO2_jet = fuel_per_passenger_jet_1000*3.0
@@ -72,14 +73,17 @@ def class1box(M_empty_jet):
     print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)))
     print('CO2 per passanger per 1000 km propfan: ' + str(round(CO2_jet,2)))
 
-    return MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet
+    return MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet, f_cruise_start_jet, f_cruise_end_jet
 
 
 M_empty_jet = 13874.75
 g = 9.80665
+
+
 for i in range(50):
-    MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet = class1box(M_empty_jet)
-    M_empty_jet, geometrylistfuselage, geometrylistwings, geometrylistvtail, mainlg_cg, wing_weight1_box, wing_weight2_box, x_cg, noselg_cg, S= iterempty(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet)
+    MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet, f_cruise_start_jet, f_cruise_end_jet = class1box(M_empty_jet)
+    M_empty_jet, geometrylistfuselage, geometrylistwings, geometrylistvtail, mainlg_cg, wing_weight1_box, wing_weight2_box, x_cg, noselg_cg, S = iterempty(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet)
+
     print(M_empty_jet, mainlg_cg, MTOW_jet/9.81)
 print(geometrylistfuselage)
 print(wing_weight1_box,wing_weight2_box, x_cg)
@@ -87,3 +91,67 @@ print(wing_weight1_box,wing_weight2_box, x_cg)
 Fn = (mainlg_cg-x_cg)/(mainlg_cg-noselg_cg)
 print(W_fuel_jet/g)
 print(W_used_fuel_jet/g/60, S)
+
+
+def C_L_des(q,W_S_cruise_start,W_S_cruise_end):
+    C_L_des = 1.1*1/q*(0.5*(W_S_cruise_start+W_S_cruise_end))
+    return C_L_des
+
+def C_l_des(C_L_des,sweep):
+    C_l_des = C_L_des/cos(sweep)**2
+    return C_l_des
+S_jet = S
+V_cruise_jet = 229
+g =  9.80665
+
+
+TW = 0.25
+#input parameters for wing area
+WS = 3080
+S = MTOW_jet/WS
+S = S *1.36
+
+s1frac = 0.5
+s2frac = 1 - s1frac
+length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, length_nosecone, length_tailcone = fuselage(60,4,4,1)
+#print(fuselage(60,4,4,1))
+S1 = S * s1frac
+S2 = S * s2frac
+AR1 = 12
+AR2 = 12
+Fus_len = length_fuselage
+frac_qtrchord_fus = 0.35
+
+#undercarriage initial Values
+wheel_height, lateral_position_undercarridge = undercarriage(0.58*Fus_len, 0.085*Fus_len, Fus_len, length_tail, diameter_fuselage_outside)
+tire_pressure, P_mw, P_nw = tiresizing(MTOW_jet/g, 25)
+#print(wheel_height, lateral_position_undercarridge)
+
+
+
+taper1 = 0.3
+sweep1 = (2-taper1/0.2)*180/pi
+b = sqrt(S1*AR1)
+cr1 = 2*S1/(1+taper1)/b
+ct1 = taper1 * cr1
+#print(b,cr1,ct1)
+
+ct2 = ct1
+cr2 = (2*S2-ct2*b)/b
+taper2 = ct2/cr2
+AR_v = 0.8
+sweepv = 30
+taperv = 0.7
+ctv = cr2
+crv = ctv/taperv
+bv = AR_v*(ctv+crv)/2
+Sv = bv**2 / AR_v
+vtail_xoffset = -crv + sin(sweepv*pi/180)*bv + ctv
+sweep2 = -atan((Fus_len + vtail_xoffset - Fus_len*frac_qtrchord_fus - b/2*tan(sweep1/180*pi) - 0.75*cr2 )/(b/2))*180/pi
+
+C_L_des1 = C_L_des(0.4*(V_cruise_jet**2)/2,f_cruise_start_jet*MTOW_jet/2/S1,f_cruise_end_jet*MTOW_jet/2/S1)
+C_L_des2 = C_L_des(0.4*(V_cruise_jet**2)/2,f_cruise_start_jet*MTOW_jet/2/S2,f_cruise_end_jet*MTOW_jet/2/S2)
+
+C_l_des1 = C_l_des(C_L_des1,sweep1*pi/180)
+C_l_des2 = C_l_des(C_L_des2,sweep2*pi/180)
+print(C_l_des1,C_l_des2, f_cruise_end_jet, MTOW_jet, S1,S2, S)
