@@ -11,7 +11,7 @@ from cg_determination import x_lemac_tbp_calc, x_lemac_jet_calc
 from fuel_fraction import fuel_fraction
 from conversion_formulas import *
 import class2_conventional as class2
-from sustainability_functions import CO2_calc, NOX_calc, prop_noise, airframe_noise
+from sustainability_functions import CO2_calc, NOX_calc, prop_noise, airframe_noise, total_noise, noise_distance, turbofan_noise
 import numpy as np
 
 ## INPUTS AND CONSTANTS
@@ -77,9 +77,9 @@ q_jet = 0.5*rho*V_cruise_jet**2          # [n/m2]
 q_tbp = 0.5*rho*V_cruise_tbp**2          # [n/m2]
 
 # Engine characteristics
-thrust_to_weight_jet = 2/3*73.21         # [N/kg] #add 2/3 if propfan is used
-cj_loiter_jet = fuel_efficiency_factor*12.5e-6                  # (0.4-0.6) [g/j] Propfan: 0.441
-cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
+thrust_to_weight_jet = 73.21         # [N/kg] #add 2/3 if propfan is used
+cj_loiter_jet = fuel_efficiency_factor*19.8e-6                  # (0.4-0.6) [g/j] Propfan: 0.441
+cj_cruise_jet = fuel_efficiency_factor*19.8e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
 power_to_weight_tbp = 4000               # [W/kg]
 eff_cruise_tbp = 0.85                    # [-]
@@ -397,6 +397,9 @@ print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
 print('NOX per passenger per 1000 km propfan: ' + str(NOX_jet) + ' [kg]')
 print('Time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(round(t_jet,2)) + '[h]')
 
-#SPL_engine = prop_noise()
+SPL_engine_prop = prop_noise(diameter_propeller_tbp,5,1400,1850,1,speed_of_sound)
+SPL_turbofan = turbofan_noise()
 SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
-print(SPL)
+SPL_total = total_noise(SPL_turbofan,SPL_airframe)
+SPL_distance = noise_distance(SPL_total,450,2500)
+print(SPL_turbofan,SPL_airframe,SPL_total,SPL_distance)
