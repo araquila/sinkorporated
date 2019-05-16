@@ -78,7 +78,7 @@ q_tbp = 0.5*rho*V_cruise_tbp**2          # [n/m2]
 
 # Engine characteristics
 thrust_to_weight_jet = 73.21         # [N/kg] #add 2/3 if propfan is used
-cj_loiter_jet = fuel_efficiency_factor*19.8e-6                  # (0.4-0.6) [g/j] Propfan: 0.441
+cj_loiter_jet = fuel_efficiency_factor*19.8e-6                  # (0.4-0.6) [g/j] Propfan: 12.5
 cj_cruise_jet = fuel_efficiency_factor*19.8e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
 power_to_weight_tbp = 4000               # [W/kg]
@@ -357,9 +357,51 @@ def print_flight_char_data():
     print_list(flight_char_data_jet)
     print_list(flight_char_data_tbp)
 
+def non_recurring_cost(m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads):
+    """Returns the total non-recurring cost in million USD(April 2019) based on aircraft mass in kg"""
+    mass_vector_kg = np.array([m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads])
+    mass_vector_lbs = mass_vector_kg * 2.20462262
+    cost_per_lbs_vector = np.array([17731,52156,32093,2499,8691,34307,10763])
+    cost_vector = mass_vector_lbs*cost_per_lbs_vector
+
+    c_total_nonrecurring_2002 = np.sum(cost_vector)
+    c_total_nonrecurring_2019 = c_total_nonrecurring_2002*1.44
+
+    return round(c_total_nonrecurring_2019/1000000,3)
+
+def recurring_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads,m_assembly):
+    """Returns the total recurring cost in million USD(April 2019) based on aircraft mass in kg"""
+    mass_vector_kg = np.array([m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads,m_assembly])
+    mass_vector_lbs = mass_vector_kg * 2.20462262
+    cost_per_lbs = np.array([[609,1614,679,107,248,315,405,58],[204,484,190,98,91,91,100,4],[88,233,98,16,36,46,59,3]])
+    TFU_cost = np.dot(cost_per_lbs,mass_vector_lbs)
+    labor  = np.array([])
+    materials = []
+    other = []
+    for n in range(1,n_aircraft+1):
+        labor = np.append(labor, n**(np.log(0.85)/np.log(2)))
+        materials = np.append(materials, n**(np.log(0.95)/np.log(2)))
+        other = np.append(other, n**(np.log(0.95)/np.log(2)))
+
+    costs = (TFU_cost[0]*labor,TFU_cost[1]*materials,TFU_cost[2]*other)
+
+    c_total_recurring_2002 = np.sum(costs)
+    c_total_recurring_2019 = c_total_recurring_2002*1.44
+
+    return round(c_total_recurring_2019/1000000,2)
+
+def total_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads,m_assembly):
+    "Return the total cost per aircraft in in million USD(April 2019) based on aircraft mass in kg"
+    total_cost = non_recurring_cost(m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads) + recurring_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads,m_assembly)
+    PU_cost = total_cost/n_aircraft
+    return round(PU_cost,2)
+
+
+
+
 #Calculate performance for 1000 km trip
 MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, jet = True, tbp = False)
-MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
+MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
 
 fuel_per_passenger_jet_1000 = (W_fuel_jet_1000/n_passenger)/g
 fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
@@ -396,16 +438,14 @@ print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_
 print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
 print('NOX per passenger per 1000 km propfan: ' + str(NOX_jet) + ' [kg]')
 print('Time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(round(t_jet,2)) + '[h]')
+print()
+print('Development cost :', non_recurring_cost(wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload),'Million USD (2019)')
+print('Production cost per unit :', recurring_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/500,'Million USD (2019)')
+print('Total cost per unit', 500*total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
 
-SPL_engine_prop = prop_noise(diameter_propeller_tbp,5,1400,1850,1,speed_of_sound)
-SPL_turbofan = turbofan_noise()
+#SPL_engine = prop_noise()
 SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
-SPL_total = total_noise(SPL_turbofan,SPL_airframe)
-SPL_distance = noise_distance(SPL_total,450,2500)
-print(SPL_turbofan,SPL_airframe,SPL_total,SPL_distance)
+#print(SPL)
 
 print(C_l_des_tbp,t_c_ratio_tbp)
 print(C_l_des_jet)
-
-print_size_data()
-print(t_c_ratio)
