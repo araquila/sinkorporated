@@ -68,14 +68,14 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     width_container=61.5*0.0254
     base_container=60.4*0.0254
 
-    nose_fineness=1.5 #can be altered using aerodynamic data
-    nosecone_fineness=2.25 #from data
-    length_nose=nose_fineness*diameter_fuselage_outside
-    length_nosecone=nosecone_fineness*diameter_fuselage_outside
+    nose_fineness=1 #can be altered using aerodynamic data
+    nosecone_fineness=2 #from data
+    length_nose=nose_fineness*width_fuselage_outside
+    length_nosecone=nosecone_fineness*width_fuselage_outside
 
 
-    tail_fineness=2
-    tailcone_fineness=3.5 #2-4
+    tail_fineness=1.6
+    tailcone_fineness=3 #2-4
     length_tail=tail_fineness*diameter_fuselage_outside
     length_tailcone=tailcone_fineness*diameter_fuselage_outside
 
