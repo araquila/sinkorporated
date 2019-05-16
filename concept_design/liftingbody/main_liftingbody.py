@@ -13,8 +13,12 @@ from fuel_fraction import fuel_fraction
 from conversion_formulas import *
 from sustainability_functions import CO2_calc, NOX_calc, prop_noise, airframe_noise, total_noise, noise_distance, turbofan_noise
 import class2_liftingbody as class2
+import matplotlib.pyplot as plt
 import numpy as np
+import rangepldiagram as pld
 
+
+print_payloadrange = False
 
 # Atmospherical parameters at cruise altitude
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
@@ -450,11 +454,11 @@ print('Total cost per unit:', total_cost(500,wing_weight_jet,hor_tail_weight_jet
 print()
 
 # Print data
-print_mass_data()
+#print_mass_data()
 
-print_size_data()
+#print_size_data()
 
-print_flight_char_data()
+#print_flight_char_data()
 
 SPL_engine_prop = prop_noise(diameter_propeller_tbp,5,1400,1850,1,speed_of_sound)
 SPL_turbofan = turbofan_noise()
@@ -462,7 +466,6 @@ SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
 SPL_total = total_noise(SPL_turbofan,SPL_airframe)
 SPL_distance = noise_distance(SPL_total,450,2500)
 
-<<<<<<< HEAD
 print()
 print('----------------------- Noise  ----------------------------')
 print('Turbofan:', SPL_turbofan)
@@ -478,6 +481,7 @@ print('--------- Design lift and drag coefficients -------------')
 print('C_L:', C_l_des_jet)
 print('C_D:', C_D_jet)
 print('C_L/C_D:', CLCD_jet)
+print(C_D_0_jet)
 
 
 print()
@@ -487,6 +491,14 @@ print()
 print('MTOM:', 100*(MTOM_jet - 17035.859)/17035.859, '%')
 print('Cost:', 100*(total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet) - 13.28)/13.28,'%')
 print('Emissions:', 100*(CO2_jet - 100.248335)/100.248335, '%')
-=======
-print('Production cost per unit :', recurring_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/500,'Million USD (2019)')
->>>>>>> e2c807d8cdd08a6e56a4a63a85506d889c67b7fc
+
+#Payload Range Diagram
+range_list, payload_list, M_payload = pld.payloadrange(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet,0, A_jet, 0,0,0, e_jet, 0, V_cruise_jet, 0, 0, jet = True, tbp = False)
+if print_payloadrange:
+    plt.plot(range_list, payload_list)
+    plt.xlim([0,4000])
+    plt.ylim([0,7000])
+    plt.title('Payload Range Diagram')
+    plt.ylabel('Payload Mass [kg]')
+    plt.xlabel('Range [km]')
+    plt.show()
