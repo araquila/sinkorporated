@@ -12,10 +12,14 @@ from class1sizing_strutwing import *
 from conversion_formulas import *
 from class2_strutwing import *
 import numpy as np
+import fuel_fraction as ff
 import matplotlib.pyplot as plt
+import rangepldiagram as pld
+import cost_equations as ceq
 
 #Do you want a pie chart?
 piechart = False
+print_payloadrange = False
 
 
 # Gravitional constant
@@ -117,7 +121,7 @@ class2["handling gear weight"] = []
 
 # Iterator
 for iter in range(5):
-    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(0, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, 0, A_tbp, 0, e_tbp, 0, 0, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, 0, V_loiter_tbp, 0, range_cruise_tbp, 0, endurance_loiter_tbp, tbp = True, jet = False)
+    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp, L_D_loiter_tbp = Weights_Class_I(0, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, 0, A_tbp, 0, e_tbp, 0, 0, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, 0, V_loiter_tbp, 0, range_cruise_tbp, 0, endurance_loiter_tbp, tbp = True, jet = False)
 
     class1["MTOW"].append(MTOW_tbp)
     class1["OEW"].append(OEW_tbp)
@@ -240,11 +244,12 @@ print('Design CL:', C_L_cruise_tbp)
 print('Design CD:', C_D_cruise_tbp)
 print('Resulting CL/CD:', C_L_cruise_tbp/C_D_cruise_tbp)
 
-MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(0, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, 0, A_tbp, 0, e_tbp, 0, 0, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, 0, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
+f_fuel_tbp_1000, f_reserve_tbp_1000, f_cruise_start_tbp_1000, f_cruise_end_tbp_1000 = ff.fuel_fraction(LD_loiter_tbp = L_D_loiter_tbp, LD_cruise_tbp = LD_cruise_tbp, eff_cruise_tbp = eff_cruise_tbp, eff_loiter_tbp = eff_loiter_tbp, cp_cruise_tbp = cp_cruise_tbp, cp_loiter_tbp = cp_loiter_tbp, V_loiter_tbp = V_loiter_tbp, range_cruise_tbp = 1000000, endurance_loiter_tbp = endurance_loiter_tbp, tbp = True)
+W_fuel_tbp_1000 = (1 - f_fuel_tbp_1000) * MTOW_tbp
 fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
 
-print(OEW_tbp_1000/g)
-print(fuel_per_passenger_tbp_1000)
+print('Fuel burn 1000km trip:',fuel_per_passenger_tbp_1000,'kg')
+
 
 #Emission Calculations
 CO2_emission = sf.CO2_calc(W_fuel_tbp/(g*n_passenger), 43)
@@ -255,9 +260,24 @@ NOX_emission = sf.NOX_calc(W_fuel_tbp/(g*n_passenger), 43)
 #noise_airframe = sf.airframe_noise(V_cruise_tbp, MTOW_tbp)
 #noise_total = sf.total_noise(noise_prop, noise_airframe)
 
+#Payload Range Diagram
+range_list, payload_list, M_payload = pld.payloadrange(MTOW_tbp, OEW_tbp, W_fuel_tbp, 0, LD_cruise_tbp, 0, A_tbp, eff_cruise_tbp, eff_loiter_tbp, 0, e_tbp, 0, V_cruise_tbp, V_loiter_tbp, jet = False, tbp = True)
+
+if print_payloadrange:
+    plt.plot(range_list, payload_list)
+    plt.xlim([0,4000])
+    plt.ylim([0,7000])
+    plt.title('Payload Range Diagram')
+    plt.ylabel('Payload Mass [kg]')
+    plt.xlabel('Range [km]')
+    plt.show()
 
 if piechart:
     patches, texts, values = plt.pie(weight_fractions, counterclock = False, startangle=90, autopct='%1.11f%%')
     plt.legend(patches, weight_label, loc="best", fontsize = 'x-large')
     plt.axis('equal')
     plt.show()
+
+print('Development cost :', ceq.non_recurring_cost(W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g),'Million USD (2019)')
+print('Production cost per unit :', ceq.recurring_cost(500,W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g,W_empty_tbp/g)/500,'Million USD (2019)')
+print('Total cost per unit', ceq.total_cost(500,W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g,W_empty_tbp/g),'Million USD (2019)')

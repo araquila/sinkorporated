@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 def non_recurring_cost(m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads):
     """Returns the total non-recurring cost in million USD(April 2019) based on aircraft mass in kg"""
@@ -39,5 +38,3 @@ def total_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_syst
     total_cost = non_recurring_cost(m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads) + recurring_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads,m_assembly)
     PU_cost = total_cost/n_aircraft
     return round(PU_cost,2)
-
-print(recurring_cost(100,1,1,1,1,1, 1,1,1))

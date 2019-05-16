@@ -14,7 +14,7 @@ def iterempty(MTOW, OEW, WF, LD):
     #input parameters for wing area
     WS = 3080
     S = MTOW/WS
-    S = S *1.36
+    S = S *1.2
 
     s1frac = 0.5
     s2frac = 1 - s1frac
@@ -152,6 +152,29 @@ def iterempty(MTOW, OEW, WF, LD):
 
 
     Empty_mass_new= 820*2 + wing_weight1_box + wing_weight2_box + fuselage_weight + vert_tail_weight + main_lg_weight + nose_lg_weight + nacelle_group_weight + engine_control_weight + starter_weight + fuel_system_weight + flight_controls_weight + apu_weight + instruments_weight + hydraulics_weight + electrical_weight + avionics_weight+ furnishings_weight + aircond_weight + anti_ice_weight + handling_gear_weight
+
+    print()
+    print(wing_weight1_box/Empty_mass_new,'wing1weight')
+    print(wing_weight2_box/Empty_mass_new,'wing2weight')
+    print(vert_tail_weight/Empty_mass_new,'vtailweight')
+    print(fuselage_weight/Empty_mass_new,'fusweight')
+    print(main_lg_weight/Empty_mass_new,'mainlgweight')
+    print(nose_lg_weight/Empty_mass_new,'noselgweight')
+    print(nacelle_group_weight/Empty_mass_new,'nacelleweight')
+    print(820*2/Empty_mass_new,'engweight')
+    print(engine_control_weight/Empty_mass_new,'engcontweight')
+    print(starter_weight/Empty_mass_new,'starterweight')
+    print(fuel_system_weight/Empty_mass_new,'fuelsysweight')
+    print(flight_controls_weight/Empty_mass_new,'flightcontweight')
+    print(apu_weight/Empty_mass_new,'apuweight')
+    print(instruments_weight/Empty_mass_new,'instruweight')
+    print(hydraulics_weight/Empty_mass_new,'hydrweight')
+    print(electrical_weight/Empty_mass_new,'elecweight')
+    print(avionics_weight/Empty_mass_new,'avionweight')
+    print(furnishings_weight/Empty_mass_new,'furnweight')
+    print(aircond_weight/Empty_mass_new,'aircondweight')
+    print(anti_ice_weight/Empty_mass_new,'antiweight')
+    print(handling_gear_weight/Empty_mass_new,'handling_gear_weight')
 
     geometrylistfuselage = (('Length fuselage nose', length_nose), ('Length cabin', length_cabin), ('Lenght fuselage tail', length_tail), ('Length fuselage', length_fuselage), ('Length nosecone', length_nosecone), ('Length tailcone', length_tailcone), ('Diameter outside fuselage', diameter_fuselage_outside))
     geometrylistwings = (('Total wing area', S), ('Wing span', b), ('Fore wing area', S1) ,('Aft wing area', S2), ('Fore root chord', cr1), ('Fore tip chord', ct1), ('Aft root chord', cr2), ('Aft tip chord', ct2), ('Fore qc sweep', sweep1), ('Aft qc sweep', sweep2), ('Fore wing position', Fus_len*frac_qtrchord_fus) )
