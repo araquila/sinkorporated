@@ -24,8 +24,8 @@ def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A
     S_wet = 5 * S
 
     if jet:
-        cj_loiter_jet = 19e-6       # (0.4-0.6) [lbs/lbs/hr]
-        cj_cruise_jet = 19e-6      # (0.5-0.9) [lbs/lbs/hr]
+        cj_loiter_jet = 19e-6/1.16       # (0.4-0.6) [lbs/lbs/hr]
+        cj_cruise_jet = 19e-6/1.16      # (0.5-0.9) [lbs/lbs/hr]
         range_cruise_jet = 1850000
         endurance_loiter_jet = 2700
 
@@ -150,8 +150,8 @@ def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A
         return 0, 0, 0
 
 
-#Rlist, Plist, M_payload = payloadrange(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, 16, 12, 12,0.85, 0.77, 1.2, 1.2, 229, 229, 100, jet = True, tbp = False)
-Rlist, Plist, M_payload = payloadrange(17832*9.80665,9434*9.80665 , 2097*9.80665, 16, 28.3, 12, 18,0.85, 0.77, 1.2, 0.85, 229, 180, 150, jet = False, tbp = True)
+Rlist, Plist, M_payload = payloadrange(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, 16, 12, 12,0.85, 0.77, 1.2, 1.2, 229, 229, 100, jet = True, tbp = False)
+#Rlist, Plist, M_payload = payloadrange(17832*9.80665,9434*9.80665 , 2097*9.80665, 16, 28.3, 12, 18,0.85, 0.77, 1.2, 0.85, 229, 180, 150, jet = False, tbp = True)
 
 
 plt.plot(Rlist, Plist)
