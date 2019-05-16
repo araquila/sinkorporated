@@ -460,3 +460,4 @@ print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+
 #SPL_engine = prop_noise()
 SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
 #print(SPL)
+
