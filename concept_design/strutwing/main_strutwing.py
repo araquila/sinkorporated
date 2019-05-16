@@ -50,11 +50,17 @@ C_fe = 0.003
 S = 1
 S_wet = 5 * S
 
+
+energy_density_LNG = 53.6 #[MJ/kg]
+energy_density_kerosene = 43 #[MJ/kg]
+chosen_fuel_energy_density = energy_density_LNG
+fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
+
 # Jet
 A_jet = 19.5
 e_jet = 0.8                         # Adjust per concept
-cj_loiter_jet = 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
-cj_cruise_jet = 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
+cj_loiter_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
+cj_cruise_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
 V_cruise_jet =  200                 # [m/s]
 V_loiter_jet = 150
 S_jet = 61
@@ -64,8 +70,8 @@ A_tbp = 18
 e_tbp = 0.85                        # Adjust per concept
 eff_cruise_tbp = 0.85               # [-]
 eff_loiter_tbp = 0.77               # [-]
-cp_cruise_tbp = 90e-9               # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = 90e-9               # (0.5-0.7) [kg/ns]
+cp_cruise_tbp = 0.8*fuel_efficiency_factor * 74e-9 # oude waarde 90e-9              # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = 0.8*fuel_efficiency_factor * 74e-9 # oude waarde 90e-9               # (0.5-0.7) [kg/ns]
 V_cruise_tbp = 180                  # [m/s]
 V_loiter_tbp = 80                   # [m/s]
 M_cruise_tbp = 0.72                 # [-]
