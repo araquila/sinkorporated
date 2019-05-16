@@ -23,7 +23,7 @@ g = 9.8065
 
 # Passengers and crew
 n_passenger = 60
-M_passenger = 102                   #(including luggage)
+M_passenger = 105                   #(including luggage)
 n_crew = 4
 n_pilots = 2
 M_crew_member = 100
@@ -223,13 +223,28 @@ for iter in range(5):
 
     W_empty_tbp = total * g
 
-print(class1sizing_wing)
-print(class2)
-print('Tbp: ' + str(MTOM_tbp) , str(OEW_tbp/g) , str(W_fuel_tbp/g))
+print('MTOW:', MTOM_tbp, 'kg')
+print('OEW:', OEW_tbp/g, 'kg')
+print('FUEL:', W_fuel_tbp/g, 'kg')
+
+#Design Cruise CL
+q_tbp = 0.5 * 0.525168 * V_cruise_tbp**2
+
+C_L_cruise_tbp = C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp/S_tbp,f_cruise_end_tbp*MTOW_tbp/S_tbp)
+C_D_cruise_tbp = C_D_0_tbp + (1/(A_tbp*e_tbp*np.pi)) * C_L_cruise_tbp**2
+
+print('Design CL:', C_L_cruise_tbp)
+print('Design CD:', C_D_cruise_tbp)
+print('Resulting CL/CD:', C_L_cruise_tbp/C_D_cruise_tbp)
 
 #Emission Calculations
 CO2_emission = sf.CO2_calc(W_fuel_tbp/(g*n_passenger), 43)
 NOX_emission = sf.NOX_calc(W_fuel_tbp/(g*n_passenger), 43)
+
+#Noise Calculations
+#noise_prop = sf.prop_noise(diameter_propeller, 4, n_p, P_TO_tbp/n_engines, N_p, n_engines)
+#noise_airframe = sf.airframe_noise(V_cruise_tbp, MTOW_tbp)
+#noise_total = sf.total_noise(noise_prop, noise_airframe)
 
 
 if piechart:
