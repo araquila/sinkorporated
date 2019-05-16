@@ -9,6 +9,7 @@ from class1sizing import *
 from math import *
 from class2_boxwing import *
 from atmosphere import atmosphere_calc
+from cost_equations import *
 import numpy as np
 
 chosen_fuel_energy_density = energy_density_kerosene
@@ -53,8 +54,8 @@ def class1box(M_empty_jet):
     # Jet
     A_jet = 12
     e_jet = 1.2
-    cj_loiter_jet = 19e-6       # (0.4-0.6) [lbs/lbs/hr]
-    cj_cruise_jet = 19e-6      # (0.5-0.9) [lbs/lbs/hr]
+    cj_loiter_jet = 19e-6/1.16       # (0.4-0.6) [lbs/lbs/hr]
+    cj_cruise_jet = 19e-6/1.16    # (0.5-0.9) [lbs/lbs/hr]
 
     V_cruise_jet = 229
 
@@ -73,9 +74,18 @@ def class1box(M_empty_jet):
 
     fuel_per_passenger_jet_1000 = (W_fuel_jet_1000/n_passenger)/g
     CO2_jet = fuel_per_passenger_jet_1000*3.0
-    print('MTOM jet: ' + str(round(MTOW_jet/g,2)))
-    print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)))
-    print('CO2 per passanger per 1000 km propfan: ' + str(round(CO2_jet,2)))
+    NOX_jet = 3e-3*fuel_per_passenger_jet_1000
+    #print('MTOM jet: ' + str(round(MTOW_jet/g,2)))
+    fuelinit = 30.52339
+    co2init = 86.54437377
+    noxinit = 0.0865443737
+    print()
+    #print('Fuel per passenger per 1000 km turbofan: ',fuel_per_passenger_jet_1000)
+    #print((fuel_per_passenger_jet_1000-fuelinit)/fuelinit)
+    print('NOX per passanger per 1000 km turbofan: ',NOX_jet)
+    print((NOX_jet-noxinit)/noxinit)
+    print('CO2 per passanger per 1000 km turbofan: ',CO2_jet)
+    print((CO2_jet-co2init)/co2init)
 
     return MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet, f_cruise_start_jet, f_cruise_end_jet
 
@@ -88,13 +98,13 @@ for i in range(50):
     MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet, f_cruise_start_jet, f_cruise_end_jet = class1box(M_empty_jet)
     M_empty_jet, geometrylistfuselage, geometrylistwings, geometrylistvtail, mainlg_cg, wing_weight1_box, wing_weight2_box, x_cg, noselg_cg, S = iterempty(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet)
 
-    print(M_empty_jet, mainlg_cg, MTOW_jet/9.81)
-print(geometrylistfuselage)
-print(wing_weight1_box,wing_weight2_box, x_cg)
+    #print(M_empty_jet, mainlg_cg, MTOW_jet/9.81)
+#print(geometrylistfuselage)
+#print(wing_weight1_box,wing_weight2_box, x_cg)
 
 Fn = (mainlg_cg-x_cg)/(mainlg_cg-noselg_cg)
-print(W_fuel_jet/g)
-print(W_used_fuel_jet/g/60, S)
+#print(W_fuel_jet/g)
+#print(W_used_fuel_jet/g/60, S)
 
 
 def C_L_des(q,W_S_cruise_start,W_S_cruise_end):
@@ -139,7 +149,7 @@ tire_pressure, P_mw, P_nw = tiresizing(MTOW_jet/g, 25)
 
 
 taper1 = 0.3
-sweep1 = (2-taper1/0.2)*180/pi
+sweep1 = (2-taper1/0.2)*180/pi+3
 b = sqrt(S1*AR1)
 cr1 = 2*S1/(1+taper1)/b
 ct1 = taper1 * cr1
@@ -193,32 +203,32 @@ C_L_des2 = C_L_des(rho*(V_cruise_jet**2)/2,f_cruise_start_jet*MTOW_jet/2/S2,f_cr
 
 C_l_des1 = C_l_des(C_L_des1,sweep1*pi/180)
 C_l_des2 = C_l_des(C_L_des2,sweep2*pi/180)
-<<<<<<< HEAD
+#print(S1,'S1')
+#print(S2,'S2')
+#print(b,'b')
+#print(sweep1,'sweep1')
+#print(sweep2,'sweep2')
+#print(taper1,'taper1')
+#print(taper2,'taper2')
+#print(cr1,'cr1')
+#print(cr2,'cr2')
+#print(t_c1,'tc1')
+#print(t_c2,'tc2')
+#print(AR1,'AR1')
+#print(AR2,'AR2')
+#print()
+#print(bv,'bv')
+#print(sweepv,'sweepv')
+#print(taperv,'taperv')
+#print(crv,'crv')
+#print(t_cv,'t_cv')
+#print(AR_v,'arv')
+mtow_init = 199349.285
+wfuel_init = 27338.952
 
-print(S1,'S1')
-print(S2,'S2')
-print(b,'b')
-print(sweep1,'sweep1')
-print(sweep2,'sweep2')
-print(taper1,'taper1')
-print(taper2,'taper2')
-print(cr1,'cr1')
-print(cr2,'cr2')
-print(t_c1,'tc1')
-print(t_c2,'tc2')
-print(AR1,'AR1')
-print(AR2,'AR2')
+print('mtow is',MTOW_jet)
+print((MTOW_jet-mtow_init)/mtow_init)
+#print('fuel weight is', W_fuel_jet/g)
+#print((W_fuel_jet-wfuel_init)/wfuel_init)
 print()
-print(bv,'bv')
-print(sweepv,'sweepv')
-print(taperv,'taperv')
-print(crv,'crv')
-print(t_cv,'t_cv')
-print(AR_v,'arv')
-=======
-print(C_l_des1,C_l_des2, f_cruise_end_jet, MTOW_jet, S1,S2, S)
-
-print('Development cost :', non_recurring_cost(wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload),'Million USD (2019)')
-print('Production cost per unit :', recurring_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/500,'Million USD (2019)')
-print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
->>>>>>> 9b803ee6d7189b242d1a919fd962e0ee42702002
+print()
