@@ -12,7 +12,11 @@ from fuel_fraction import fuel_fraction
 from conversion_formulas import *
 import class2_conventional as class2
 from sustainability_functions import CO2_calc, NOX_calc, prop_noise, airframe_noise, total_noise, noise_distance, turbofan_noise
+from matplotlib import pyplot as plt
 import numpy as np
+
+#Do you want a pie chart?
+print_payloadrange = False
 
 ## INPUTS AND CONSTANTS
 # fuel efficiency
@@ -86,6 +90,30 @@ eff_cruise_tbp = 0.85                    # [-]
 eff_loiter_tbp = 0.77                    # [-]
 cp_cruise_tbp = 0.8*fuel_efficiency_factor * 74e-9              # (0.4-0.6) [kg/ns]
 cp_loiter_tbp = 0.8*fuel_efficiency_factor * 74e-9              # (0.5-0.7) [kg/ns]
+
+class2_jet = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
+class2_jet["flight controls weight"] = []
+class2_jet["APU weight"] = []
+class2_jet["instruments weight"] = []
+class2_jet["hydraulics weight"] = []
+class2_jet["electrical system weight"] = []
+class2_jet["avionics weight"] = []
+class2_jet["furnishings weight"] = []
+class2_jet["airconditioning weight"] = []
+class2_jet["anti icing system weight"] = []
+class2_jet["handling gear weight"] = []
+
+class2_tbp = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
+class2_tbp["flight controls weight"] = []
+class2_tbp["APU weight"] = []
+class2_tbp["instruments weight"] = []
+class2_tbp["hydraulics weight"] = []
+class2_tbp["electrical system weight"] = []
+class2_tbp["avionics weight"] = []
+class2_tbp["furnishings weight"] = []
+class2_tbp["airconditioning weight"] = []
+class2_tbp["anti icing system weight"] = []
+class2_tbp["handling gear weight"] = []
 
 # Iterative sizing process
 for iter in range(10):
@@ -252,14 +280,79 @@ for iter in range(10):
     handling_gear_weight_tbp = pounds_to_kg(class2.det_handling_gear_weight(kg_to_pounds(MTOW_tbp)))
 
     # Total weight
-    M_empty_jet = wing_weight_jet + hor_tail_weight_jet + ver_tail_weight_jet + fuselage_weight_jet + main_lg_weight_jet + nose_lg_weight_jet + nacelle_group_weight_jet+ engine_controls_weight_jet + starter_weight_jet + W_fuel_system_jet+ flight_controls_weight_jet + instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet + aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet + M_engine_jet
-    M_empty_tbp = wing_weight_tbp + hor_tail_weight_tbp + ver_tail_weight_tbp + fuselage_weight_tbp + main_lg_weight_tbp + nose_lg_weight_tbp + nacelle_group_weight_tbp + engine_controls_weight_tbp + starter_weight_tbp + W_fuel_system_tbp+ flight_controls_weight_tbp + instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_jet + aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp + M_engine_tbp
+    M_empty_jet = 200+wing_weight_jet + hor_tail_weight_jet + ver_tail_weight_jet + fuselage_weight_jet + main_lg_weight_jet + nose_lg_weight_jet + nacelle_group_weight_jet+ engine_controls_weight_jet + starter_weight_jet + W_fuel_system_jet+ flight_controls_weight_jet + instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet + aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet + M_engine_jet
+    M_empty_tbp = 200+wing_weight_tbp + hor_tail_weight_tbp + ver_tail_weight_tbp + fuselage_weight_tbp + main_lg_weight_tbp + nose_lg_weight_tbp + nacelle_group_weight_tbp + engine_controls_weight_tbp + starter_weight_tbp + W_fuel_system_tbp+ flight_controls_weight_tbp + instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_jet + aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp + M_engine_tbp
 
     W_empty_jet =  M_empty_jet * g
     W_empty_tbp =  M_empty_tbp * g
 
     fuel_per_passenger_jet = (W_fuel_jet/n_passenger)/g
     fuel_per_passenger_tbp = (W_fuel_tbp/n_passenger)/g
+
+class2_jet["wing weight"].append(wing_weight_jet)
+class2_jet["horizontal tail weight"].append(hor_tail_weight_jet)
+class2_jet["vertical tail weight"].append(ver_tail_weight_jet)
+class2_jet["fuselage weight"].append(fuselage_weight_jet)
+class2_jet["main landing gear weight"].append(main_lg_weight_jet)
+class2_jet["nose landing gear weight"].append(nose_lg_weight_jet)
+class2_jet["nacelle group weight"].append(nacelle_group_weight_jet)
+class2_jet["engine weight"].append(M_engine_jet)
+class2_jet["engine controls weight"].append(engine_controls_weight_tbp)
+class2_jet["starter weight"].append(starter_weight_jet)
+class2_jet["fuel system weight"].append(W_fuel_system_jet)
+class2_jet["flight controls weight"].append(flight_controls_weight_jet)
+class2_jet["APU weight"].append(200)
+class2_jet["instruments weight"].append(instruments_weight_jet)
+class2_jet["hydraulics weight"].append(hydraulics_weight_jet)
+class2_jet["electrical system weight"].append(electrical_weight_jet)
+class2_jet["avionics weight"].append(avionics_weight_jet)
+class2_jet["furnishings weight"].append(furnishings_weight_jet)
+class2_jet["airconditioning weight"].append(aircond_weight_jet)
+class2_jet["anti icing system weight"].append(anti_ice_weight_jet)
+class2_jet["handling gear weight"].append(handling_gear_weight_jet)
+
+class2_tbp["wing weight"].append(wing_weight_tbp)
+class2_tbp["horizontal tail weight"].append(hor_tail_weight_tbp)
+class2_tbp["vertical tail weight"].append(ver_tail_weight_tbp)
+class2_tbp["fuselage weight"].append(fuselage_weight_tbp)
+class2_tbp["main landing gear weight"].append(main_lg_weight_tbp)
+class2_tbp["nose landing gear weight"].append(nose_lg_weight_tbp)
+class2_tbp["nacelle group weight"].append(nacelle_group_weight_tbp)
+class2_tbp["engine weight"].append(M_engine_tbp)
+class2_tbp["engine controls weight"].append(engine_controls_weight_tbp)
+class2_tbp["starter weight"].append(starter_weight_tbp)
+class2_tbp["fuel system weight"].append(W_fuel_system_tbp)
+class2_tbp["flight controls weight"].append(flight_controls_weight_tbp)
+class2_tbp["APU weight"].append(200)
+class2_tbp["instruments weight"].append(instruments_weight_tbp)
+class2_tbp["hydraulics weight"].append(hydraulics_weight_tbp)
+class2_tbp["electrical system weight"].append(electrical_weight_tbp)
+class2_tbp["avionics weight"].append(avionics_weight_tbp)
+class2_tbp["furnishings weight"].append(furnishings_weight_tbp)
+class2_tbp["airconditioning weight"].append(aircond_weight_tbp)
+class2_tbp["anti icing system weight"].append(anti_ice_weight_tbp)
+class2_tbp["handling gear weight"].append(handling_gear_weight_tbp)
+
+total_jet = 0
+weight_fractions_jet = []
+weight_label_jet = []
+for item in class2_jet:
+    total_jet += class2_jet[item][-1]
+    weight_fractions_jet.append(class2_jet[item][-1])
+    weight_label_jet.append(item)
+
+total_tbp = 0
+weight_fractions_tbp = []
+weight_label_tbp = []
+for item in class2_tbp:
+    total_tbp += class2_tbp[item][-1]
+    weight_fractions_tbp.append(class2_tbp[item][-1])
+    weight_label_tbp.append(item)
+
+print('Weight fractions jet')
+print(weight_fractions_jet/M_empty_jet*100)
+print('Weight fractions tbp')
+print(weight_fractions_tbp/M_empty_tbp*100)
 
 def print_list(items):
     print(items[0])
@@ -269,58 +362,58 @@ def print_list(items):
     print('------------------------------------------------------')
     print()
 
-def print_mass_data():
-    mass_data_jet = []
-    mass_data_tbp = []
-
-    mass_data_jet.append('### Masses of components for jet in [kg] ###')
-    mass_data_tbp.append('### Masses of components for tbp in [kg] ###')
-    mass_data_jet.append(('MTOM_jet',MTOM_jet))
-    mass_data_tbp.append(('MTOM_tbp',MTOM_tbp))
-    mass_data_tbp.append(('M_empty_tbp', M_empty_tbp))
-    mass_data_jet.append(('M_empty_jet', M_empty_jet))
-    mass_data_tbp.append(('wing_weight_tbp', wing_weight_tbp))
-    mass_data_jet.append(('wing_weight_jet', wing_weight_jet))
-    mass_data_tbp.append(('hor_tail_weight_tbp', hor_tail_weight_tbp))
-    mass_data_jet.append(('hor_tail_weight_jet', hor_tail_weight_jet))
-    mass_data_tbp.append(('ver_tail_weight_tbp', ver_tail_weight_tbp))
-    mass_data_jet.append(('ver_tail_weight_jet', ver_tail_weight_jet))
-    mass_data_tbp.append(('fuselage_weight_tbp', fuselage_weight_tbp))
-    mass_data_jet.append(('fuselage_weight_jet', fuselage_weight_jet))
-    mass_data_tbp.append(('main_lg_weight_tbp', main_lg_weight_tbp))
-    mass_data_jet.append(('main_lg_weigth_jet', main_lg_weight_jet))
-    mass_data_tbp.append(('nose_lg_weight_tbp', nose_lg_weight_tbp))
-    mass_data_jet.append(('nose_lg_weight_jet', nose_lg_weight_jet))
-    mass_data_tbp.append(('nacelle_group_weight_tbp', nacelle_group_weight_tbp))
-    mass_data_jet.append(('nacelle_group_weight_jet', nacelle_group_weight_jet))
-    mass_data_tbp.append(('engine_controls_weight_tbp', engine_controls_weight_tbp))
-    mass_data_tbp.append(('engine_controls_weight_jet', engine_controls_weight_jet))
-    mass_data_tbp.append(('starter_weight_tbp', starter_weight_tbp))
-    mass_data_jet.append(('starter_weight_jet', starter_weight_jet))
-    mass_data_tbp.append(('W_fuel_system_tbp', W_fuel_system_tbp))
-    mass_data_jet.append(('W_fuel_system_jet', W_fuel_system_jet))
-    mass_data_tbp.append(('flight_controls_weight_tbp', flight_controls_weight_tbp))
-    mass_data_jet.append(('flight_controls_weight_jet', flight_controls_weight_jet))
-    mass_data_tbp.append(('instruments_weight_tbp', instruments_weight_tbp))
-    mass_data_jet.append(('instruments_weight_jet', instruments_weight_jet))
-    mass_data_tbp.append(('hydraulics_weight_tbp', hydraulics_weight_tbp))
-    mass_data_jet.append(('hydraulics_weight_jet', hydraulics_weight_jet))
-    mass_data_tbp.append(('electrical_weight_tbp', electrical_weight_tbp))
-    mass_data_jet.append(('electrical_weight_jet', electrical_weight_jet))
-    mass_data_tbp.append(('avionics_weight_tbp', avionics_weight_tbp))
-    mass_data_jet.append(('avionics_weight_jet', avionics_weight_jet))
-    mass_data_tbp.append(('furnishings_weight_tbp', furnishings_weight_tbp))
-    mass_data_jet.append(('furnishings_weight_jet', furnishings_weight_jet))
-    mass_data_tbp.append(('aircond_weight_tbp', aircond_weight_tbp))
-    mass_data_jet.append(('aircond_weight_jet', aircond_weight_jet))
-    mass_data_tbp.append(('anti_ice_weight_tbp', anti_ice_weight_tbp))
-    mass_data_jet.append(('anti_ice_weight_jet', anti_ice_weight_jet))
-    mass_data_tbp.append(('handling_gear_weight_tbp', handling_gear_weight_tbp))
-    mass_data_jet.append(('handling_gear_weight_jet', handling_gear_weight_jet))
-
-    print_list(mass_data_jet)
-    print_list(mass_data_tbp)
-
+#def print_mass_data():
+#    mass_data_jet = []
+#    mass_data_tbp = []
+#
+#    mass_data_jet.append('### Masses of components for jet in [kg] ###')
+#    mass_data_tbp.append('### Masses of components for tbp in [kg] ###')
+#    mass_data_jet.append(('MTOM_jet',MTOM_jet))
+#    mass_data_tbp.append(('MTOM_tbp',MTOM_tbp))
+#    mass_data_tbp.append(('M_empty_tbp', M_empty_tbp))
+#    mass_data_jet.append(('M_empty_jet', M_empty_jet))
+#    mass_data_tbp.append(('wing_weight_tbp', wing_weight_tbp))
+#    mass_data_jet.append(('wing_weight_jet', wing_weight_jet))
+#    mass_data_tbp.append(('hor_tail_weight_tbp', hor_tail_weight_tbp))
+#    mass_data_jet.append(('hor_tail_weight_jet', hor_tail_weight_jet))
+#    mass_data_tbp.append(('ver_tail_weight_tbp', ver_tail_weight_tbp))
+#    mass_data_jet.append(('ver_tail_weight_jet', ver_tail_weight_jet))
+#    mass_data_tbp.append(('fuselage_weight_tbp', fuselage_weight_tbp))
+#    mass_data_jet.append(('fuselage_weight_jet', fuselage_weight_jet))
+#    mass_data_tbp.append(('main_lg_weight_tbp', main_lg_weight_tbp))
+#    mass_data_jet.append(('main_lg_weigth_jet', main_lg_weight_jet))
+#    mass_data_tbp.append(('nose_lg_weight_tbp', nose_lg_weight_tbp))
+#    mass_data_jet.append(('nose_lg_weight_jet', nose_lg_weight_jet))
+#    mass_data_tbp.append(('nacelle_group_weight_tbp', nacelle_group_weight_tbp))
+#    mass_data_jet.append(('nacelle_group_weight_jet', nacelle_group_weight_jet))
+#    mass_data_tbp.append(('engine_controls_weight_tbp', engine_controls_weight_tbp))
+#    mass_data_tbp.append(('engine_controls_weight_jet', engine_controls_weight_jet))
+#    mass_data_tbp.append(('starter_weight_tbp', starter_weight_tbp))
+#    mass_data_jet.append(('starter_weight_jet', starter_weight_jet))
+#    mass_data_tbp.append(('W_fuel_system_tbp', W_fuel_system_tbp))
+#    mass_data_jet.append(('W_fuel_system_jet', W_fuel_system_jet))
+#    mass_data_tbp.append(('flight_controls_weight_tbp', flight_controls_weight_tbp))
+#    mass_data_jet.append(('flight_controls_weight_jet', flight_controls_weight_jet))
+#    mass_data_tbp.append(('instruments_weight_tbp', instruments_weight_tbp))
+#    mass_data_jet.append(('instruments_weight_jet', instruments_weight_jet))
+#    mass_data_tbp.append(('hydraulics_weight_tbp', hydraulics_weight_tbp))
+#    mass_data_jet.append(('hydraulics_weight_jet', hydraulics_weight_jet))
+#    mass_data_tbp.append(('electrical_weight_tbp', electrical_weight_tbp))
+#    mass_data_jet.append(('electrical_weight_jet', electrical_weight_jet))
+#    mass_data_tbp.append(('avionics_weight_tbp', avionics_weight_tbp))
+#    mass_data_jet.append(('avionics_weight_jet', avionics_weight_jet))
+#    mass_data_tbp.append(('furnishings_weight_tbp', furnishings_weight_tbp))
+#    mass_data_jet.append(('furnishings_weight_jet', furnishings_weight_jet))
+#    mass_data_tbp.append(('aircond_weight_tbp', aircond_weight_tbp))
+#    mass_data_jet.append(('aircond_weight_jet', aircond_weight_jet))
+#    mass_data_tbp.append(('anti_ice_weight_tbp', anti_ice_weight_tbp))
+#    mass_data_jet.append(('anti_ice_weight_jet', anti_ice_weight_jet))
+#    mass_data_tbp.append(('handling_gear_weight_tbp', handling_gear_weight_tbp))
+#    mass_data_jet.append(('handling_gear_weight_jet', handling_gear_weight_jet))
+#
+#    print_list(mass_data_jet)
+#    print_list(mass_data_tbp)
+#
 def print_size_data():
     size_data_jet = []
     size_data_tbp = []
@@ -429,6 +522,7 @@ C_D_tbp = C_D_0_tbp+C_L_cruise_tbp**2/(np.pi*A_tbp*e_tbp)
 CLCD_tbp = C_L_cruise_tbp/C_D_tbp
 C_D_jet = C_D_0_jet+C_L_cruise_jet**2/(np.pi*A_jet*e_jet)
 CLCD_jet= C_L_cruise_jet/C_D_jet
+
 print('MTOM tbp: ' + str(round(MTOM_tbp,2)) + ' [kg]')
 print('Fueltype: Kerosene')
 print('Fuel per passenger per 1000 km tbp: ' + str(round(fuel_per_passenger_tbp_1000,2)) + ' [kg]')
@@ -460,4 +554,3 @@ print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+
 #SPL_engine = prop_noise()
 SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
 #print(SPL)
-
