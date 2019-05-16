@@ -16,6 +16,7 @@ import fuel_fraction as ff
 import matplotlib.pyplot as plt
 import rangepldiagram as pld
 import cost_equations as ceq
+from LNG import *
 
 #Do you want a pie chart?
 piechart = False
@@ -48,13 +49,19 @@ W_empty_jet = M_empty_jet * g
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
 S = 1
-S_wet = 5 * S
+S_wet = 5.5 * S
+
+
+energy_density_LNG = 53.6 #[MJ/kg]
+energy_density_kerosene = 43 #[MJ/kg]
+chosen_fuel_energy_density = energy_density_LNG
+fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
 # Jet
 A_jet = 19.5
 e_jet = 0.8                         # Adjust per concept
-cj_loiter_jet = 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
-cj_cruise_jet = 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
+cj_loiter_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
+cj_cruise_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
 V_cruise_jet =  200                 # [m/s]
 V_loiter_jet = 150
 S_jet = 61
@@ -64,8 +71,8 @@ A_tbp = 18
 e_tbp = 0.85                        # Adjust per concept
 eff_cruise_tbp = 0.85               # [-]
 eff_loiter_tbp = 0.77               # [-]
-cp_cruise_tbp = 90e-9               # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = 90e-9               # (0.5-0.7) [kg/ns]
+cp_cruise_tbp = 0.8*fuel_efficiency_factor * 74e-9 # oude waarde 90e-9              # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = 0.8*fuel_efficiency_factor * 74e-9 # oude waarde 90e-9               # (0.5-0.7) [kg/ns]
 V_cruise_tbp = 180                  # [m/s]
 V_loiter_tbp = 80                   # [m/s]
 M_cruise_tbp = 0.72                 # [-]
@@ -85,6 +92,7 @@ P_TO_tbp = 5.8e6                    # [W]
 pos_engine = 10                     # [m]
 mass_engine = 450                   # [kg]
 n_fueltanks = 2                     # [-]
+n_blades = 6                        # [-]
 
 # Empennage
 V_h = 1.57                          # [-]
@@ -176,6 +184,9 @@ for iter in range(5):
     class1sizing_gear["Gear Lateral Position"].append(lateral_position)
 
 
+    #Methane tank mass
+    W_tank = LNG_system(2, LNG_volume(W_fuel_tbp/g), podded = True, shell_length_ratio =  0.5, tank_circular_ratio = 1, tank_head_ratio = 3)
+
     #W_wing = pounds_to_kg(0.82 * det_wing_weight(kg_to_pounds(MTOM_tbp), 1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), metersquared_to_feetsquared(S_tbp), A_tbp, t_c_ratio, taper, np.radians(sweepqc), metersquared_to_feetsquared(0.05*S_tbp)))
     W_wing = det_wing_weight_new(b, S_tbp, sweepqc, taper, MTOM_tbp, V_cruise_tbp, t_c_ratio)
     W_h = pounds_to_kg(det_hor_tail_weight(meter_to_feet(diameter_fuselage_outside), meter_to_feet(span_h), kg_to_pounds(MTOM_tbp),  1.5*ult_load_factor(kg_to_pounds(MTOM_tbp)), metersquared_to_feetsquared(S_h), meter_to_feet(l_h), np.radians(sweepqc_h), AR_h, metersquared_to_feetsquared(0.3*S_h)))
@@ -187,7 +198,7 @@ for iter in range(5):
     W_engine = 2 * mass_engine
     W_engine_controls = pounds_to_kg(det_engine_controls_weight(n_engines, n_engines*meter_to_feet(pos_engine)))
     W_starter = pounds_to_kg(det_starter_weight(n_engines, kg_to_pounds(mass_engine)))
-    W_fuel_system = pounds_to_kg(det_fuel_system_weight(kg_to_pounds(W_fuel_tbp/g)/6.67632, kg_to_pounds(W_fuel_tbp/g)/6.67632, 0, n_fueltanks))
+    W_fuel_system = pounds_to_kg(det_fuel_system_weight(kg_to_pounds(W_fuel_tbp/g)/6.67632, kg_to_pounds(W_fuel_tbp/g)/6.67632, 0, n_fueltanks)) + W_tank
     W_flight_control = pounds_to_kg(det_flight_controls_weight(metersquared_to_feetsquared(0.3*S_h+0.05*S_tbp), (meter_to_feet(length_fuselage)**2 * kg_to_pounds(MTOM_tbp)*0.34**2)/(4*32.19)))
     APU_weight = det_APU_weight(200)
     W_instruments = pounds_to_kg(det_instruments_weight(n_pilots, n_engines, meter_to_feet(length_fuselage), meter_to_feet(b), turboprop = True))
@@ -252,13 +263,19 @@ print('Fuel burn 1000km trip:',fuel_per_passenger_tbp_1000,'kg')
 
 
 #Emission Calculations
-CO2_emission = sf.CO2_calc(W_fuel_tbp/(g*n_passenger), 43)
-NOX_emission = sf.NOX_calc(W_fuel_tbp/(g*n_passenger), 43)
+CO2_emission = sf.CO2_calc(fuel_per_passenger_tbp_1000, 53.6)
+NOX_emission = sf.NOX_calc(fuel_per_passenger_tbp_1000, 53.6)
+
+print('CO2 emission 1000km trip:',CO2_emission,'kg')
+print('NOX emission 1000km trip:',NOX_emission,'kg')
 
 #Noise Calculations
-#noise_prop = sf.prop_noise(diameter_propeller, 4, n_p, P_TO_tbp/n_engines, N_p, n_engines)
-#noise_airframe = sf.airframe_noise(V_cruise_tbp, MTOW_tbp)
-#noise_total = sf.total_noise(noise_prop, noise_airframe)
+noise_prop = sf.prop_noise(diameter_propeller, n_blades, 1200, P_TO_tbp/n_engines, n_engines, 308.063)
+noise_airframe = sf.airframe_noise(V_cruise_tbp, MTOW_tbp)
+noise_total = sf.total_noise(noise_prop, noise_airframe)
+noise_at_distance = sf.noise_distance(noise_total,1,2500)
+
+print('Total noise production:', noise_at_distance, 'dB')
 
 #Payload Range Diagram
 range_list, payload_list, M_payload = pld.payloadrange(MTOW_tbp, OEW_tbp, W_fuel_tbp, 0, LD_cruise_tbp, 0, A_tbp, eff_cruise_tbp, eff_loiter_tbp, 0, e_tbp, 0, V_cruise_tbp, V_loiter_tbp, jet = False, tbp = True)
