@@ -78,7 +78,7 @@ q_tbp = 0.5*rho*V_cruise_tbp**2          # [n/m2]
 
 # Engine characteristics
 thrust_to_weight_jet = 73.21         # [N/kg] #add 2/3 if propfan is used
-cj_loiter_jet = fuel_efficiency_factor*19.8e-6                  # (0.4-0.6) [g/j] Propfan: 0.441
+cj_loiter_jet = fuel_efficiency_factor*19.8e-6                  # (0.4-0.6) [g/j] Propfan: 12.5
 cj_cruise_jet = fuel_efficiency_factor*19.8e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
 power_to_weight_tbp = 4000               # [W/kg]
@@ -382,9 +382,9 @@ def recurring_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_
         labor = np.append(labor, n**(np.log(0.85)/np.log(2)))
         materials = np.append(materials, n**(np.log(0.95)/np.log(2)))
         other = np.append(other, n**(np.log(0.95)/np.log(2)))
-    
+
     costs = (TFU_cost[0]*labor,TFU_cost[1]*materials,TFU_cost[2]*other)
-    
+
     c_total_recurring_2002 = np.sum(costs)
     c_total_recurring_2019 = c_total_recurring_2002*1.44
 
@@ -395,13 +395,13 @@ def total_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_syst
     total_cost = non_recurring_cost(m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads) + recurring_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads,m_assembly)
     PU_cost = total_cost/n_aircraft
     return round(PU_cost,2)
-    
-    
-    
-    
+
+
+
+
 #Calculate performance for 1000 km trip
 MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, jet = True, tbp = False)
-MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
+MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
 
 fuel_per_passenger_jet_1000 = (W_fuel_jet_1000/n_passenger)/g
 fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
@@ -449,4 +449,3 @@ SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
 
 print(C_l_des_tbp,t_c_ratio_tbp)
 print(C_l_des_jet)
-
