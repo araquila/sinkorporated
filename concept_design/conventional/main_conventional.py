@@ -407,5 +407,3 @@ print(SPL_turbofan,SPL_airframe,SPL_total,SPL_distance)
 print(C_l_des_tbp,t_c_ratio_tbp)
 print(C_l_des_jet)
 
-print_size_data()
-print(t_c_ratio)
