@@ -84,8 +84,8 @@ cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j
 power_to_weight_tbp = 4000               # [W/kg]
 eff_cruise_tbp = 0.85                    # [-]
 eff_loiter_tbp = 0.77                    # [-]
-cp_cruise_tbp = 0.8*fuel_efficiency_factor * 90e-9              # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = 0.8*fuel_efficiency_factor * 90e-9              # (0.5-0.7) [kg/ns]
+cp_cruise_tbp = 0.8*fuel_efficiency_factor * 74e-9              # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = 0.8*fuel_efficiency_factor * 74e-9              # (0.5-0.7) [kg/ns]
 
 # Iterative sizing process
 for iter in range(10):
@@ -425,13 +425,19 @@ t_descent_tbp = altitude/7.112 #descent of 1400 feet per minute
 
 t_jet = (t_climb+t_cruise_jet+t_descent_jet)/3600 #hours
 t_tbp = (t_climb+t_cruise_tbp+t_descent_tbp)/3600 #hours
-
+C_D_tbp = C_D_0_tbp+C_L_cruise_tbp**2/(np.pi*A_tbp*e_tbp)
+CLCD_tbp = C_L_cruise_tbp/C_D_tbp
+C_D_jet = C_D_0_jet+C_L_cruise_jet**2/(np.pi*A_jet*e_jet)
+CLCD_jet= C_L_cruise_jet/C_D_jet
 print('MTOM tbp: ' + str(round(MTOM_tbp,2)) + ' [kg]')
 print('Fueltype: Kerosene')
 print('Fuel per passenger per 1000 km tbp: ' + str(round(fuel_per_passenger_tbp_1000,2)) + ' [kg]')
 print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp) + ' [kg]')
 print('NOX per passenger per 1000 km tbp: ' + str(NOX_tbp) + ' [kg]')
 print('Time for a ' + str(range_cruise_tbp_time/1000) + 'km trip is ' + str(round(t_tbp,2)) + '[h]')
+print('Designated CL is: ' + str(C_L_cruise_tbp))
+print('CD during cruise is: ' + str(C_D_tbp ))
+print('CL/CD during cruise is: ' + str(CLCD_tbp))
 print()
 print('MTOM propfan: ' + str(round(MTOM_jet,2)) + ' [kg]')
 print('Fueltype: Kerosene')
@@ -439,14 +445,14 @@ print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_
 print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
 print('NOX per passenger per 1000 km propfan: ' + str(NOX_jet) + ' [kg]')
 print('Time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(round(t_jet,2)) + '[h]')
+print('Designated CL is: ' + str(C_L_cruise_jet))
+print('CD during cruise is: ' + str(C_D_jet ))
+print('CL/CD during cruise is: ' + str(CLCD_jet))
 print()
 print('Development cost :', non_recurring_cost(wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload),'Million USD (2019)')
 print('Production cost per unit :', recurring_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/500,'Million USD (2019)')
-print('Total cost per unit', 500*total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
+print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
 
 #SPL_engine = prop_noise()
 SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
 #print(SPL)
-
-print(C_l_des_tbp,t_c_ratio_tbp)
-print(C_l_des_jet)
