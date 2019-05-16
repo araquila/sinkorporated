@@ -7,6 +7,7 @@ from sustainability_functions import CO2_calc
 from constant_variables import *
 from class1sizing import *
 from math import *
+from class2_boxwing import *
 from atmosphere import atmosphere_calc
 import numpy as np
 
@@ -117,7 +118,7 @@ TW = 0.25
 #input parameters for wing area
 WS = 3080
 S = MTOW_jet/WS
-S = S *1.36
+S = S *1.2
 
 s1frac = 0.5
 s2frac = 1 - s1frac
@@ -157,13 +158,67 @@ Sv = bv**2 / AR_v
 vtail_xoffset = -crv + sin(sweepv*pi/180)*bv + ctv
 sweep2 = -atan((Fus_len + vtail_xoffset - Fus_len*frac_qtrchord_fus - b/2*tan(sweep1/180*pi) - 0.75*cr2 )/(b/2))*180/pi
 
+kgtolbs = 2.20462262
+mtoft = 3.2808399
+MTOWlbs = MTOW_jet/g*kgtolbs
+n_lim = ult_load_factor(MTOWlbs)
+n_ult = n_lim*1.5
+V_cruise = 229
+V_diving = 1.4*V_cruise
+alt_cruise = 35000/mtoft
+a_cruise = 296
+M_cruise = V_cruise/a_cruise
+M_cross = 0.935
+M_dd = M_cruise + 0.03
+qhat = 0.5*1.4*23842*M_cruise**2
+Clhat1 = MTOW_jet/(qhat*S1)
+Clhat2 = MTOW_jet/(qhat*S2)
+Clhatv = 0
+
+sweephalfchord1 = atan((sin(sweep1/180*pi)*b/2+ct1/4)/(b/2))
+sweephalfchord2 = atan((sin(sweep2/180*pi)*b/2+ct2/4)/(b/2))
+sweephalfchordv = atan((sin(sweepv/180*pi)*b/2+ctv/4)/(bv/2))
+t_c1 = min((0.18, ((cos(sweephalfchord1)**3*(M_cross-M_dd*cos(sweephalfchord1))-0.115*Clhat1**1.5)/(cos(sweephalfchord1)**2))))
+t_c2 = min((0.18, ((cos(sweephalfchord2)**3*(M_cross-M_dd*cos(sweephalfchord2))-0.115*Clhat2**1.5)/(cos(sweephalfchord2)**2))))
+t_cv = min((0.18, ((cos(sweephalfchordv)**3*(M_cross-M_dd*cos(sweephalfchordv))-0.115*Clhatv**1.5)/(cos(sweephalfchordv)**2))))
+
+#desing cruise speed, diving speed, t_c
+S_control_ail = 0.05*S
+S_control_elev = 0.03*S
+
+
+
 C_L_des1 = C_L_des(rho*(V_cruise_jet**2)/2,f_cruise_start_jet*MTOW_jet/2/S1,f_cruise_end_jet*MTOW_jet/2/S1)
 C_L_des2 = C_L_des(rho*(V_cruise_jet**2)/2,f_cruise_start_jet*MTOW_jet/2/S2,f_cruise_end_jet*MTOW_jet/2/S2)
 
 C_l_des1 = C_l_des(C_L_des1,sweep1*pi/180)
 C_l_des2 = C_l_des(C_L_des2,sweep2*pi/180)
+<<<<<<< HEAD
+
+print(S1,'S1')
+print(S2,'S2')
+print(b,'b')
+print(sweep1,'sweep1')
+print(sweep2,'sweep2')
+print(taper1,'taper1')
+print(taper2,'taper2')
+print(cr1,'cr1')
+print(cr2,'cr2')
+print(t_c1,'tc1')
+print(t_c2,'tc2')
+print(AR1,'AR1')
+print(AR2,'AR2')
+print()
+print(bv,'bv')
+print(sweepv,'sweepv')
+print(taperv,'taperv')
+print(crv,'crv')
+print(t_cv,'t_cv')
+print(AR_v,'arv')
+=======
 print(C_l_des1,C_l_des2, f_cruise_end_jet, MTOW_jet, S1,S2, S)
 
 print('Development cost :', non_recurring_cost(wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload),'Million USD (2019)')
 print('Production cost per unit :', recurring_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/500,'Million USD (2019)')
 print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
+>>>>>>> 9b803ee6d7189b242d1a919fd962e0ee42702002
