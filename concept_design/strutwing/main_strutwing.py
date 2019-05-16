@@ -289,7 +289,7 @@ range_list, payload_list, M_payload = pld.payloadrange(MTOW_tbp, OEW_tbp, W_fuel
 
 if print_payloadrange:
     plt.plot(range_list, payload_list)
-    plt.xlim([0,4000])
+    plt.xlim([0,5000])
     plt.ylim([0,7000])
     plt.title('Payload Range Diagram')
     plt.ylabel('Payload Mass [kg]')
