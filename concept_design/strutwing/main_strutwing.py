@@ -15,6 +15,7 @@ import numpy as np
 import fuel_fraction as ff
 import matplotlib.pyplot as plt
 import rangepldiagram as pld
+import cost_equations as ceq
 
 #Do you want a pie chart?
 piechart = False
@@ -277,6 +278,6 @@ if piechart:
     plt.axis('equal')
     plt.show()
 
-print('Development cost :', non_recurring_cost(wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload),'Million USD (2019)')
-print('Production cost per unit :', recurring_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/500,'Million USD (2019)')
-print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
+print('Development cost :', ceq.non_recurring_cost(W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g),'Million USD (2019)')
+print('Production cost per unit :', ceq.recurring_cost(500,W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g,W_empty_tbp/g)/500,'Million USD (2019)')
+print('Total cost per unit', ceq.total_cost(500,W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g,W_empty_tbp/g),'Million USD (2019)')
