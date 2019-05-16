@@ -462,6 +462,7 @@ SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
 SPL_total = total_noise(SPL_turbofan,SPL_airframe)
 SPL_distance = noise_distance(SPL_total,450,2500)
 
+<<<<<<< HEAD
 print()
 print('----------------------- Noise  ----------------------------')
 print('Turbofan:', SPL_turbofan)
@@ -486,3 +487,6 @@ print()
 print('MTOM:', 100*(MTOM_jet - 17035.859)/17035.859, '%')
 print('Cost:', 100*(total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet) - 13.28)/13.28,'%')
 print('Emissions:', 100*(CO2_jet - 100.248335)/100.248335, '%')
+=======
+print('Production cost per unit :', recurring_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/500,'Million USD (2019)')
+>>>>>>> e2c807d8cdd08a6e56a4a63a85506d889c67b7fc
