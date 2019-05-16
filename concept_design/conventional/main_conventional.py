@@ -36,10 +36,10 @@ c = 10                                  #[m/s]
 # Other jet parameters
 A_jet = 10
 e_jet = 0.8
-V_cruise_jet =  236.11                  # [m/s]
+M_cruise_jet = 0.8
+V_cruise_jet =  M_cruise_jet*speed_of_sound                 # [m/s]
 S_jet = 61
 TOP_jet = 6698
-M_cruise_jet = V_cruise_jet/speed_of_sound
 C_L_cruise_jet = 0.4
 C_L_max_jet = 2.3
 C_L_max_land_jet = 2.3
@@ -53,11 +53,11 @@ V_v_jet = 0.085                          # [-]
 nose_landing_pos_jet = 3                 # [m]
 
 # Other tbp parameters
-A_tbp = 16
+A_tbp = 12
 e_tbp = 0.85                             # Adjust per concept
 V_loiter_tbp = 80                        # [m/s]
-V_cruise_tbp = 180                       # [m/s]
-M_cruise_tbp = V_cruise_tbp/speed_of_sound
+M_cruise_tbp = 0.6
+V_cruise_tbp = M_cruise_tbp*speed_of_sound                      # [m/s]
 C_L_cruise_tbp = 0.8
 S_tbp = 76
 TOP_tbp = 139
@@ -77,7 +77,7 @@ q_jet = 0.5*rho*V_cruise_jet**2          # [n/m2]
 q_tbp = 0.5*rho*V_cruise_tbp**2          # [n/m2]
 
 # Engine characteristics
-thrust_to_weight_jet = 73.21         # [N/kg] #add 2/3 if propfan is used
+thrust_to_weight_jet =2/3*73.21         # [N/kg] #add 2/3 if propfan is used
 cj_loiter_jet = fuel_efficiency_factor*12.5e-6                  # (0.4-0.6) [g/j] Propfan: 12.5
 cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
@@ -91,8 +91,8 @@ cp_loiter_tbp = 0.8*fuel_efficiency_factor * 90e-9              # (0.5-0.7) [kg/
 for iter in range(10):
 
     ## CLASS I
-    MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet, f_cruise_start_jet, f_cruise_end_jet, L_D_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, range_cruise_jet, range_cruise_tbp, endurance_loiter_jet, endurance_loiter_tbp, jet = True, tbp = False)
-    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, L_D_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, range_cruise_jet, range_cruise_tbp, endurance_loiter_jet, endurance_loiter_tbp, tbp = True, jet = False)
+    MTOW_jet, OEW_jet, W_fuel_jet, C_D_0_jet, f_cruise_start_jet, f_cruise_end_jet, L_D_jet, L_D_loiter_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, range_cruise_jet, range_cruise_tbp, endurance_loiter_jet, endurance_loiter_tbp, jet = True, tbp = False)
+    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, L_D_tbp, L_D_loiter_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, range_cruise_jet, range_cruise_tbp, endurance_loiter_jet, endurance_loiter_tbp, tbp = True, jet = False)
 
     MTOM_jet = MTOW_jet/g
     MTOM_tbp = MTOW_tbp/g
@@ -396,12 +396,13 @@ def total_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_syst
     PU_cost = total_cost/n_aircraft
     return round(PU_cost,2)
 
-
-
-
 #Calculate performance for 1000 km trip
-MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, jet = True, tbp = False)
-MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_jet, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
+
+f_fuel_jet_1000, f_reserve_jet_1000, f_cruise_start_jet_1000, f_cruise_end_jet_1000 = fuel_fraction(LD_cruise_jet = L_D_jet, cj_cruise_jet = cj_cruise_jet, cj_loiter_jet = cj_loiter_jet, LD_loiter_jet = L_D_loiter_jet, V_cruise_jet = V_cruise_jet, range_cruise_jet = 1000000, endurance_loiter_jet = endurance_loiter_jet, jet = True)
+f_fuel_tbp_1000, f_reserve_tbp_1000, f_cruise_start_tbp_1000, f_cruise_end_tbp_1000 = fuel_fraction(LD_loiter_tbp = L_D_loiter_tbp, LD_cruise_tbp = L_D_tbp, eff_cruise_tbp = eff_cruise_tbp, eff_loiter_tbp = eff_loiter_tbp, cp_cruise_tbp = cp_cruise_tbp, cp_loiter_tbp = cp_loiter_tbp, V_loiter_tbp = V_loiter_tbp, range_cruise_tbp = 1000000, endurance_loiter_tbp = endurance_loiter_tbp, tbp = True)
+
+W_fuel_jet_1000 = (1 - f_fuel_jet_1000) * MTOW_jet
+W_fuel_tbp_1000 = (1 - f_fuel_tbp_1000) * MTOW_tbp
 
 fuel_per_passenger_jet_1000 = (W_fuel_jet_1000/n_passenger)/g
 fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
@@ -426,14 +427,14 @@ t_jet = (t_climb+t_cruise_jet+t_descent_jet)/3600 #hours
 t_tbp = (t_climb+t_cruise_tbp+t_descent_tbp)/3600 #hours
 
 print('MTOM tbp: ' + str(round(MTOM_tbp,2)) + ' [kg]')
-print('Fueltype: HHV')
+print('Fueltype: Kerosene')
 print('Fuel per passenger per 1000 km tbp: ' + str(round(fuel_per_passenger_tbp_1000,2)) + ' [kg]')
 print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp) + ' [kg]')
 print('NOX per passenger per 1000 km tbp: ' + str(NOX_tbp) + ' [kg]')
 print('Time for a ' + str(range_cruise_tbp_time/1000) + 'km trip is ' + str(round(t_tbp,2)) + '[h]')
 print()
 print('MTOM propfan: ' + str(round(MTOM_jet,2)) + ' [kg]')
-print('Fueltype: HHV')
+print('Fueltype: Kerosene')
 print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)) + ' [kg]')
 print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
 print('NOX per passenger per 1000 km propfan: ' + str(NOX_jet) + ' [kg]')
