@@ -11,6 +11,7 @@ from wingloadingfunctions import T_W_calc, W_P_climb_calc
 from class1sizing_strutwing import *
 from conversion_formulas import *
 from class2_strutwing import *
+from atmosphere import atmosphere_calc
 import numpy as np
 import fuel_fraction as ff
 import matplotlib.pyplot as plt
@@ -22,9 +23,15 @@ from LNG import *
 piechart = False
 print_payloadrange = False
 
+altitude = 8000
+temperature0 = 288.15
+temperature_gradient = -0.0065
+gamma = 1.4
+rho0 = 1.225
+g = 9.80665
+R = 287
 
-# Gravitional constant
-g = 9.8065
+temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 
 # Passengers and crew
 n_passenger = 60
@@ -73,9 +80,9 @@ eff_cruise_tbp = 0.85               # [-]
 eff_loiter_tbp = 0.77               # [-]
 cp_cruise_tbp = 0.8*fuel_efficiency_factor * 74e-9 # oude waarde 90e-9              # (0.4-0.6) [kg/ns]
 cp_loiter_tbp = 0.8*fuel_efficiency_factor * 74e-9 # oude waarde 90e-9               # (0.5-0.7) [kg/ns]
-V_cruise_tbp = 180                  # [m/s]
+M_cruise_tbp = 0.6                  # [-]
+V_cruise_tbp = M_cruise_tbp*speed_of_sound     # [m/s]
 V_loiter_tbp = 80                   # [m/s]
-M_cruise_tbp = 0.72                 # [-]
 C_L_cruise = 0.8                    # [-]
 S_tbp = 66                          # [m^2]
 V_stall_tbp = 46.3                  # [m/s]
