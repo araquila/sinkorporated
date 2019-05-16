@@ -13,9 +13,11 @@ from conversion_formulas import *
 from class2_strutwing import *
 import numpy as np
 import matplotlib.pyplot as plt
+import rangepldiagram as pld
 
 #Do you want a pie chart?
 piechart = False
+print_payloadrange = False
 
 
 # Gravitional constant
@@ -243,8 +245,8 @@ print('Resulting CL/CD:', C_L_cruise_tbp/C_D_cruise_tbp)
 MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(0, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, 0, A_tbp, 0, e_tbp, 0, 0, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, 0, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
 fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
 
-print(OEW_tbp_1000/g)
-print(fuel_per_passenger_tbp_1000)
+print('Fuel burn 1000km trip:',fuel_per_passenger_tbp_1000,'kg')
+
 
 #Emission Calculations
 CO2_emission = sf.CO2_calc(W_fuel_tbp/(g*n_passenger), 43)
@@ -255,6 +257,17 @@ NOX_emission = sf.NOX_calc(W_fuel_tbp/(g*n_passenger), 43)
 #noise_airframe = sf.airframe_noise(V_cruise_tbp, MTOW_tbp)
 #noise_total = sf.total_noise(noise_prop, noise_airframe)
 
+#Payload Range Diagram
+range_list, payload_list, M_payload = pld.payloadrange(MTOW_tbp, OEW_tbp, W_fuel_tbp, 0, LD_cruise_tbp, 0, A_tbp, eff_cruise_tbp, eff_loiter_tbp, 0, e_tbp, 0, V_cruise_tbp, V_loiter_tbp, jet = False, tbp = True)
+
+if print_payloadrange:
+    plt.plot(range_list, payload_list)
+    plt.xlim([0,4000])
+    plt.ylim([0,7000])
+    plt.title('Payload Range Diagram')
+    plt.ylabel('Payload Mass [kg]')
+    plt.xlabel('Range [km]')
+    plt.show()
 
 if piechart:
     patches, texts, values = plt.pie(weight_fractions, counterclock = False, startangle=90, autopct='%1.11f%%')
