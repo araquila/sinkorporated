@@ -270,15 +270,10 @@ print('CO2 emission 1000km trip:',CO2_emission,'kg')
 print('NOX emission 1000km trip:',NOX_emission,'kg')
 
 #Noise Calculations
-print(diameter_propeller)
-print(n_blades)
-print(P_TO_tbp)
-print(n_engines)
-
 noise_prop = sf.prop_noise(diameter_propeller, n_blades, 1200, P_TO_tbp/n_engines, n_engines, 308.063)
 noise_airframe = sf.airframe_noise(V_cruise_tbp, MTOW_tbp)
 noise_total = sf.total_noise(noise_prop, noise_airframe)
-noise_at_distance = sf.noise_distance(noise_total,1,8000)
+noise_at_distance = sf.noise_distance(noise_total,1,2500)
 
 print('Total noise production:', noise_at_distance, 'dB')
 
