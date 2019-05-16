@@ -16,7 +16,7 @@ import numpy as np
 
 ## INPUTS AND CONSTANTS
 # fuel efficiency
-chosen_fuel_energy_density = energy_density_LNG
+chosen_fuel_energy_density = energy_density_kerosene
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
 # Flight parameters
@@ -78,8 +78,8 @@ q_tbp = 0.5*rho*V_cruise_tbp**2          # [n/m2]
 
 # Engine characteristics
 thrust_to_weight_jet = 73.21         # [N/kg] #add 2/3 if propfan is used
-cj_loiter_jet = fuel_efficiency_factor*19.8e-6                  # (0.4-0.6) [g/j] Propfan: 12.5
-cj_cruise_jet = fuel_efficiency_factor*19.8e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
+cj_loiter_jet = fuel_efficiency_factor*12.5e-6                  # (0.4-0.6) [g/j] Propfan: 12.5
+cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
 power_to_weight_tbp = 4000               # [W/kg]
 eff_cruise_tbp = 0.85                    # [-]
