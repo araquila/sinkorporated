@@ -396,13 +396,10 @@ def total_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_syst
     PU_cost = total_cost/n_aircraft
     return round(PU_cost,2)
 
-
-
-
 #Calculate performance for 1000 km trip
 
-f_fuel_jet_1000, f_reserve_jet_1000, f_cruise_start_jet_1000, f_cruise_end_jet_1000 = fuel_fraction(LD_cruise_jet = L_D_jet, cj_cruise_jet = cj_cruise_jet, cj_loiter_jet = cj_loiter_jet, LD_loiter_jet = L_D_loiter_jet, V_cruise_jet = V_cruise_jet, range_cruise_jet = range_cruise_jet, endurance_loiter_jet = endurance_loiter_jet, jet = True)
-f_fuel_tbp_1000, f_reserve_tbp_1000, f_cruise_start_tbp_1000, f_cruise_end_tbp_1000 = fuel_fraction(LD_loiter_tbp = L_D_loiter_tbp, LD_cruise_tbp = L_D_tbp, eff_cruise_tbp = eff_cruise_tbp, eff_loiter_tbp = eff_loiter_tbp, cp_cruise_tbp = cp_cruise_tbp, cp_loiter_tbp = cp_loiter_tbp, V_loiter_tbp = V_loiter_tbp, range_cruise_tbp = range_cruise_tbp, endurance_loiter_tbp = endurance_loiter_tbp, tbp = True)
+f_fuel_jet_1000, f_reserve_jet_1000, f_cruise_start_jet_1000, f_cruise_end_jet_1000 = fuel_fraction(LD_cruise_jet = L_D_jet, cj_cruise_jet = cj_cruise_jet, cj_loiter_jet = cj_loiter_jet, LD_loiter_jet = L_D_loiter_jet, V_cruise_jet = V_cruise_jet, range_cruise_jet = 1000000, endurance_loiter_jet = endurance_loiter_jet, jet = True)
+f_fuel_tbp_1000, f_reserve_tbp_1000, f_cruise_start_tbp_1000, f_cruise_end_tbp_1000 = fuel_fraction(LD_loiter_tbp = L_D_loiter_tbp, LD_cruise_tbp = L_D_tbp, eff_cruise_tbp = eff_cruise_tbp, eff_loiter_tbp = eff_loiter_tbp, cp_cruise_tbp = cp_cruise_tbp, cp_loiter_tbp = cp_loiter_tbp, V_loiter_tbp = V_loiter_tbp, range_cruise_tbp = 1000000, endurance_loiter_tbp = endurance_loiter_tbp, tbp = True)
 
 W_fuel_jet_1000 = (1 - f_fuel_jet_1000) * MTOW_jet
 W_fuel_tbp_1000 = (1 - f_fuel_tbp_1000) * MTOW_tbp
