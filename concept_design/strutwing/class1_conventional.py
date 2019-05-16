@@ -3,8 +3,7 @@ import numpy as np
 from fuel_fraction import fuel_fraction
 
 # FUNCTION
-def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel,  V_cruise_jet, V_loiter_tbp,jet = False, tbp = False):
-
+def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel,  V_cruise_jet, V_loiter_tbp, range_cruise_jet, range_cruise_tbp, endurance_loiter_jet, endurance_loiter_tbp, jet = False, tbp = False):
     # Find C_D_0
     C_D_0 = C_fe * S_wet/S
 
@@ -54,7 +53,7 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
         LD_loiter_tbp = C_L_loiter_tbp / C_D_loiter_tbp
 
         # Determine fuel fractions for a turboprop
-        f_fuel_tbp, f_reserve_tbp,f_cruise_start_tbp, f_cruise_end_tbp = fuel_fraction(LD_loiter_tbp = LD_loiter_tbp, LD_cruise_tbp = LD_cruise_tbp, eff_cruise_tbp = eff_cruise_tbp, eff_loiter_tbp = eff_loiter_tbp, cp_cruise_tbp = cp_cruise_tbp, cp_loiter_tbp = cp_loiter_tbp, V_loiter_tbp = V_loiter_tbp,tbp = True)
+        f_fuel_tbp, f_reserve_tbp,f_cruise_start_tbp, f_cruise_end_tbp = fuel_fraction(LD_loiter_tbp = LD_loiter_tbp, LD_cruise_tbp = LD_cruise_tbp, eff_cruise_tbp = eff_cruise_tbp, eff_loiter_tbp = eff_loiter_tbp, cp_cruise_tbp = cp_cruise_tbp, cp_loiter_tbp = cp_loiter_tbp, V_loiter_tbp = V_loiter_tbp, range_cruise_tbp = range_cruise_tbp, endurance_loiter_tbp = endurance_loiter_tbp, tbp = True)
 
         # Used fuel
         f_used_fuel_tbp = 1 - f_fuel_tbp

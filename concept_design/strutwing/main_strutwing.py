@@ -63,12 +63,16 @@ eff_loiter_tbp = 0.77               # [-]
 cp_cruise_tbp = 90e-9               # (0.4-0.6) [kg/ns]
 cp_loiter_tbp = 90e-9               # (0.5-0.7) [kg/ns]
 V_cruise_tbp = 180                  # [m/s]
+V_loiter_tbp = 80                   # [m/s]
 M_cruise_tbp = 0.72                 # [-]
 C_L_cruise = 0.8                    # [-]
 S_tbp = 66                          # [m^2]
 V_stall_tbp = 46.3                  # [m/s]
 C_L_max_land_tbp = 2.4              # [-]
 C_L_max_TO_tbp = 1.4                # [-]
+
+range_cruise_tbp = 1850000          # [m]
+endurance_loiter_tbp = 2700         # [s]
 
 
 # Engine
@@ -113,7 +117,7 @@ class2["handling gear weight"] = []
 
 # Iterator
 for iter in range(5):
-    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_jet, tbp = True)
+    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(0, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, 0, A_tbp, 0, e_tbp, 0, 0, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, 0, V_loiter_tbp, 0, range_cruise_tbp, 0, endurance_loiter_tbp, tbp = True, jet = False)
 
     class1["MTOW"].append(MTOW_tbp)
     class1["OEW"].append(OEW_tbp)
@@ -229,13 +233,18 @@ print('FUEL:', W_fuel_tbp/g, 'kg')
 
 #Design Cruise CL
 q_tbp = 0.5 * 0.525168 * V_cruise_tbp**2
-
 C_L_cruise_tbp = C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp/S_tbp,f_cruise_end_tbp*MTOW_tbp/S_tbp)
 C_D_cruise_tbp = C_D_0_tbp + (1/(A_tbp*e_tbp*np.pi)) * C_L_cruise_tbp**2
 
 print('Design CL:', C_L_cruise_tbp)
 print('Design CD:', C_D_cruise_tbp)
 print('Resulting CL/CD:', C_L_cruise_tbp/C_D_cruise_tbp)
+
+MTOW_tbp_1000, OEW_tbp_1000, W_fuel_tbp_1000, C_D_0, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp = Weights_Class_I(0, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, 0, A_tbp, 0, e_tbp, 0, 0, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, 0, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, tbp = True, jet = False)
+fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
+
+print(OEW_tbp_1000/g)
+print(fuel_per_passenger_tbp_1000)
 
 #Emission Calculations
 CO2_emission = sf.CO2_calc(W_fuel_tbp/(g*n_passenger), 43)
