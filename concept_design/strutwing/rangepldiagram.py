@@ -20,7 +20,7 @@ def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A
     ## Initial jet and tbp aircraft parameters
     C_fe = 0.003
     S = 1
-    S_wet = 5 * S
+    S_wet = 5.5 * S
 
     if jet:
         cj_loiter_jet = 19e-6       # (0.4-0.6) [lbs/lbs/hr]
@@ -84,8 +84,8 @@ def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A
         return Rlist, Plist, M_payload
 
     elif tbp:
-        cp_loiter_tbp = 90e-9       # (0.4-0.6) [lbs/lbs/hr]
-        cp_cruise_tbp = 90e-9      # (0.5-0.9) [lbs/lbs/hr]
+        cp_loiter_tbp = 4.749253731343283e-08      # (0.4-0.6) [lbs/lbs/hr]
+        cp_cruise_tbp = 4.749253731343283e-08      # (0.5-0.9) [lbs/lbs/hr]
         range_cruise_tbp = 1850000
         endurance_loiter_tbp = 2700
 

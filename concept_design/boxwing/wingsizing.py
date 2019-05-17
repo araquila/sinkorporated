@@ -2,6 +2,7 @@ from math import *
 from class1sizing import enginedimensions, undercarriage, fuselage, tiresizing
 from class2_boxwing import *
 from wingloadingfunctions import V_stall_calc
+from cost_equations import *
 from constant_variables import *
 
 
@@ -35,7 +36,7 @@ def iterempty(MTOW, OEW, WF, LD):
 
 
     taper1 = 0.3
-    sweep1 = (2-taper1/0.2)*180/pi
+    sweep1 = (2-taper1/0.2)*180/pi+3
     b = sqrt(S1*AR1)
     cr1 = 2*S1/(1+taper1)/b
     ct1 = taper1 * cr1
@@ -153,29 +154,35 @@ def iterempty(MTOW, OEW, WF, LD):
 
     Empty_mass_new= 820*2 + wing_weight1_box + wing_weight2_box + fuselage_weight + vert_tail_weight + main_lg_weight + nose_lg_weight + nacelle_group_weight + engine_control_weight + starter_weight + fuel_system_weight + flight_controls_weight + apu_weight + instruments_weight + hydraulics_weight + electrical_weight + avionics_weight+ furnishings_weight + aircond_weight + anti_ice_weight + handling_gear_weight
 
-    print()
-    print(wing_weight1_box/Empty_mass_new,'wing1weight')
-    print(wing_weight2_box/Empty_mass_new,'wing2weight')
-    print(vert_tail_weight/Empty_mass_new,'vtailweight')
-    print(fuselage_weight/Empty_mass_new,'fusweight')
-    print(main_lg_weight/Empty_mass_new,'mainlgweight')
-    print(nose_lg_weight/Empty_mass_new,'noselgweight')
-    print(nacelle_group_weight/Empty_mass_new,'nacelleweight')
-    print(820*2/Empty_mass_new,'engweight')
-    print(engine_control_weight/Empty_mass_new,'engcontweight')
-    print(starter_weight/Empty_mass_new,'starterweight')
-    print(fuel_system_weight/Empty_mass_new,'fuelsysweight')
-    print(flight_controls_weight/Empty_mass_new,'flightcontweight')
-    print(apu_weight/Empty_mass_new,'apuweight')
-    print(instruments_weight/Empty_mass_new,'instruweight')
-    print(hydraulics_weight/Empty_mass_new,'hydrweight')
-    print(electrical_weight/Empty_mass_new,'elecweight')
-    print(avionics_weight/Empty_mass_new,'avionweight')
-    print(furnishings_weight/Empty_mass_new,'furnweight')
-    print(aircond_weight/Empty_mass_new,'aircondweight')
-    print(anti_ice_weight/Empty_mass_new,'antiweight')
-    print(handling_gear_weight/Empty_mass_new,'handling_gear_weight')
 
+    #print(wing_weight1_box/Empty_mass_new,'wing1weight')
+    #print(wing_weight2_box/Empty_mass_new,'wing2weight')
+    #print(vert_tail_weight/Empty_mass_new,'vtailweight')
+    #print(fuselage_weight/Empty_mass_new,'fusweight')
+    #print(main_lg_weight/Empty_mass_new,'mainlgweight')
+    #print(nose_lg_weight/Empty_mass_new,'noselgweight')
+    #print(nacelle_group_weight/Empty_mass_new,'nacelleweight')
+    #print(820*2/Empty_mass_new,'engweight')
+    #print(engine_control_weight/Empty_mass_new,'engcontweight')
+    #print(starter_weight/Empty_mass_new,'starterweight')
+    #print(fuel_system_weight/Empty_mass_new,'fuelsysweight')
+    #print(flight_controls_weight/Empty_mass_new,'flightcontweight')
+    #print(apu_weight/Empty_mass_new,'apuweight')
+    #print(instruments_weight/Empty_mass_new,'instruweight')
+    #print(hydraulics_weight/Empty_mass_new,'hydrweight')
+    #print(electrical_weight/Empty_mass_new,'elecweight')
+    #print(avionics_weight/Empty_mass_new,'avionweight')
+    #print(furnishings_weight/Empty_mass_new,'furnweight')
+    #print(aircond_weight/Empty_mass_new,'aircondweight')
+    #print(anti_ice_weight/Empty_mass_new,'antiweight')
+    #print(handling_gear_weight/Empty_mass_new,'handling_gear_weight')
+    #print()
+    #print('Development cost :', non_recurring_cost(wing_weight1_box+wing_weight2_box,vert_tail_weight,fuselage_weight,main_lg_weight+nose_lg_weight,820*2,engine_control_weight +starter_weight + fuel_system_weight+flight_controls_weight +instruments_weight + hydraulics_weight + electrical_weight+ avionics_weight + furnishings_weight+ aircond_weight + anti_ice_weight + handling_gear_weight, M_payload),'Million USD (2019)')
+    #print('Production cost per unit :', recurring_cost(500,wing_weight1_box+wing_weight2_box,vert_tail_weight,fuselage_weight,main_lg_weight+nose_lg_weight,820*2,engine_control_weight +starter_weight + fuel_system_weight+flight_controls_weight +instruments_weight + hydraulics_weight + electrical_weight+ avionics_weight + furnishings_weight+ aircond_weight + anti_ice_weight + handling_gear_weight, M_payload,M_empty_jet)/500,'Million USD (2019)')
+    costinit = 17.5
+    cost = total_cost(500,wing_weight1_box+wing_weight2_box,vert_tail_weight,fuselage_weight,main_lg_weight+nose_lg_weight,820*2,engine_control_weight +starter_weight + fuel_system_weight+flight_controls_weight +instruments_weight + hydraulics_weight + electrical_weight+ avionics_weight + furnishings_weight+ aircond_weight + anti_ice_weight + handling_gear_weight, M_payload,M_empty_jet)
+    print('Total cost per unit', cost,'Million USD (2019)')
+    print((cost-costinit)/costinit)
     geometrylistfuselage = (('Length fuselage nose', length_nose), ('Length cabin', length_cabin), ('Lenght fuselage tail', length_tail), ('Length fuselage', length_fuselage), ('Length nosecone', length_nosecone), ('Length tailcone', length_tailcone), ('Diameter outside fuselage', diameter_fuselage_outside))
     geometrylistwings = (('Total wing area', S), ('Wing span', b), ('Fore wing area', S1) ,('Aft wing area', S2), ('Fore root chord', cr1), ('Fore tip chord', ct1), ('Aft root chord', cr2), ('Aft tip chord', ct2), ('Fore qc sweep', sweep1), ('Aft qc sweep', sweep2), ('Fore wing position', Fus_len*frac_qtrchord_fus) )
     geometrylistvtail = (('Height vtail', bv), ('Area vtail', Sv), ('Sweep vtail', sweepv), ('Root chord vtail', crv), ('Tip chord vtail', ctv)  )
@@ -194,5 +201,6 @@ def iterempty(MTOW, OEW, WF, LD):
 
     beta = 15*pi/180
     mainlg_cg = 15.54 + (wheel_height+diameter_fuselage_outside/2)*tan(beta)+0.5
+
     x_cg = (fus_cg*(fuselage_weight+furnishings_weight) + wing1_cg*wing_weight1_box + wing2_cg*wing_weight2_box + tailv_cg*vert_tail_weight+engine_cg*(2*820+nacelle_group_weight) + noselg_cg*nose_lg_weight + mainlg_cg*main_lg_weight)/(820*2 + wing_weight1_box + wing_weight2_box + fuselage_weight + vert_tail_weight + main_lg_weight + nose_lg_weight + nacelle_group_weight + furnishings_weight)
     return Empty_mass_new, geometrylistfuselage, geometrylistwings, geometrylistvtail, mainlg_cg, wing_weight1_box, wing_weight2_box, x_cg, noselg_cg, S

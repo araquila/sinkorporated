@@ -1,9 +1,9 @@
 from math import *
 from matplotlib import pyplot as plt
 #import the following from your own directory: MTOW, OEW, Fuel weight, L/D in cruise
-from main_boxwing import MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet
+#from main_boxwing import MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet
 
-def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A_jet, A_tbp, eff_cruise_tbp, eff_loiter_tbp, e_jet, e_tbp, V_cruise_jet, V_cruise_tbp, V_loiter_tbp, jet = False, tbp = False):
+def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A_jet, A_tbp, eff_cruise_tbp, eff_loiter_tbp, e_jet, e_tbp, V_cruise_jet, V_cruise_tbp, V_loiter_tbp, cj_cruise_jet, cp_cruise_tbp, jet = False, tbp = False):
 
     # Gravitional constant
     g = 9.8065
@@ -24,8 +24,7 @@ def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A
     S_wet = 5 * S
 
     if jet:
-        cj_loiter_jet = 19e-6/1.16       # (0.4-0.6) [lbs/lbs/hr]
-        cj_cruise_jet = 19e-6/1.16      # (0.5-0.9) [lbs/lbs/hr]
+        cj_loiter_jet = cj_cruise_jet    # (0.5-0.9) [lbs/lbs/hr]
         range_cruise_jet = 1850000
         endurance_loiter_jet = 2700
 
@@ -81,12 +80,11 @@ def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A
 
         Rlist = [RA/1000, RB/1000, RC/1000, RD/1000]
         Plist = [PA/g, PB/g, PC/g, PD/g]
-        print('JET')
+#        print('JET')
         return Rlist, Plist, M_payload
 
     elif tbp:
-        cp_loiter_tbp = 90e-9       # (0.4-0.6) [lbs/lbs/hr]
-        cp_cruise_tbp = 90e-9      # (0.5-0.9) [lbs/lbs/hr]
+        cp_loiter_tbp = cp_cruise_tbp     # (0.5-0.9) [lbs/lbs/hr]
         range_cruise_tbp = 1850000
         endurance_loiter_tbp = 2700
 
@@ -143,18 +141,18 @@ def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A
 
         Rlist = [RA/1000, RB/1000, RC/1000, RD/1000]
         Plist = [PA/g, PB/g, PC/g, PD/g]
-        print('TURBOPROP')
+#        print('TURBOPROP')
         return Rlist, Plist, M_payload
     else:
         print('wrong entry type')
         return 0, 0, 0
 
 
-Rlist, Plist, M_payload = payloadrange(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, 16, 12, 12,0.85, 0.77, 1.2, 1.2, 229, 229, 100, jet = True, tbp = False)
+##Rlist, Plist, M_payload = payloadrange(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, 16, 12, 12,0.85, 0.77, 1.2, 1.2, 229, 229, 100, jet = True, tbp = False)
 #Rlist, Plist, M_payload = payloadrange(17832*9.80665,9434*9.80665 , 2097*9.80665, 16, 28.3, 12, 18,0.85, 0.77, 1.2, 0.85, 229, 180, 150, jet = False, tbp = True)
-
-
-plt.plot(Rlist, Plist)
-plt.ylabel('Payload Mass [kg]')
-plt.xlabel('Range [km]')
-plt.show()
+#
+#
+#plt.plot(Rlist, Plist)
+#plt.ylabel('Payload Mass [kg]')
+#plt.xlabel('Range [km]')
+#plt.show()
