@@ -12,11 +12,14 @@ from fuel_fraction import fuel_fraction
 from conversion_formulas import *
 import class2_conventional as class2
 from sustainability_functions import CO2_calc, NOX_calc, prop_noise, airframe_noise, total_noise, noise_distance, turbofan_noise
+import rangepldiagram as pld
 from matplotlib import pyplot as plt
 import numpy as np
 
 #Do you want a pie chart?
-print_payloadrange = False
+print_payloadrange_jet = False
+print_payloadrange_tbp = True
+weight_fractions = False
 
 ## INPUTS AND CONSTANTS
 # fuel efficiency
@@ -349,10 +352,11 @@ for item in class2_tbp:
     weight_fractions_tbp.append(class2_tbp[item][-1])
     weight_label_tbp.append(item)
 
-print('Weight fractions jet')
-print(weight_fractions_jet/M_empty_jet*100)
-print('Weight fractions tbp')
-print(weight_fractions_tbp/M_empty_tbp*100)
+if weight_fractions:
+    print('Weight fractions jet')
+    print(weight_fractions_jet/M_empty_jet*100)
+    print('Weight fractions tbp')
+    print(weight_fractions_tbp/M_empty_tbp*100)
 
 def print_list(items):
     print(items[0])
@@ -362,58 +366,6 @@ def print_list(items):
     print('------------------------------------------------------')
     print()
 
-#def print_mass_data():
-#    mass_data_jet = []
-#    mass_data_tbp = []
-#
-#    mass_data_jet.append('### Masses of components for jet in [kg] ###')
-#    mass_data_tbp.append('### Masses of components for tbp in [kg] ###')
-#    mass_data_jet.append(('MTOM_jet',MTOM_jet))
-#    mass_data_tbp.append(('MTOM_tbp',MTOM_tbp))
-#    mass_data_tbp.append(('M_empty_tbp', M_empty_tbp))
-#    mass_data_jet.append(('M_empty_jet', M_empty_jet))
-#    mass_data_tbp.append(('wing_weight_tbp', wing_weight_tbp))
-#    mass_data_jet.append(('wing_weight_jet', wing_weight_jet))
-#    mass_data_tbp.append(('hor_tail_weight_tbp', hor_tail_weight_tbp))
-#    mass_data_jet.append(('hor_tail_weight_jet', hor_tail_weight_jet))
-#    mass_data_tbp.append(('ver_tail_weight_tbp', ver_tail_weight_tbp))
-#    mass_data_jet.append(('ver_tail_weight_jet', ver_tail_weight_jet))
-#    mass_data_tbp.append(('fuselage_weight_tbp', fuselage_weight_tbp))
-#    mass_data_jet.append(('fuselage_weight_jet', fuselage_weight_jet))
-#    mass_data_tbp.append(('main_lg_weight_tbp', main_lg_weight_tbp))
-#    mass_data_jet.append(('main_lg_weigth_jet', main_lg_weight_jet))
-#    mass_data_tbp.append(('nose_lg_weight_tbp', nose_lg_weight_tbp))
-#    mass_data_jet.append(('nose_lg_weight_jet', nose_lg_weight_jet))
-#    mass_data_tbp.append(('nacelle_group_weight_tbp', nacelle_group_weight_tbp))
-#    mass_data_jet.append(('nacelle_group_weight_jet', nacelle_group_weight_jet))
-#    mass_data_tbp.append(('engine_controls_weight_tbp', engine_controls_weight_tbp))
-#    mass_data_tbp.append(('engine_controls_weight_jet', engine_controls_weight_jet))
-#    mass_data_tbp.append(('starter_weight_tbp', starter_weight_tbp))
-#    mass_data_jet.append(('starter_weight_jet', starter_weight_jet))
-#    mass_data_tbp.append(('W_fuel_system_tbp', W_fuel_system_tbp))
-#    mass_data_jet.append(('W_fuel_system_jet', W_fuel_system_jet))
-#    mass_data_tbp.append(('flight_controls_weight_tbp', flight_controls_weight_tbp))
-#    mass_data_jet.append(('flight_controls_weight_jet', flight_controls_weight_jet))
-#    mass_data_tbp.append(('instruments_weight_tbp', instruments_weight_tbp))
-#    mass_data_jet.append(('instruments_weight_jet', instruments_weight_jet))
-#    mass_data_tbp.append(('hydraulics_weight_tbp', hydraulics_weight_tbp))
-#    mass_data_jet.append(('hydraulics_weight_jet', hydraulics_weight_jet))
-#    mass_data_tbp.append(('electrical_weight_tbp', electrical_weight_tbp))
-#    mass_data_jet.append(('electrical_weight_jet', electrical_weight_jet))
-#    mass_data_tbp.append(('avionics_weight_tbp', avionics_weight_tbp))
-#    mass_data_jet.append(('avionics_weight_jet', avionics_weight_jet))
-#    mass_data_tbp.append(('furnishings_weight_tbp', furnishings_weight_tbp))
-#    mass_data_jet.append(('furnishings_weight_jet', furnishings_weight_jet))
-#    mass_data_tbp.append(('aircond_weight_tbp', aircond_weight_tbp))
-#    mass_data_jet.append(('aircond_weight_jet', aircond_weight_jet))
-#    mass_data_tbp.append(('anti_ice_weight_tbp', anti_ice_weight_tbp))
-#    mass_data_jet.append(('anti_ice_weight_jet', anti_ice_weight_jet))
-#    mass_data_tbp.append(('handling_gear_weight_tbp', handling_gear_weight_tbp))
-#    mass_data_jet.append(('handling_gear_weight_jet', handling_gear_weight_jet))
-#
-#    print_list(mass_data_jet)
-#    print_list(mass_data_tbp)
-#
 def print_size_data():
     size_data_jet = []
     size_data_tbp = []
@@ -506,8 +458,8 @@ CO2_jet = CO2_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
 NOX_tbp = NOX_calc(fuel_per_passenger_tbp_1000,chosen_fuel_energy_density)
 NOX_jet = NOX_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
 
-range_cruise_jet_time = 1000000
-range_cruise_tbp_time = 1000000
+range_cruise_jet_time = 1850000
+range_cruise_tbp_time = 1850000
 t_climb = altitude/c
 d_horizontal_climb_jet = altitude/0.2
 d_horizontal_climb_tbp = altitude/0.083
@@ -528,6 +480,7 @@ print('Fueltype: Kerosene')
 print('Fuel per passenger per 1000 km tbp: ' + str(round(fuel_per_passenger_tbp_1000,2)) + ' [kg]')
 print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp) + ' [kg]')
 print('NOX per passenger per 1000 km tbp: ' + str(NOX_tbp) + ' [kg]')
+print('Total fuel burned for 1850 km ' + str(W_fuel_tbp/g))
 print('Time for a ' + str(range_cruise_tbp_time/1000) + 'km trip is ' + str(round(t_tbp,2)) + '[h]')
 print('Designated CL is: ' + str(C_L_cruise_tbp))
 print('CD during cruise is: ' + str(C_D_tbp ))
@@ -542,6 +495,7 @@ print('Fueltype: Kerosene')
 print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)) + ' [kg]')
 print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
 print('NOX per passenger per 1000 km propfan: ' + str(NOX_jet) + ' [kg]')
+print('Total fuel burned for 1850 km ' + str(W_fuel_jet/g))
 print('Time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(round(t_jet,2)) + '[h]')
 print('Designated CL is: ' + str(C_L_cruise_jet))
 print('CD during cruise is: ' + str(C_D_jet ))
@@ -554,4 +508,27 @@ print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+
 SPL_engine = prop_noise(diameter_propeller_tbp,6,900,P_TO_tbp/2,1,speed_of_sound)
 SPL_distance = noise_distance(SPL_engine,1,2500)
 SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
+
 #print(SPL)
+
+#Payload Range Diagram
+range_list_tbp, payload_list_tbp, M_payload_tbp = pld.payloadrange(MTOW_tbp, OEW_tbp, W_fuel_tbp, 0, L_D_tbp, 0, A_tbp, eff_cruise_tbp, eff_loiter_tbp, 0, e_tbp, 0, V_cruise_tbp, V_loiter_tbp, 0, cp_cruise_tbp, tbp = True)
+range_list_jet, payload_list_jet, M_payload_jet = pld.payloadrange(MTOW_jet, OEW_jet, W_fuel_jet, L_D_jet, 0, A_jet, 0, 0, 0, e_jet, 0, V_cruise_jet, 0, 0,cj_cruise_jet, 0,jet = True)
+
+if print_payloadrange_jet:
+    plt.plot(range_list_jet, payload_list_jet)
+    plt.xlim([0,4000])
+    plt.ylim([0,7000])
+    plt.title('Payload Range Diagram')
+    plt.ylabel('Payload Mass [kg]')
+    plt.xlabel('Range [km]')
+    plt.show()
+    
+if print_payloadrange_tbp:
+    plt.plot(range_list_tbp, payload_list_tbp)
+    plt.xlim([0,4000])
+    plt.ylim([0,7000])
+    plt.title('Payload Range Diagram')
+    plt.ylabel('Payload Mass [kg]')
+    plt.xlabel('Range [km]')
+    plt.show()
