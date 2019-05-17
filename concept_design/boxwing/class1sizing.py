@@ -84,7 +84,11 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     length_flightdeck=2.5
 
     length_fuselage=length_nose+length_cabin+length_tail
-
+    print(length_nose,'nose')
+    print(length_cabin,'cabin')
+    print(length_tail,'tail')
+    print(diameter_fuselage_outside,'diameter fus')
+    print(length_fuselage,'fuselage')
     return length_nose, length_cabin, length_tail, length_fuselage, diameter_fuselage_outside, length_nosecone, length_tailcone
 
 def enginedimensions(n_engines, T_TO_jet):

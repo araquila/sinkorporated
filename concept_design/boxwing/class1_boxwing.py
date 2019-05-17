@@ -7,12 +7,12 @@ from constant_variables import *
 def Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet, cj_loiter_jet, cj_cruise_jet, f_trapped_fuel,  V_cruise_jet, range_cruise_jet, endurance_loiter_jet, jet = False, tbp = False):
     # Find C_D_0
     C_D_0 = C_fe * S_wet/S
-
+    print(C_D_0,'cd0')
 # THIS SECTION IS USED FOR JET AIRCRAFT; FOR TURBOPROP AIRCRAFT, SCROLL DOWN
     if jet:
     # Determine the maximum L/D for jets
         LD_cruise_jet = 3/4 * np.sqrt((np.pi * A_jet * e_jet) / (3 * C_D_0))
-
+        print(LD_cruise_jet,"L/D")
         # Requirements for loiter
         # CL/CD during loiter for a jet
         C_L_loiter_jet = np.sqrt(C_D_0 * np.pi * A_jet * e_jet)
@@ -40,5 +40,5 @@ def Weights_Class_I(W_empty_jet, W_payload, W_crew, C_fe, S, S_wet, A_jet, e_jet
 
         # Determine the operative empty weight for a jet
         OEW_jet = W_empty_jet + W_trapped_fuel_jet + W_crew
-
+        print('fuel jet',W_fuel_jet/9.80665)
         return MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet, W_used_fuel_jet, f_cruise_start_jet, f_cruise_end_jet
