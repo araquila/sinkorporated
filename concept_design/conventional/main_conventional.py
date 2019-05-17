@@ -510,9 +510,6 @@ SPL_distance = noise_distance(SPL_engine,1,2500)
 SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
 
 #print(SPL)
-<<<<<<< HEAD
-print(C_l_des_jet,C_l_des_tbp)
-=======
 
 #Payload Range Diagram
 range_list_tbp, payload_list_tbp, M_payload_tbp = pld.payloadrange(MTOW_tbp, OEW_tbp, W_fuel_tbp, 0, L_D_tbp, 0, A_tbp, eff_cruise_tbp, eff_loiter_tbp, 0, e_tbp, 0, V_cruise_tbp, V_loiter_tbp, 0, cp_cruise_tbp, tbp = True)
@@ -535,4 +532,3 @@ if print_payloadrange_tbp:
     plt.ylabel('Payload Mass [kg]')
     plt.xlabel('Range [km]')
     plt.show()
->>>>>>> 2b2077ebb022512334ad498e5d2dd0d49426adbc
