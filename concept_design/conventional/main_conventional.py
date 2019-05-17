@@ -458,8 +458,8 @@ CO2_jet = CO2_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
 NOX_tbp = NOX_calc(fuel_per_passenger_tbp_1000,chosen_fuel_energy_density)
 NOX_jet = NOX_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
 
-range_cruise_jet_time = 1000000
-range_cruise_tbp_time = 1000000
+range_cruise_jet_time = 1850000
+range_cruise_tbp_time = 1850000
 t_climb = altitude/c
 d_horizontal_climb_jet = altitude/0.2
 d_horizontal_climb_tbp = altitude/0.083
@@ -480,6 +480,7 @@ print('Fueltype: Kerosene')
 print('Fuel per passenger per 1000 km tbp: ' + str(round(fuel_per_passenger_tbp_1000,2)) + ' [kg]')
 print('CO2 per passanger per 1000 km tbp: ' + str(CO2_tbp) + ' [kg]')
 print('NOX per passenger per 1000 km tbp: ' + str(NOX_tbp) + ' [kg]')
+print('Total fuel burned for 1850 km ' + str(W_fuel_tbp/g))
 print('Time for a ' + str(range_cruise_tbp_time/1000) + 'km trip is ' + str(round(t_tbp,2)) + '[h]')
 print('Designated CL is: ' + str(C_L_cruise_tbp))
 print('CD during cruise is: ' + str(C_D_tbp ))
@@ -494,6 +495,7 @@ print('Fueltype: Kerosene')
 print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)) + ' [kg]')
 print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
 print('NOX per passenger per 1000 km propfan: ' + str(NOX_jet) + ' [kg]')
+print('Total fuel burned for 1850 km ' + str(W_fuel_jet/g))
 print('Time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(round(t_jet,2)) + '[h]')
 print('Designated CL is: ' + str(C_L_cruise_jet))
 print('CD during cruise is: ' + str(C_D_jet ))
@@ -506,6 +508,7 @@ print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+
 SPL_engine = prop_noise(diameter_propeller_tbp,6,900,P_TO_tbp/2,1,speed_of_sound)
 SPL_distance = noise_distance(SPL_engine,1,2500)
 SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
+
 #print(SPL)
 
 #Payload Range Diagram

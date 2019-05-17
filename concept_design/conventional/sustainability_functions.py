@@ -13,9 +13,9 @@ def CO2_calc(fuel_per_passenger,chosen_fuel_energy_density):
 
 def NOX_calc(fuel_per_passenger,chosen_fuel_energy_density):
     if chosen_fuel_energy_density == energy_density_kerosene:
-        NOX_per_passenger = 3.00*10e-3*fuel_per_passenger
+        NOX_per_passenger = 3.00/1000*fuel_per_passenger
     if chosen_fuel_energy_density == energy_density_LNG:
-        NOX_per_passenger =10e-3*fuel_per_passenger
+        NOX_per_passenger =1.0/1000*fuel_per_passenger
     if chosen_fuel_energy_density == energy_density_HHV:
         NOX_per_passenger = 0
     if chosen_fuel_energy_density == energy_density_LHV:
