@@ -427,8 +427,8 @@ CO2_jet = CO2_calc(fuel_per_passenger_jet_1000,energy_density_kerosene)
 NOX_tbp = NOX_calc(fuel_per_passenger_tbp_1000,energy_density_kerosene)
 NOX_jet = NOX_calc(fuel_per_passenger_jet_1000,energy_density_kerosene)
 
-range_cruise_jet_time = 1000000
-range_cruise_tbp_time = 1000000
+range_cruise_jet_time = 1850000
+range_cruise_tbp_time = 1850000
 t_climb = altitude/c
 d_horizontal_climb_jet = altitude/0.2
 d_horizontal_climb_tbp = altitude/0.083
@@ -458,11 +458,11 @@ print()
 
 
 # Print data
-#print_mass_data()
+print_mass_data()
 
 #print_size_data()
 
-#print_flight_char_data()
+print_flight_char_data()
 
 SPL_engine_prop = prop_noise(diameter_propeller_tbp,5,1400,1850,1,speed_of_sound)
 SPL_turbofan = turbofan_noise()
