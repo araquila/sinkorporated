@@ -3,7 +3,7 @@
 # Import modules
 from class1_boxwing import Weights_Class_I
 from wingsizing import iterempty
-from sustainability_functions import CO2_calc
+from sustainability_functions import *
 from constant_variables import *
 from class1sizing import *
 from math import *
@@ -80,8 +80,8 @@ def class1box(M_empty_jet):
     co2init = 86.54437377
     noxinit = 0.0865443737
     print()
-    #print('Fuel per passenger per 1000 km turbofan: ',fuel_per_passenger_jet_1000)
-    #print((fuel_per_passenger_jet_1000-fuelinit)/fuelinit)
+    print('Fuel per passenger per 1000 km turbofan: ',fuel_per_passenger_jet_1000)
+    print((fuel_per_passenger_jet_1000-fuelinit)/fuelinit)
     print('NOX per passanger per 1000 km turbofan: ',NOX_jet)
     print((NOX_jet-noxinit)/noxinit)
     print('CO2 per passanger per 1000 km turbofan: ',CO2_jet)
@@ -114,7 +114,7 @@ def C_L_des(q,W_S_cruise_start,W_S_cruise_end):
 def C_l_des(C_L_des,sweep):
     C_l_des = C_L_des/cos(sweep)**2
     return C_l_des
-altitude = 8000
+altitude = 10000
 gamma = 1.4
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 
@@ -203,32 +203,62 @@ C_L_des2 = C_L_des(rho*(V_cruise_jet**2)/2,f_cruise_start_jet*MTOW_jet/2/S2,f_cr
 
 C_l_des1 = C_l_des(C_L_des1,sweep1*pi/180)
 C_l_des2 = C_l_des(C_L_des2,sweep2*pi/180)
-#print(S1,'S1')
-#print(S2,'S2')
-#print(b,'b')
-#print(sweep1,'sweep1')
-#print(sweep2,'sweep2')
-#print(taper1,'taper1')
-#print(taper2,'taper2')
-#print(cr1,'cr1')
-#print(cr2,'cr2')
-#print(t_c1,'tc1')
-#print(t_c2,'tc2')
-#print(AR1,'AR1')
-#print(AR2,'AR2')
-#print()
-#print(bv,'bv')
-#print(sweepv,'sweepv')
-#print(taperv,'taperv')
-#print(crv,'crv')
-#print(t_cv,'t_cv')
-#print(AR_v,'arv')
+print(S1,'S1')
+print(S2,'S2')
+print(b,'b')
+print(sweep1,'sweep1')
+print(sweep2,'sweep2')
+print(taper1,'taper1')
+print(taper2,'taper2')
+print(cr1,'cr1')
+print(cr2,'cr2')
+print(t_c1,'tc1')
+print(t_c2,'tc2')
+print(AR1,'AR1')
+print(AR2,'AR2')
+print()
+print(bv,'bv')
+print(sweepv,'sweepv')
+print(taperv,'taperv')
+print(crv,'crv')
+print(t_cv,'t_cv')
+print(AR_v,'arv')
 mtow_init = 199349.285
 wfuel_init = 27338.952
-
-print('mtow is',MTOW_jet)
-print((MTOW_jet-mtow_init)/mtow_init)
+print(diameter_fuselage_outside+bv,b)
+#print('mtow is',MTOW_jet/g)
+#print((MTOW_jet-mtow_init)/mtow_init)
 #print('fuel weight is', W_fuel_jet/g)
 #print((W_fuel_jet-wfuel_init)/wfuel_init)
-print()
-print()
+#print()
+#print()
+
+SPL_engine = turbofan_noise()
+SPL_engine_distance = noise_distance(SPL_engine,1,2500)
+SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
+SPL_airframe_distance = noise_distance(SPL_airframe,300,2500)
+SPL_total = total_noise(SPL_engine_distance,SPL_airframe_distance)
+print(SPL_total)
+
+altitude = 10000
+c = 10
+range_cruise_jet_time = 1850000
+range_cruise_tbp_time = 1850000
+t_climb = altitude/c
+d_horizontal_climb_jet = altitude/0.2
+t_descent_jet = altitude/7.112 #descent of 1400 feet per minute
+d_horizontal_descent_jet = altitude/0.2
+t_cruise_jet = (range_cruise_jet_time-d_horizontal_climb_jet-d_horizontal_descent_jet)/V_cruise_jet
+
+
+
+
+t_jet = (t_climb+t_cruise_jet+t_descent_jet)/3600 #hours
+print(t_jet)
+print(C_l_des1,C_l_des2)
+print(t_c1,t_c2)
+print(OEW_jet,MTOW_jet,MTOW_jet*0.25*0.5,W_fuel_jet/g)
+C_D_0 = 0.015
+C_D_jet = C_D_0+C_l_des1**2/(np.pi*12*1.2)
+CLCD_jet= C_l_des1/C_D_jet
+print(CLCD_jet)
