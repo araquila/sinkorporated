@@ -155,6 +155,8 @@ Rlist, Plist, M_payload = payloadrange(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_
 
 
 plt.plot(Rlist, Plist)
+plt.title('Payload Range Diagram')
+plt.axis([0,5000, 0, 7000])
 plt.ylabel('Payload Mass [kg]')
 plt.xlabel('Range [km]')
 plt.show()
