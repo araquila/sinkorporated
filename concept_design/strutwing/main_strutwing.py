@@ -29,7 +29,7 @@ def print_costs(serial_number):
 
 #Do you want a pie chart?
 piechart = False
-print_payloadrange = False
+print_payloadrange = True
 
 altitude = 8000
 temperature0 = 288.15
@@ -297,11 +297,9 @@ range_list, payload_list, M_payload = pld.payloadrange(MTOW_tbp, OEW_tbp, W_fuel
 
 if print_payloadrange:
     plt.plot(range_list, payload_list)
-    plt.xlim([0,5000])
-    plt.ylim([0,7000])
-    plt.title('Payload Range Diagram')
-    plt.ylabel('Payload Mass [kg]')
-    plt.xlabel('Range [km]')
+    plt.axis([0,5000, 0, 7000])
+    plt.ylabel('Payload Mass [kg]', fontsize = 13)
+    plt.xlabel('Range [km]', fontsize = 13)
     plt.show()
 
 if piechart:

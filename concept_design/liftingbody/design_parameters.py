@@ -18,7 +18,7 @@ n_engines = 2
 
 # Jet parameters
 C_fe_jet = 0.003
-A_jet = 12 * 1.1
+A_jet = 12
 e_jet = 0.85                         # Adjust per concept
 S_jet = 61
 S_wet_jet = 4.5 * S_jet
