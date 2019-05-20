@@ -18,7 +18,7 @@ import numpy as np
 import rangepldiagram as pld
 
 
-print_payloadrange = False
+print_payloadrange = True
 
 # Atmospherical parameters at cruise altitude
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
@@ -490,23 +490,22 @@ print('C_L/C_D:', CLCD_jet)
 print(C_D_0_jet)
 
 print()
-print_costs(500)
+#print_costs(500)
 
 print()
 print()
 print('----------------  Results for sensitivity analysis  -----------------')
 print()
 print('MTOM:', 100*(MTOM_jet - 17035.859)/17035.859, '%')
-print('Cost:', 100*(total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet) - 13.28)/13.28,'%')
+#print('Cost:', 100*(total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet) - 13.28)/13.28,'%')
 print('Emissions:', 100*(CO2_jet - 100.248335)/100.248335, '%')
 
 #Payload Range Diagram
 range_list, payload_list, M_payload = pld.payloadrange(MTOW_jet, OEW_jet, W_fuel_jet, LD_cruise_jet,0, A_jet, 0,0,0, e_jet, 0, V_cruise_jet, 0, 0, jet = True, tbp = False)
 if print_payloadrange:
     plt.plot(range_list, payload_list)
-    plt.xlim([0,4500])
+    plt.xlim([0,5000])
     plt.ylim([0,7000])
-    plt.title('Payload Range Diagram')
-    plt.ylabel('Payload Mass [kg]')
-    plt.xlabel('Range [km]')
+    plt.ylabel('Payload Mass [kg]', fontsize = 13)
+    plt.xlabel('Range [km]', fontsize = 13)
     plt.show()
