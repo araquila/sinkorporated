@@ -17,8 +17,8 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 #Do you want a pie chart?
-print_payloadrange_jet = False
-print_payloadrange_tbp = True
+print_payloadrange_jet = True
+print_payloadrange_tbp = False
 weight_fractions = False
 
 ## INPUTS AND CONSTANTS
@@ -108,7 +108,6 @@ class2_jet["handling gear weight"] = []
 
 class2_tbp = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
 class2_tbp["flight controls weight"] = []
-class2_tbp["APU weight"] = []
 class2_tbp["instruments weight"] = []
 class2_tbp["hydraulics weight"] = []
 class2_tbp["electrical system weight"] = []
@@ -458,7 +457,7 @@ NOX_tbp = NOX_calc(fuel_per_passenger_tbp_1000,chosen_fuel_energy_density)
 NOX_jet = NOX_calc(fuel_per_passenger_jet_1000,chosen_fuel_energy_density)
 
 range_cruise_jet_time = 1850000
-range_cruise_tbp_time = 1850000
+range_cruise_tbp_time = 1528000
 t_climb = altitude/c
 d_horizontal_climb_jet = altitude/0.2
 d_horizontal_climb_tbp = altitude/0.083
@@ -489,25 +488,26 @@ print('Development cost :', non_recurring_cost(wing_weight_tbp,hor_tail_weight_t
 print('Production cost per unit :', recurring_cost(500,wing_weight_tbp,hor_tail_weight_tbp+ver_tail_weight_tbp,fuselage_weight_tbp,main_lg_weight_tbp+nose_lg_weight_tbp,M_engine_tbp,engine_controls_weight_tbp +starter_weight_tbp + W_fuel_system_tbp+flight_controls_weight_tbp +instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_tbp+ aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp, M_payload,M_empty_tbp)/500,'Million USD (2019)')
 print('Total cost per unit', total_cost(500,wing_weight_tbp,hor_tail_weight_tbp+ver_tail_weight_tbp,fuselage_weight_tbp,main_lg_weight_tbp+nose_lg_weight_tbp,M_engine_tbp,engine_controls_weight_tbp +starter_weight_tbp + W_fuel_system_tbp+flight_controls_weight_tbp +instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_tbp+ aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp, M_payload,M_empty_tbp),'Million USD (2019)')
 print()
-print('MTOM propfan: ' + str(round(MTOM_jet,2)) + ' [kg]')
-print('Fueltype: Kerosene')
-print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)) + ' [kg]')
-print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
-print('NOX per passenger per 1000 km propfan: ' + str(NOX_jet) + ' [kg]')
-print('Total fuel burned for 1850 km ' + str(W_fuel_jet/g))
-print('Time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(round(t_jet,2)) + '[h]')
-print('Designated CL is: ' + str(C_L_cruise_jet))
-print('CD during cruise is: ' + str(C_D_jet ))
-print('CL/CD during cruise is: ' + str(CLCD_jet))
-print()
-print('Development cost :', non_recurring_cost(wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload),'Million USD (2019)')
-print('Production cost per unit :', recurring_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/500,'Million USD (2019)')
-print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
+#print('MTOM propfan: ' + str(round(MTOM_jet,2)) + ' [kg]')
+#print('Fueltype: Kerosene')
+#print('Fuel per passenger per 1000 km propfan: ' + str(round(fuel_per_passenger_jet_1000,2)) + ' [kg]')
+#print('CO2 per passenger per 1000 km propfan: ' + str(CO2_jet) + ' [kg]')
+#print('NOX per passenger per 1000 km propfan: ' + str(NOX_jet) + ' [kg]')
+#print('Total fuel burned for 1850 km ' + str(W_fuel_jet/g))
+#print('Time for a ' + str(range_cruise_jet_time/1000) + 'km trip is ' + str(round(t_jet,2)) + '[h]')
+#print('Designated CL is: ' + str(C_L_cruise_jet))
+#print('CD during cruise is: ' + str(C_D_jet ))
+#print('CL/CD during cruise is: ' + str(CLCD_jet))
+#print()
+#print('Development cost :', non_recurring_cost(wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload),'Million USD (2019)')
+#print('Production cost per unit :', recurring_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/#500,'Million USD (2019)')
+#print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
 
-SPL_engine = prop_noise(diameter_propeller_tbp,6,900,P_TO_tbp/2,1,speed_of_sound)
-SPL_distance = noise_distance(SPL_engine,1,2500)
-SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
-
+SPL_engine = turbofan_noise()
+SPL_distance = noise_distance(SPL_engine,300,2500)
+SPL_airframe = airframe_noise(V_cruise_tbp,MTOW_tbp)
+SPL_airframe_distance = noise_distance(SPL_airframe,1,2500)
+SPL_total = total_noise(SPL_distance,SPL_airframe_distance)
 #print(SPL)
 print(C_l_des_jet,C_l_des_tbp)
 
@@ -517,18 +517,16 @@ range_list_jet, payload_list_jet, M_payload_jet = pld.payloadrange(MTOW_jet, OEW
 
 if print_payloadrange_jet:
     plt.plot(range_list_jet, payload_list_jet)
-    plt.xlim([0,4000])
+    plt.xlim([0,5000])
     plt.ylim([0,7000])
-    plt.title('Payload Range Diagram')
-    plt.ylabel('Payload Mass [kg]')
-    plt.xlabel('Range [km]')
+    plt.ylabel('Payload Mass [kg]', fontsize = 13)
+    plt.xlabel('Range [km]', fontsize = 13)
     plt.show()
 
 if print_payloadrange_tbp:
     plt.plot(range_list_tbp, payload_list_tbp)
-    plt.xlim([0,4000])
+    plt.xlim([0,5000])
     plt.ylim([0,7000])
-    plt.title('Payload Range Diagram')
-    plt.ylabel('Payload Mass [kg]')
-    plt.xlabel('Range [km]')
+    plt.ylabel('Payload Mass [kg]', fontsize = 13)
+    plt.xlabel('Range [km]', fontsize = 13)
     plt.show()
