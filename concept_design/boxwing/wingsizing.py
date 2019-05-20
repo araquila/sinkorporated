@@ -154,7 +154,7 @@ def iterempty(MTOW, OEW, WF, LD):
 
     Empty_mass_new= 820*2 + wing_weight1_box + wing_weight2_box + fuselage_weight + vert_tail_weight + main_lg_weight + nose_lg_weight + nacelle_group_weight + engine_control_weight + starter_weight + fuel_system_weight + flight_controls_weight + apu_weight + instruments_weight + hydraulics_weight + electrical_weight + avionics_weight+ furnishings_weight + aircond_weight + anti_ice_weight + handling_gear_weight
 
-
+    #print()
     #print(wing_weight1_box/Empty_mass_new,'wing1weight')
     #print(wing_weight2_box/Empty_mass_new,'wing2weight')
     #print(vert_tail_weight/Empty_mass_new,'vtailweight')
@@ -182,7 +182,7 @@ def iterempty(MTOW, OEW, WF, LD):
     costinit = 17.5
     cost = total_cost(500,wing_weight1_box+wing_weight2_box,vert_tail_weight,fuselage_weight,main_lg_weight+nose_lg_weight,820*2,engine_control_weight +starter_weight + fuel_system_weight+flight_controls_weight +instruments_weight + hydraulics_weight + electrical_weight+ avionics_weight + furnishings_weight+ aircond_weight + anti_ice_weight + handling_gear_weight, M_payload,M_empty_jet)
     print('Total cost per unit', cost,'Million USD (2019)')
-    print((cost-costinit)/costinit)
+    #print((cost-costinit)/costinit)
     geometrylistfuselage = (('Length fuselage nose', length_nose), ('Length cabin', length_cabin), ('Lenght fuselage tail', length_tail), ('Length fuselage', length_fuselage), ('Length nosecone', length_nosecone), ('Length tailcone', length_tailcone), ('Diameter outside fuselage', diameter_fuselage_outside))
     geometrylistwings = (('Total wing area', S), ('Wing span', b), ('Fore wing area', S1) ,('Aft wing area', S2), ('Fore root chord', cr1), ('Fore tip chord', ct1), ('Aft root chord', cr2), ('Aft tip chord', ct2), ('Fore qc sweep', sweep1), ('Aft qc sweep', sweep2), ('Fore wing position', Fus_len*frac_qtrchord_fus) )
     geometrylistvtail = (('Height vtail', bv), ('Area vtail', Sv), ('Sweep vtail', sweepv), ('Root chord vtail', crv), ('Tip chord vtail', ctv)  )

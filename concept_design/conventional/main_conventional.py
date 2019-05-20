@@ -28,7 +28,7 @@ fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
 # Flight parameters
 s_landing = 1400                    #[m]
-altitude = 8000
+altitude = 7600
 V_landing = 48.93                   #[m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
 
 # Atmospherical parameters at cruise altitude
@@ -63,7 +63,7 @@ nose_landing_pos_jet = 3                 # [m]
 A_tbp = 12
 e_tbp = 0.85                             # Adjust per concept
 V_loiter_tbp = 80                        # [m/s]
-M_cruise_tbp = 0.6
+M_cruise_tbp = 0.5
 V_cruise_tbp = M_cruise_tbp*speed_of_sound                      # [m/s]
 C_L_cruise_tbp = 0.8
 S_tbp = 76
@@ -71,7 +71,7 @@ TOP_tbp = 139
 C_L_max_tbp = 2.6
 C_L_max_land_tbp = 2.6
 C_L_max_TO_tbp = 1.6
-range_cruise_tbp = 1850000               # [m]
+range_cruise_tbp = 1528000               # [m]
 endurance_loiter_tbp = 2700              # [s]
 
 # Empennage tbp
@@ -91,8 +91,8 @@ cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j
 power_to_weight_tbp = 4000               # [W/kg]
 eff_cruise_tbp = 0.85                    # [-]
 eff_loiter_tbp = 0.77                    # [-]
-cp_cruise_tbp = 0.8*fuel_efficiency_factor * 74e-9              # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = 0.8*fuel_efficiency_factor * 74e-9              # (0.5-0.7) [kg/ns]
+cp_cruise_tbp = fuel_efficiency_factor * 87e-9              # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = fuel_efficiency_factor * 87e-9              # (0.5-0.7) [kg/ns]
 
 class2_jet = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
 class2_jet["flight controls weight"] = []
@@ -284,7 +284,7 @@ for iter in range(10):
 
     # Total weight
     M_empty_jet = 200+wing_weight_jet + hor_tail_weight_jet + ver_tail_weight_jet + fuselage_weight_jet + main_lg_weight_jet + nose_lg_weight_jet + nacelle_group_weight_jet+ engine_controls_weight_jet + starter_weight_jet + W_fuel_system_jet+ flight_controls_weight_jet + instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet + aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet + M_engine_jet
-    M_empty_tbp = 200+wing_weight_tbp + hor_tail_weight_tbp + ver_tail_weight_tbp + fuselage_weight_tbp + main_lg_weight_tbp + nose_lg_weight_tbp + nacelle_group_weight_tbp + engine_controls_weight_tbp + starter_weight_tbp + W_fuel_system_tbp+ flight_controls_weight_tbp + instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_jet + aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp + M_engine_tbp
+    M_empty_tbp = wing_weight_tbp + hor_tail_weight_tbp + ver_tail_weight_tbp + fuselage_weight_tbp + main_lg_weight_tbp + nose_lg_weight_tbp + nacelle_group_weight_tbp + engine_controls_weight_tbp + starter_weight_tbp + W_fuel_system_tbp+ flight_controls_weight_tbp + instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_jet + aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp + M_engine_tbp
 
     W_empty_jet =  M_empty_jet * g
     W_empty_tbp =  M_empty_tbp * g
@@ -326,7 +326,6 @@ class2_tbp["engine controls weight"].append(engine_controls_weight_tbp)
 class2_tbp["starter weight"].append(starter_weight_tbp)
 class2_tbp["fuel system weight"].append(W_fuel_system_tbp)
 class2_tbp["flight controls weight"].append(flight_controls_weight_tbp)
-class2_tbp["APU weight"].append(200)
 class2_tbp["instruments weight"].append(instruments_weight_tbp)
 class2_tbp["hydraulics weight"].append(hydraulics_weight_tbp)
 class2_tbp["electrical system weight"].append(electrical_weight_tbp)
@@ -510,6 +509,7 @@ SPL_distance = noise_distance(SPL_engine,1,2500)
 SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
 
 #print(SPL)
+print(C_l_des_jet,C_l_des_tbp)
 
 #Payload Range Diagram
 range_list_tbp, payload_list_tbp, M_payload_tbp = pld.payloadrange(MTOW_tbp, OEW_tbp, W_fuel_tbp, 0, L_D_tbp, 0, A_tbp, eff_cruise_tbp, eff_loiter_tbp, 0, e_tbp, 0, V_cruise_tbp, V_loiter_tbp, 0, cp_cruise_tbp, tbp = True)
@@ -523,7 +523,7 @@ if print_payloadrange_jet:
     plt.ylabel('Payload Mass [kg]')
     plt.xlabel('Range [km]')
     plt.show()
-    
+
 if print_payloadrange_tbp:
     plt.plot(range_list_tbp, payload_list_tbp)
     plt.xlim([0,4000])
