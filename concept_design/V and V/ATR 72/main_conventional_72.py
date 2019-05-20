@@ -1,4 +1,4 @@
-# MAIN OF THE CONVENTIAL AIRCRAFT SIZING PROGRAM
+# MAIN OF THE V and V
 
 # Import modules
 from constant_variables import *
@@ -38,7 +38,7 @@ temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperatu
 C_fe = 0.003
 S = 1
 S_wet = 5 * S
-c = 10                                  #[m/s]
+c = 6.88                                  #[m/s]
 
 # Other jet parameters
 A_jet = 10
@@ -88,7 +88,7 @@ thrust_to_weight_jet =2/3*73.21         # [N/kg] #add 2/3 if propfan is used
 cj_loiter_jet = fuel_efficiency_factor*12.5e-6                  # (0.4-0.6) [g/j] Propfan: 12.5
 cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
-power_to_weight_tbp = 4000               # [W/kg]
+power_to_weight_tbp = 3800               # [W/kg]
 eff_cruise_tbp = 0.85                    # [-]
 eff_loiter_tbp = 0.77                    # [-]
 cp_cruise_tbp = fuel_efficiency_factor * 87e-9              # (0.4-0.6) [kg/ns]
