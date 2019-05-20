@@ -17,8 +17,8 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 #Do you want a pie chart?
-print_payloadrange_jet = False
-print_payloadrange_tbp = True
+print_payloadrange_jet = True
+print_payloadrange_tbp = False
 weight_fractions = False
 
 ## INPUTS AND CONSTANTS
@@ -505,10 +505,11 @@ print('Development cost :', non_recurring_cost(wing_weight_jet,hor_tail_weight_j
 print('Production cost per unit :', recurring_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/500,'Million USD (2019)')
 print('Total cost per unit', total_cost(500,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
 
-SPL_engine = prop_noise(diameter_propeller_tbp,6,900,P_TO_tbp/2,1,speed_of_sound)
-SPL_distance = noise_distance(SPL_engine,1,2500)
-SPL_airframe = airframe_noise(V_cruise_jet,MTOW_jet)
-
+SPL_engine = turbofan_noise()
+SPL_distance = noise_distance(SPL_engine,300,2500)
+SPL_airframe = airframe_noise(V_cruise_tbp,MTOW_tbp)
+SPL_airframe_distance = noise_distance(SPL_airframe,1,2500)
+SPL_total = total_noise(SPL_distance,SPL_airframe_distance)
 #print(SPL)
 
 #Payload Range Diagram
@@ -517,18 +518,16 @@ range_list_jet, payload_list_jet, M_payload_jet = pld.payloadrange(MTOW_jet, OEW
 
 if print_payloadrange_jet:
     plt.plot(range_list_jet, payload_list_jet)
-    plt.xlim([0,4000])
+    plt.xlim([0,5000])
     plt.ylim([0,7000])
-    plt.title('Payload Range Diagram')
-    plt.ylabel('Payload Mass [kg]')
-    plt.xlabel('Range [km]')
+    plt.ylabel('Payload Mass [kg]', fontsize = 13)
+    plt.xlabel('Range [km]', fontsize = 13)
     plt.show()
     
 if print_payloadrange_tbp:
     plt.plot(range_list_tbp, payload_list_tbp)
-    plt.xlim([0,4000])
+    plt.xlim([0,5000])
     plt.ylim([0,7000])
-    plt.title('Payload Range Diagram')
-    plt.ylabel('Payload Mass [kg]')
-    plt.xlabel('Range [km]')
+    plt.ylabel('Payload Mass [kg]', fontsize = 13)
+    plt.xlabel('Range [km]', fontsize = 13)
     plt.show()
