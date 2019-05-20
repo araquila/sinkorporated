@@ -240,8 +240,8 @@ def print_mass_data():
     mass_data_tbp.append('### Masses of components for tbp in [kg] ###')
     mass_data_jet.append(('MTOM_jet',MTOM_jet))
     mass_data_tbp.append(('MTOM_tbp',MTOM_tbp))
-    mass_data_tbp.append(('M_empty_tbp', M_empty_tbp))
     mass_data_jet.append(('OEW_jet', OEW_jet/g))
+    mass_data_jet.append(('M_empty_jet', M_empty_jet))
     mass_data_jet.append(('M_fuel_jet', W_fuel_jet/g))
     mass_data_tbp.append(('wing_weight_tbp', wing_weight_tbp/MTOM_tbp*100))
     mass_data_jet.append(('wing_weight_jet', wing_weight_jet/M_empty_jet*100))
@@ -258,7 +258,7 @@ def print_mass_data():
     mass_data_tbp.append(('nacelle_group_weight_tbp', nacelle_group_weight_tbp/MTOM_tbp*100))
     mass_data_jet.append(('nacelle_group_weight_jet', nacelle_group_weight_jet/M_empty_jet*100))
     mass_data_tbp.append(('engine_weight_tbp', M_engine_tbp/MTOM_tbp*100))
-    mass_data_jet.append(('engine_weight_jet', M_engine_jet))
+    mass_data_jet.append(('engine_weight_jet', M_engine_jet/M_empty_jet*100))
     mass_data_tbp.append(('engine_controls_weight_tbp', engine_controls_weight_tbp/MTOM_tbp*100))
     mass_data_jet.append(('engine_controls_weight_jet', engine_controls_weight_jet/M_empty_jet*100))
     mass_data_tbp.append(('starter_weight_tbp', starter_weight_tbp/MTOM_tbp*100))
@@ -309,7 +309,7 @@ def print_size_data():
 
     size_data_jet.append(('b_jet ', b_jet))
     size_data_tbp.append(('b_tbp ', b_tbp))
-    size_data_jet.append(('S_jet', S_jet))
+    size_data_jet.append(('S_wing_jet', S_wing_jet))
     size_data_tbp.append(('S_tbp', S_tbp))
     size_data_jet.append(('taper_jet', taper_jet))
     size_data_tbp.append(('taper_tbp', taper_tbp))
@@ -413,7 +413,7 @@ def print_costs(serial_number):
     print('Production cost per unit :', recurring_cost(serial_number,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/serial_number,'Million USD (2019)')
     print('Total cost per unit:', total_cost(serial_number,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
     print()
-    
+
 
 #Calculate performance for 1000 km trip
 MTOW_jet_1000, OEW_jet_1000, W_fuel_jet_1000, C_D_0, f_cruise_start_jet, f_cruise_end_jet, LD_cruise_jet = Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe_jet, C_fe_tbp, S_wing_jet, S_wing_tbp, S_wet_jet, S_wet_tbp, A_jet, A_tbp, e_jet, e_tbp, cj_loiter_jet, cj_cruise_jet, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, V_cruise_jet, V_loiter_tbp, 1000*1000, 1000*1000, 2700, 2700, jet = True, tbp = False)
@@ -461,7 +461,7 @@ print()
 # Print data
 print_mass_data()
 
-#print_size_data()
+print_size_data()
 
 print_flight_char_data()
 
@@ -488,6 +488,8 @@ print('C_D:', C_D_jet)
 print('C_L/C_D:', CLCD_jet)
 print(C_D_0_jet)
 
+print()
+print_costs(500)
 
 print()
 print()
