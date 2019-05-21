@@ -1,4 +1,4 @@
-# MAIN OF THE CONVENTIAL AIRCRAFT SIZING PROGRAM
+# MAIN OF THE V and V
 
 # Import modules
 from constant_variables import *
@@ -38,7 +38,7 @@ temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperatu
 C_fe = 0.003
 S = 1
 S_wet = 5 * S
-c = 10                                  #[m/s]
+c = 9.4                                  #[m/s]
 
 # Other jet parameters
 A_jet = 10
@@ -60,18 +60,18 @@ V_v_jet = 0.085                          # [-]
 nose_landing_pos_jet = 3                 # [m]
 
 # Other tbp parameters
-A_tbp = 12
+A_tbp = 11.08
 e_tbp = 0.85                             # Adjust per concept
 V_loiter_tbp = 80                        # [m/s]
 M_cruise_tbp = 0.5
 V_cruise_tbp = M_cruise_tbp*speed_of_sound                      # [m/s]
 C_L_cruise_tbp = 0.8
-S_tbp = 76
+S_tbp = 54.5
 TOP_tbp = 139
 C_L_max_tbp = 2.6
 C_L_max_land_tbp = 2.6
 C_L_max_TO_tbp = 1.6
-range_cruise_tbp = 1528000               # [m]
+range_cruise_tbp = 1326000               # [m]
 endurance_loiter_tbp = 2700              # [s]
 
 # Empennage tbp
@@ -88,7 +88,7 @@ thrust_to_weight_jet =2/3*73.21         # [N/kg] #add 2/3 if propfan is used
 cj_loiter_jet = fuel_efficiency_factor*12.5e-6                  # (0.4-0.6) [g/j] Propfan: 12.5
 cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
-power_to_weight_tbp = 4000               # [W/kg]
+power_to_weight_tbp = 3800               # [W/kg]
 eff_cruise_tbp = 0.85                    # [-]
 eff_loiter_tbp = 0.77                    # [-]
 cp_cruise_tbp = fuel_efficiency_factor * 87e-9              # (0.4-0.6) [kg/ns]
@@ -224,8 +224,9 @@ for iter in range(10):
     nose_lg_weight_tbp = pounds_to_kg(class2.det_nose_lg_weight(kg_to_pounds(MTOW_tbp/g), 1.5*n_max_tbp, meter_to_inch(wheel_height_tbp), 2, kneeling_nose_lg = False))
 
     # Engine weight
-    M_engine_tbp = P_TO_tbp / power_to_weight_tbp
+#    M_engine_tbp = P_TO_tbp / power_to_weight_tbp
     M_engine_jet = T_TO_jet / thrust_to_weight_jet
+    M_engine_tbp = 2 * 480
 
     # Nacelle
     nacelle_group_weight_jet = pounds_to_kg(class2.det_nacelle_group_weight(meter_to_feet(length_nacelle_jet), meter_to_feet(diameter_nacelle_jet), 1.5*n_max_jet, 2, metersquared_to_feetsquared(np.pi * diameter_nacelle_jet * length_nacelle_jet), pylon_mounted = True, W_ec = 0, W_engine = kg_to_pounds(M_engine_jet/2), propeller = False, thrust_reverser = False))
