@@ -8,14 +8,14 @@ b = 30              # [m]
 c = 1.7             # [m]
 
 # Horizontal Tail Parameters
-A_h = 4             # [-]
-taper_h = 0.5       # [-]
+A_h = 5             # [-]
+taper_h = 0.4       # [-]
 sweep_h = 15        # [deg]
 V_h = 1             # [-]
 
 # Vertical Tail Parameters
 A_v = 1.5           # [-]
-taper_v = 0.6       # [-]
+taper_v = 0.5       # [-]
 sweep_v = 30        # [deg]
 V_v = 0.05          # [-]
 
