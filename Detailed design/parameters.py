@@ -3,7 +3,7 @@ from atmosphere import atmosphere_calc
 
 ### AIRCRAFT PARAMETERS ###
 
-## CONSTANTS
+## -------- CONSTANTS -------- ##
 # Atmosphere
 altitude = 8000
 temperature0 = 288.15
@@ -45,35 +45,104 @@ energy_density_kerosene = 43
 chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
-## WEIGHTS AND MASSES
+## -------- WEIGHTS AND MASSES -------- ##
+# General
+OEW = None
+MTOW = None
+MLW = None
+EW = None
+W_fuel = None
+
 # Propulsion
-mass_engine = 450                    
-                  
-# Fuselage
+M_engine = 450                    
+W_engine = M_engine * g
+W_nacelle = None
+W_engine_controls = None
+W_starter = None
+W_APU = None   
+W_fuel_system = None
 
-           
-
-## DIMENSIONS
 # Wing
-A = 18
-S = 66
+W_wing = None
+W_flight_controls = None
+W_anti_ice = None           
+
+# Fuselage
+W_fuselage = None
+W_furnishings = None
 
 # Empennage
-V_h = 1.57                         
+W_hor_emp = None
+W_ver_emp = None
+
+# Undercarriage
+W_main_landing = None
+W_nose_landing = None
+
+# Other systems
+W_avionics = None
+W_airco = None
+W_instruments =  None
+W_hydraulics = None
+W_electrical = None
+W_handling_gear = None
+
+## -------- DIMENSIONS -------- ##
+
+# Fuselage
+l_fuselage = None
+d_fuselage_outside = None
+d_fuselage_inside = None
+
+# Wing
+A = 18
+S = None
+b = None
+sweep_qc = None
+dihedral = None
+taper = None
+root_chord = None
+tc_ratio = None
+
+# Empennage
+# Vertical
+l_v = 11                       
 V_v = 0.07                        
+b_v = None
+sweep_qc_v = None
+sweep_LE_v = None
+tip_chord_v = None
+root_chord_v = None
+taper_v = tip_chord_v/root_chord_v
+A_v = None
+
+# Horizontal
 l_h = 11                           
-l_v = 11 
+V_h = 1.57 
+b_h = None
+sweep_qc_h = None
+sweep_LE_h = None
+tip_chord_h = None
+root_chord_h = None
+taper_h = tip_chord_h/root_chord_h
+A_h = None
 
 # Undercarriage
 main_landing_pos = 11             
 nose_landing_pos = 3   
+h_wheel = None
+lateral_pos = None
+size_tire = None
 
 # Propulsion
 pos_engine = 10                    
 n_fueltanks = 2                     
 n_blades = 6 
+d_engine = None
+l_engine = None
+d_prop = None
 
-## PERFORMANCE
+## -------- PERFORMANCE -------- ##
 # Aerodynamic
 e = 0.85 
 M_cruise = 0.6 
