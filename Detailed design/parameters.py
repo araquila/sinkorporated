@@ -90,7 +90,7 @@ W_handling_gear = None
 ## -------- DIMENSIONS -------- ##
 
 # Fuselage
-l_fuselage = None
+l_fuselage = 21.118
 d_fuselage_outside = None
 d_fuselage_inside = None
 
