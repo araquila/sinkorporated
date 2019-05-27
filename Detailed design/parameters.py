@@ -105,27 +105,19 @@ root_chord = None
 tc_ratio = 0.15
 
 # Empennage
-# Vertical
-l_v = 11                       
-V_v = 0.07                        
-b_v = None
-sweep_qc_v = None
-sweep_LE_v = None
-tip_chord_v = 1
-root_chord_v = 2
-taper_v = tip_chord_v/root_chord_v
-A_v = None
+# Vertical Tail
+l_v = 11
+A_v = 1.5
+taper_v = 0.6   
+sweep_v = 30        
+V_v = 0.05
 
-# Horizontal
-l_h = 11                           
-V_h = 1.57 
-b_h = None
-sweep_qc_h = None
-sweep_LE_h = None
-tip_chord_h = 1
-root_chord_h = 2
-taper_h = tip_chord_h/root_chord_h
-A_h = None
+# Horizontal Tail
+l_h = 11
+A_h = 4             
+taper_h = 0.5       
+sweep_h = 15
+V_h = 1.57        
 
 # Undercarriage
 main_landing_pos = 11             
