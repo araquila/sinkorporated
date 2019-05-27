@@ -63,7 +63,7 @@ nose_landing_pos_jet = 3                 # [m]
 A_tbp = 12
 e_tbp = 0.85                             # Adjust per concept
 V_loiter_tbp = 80                        # [m/s]
-M_cruise_tbp = 0.5
+M_cruise_tbp = 0.6
 V_cruise_tbp = M_cruise_tbp*speed_of_sound                      # [m/s]
 C_L_cruise_tbp = 0.8
 S_tbp = 76
@@ -71,7 +71,7 @@ TOP_tbp = 139
 C_L_max_tbp = 2.6
 C_L_max_land_tbp = 2.6
 C_L_max_TO_tbp = 1.6
-range_cruise_tbp = 1528000               # [m]
+range_cruise_tbp = 1850000               # [m]
 endurance_loiter_tbp = 2700              # [s]
 
 # Empennage tbp
@@ -89,10 +89,10 @@ cj_loiter_jet = fuel_efficiency_factor*12.5e-6                  # (0.4-0.6) [g/j
 cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
 power_to_weight_tbp = 4000               # [W/kg]
-eff_cruise_tbp = 0.85                    # [-]
+eff_cruise_tbp = 0.8                    # [-]
 eff_loiter_tbp = 0.77                    # [-]
-cp_cruise_tbp = fuel_efficiency_factor * 87e-9              # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = fuel_efficiency_factor * 87e-9              # (0.5-0.7) [kg/ns]
+cp_cruise_tbp = 5.92e-8              # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = 5.92e-8              # (0.5-0.7) [kg/ns]
 
 class2_jet = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
 class2_jet["flight controls weight"] = []
