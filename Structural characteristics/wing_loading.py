@@ -44,8 +44,12 @@ if strutwing:
     # Wing weight distribution
     W_wing_dist = W_wing / b
     
+    # Set reaction moment
+    M = 100000
+    
     # Calc strut force and vertical reaction force
-    F_strut = -(-0.5 * b * L_1 - 1/3 * b * L_2 + W_engine * engine_pos + (W_pod + W_fuel) * strut_pos + W_wing * 0.5 * b) / (strut_pos * np.sin(theta))
+    F_strut = -(-0.5 * b * L_1 - 1/3 * b * L_2 + W_engine * engine_pos + (W_pod + W_fuel) * strut_pos + W_wing * 0.5 * b + M) / (strut_pos * np.sin(theta))
+    
     A_strut = (F_strut/ult_stress_carbon)*10000
     print('Radius carbon strut: ' + str(np.sqrt(A_strut/np.pi)) + '[cm]')
     
@@ -104,8 +108,11 @@ if strutwing:
             M_x = W_wing_dist * x_moment * (x_moment/2) - L_x_moment1 * (x_moment/2) - L_x_moment2 * (x_moment*1/3)
             M_list.append(-M_x)
         x_moment_list.append(b - x_moment)
-        x_moment += 0.1
-
+        x_moment += 0.01
+        
+    M_list.append(0)
+    x_moment_list.append(0)
+        
 if conventional:
         # Weight and lift
     W_wing = 1708.14 * g
