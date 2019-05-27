@@ -2,12 +2,13 @@
 
 # Imports
 import numpy as np
-
+import parameters as p
 
 # --------------------------------------------------------
 
 
 # ------------------- Aerodynamic formulas -------------------
+
 
 def induced_angle_of_attack(A, e, C_L_cruise):
     # Inputs:
@@ -22,7 +23,19 @@ def induced_angle_of_attack(A, e, C_L_cruise):
     # induced_alpha is the induced angle of attack
     return induced_alpha
 
-print(induced_angle_of_attack(18,0.85,0.41))
+
+def d_CL_d_aplha(A,e):
+     # Inputs:
+#    A = aspect ratio 
+#    e = Owswald efficiency factor
+     
+     # Determine d CL / d alpha
+     dCL_dalpha = 2 * np.pi / (1 + 2 / (A * e))
+     
+     # Return outputs:
+     # dCL_dalpha is the lift curve slope    
+     return dCL_dalpha
+
 
 # ------------------- Planform formula -------------------
 def planform(S, A, M_cruise, C_L_cruise, quarter_chord_sweep, t_c, delta_mach = 0.03, t_c_forced = False):

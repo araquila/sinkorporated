@@ -96,13 +96,13 @@ d_fuselage_inside = None
 
 # Wing
 A = 18
-S = None
+S = 52
 b = None
 sweep_qc = None
 dihedral = None
 taper = None
 root_chord = None
-tc_ratio = None
+tc_ratio = 0.15
 
 # Empennage
 # Vertical
@@ -111,8 +111,8 @@ V_v = 0.07
 b_v = None
 sweep_qc_v = None
 sweep_LE_v = None
-tip_chord_v = None
-root_chord_v = None
+tip_chord_v = 1
+root_chord_v = 2
 taper_v = tip_chord_v/root_chord_v
 A_v = None
 
@@ -122,8 +122,8 @@ V_h = 1.57
 b_h = None
 sweep_qc_h = None
 sweep_LE_h = None
-tip_chord_h = None
-root_chord_h = None
+tip_chord_h = 1
+root_chord_h = 2
 taper_h = tip_chord_h/root_chord_h
 A_h = None
 
@@ -148,7 +148,7 @@ e = 0.85
 M_cruise = 0.6 
 C_L_max_land = 2.4              
 C_L_max_TO = 1.4 
-C_L_cruise = 0.8
+C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3                  
 C_L_max_land = 2.4              
