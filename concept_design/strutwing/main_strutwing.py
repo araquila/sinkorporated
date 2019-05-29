@@ -21,7 +21,7 @@ from LNG import *
 
 #Do you want a pie chart?
 piechart = False
-print_payloadrange = True
+print_payloadrange = False
 
 altitude = 8000
 temperature0 = 288.15
@@ -304,3 +304,11 @@ if piechart:
 print('Development cost :', ceq.non_recurring_cost(W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g),'Million USD (2019)')
 print('Production cost per unit :', ceq.recurring_cost(500,W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g,W_empty_tbp/g)/500,'Million USD (2019)')
 print('Total cost per unit', ceq.total_cost(500,W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g,W_empty_tbp/g),'Million USD (2019)')
+
+print()
+print('-----------------  Sizes for CATIA   ------------------')
+print("Nose length =",length_nose)
+print("Cabin length =", length_cabin)
+print("Tail length =", length_tail)
+print("Wing area =", S_tbp)
+print(lateral_position)

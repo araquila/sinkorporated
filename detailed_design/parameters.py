@@ -4,7 +4,14 @@ from atmosphere import atmosphere_calc
 
 #test
 #test2
+
+
+pietro = False # hierrrr gitkrakakakapro
+matthijs = True
+
 ### AIRCRAFT PARAMETERS ###
+
+robert = False
 
 ## -------- CONSTANTS -------- ##
 # Atmosphere
