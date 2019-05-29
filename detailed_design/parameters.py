@@ -104,8 +104,6 @@ W_handling_gear = None
 
 ## -------- DIMENSIONS -------- ##
 
-x_ac = 10.2
-
 # Fuselage
 l_fuselage = 21.118
 d_fuselage_outside = 2.84
@@ -124,6 +122,7 @@ tc_ratio = 0.15
 strut_pos_perc = 0.5                    # % of span
 MAC = (2/3) * root_chord * ((1 + taper + taper**2)/(1 + taper))
 xLEMAC = 10
+x_ac_w = xLEMAC + 0.25*MAC
 
 # Empennage
 # Vertical Tail

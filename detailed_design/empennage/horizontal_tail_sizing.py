@@ -18,7 +18,7 @@ A_w = p.A                           # Aspect ratio of the main wing [-]
 sweep_w = - (1-p.taper)/(2*b)       # Sweep of the main wing [deg]
 
 # General Aircraft Parameters
-x_ac = p.x_ac                       # Position of the aerodynamic center [m]
+x_ac_w = p.x_ac_w                   # Position of the aerodynamic center [m]
 l_h = p.l_h                         # Tail arm of the horizontal tail [-]
 c = p.MAC                           # MAC length of the main wing [m]
 Vh_V2 = 1                           # Correction factor of velocity over the tail, should be 1 for T-tail [-]
@@ -37,6 +37,7 @@ beta = np.sqrt(1-M_cruise**2)
 C_L_alpha_h = (2*np.pi*A_h) / (2 + np.sqrt(4 + ((A_h*beta)/0.95)**2 * (1 + (np.tan(sweep_h)/beta**2)))) 
 C_L_alpha_w = (2*np.pi*A_w) / (2 + np.sqrt(4 + ((A_w*beta)/0.95)**2 * (1 + (np.tan(sweep_w)/beta**2))))
 C_L_alpha_Aminh = C_L_alpha_w * (1 + 2.15 * (D_fuselage / b)) * ((S - c_root * D_fuselage) / S) + (np.pi / 2) * (D_fuselage**2 / S)
+x_ac = x_ac_w - (1.8/C_L_alpha_Aminh) * ((D_fuselage**2 * xLEMAC) / (S*c))
 
 # Make array of tail surfaces
 Sh_S = np.linspace(0, 0.6, 100)
@@ -51,7 +52,7 @@ x_cg_controllability = x_ac - (C_m_ac / C_L_Aminh) + (C_L_h / C_L_Aminh) * (l_h 
 x_cg_controllability = (x_cg_controllability - xLEMAC) / c
 
 # Generate Scissor Plot
-plt.plot(x_cg_neutral_stability, Sh_S)
+#plt.plot(x_cg_neutral_stability, Sh_S)
 plt.plot(x_cg_stability, Sh_S)
 plt.plot(x_cg_controllability, Sh_S)
 plt.xlim([-0.5,1])
