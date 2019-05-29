@@ -7,7 +7,7 @@ Created on Wed May 29 09:14:33 2019
 
 import matplotlib.pyplot as plt
 import numpy as np
-from parameters import *
+import parameters as p
 
 #p0 = 20
 #L = 14.88
@@ -40,4 +40,4 @@ def defl(x):
     
     defl_lift = lift*L/(3*np.pi**4)*(48*L**3*np.cos(np.pi*x/(2*L))-48*L**3+3*np.pi**3*L*x**2-np.pi**3*x**3)
     
-    return defl_w_eng + defl_w_pod + defl_w_fuel + defl_F_strut + defl_W_wing + defl_lift
+    return defl_W_eng + defl_W_pod + defl_W_fuel + defl_F_strut + defl_W_wing + defl_lift
