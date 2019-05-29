@@ -8,7 +8,7 @@ from atmosphere import atmosphere_calc
 matthijs = False
 ### AIRCRAFT PARAMETERS ###
 
-robert = True
+robert = False
 
 ## -------- CONSTANTS -------- ##
 # Atmosphere
