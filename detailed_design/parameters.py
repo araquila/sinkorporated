@@ -1,17 +1,7 @@
 ### IMPORTS
-
 from atmosphere import atmosphere_calc
 
-#test
-#test2
-
-
-pietro = False # hierrrr gitkrakakakapro ejvdyuqurvecvr
-matthijs = True
-
 ### AIRCRAFT PARAMETERS ###
-
-robert = False
 
 ## -------- CONSTANTS -------- ##
 # Atmosphere
@@ -103,6 +93,10 @@ W_instruments =  None
 W_hydraulics = None
 W_electrical = None
 W_handling_gear = None
+
+# Safetyfactors
+safetyfactor_wingloading = 2.5
+
 
 ## -------- DIMENSIONS -------- ##
 
