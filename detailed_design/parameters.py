@@ -105,7 +105,8 @@ x_ac = 10.2
 l_fuselage = 21.118
 d_fuselage_outside = 2.84
 d_fuselage_inside = None
-
+l_nose = 2.8373002246584007
+l_lavatory = 36 * 0.0254
 # Wing
 A = 18
 S = 52
