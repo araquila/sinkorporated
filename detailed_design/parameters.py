@@ -14,6 +14,9 @@ g = 9.80665
 R = 287
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 
+# Materials
+ult_stress_carbon = 600e6
+
 # Passengers and Crew
 n_passenger = 60
 M_passenger = 105                   
@@ -48,10 +51,11 @@ fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
 OEW = None
-MTOW = None
+MTOW = 173185.74
 MLW = None
 EW = None
-W_fuel = None
+W_fuel = 7736.30
+W_pod = 157.55 * g
 
 # Propulsion
 M_engine = 450                    
@@ -63,7 +67,7 @@ W_APU = None
 W_fuel_system = None
 
 # Wing
-W_wing = None
+W_wing = 1288 * g
 W_flight_controls = None
 W_anti_ice = None           
 
@@ -91,18 +95,19 @@ W_handling_gear = None
 
 # Fuselage
 l_fuselage = 21.118
-d_fuselage_outside = None
-d_fuselage_inside = None
+d_fuselage_outside = 2.84
+d_fuselage_inside = None 
 
 # Wing
 A = 18
 S = 52
-b = None
+b = 29.76
 sweep_qc = None
 dihedral = None
-taper = None
+taper = 0.4
 root_chord = None
 tc_ratio = 0.15
+strut_pos_perc = 0.5                    # % of span                      
 
 # Empennage
 # Vertical Tail
@@ -133,6 +138,7 @@ n_blades = 6
 d_engine = None
 l_engine = None
 d_prop = None
+engine_pos_perc = 0.27                  # % of span
 
 ## -------- PERFORMANCE -------- ##
 # Aerodynamic
