@@ -77,8 +77,7 @@ def fuselage(n_passenger, n_crew, n_seats_abreast, n_aisles):
     tailcone_fineness=3 #2-4
     length_tail=tail_fineness*diameter_fuselage_outside
     length_tailcone=tailcone_fineness*diameter_fuselage_outside
-    print("Nosecone:", length_nosecone)
-    print("Tailcone:", length_tailcone)
+
                     #SIDE VIEW
     overnose_angle=11 #11-20 #dependent on approach situation
     overside_angle=35 #from table
