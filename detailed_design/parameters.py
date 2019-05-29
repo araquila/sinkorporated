@@ -5,11 +5,11 @@ from atmosphere import atmosphere_calc
 #test
 #test2
 
-pietro = False #kom dan met je gitbash
-matthijs = True
+
+#iceicebaby
+
 ### AIRCRAFT PARAMETERS ###
 
-robert = False
 
 ## -------- CONSTANTS -------- ##
 # Atmosphere
