@@ -1,12 +1,19 @@
 import matplotlib.pyplot as plt
-## Constants ##
-import sys
-import os
-
-sys.path.append(os.getcwd())
-from detailed_design.parameters import *
+# =============================================================================
+# ## Constants ##
+# import sys
+# import os
+# 
+# sys.path.append(os.getcwd())
+# from detailed_design.parameters import *
+# =============================================================================
+import parameters as p
 
 #seat_pitch = 0.7874
+l_fuselage = p.l_fuselage
+n_passenger = 60
+n_seats_abreast = 4
+M_total_cargo = 25 * 60
 weight_passenger = 80
 cargo_passenger = 23
 CG_OEW = 15.13
@@ -18,6 +25,7 @@ weight = [OEW]
 CG_wing = 0.4 * l_fuselage
 n_rows = n_passenger / n_seats_abreast
 CG_fuel = 14.5
+cg_margin = 0.02
 ## CARGO ##
 
 CG_cargo = 18.24
@@ -58,8 +66,12 @@ for i in range(int(n_rows)):
     weight.append(weight[-1] + (n_seats_abreast / 2) * weight_passenger)
     CG.append((weight[-2]*CG[-1]+(n_seats_abreast / 2) * weight_passenger * x_rowfront[i])/weight[-1])
 
-print("Most forward CG =", min(CG))
-print("Most afterward CG =", max(CG))
+CG_mostfor = (1 - cg_margin) * min(CG)
+CG_mostaft = (1 + cg_margin) * max(CG)
+print("Most forward CG =", CG_mostfor)
+print("Most afterward CG =", CG_mostaft)
 
 plt.scatter(CG,weight)
 plt.show()
+
+

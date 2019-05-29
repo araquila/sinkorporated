@@ -1,8 +1,6 @@
 ### IMPORTS
-import sys
-import os
-sys.path.append(os.getcwd())
-from detailed_design.atmosphere import atmosphere_calc
+
+from atmosphere import atmosphere_calc
 
 
 ### AIRCRAFT PARAMETERS ###
