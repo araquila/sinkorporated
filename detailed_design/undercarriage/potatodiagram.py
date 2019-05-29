@@ -90,7 +90,7 @@ for j in range(len(CG_winggroup)):
 # =============================================================================
     minCG.append(CG_mostfor)
     maxCG.append(CG_mostaft)
-    x_lemac = CG_winggroup[j] - 0.25 * p.MAC
+    x_lemac = CG_winggroup[j] - 0.35 * p.MAC
     x_lemac_l_f = x_lemac / l_fuselage
     CG_MACmin = (CG_mostfor - x_lemac) / p.MAC
     CG_MACmax = (CG_mostaft - x_lemac) / p.MAC

@@ -153,11 +153,12 @@ size_tire = None
 # Propulsion
 n_fueltanks = 2
 n_blades = 6
-d_engine = None
+d_engine = 3.66
 l_engine = None
 d_prop = None
 engine_pos_perc = 0.27                  # % of span
 pod_pos_perc = 0.5
+y_engine = 4
 
 x_engine = engine_pos_perc*b/2
 x_pod = pod_pos_perc*b/2
@@ -185,3 +186,4 @@ eff_loiter = 0.77
 cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
 cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
 P_TO = 5.8e6
+T_TO = 31000

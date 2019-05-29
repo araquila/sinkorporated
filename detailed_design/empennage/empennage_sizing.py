@@ -19,7 +19,7 @@ V_h = 1             # [-]
 A_v = 1.5           # [-]
 taper_v = 0.5       # [-]
 sweep_v = 30        # [deg]
-V_v = 0.055    
+V_v = 0.08    
 V_v2 = 0.379      # [-]
 
 # Determination of the Horizontal Tail Surface
