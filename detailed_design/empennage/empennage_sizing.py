@@ -6,6 +6,8 @@ l_v = 11            # [m]
 S = 50              # [m2]
 b = 30              # [m]
 c = 1.7             # [m]
+T = 31
+y_engine = 4
 
 # Horizontal Tail Parameters
 A_h = 5             # [-]
@@ -17,14 +19,15 @@ V_h = 1             # [-]
 A_v = 1.5           # [-]
 taper_v = 0.5       # [-]
 sweep_v = 30        # [deg]
-V_v = 0.05          # [-]
+V_v = 0.055    
+V_v2 = 0.379      # [-]
 
 # Determination of the Horizontal Tail Surface
 S_h = (V_h * S * c) / l_h
 
 # Determination of the Vertical Tail Surface
 S_v = (V_v * S * b) / l_v
-
+S_v2 = (V_v2 * y_engine * T) / l_v
 # Planform of the Vertical Tail
 b_v = np.sqrt(S_v * A_v)
 c_root_v = (2 * (b_v/A_v)) / (1 + taper_v)
