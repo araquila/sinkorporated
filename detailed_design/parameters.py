@@ -5,8 +5,13 @@ from atmosphere import atmosphere_calc
 #test
 #test2
 
-matthijs = False
+
+pietro = False # hierrrr gitkrakakakapro ejvdyuqurvecvr
+matthijs = True
+
 ### AIRCRAFT PARAMETERS ###
+
+robert = False
 
 ## -------- CONSTANTS -------- ##
 # Atmosphere
@@ -24,8 +29,8 @@ ult_stress_carbon = 600e6
 
 # Passengers and Crew
 n_passenger = 60
-M_passenger = 85
-M_cargo = 20
+M_passenger = 95
+M_cargo = 10
 M_total_cargo = M_cargo * n_passenger
 n_crew = 4
 n_pilots = 2
@@ -101,14 +106,13 @@ W_handling_gear = None
 
 ## -------- DIMENSIONS -------- ##
 
-x_ac = 10.2
-
 # Fuselage
 l_fuselage = 21.118
 d_fuselage_outside = 2.84
 d_fuselage_inside = None
 l_nose = 2.8373002246584007
 l_lavatory = 36 * 0.0254
+l_cabin = 13.7414
 # Wing
 A = 20
 S = 52
@@ -121,6 +125,7 @@ tc_ratio = 0.15
 strut_pos_perc = 0.5                    # % of span
 MAC = (2/3) * root_chord * ((1 + taper + taper**2)/(1 + taper))
 xLEMAC = 10
+x_ac_w = xLEMAC + 0.25*MAC
 
 # Empennage
 # Vertical Tail
