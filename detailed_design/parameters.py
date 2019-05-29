@@ -6,7 +6,7 @@ from atmosphere import atmosphere_calc
 #test2
 
 
-pietro = False # hierrrr gitkrakakakapro
+pietro = False # hierrrr gitkrakakakapro ejvdyuqurvecvr
 matthijs = True
 
 ### AIRCRAFT PARAMETERS ###
