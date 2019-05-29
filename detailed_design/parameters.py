@@ -98,6 +98,8 @@ W_handling_gear = None
 
 ## -------- DIMENSIONS -------- ##
 
+x_ac = 10.2
+
 # Fuselage
 l_fuselage = 21.118
 d_fuselage_outside = 2.84
@@ -107,12 +109,14 @@ d_fuselage_inside = None
 A = 18
 S = 52
 b = 29.76
-sweep_qc = None
+sweep_qc = 0
 dihedral = None
 taper = 0.4
-root_chord = None
+root_chord = 1.8
 tc_ratio = 0.15
 strut_pos_perc = 0.5                    # % of span
+MAC = (2/3) * root_chord * ((1 + taper + taper**2)/(1 + taper))
+xLEMAC = 10
 
 # Empennage
 # Vertical Tail
