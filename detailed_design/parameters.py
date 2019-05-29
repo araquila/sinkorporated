@@ -5,7 +5,10 @@ from atmosphere import atmosphere_calc
 #test
 #test2
 
-jemoeder = True
+
+pietro = False # hierrrr
+matthijs = True
+
 ### AIRCRAFT PARAMETERS ###
 
 robert = False
