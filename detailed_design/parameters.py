@@ -1,8 +1,8 @@
 ### IMPORTS
-import sys
-import os
-sys.path.append(os.getcwd())
-from detailed_design.atmosphere import atmosphere_calc
+#import sys
+#import os
+#sys.path.append(os.getcwd())
+from atmosphere import atmosphere_calc
 
 
 ### AIRCRAFT PARAMETERS ###
@@ -114,7 +114,9 @@ dihedral = None
 taper = 0.4
 root_chord = None
 tc_ratio = 0.15
-strut_pos_perc = 0.5                    # % of span
+strut_pos_perc = 0.5            # % of span
+
+x_strut = strut_pos_perc*b/2
 
 # Empennage
 # Vertical Tail
@@ -139,13 +141,18 @@ lateral_pos = None
 size_tire = None
 
 # Propulsion
-x_engine = 10 #from root
 n_fueltanks = 2
 n_blades = 6
 d_engine = None
 l_engine = None
 d_prop = None
 engine_pos_perc = 0.27                  # % of span
+x_engine =  engine_pos_perc*b/2 
+
+pod_pos_perc = 0.5              # % of span
+x_pod = pod_pos_perc*b/2
+
+
 
 ## -------- PERFORMANCE -------- ##
 # Aerodynamic
