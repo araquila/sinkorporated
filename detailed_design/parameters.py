@@ -29,8 +29,8 @@ ult_stress_carbon = 600e6
 
 # Passengers and Crew
 n_passenger = 60
-M_passenger = 85
-M_cargo = 20
+M_passenger = 95
+M_cargo = 10
 M_total_cargo = M_cargo * n_passenger
 n_crew = 4
 n_pilots = 2
@@ -114,6 +114,7 @@ d_fuselage_outside = 2.84
 d_fuselage_inside = None
 l_nose = 2.8373002246584007
 l_lavatory = 36 * 0.0254
+l_cabin = 13.7414
 # Wing
 A = 20
 S = 52

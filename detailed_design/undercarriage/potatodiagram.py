@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 # from detailed_design.parameters import *
 # =============================================================================
 import parameters as p
+import numpy as np
 #constants
 n_passenger = p.n_passenger
 n_seats_abreast = p.n_seats_abreast
@@ -19,18 +20,17 @@ l_fuselage = p.l_fuselage
 #MASSES
 W_fuel = 1576
 M_OEW = 9785
-M_fusgroup = 5000
+M_fusgroup = 5710
 M_winggroup = M_OEW - M_fusgroup
 M_total_cargo = p.M_total_cargo
 weight_passenger = p.M_passenger
 cargo_passenger = p.M_cargo
 
 #CG
-CG_fusgroup = 0.6 * l_fuselage
-CG_winggroup = 0.4 * l_fuselage
-CG_cargo = 18.24
+CG_fusgroup = 0.5 * l_fuselage
+CG_cargo = p.l_nose + p.l_cabin - 1
 cg_margin = 0.02
-CG_winggroup = [10, 12, 14]
+CG_winggroup = np.arange(8,14,0.5)
 xlemac = []
 minCG = []
 maxCG = []
@@ -51,8 +51,8 @@ for j in range(len(CG_winggroup)):
     
     ## PASSENGERS ##
     #AISLE LOADING#
-    x_rowaft = [p.l_nose + p.l_lavatory + (n_rows-1) * seat_pitch]
-    x_rowfront = [p.l_nose + p.l_lavatory]
+    x_rowaft = [p.l_nose + p.l_lavatory + (n_rows) * seat_pitch]
+    x_rowfront = [p.l_nose + p.l_lavatory +seat_pitch]
     
     #start loading aft#
     for i in range(int(n_rows-1)):
@@ -83,22 +83,30 @@ for j in range(len(CG_winggroup)):
     
     CG_mostfor = (1 - cg_margin) * min(CG)
     CG_mostaft = (1 + cg_margin) * max(CG)
-    print("Most forward CG =", CG_mostfor)
-    print("Most afterward CG =", CG_mostaft)
+    CG = np.array(CG)
     
 # =============================================================================
-    plt.scatter(CG,weight)
-    plt.show()
+
 # =============================================================================
     minCG.append(CG_mostfor)
     maxCG.append(CG_mostaft)
-    x_lemac = CG_winggroup[j] - 0.25 * p.root_chord
+    x_lemac = CG_winggroup[j] - 0.25 * p.MAC
     x_lemac_l_f = x_lemac / l_fuselage
     CG_MACmin = (CG_mostfor - x_lemac) / p.MAC
     CG_MACmax = (CG_mostaft - x_lemac) / p.MAC
     xlemac.append(x_lemac_l_f)
     CGmacmin.append(CG_MACmin)
     CGmacmax.append(CG_MACmax)
+    CG = (CG - x_lemac) / p.MAC
+    print("Most forward CG =", CG_mostfor)
+    print("Most afterward CG =", CG_mostaft)
+    plt.scatter(CG,weight)
+    plt.show()
+    
+# =============================================================================
+plt.xlim([-0.5,1])
+  
+# =============================================================================
 plt.plot(CGmacmin, xlemac)
 plt.plot(CGmacmax, xlemac)
 
