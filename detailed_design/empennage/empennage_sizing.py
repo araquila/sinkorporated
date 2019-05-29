@@ -1,11 +1,4 @@
-import math
-import matplotlib.pyplot as plt
 import numpy as np
-
-
-rho = 1.225
-V = 200
-
 
 # Aircraft Parameters
 l_h = 11            # [m]
@@ -13,8 +6,7 @@ l_v = 11            # [m]
 S = 50              # [m2]
 b = 30              # [m]
 c = 1.7             # [m]
-y_engine = 4
-T_engine = 100 * 10 ^3
+
 # Horizontal Tail Parameters
 A_h = 5             # [-]
 taper_h = 0.4       # [-]
@@ -32,8 +24,7 @@ S_h = (V_h * S * c) / l_h
 
 # Determination of the Vertical Tail Surface
 S_v = (V_v * S * b) / l_v
-S_v1 = (V_v * y_engine * T_engine) / l_v
-S_v = max(S_v, S_v1)
+
 # Planform of the Vertical Tail
 b_v = np.sqrt(S_v * A_v)
 c_root_v = (2 * (b_v/A_v)) / (1 + taper_v)
@@ -45,5 +36,3 @@ b_h = np.sqrt(S_h * A_h)
 c_root_h = (2 * (b_h/A_h)) / (1 + taper_h)
 c_tip_h = c_root_h * taper_h
 MAC_h = (2/3) * c_root_h * ((1 + taper_h + taper_h**2)/(1 + taper_h))
-
-print(S_v)
