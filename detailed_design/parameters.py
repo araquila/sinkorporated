@@ -2,8 +2,13 @@
 
 from atmosphere import atmosphere_calc
 
+#test
+#test2
 
+matthijs = False
 ### AIRCRAFT PARAMETERS ###
+
+robert = False
 
 ## -------- CONSTANTS -------- ##
 # Atmosphere
@@ -104,9 +109,10 @@ x_ac = 10.2
 l_fuselage = 21.118
 d_fuselage_outside = 2.84
 d_fuselage_inside = None
-
+l_nose = 2.8373002246584007
+l_lavatory = 36 * 0.0254
 # Wing
-A = 18
+A = 20
 S = 52
 b = 29.76
 sweep_qc = 0
@@ -141,13 +147,21 @@ lateral_pos = None
 size_tire = None
 
 # Propulsion
-x_engine = 10 #from root
 n_fueltanks = 2
 n_blades = 6
 d_engine = None
 l_engine = None
 d_prop = None
 engine_pos_perc = 0.27                  # % of span
+pod_pos_perc = 0.5
+
+x_engine = engine_pos_perc*b/2
+x_pod = pod_pos_perc*b/2
+
+#Strut
+strut_pos_perc = 0.5
+x_strut = strut_pos_perc*b/2
+
 
 ## -------- PERFORMANCE -------- ##
 # Aerodynamic
