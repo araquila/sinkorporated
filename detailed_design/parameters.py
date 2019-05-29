@@ -137,7 +137,7 @@ lateral_pos = None
 size_tire = None
 
 # Propulsion
-pos_engine = 10
+x_engine = 10 #from root
 n_fueltanks = 2
 n_blades = 6
 d_engine = None
