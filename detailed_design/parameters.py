@@ -23,11 +23,13 @@ ult_stress_carbon = 600e6
 
 # Passengers and Crew
 n_passenger = 60
-M_passenger = 105
+M_passenger = 85
+M_cargo = 20
+M_total_cargo = M_cargo * n_passenger
 n_crew = 4
 n_pilots = 2
 M_crew_member = 100
-M_payload = n_passenger * M_passenger
+M_payload = n_passenger * M_passenger + n_passenger * M_cargo
 M_crew = n_crew * M_crew_member
 
 # Convert to weights
@@ -45,6 +47,7 @@ S_ratio = 1/5.5
 n_engines = 2
 n_seats_abreast = 4
 n_aisles = 1
+seat_pitch = 31 * 0.0254
 
 # Fuel
 energy_density_LNG = 53.6
