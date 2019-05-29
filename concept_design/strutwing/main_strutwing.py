@@ -1,7 +1,7 @@
 # MAIN OF THE CONVENTIAL AIRCRAFT SIZING PROGRAM
 import os
 import sys
-sys.path.append(os.getcwd())
+#sys.path.append(os.getcwd())
 
 # Import modules
 from class1_conventional import Weights_Class_I
@@ -252,6 +252,7 @@ for iter in range(5):
 print('MTOW:', MTOM_tbp, 'kg')
 print('OEW:', OEW_tbp/g, 'kg')
 print('FUEL:', W_fuel_tbp/g, 'kg')
+print('Wing area:', S_tbp, 'm^2')
 
 #Design Cruise CL
 q_tbp = 0.5 * 0.525168 * V_cruise_tbp**2
