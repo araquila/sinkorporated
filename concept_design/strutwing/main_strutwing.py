@@ -1,7 +1,7 @@
 # MAIN OF THE CONVENTIAL AIRCRAFT SIZING PROGRAM
 import os
 import sys
-sys.path.append(os.getcwd())
+#sys.path.append(os.getcwd())
 
 # Import modules
 from class1_conventional import Weights_Class_I
