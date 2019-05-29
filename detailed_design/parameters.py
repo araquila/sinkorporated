@@ -108,7 +108,7 @@ d_fuselage_inside = None
 l_nose = 2.8373002246584007
 l_lavatory = 36 * 0.0254
 # Wing
-A = 18
+A = 20
 S = 52
 b = 29.76
 sweep_qc = 0
