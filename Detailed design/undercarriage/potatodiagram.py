@@ -4,7 +4,7 @@ import sys
 import os
 
 sys.path.append(os.getcwd())
-from Detailed design.undercarriage.potatodagram import *
+from detailed_design.parameters import *
 print(W_wing)
 n_pax = 60
 seat_pitch = 0.7874
