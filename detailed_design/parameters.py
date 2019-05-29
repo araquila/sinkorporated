@@ -6,6 +6,8 @@ from atmosphere import atmosphere_calc
 #test2
 ### AIRCRAFT PARAMETERS ###
 
+robert = True
+
 ## -------- CONSTANTS -------- ##
 # Atmosphere
 altitude = 8000
