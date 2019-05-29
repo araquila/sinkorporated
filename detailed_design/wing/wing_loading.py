@@ -25,7 +25,7 @@ L_gradient = (L_wing_dist_end - L_wing_dist_start)/p.b/2
 L_1 = L_wing_dist_end * p.b/2
 L_2 = (L_wing_dist_start - L_wing_dist_end) * p.b/2 * 0.5
 
-# Wing weight distrip.b/2ution
+# Wing weight distribution
 p.W_wing_dist = p.W_wing / p.b/2
 
 # Set reaction moment

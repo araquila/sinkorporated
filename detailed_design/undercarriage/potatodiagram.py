@@ -30,13 +30,15 @@ CG_fusgroup = 0.6 * l_fuselage
 CG_winggroup = 0.4 * l_fuselage
 CG_cargo = 18.24
 cg_margin = 0.02
-CG_winggroup = [7.5, 8.45, 9.2]
-x_lemac = []
+CG_winggroup = [10, 12, 14]
+xlemac = []
 minCG = []
 maxCG = []
-
+CGmacmin = []
+CGmacmax = []
 for j in range(len(CG_winggroup)):
     ## CARGO ##
+    
     CG_fuel = CG_winggroup[j]
     CG_OEW = (CG_fusgroup * M_fusgroup + CG_winggroup[j] * M_winggroup) / (M_OEW)
     CG=[CG_OEW]
@@ -49,7 +51,7 @@ for j in range(len(CG_winggroup)):
     
     ## PASSENGERS ##
     #AISLE LOADING#
-    x_rowaft = [p.l_nose + p.l_lavatory + n_rows * seat_pitch]
+    x_rowaft = [p.l_nose + p.l_lavatory + (n_rows-1) * seat_pitch]
     x_rowfront = [p.l_nose + p.l_lavatory]
     
     #start loading aft#
@@ -90,10 +92,15 @@ for j in range(len(CG_winggroup)):
 # =============================================================================
     minCG.append(CG_mostfor)
     maxCG.append(CG_mostaft)
-    x_lemac_l_f = (CG_winggroup[j] - 0.25 * p.root_chord) / l_fuselage
-    x_lemac.append(x_lemac_l_f)
+    x_lemac = CG_winggroup[j] - 0.25 * p.root_chord
+    x_lemac_l_f = x_lemac / l_fuselage
+    CG_MACmin = (CG_mostfor - x_lemac) / p.MAC
+    CG_MACmax = (CG_mostaft - x_lemac) / p.MAC
+    xlemac.append(x_lemac_l_f)
+    CGmacmin.append(CG_MACmin)
+    CGmacmax.append(CG_MACmax)
+plt.plot(CGmacmin, xlemac)
+plt.plot(CGmacmax, xlemac)
 
-plt.plot(minCG, x_lemac)
-plt.plot(maxCG, x_lemac)
 plt.show()
 
