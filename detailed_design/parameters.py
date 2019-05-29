@@ -1,5 +1,9 @@
 ### IMPORTS
-from atmosphere import atmosphere_calc
+import sys
+import os
+sys.path.append(os.getcwd())
+from detailed_design.atmosphere import atmosphere_calc
+
 
 ### AIRCRAFT PARAMETERS ###
 
@@ -19,7 +23,7 @@ ult_stress_carbon = 600e6
 
 # Passengers and Crew
 n_passenger = 60
-M_passenger = 105                   
+M_passenger = 105
 n_crew = 4
 n_pilots = 2
 M_crew_member = 100
@@ -33,7 +37,7 @@ W_crew = M_crew * g
 # Mission
 range_cruise = 1850000
 V_loiter = 80
-endurance_loiter = 2700 
+endurance_loiter = 2700
 
 # Initial aircraft parameters
 C_fe = 0.003
@@ -43,8 +47,8 @@ n_seats_abreast = 4
 n_aisles = 1
 
 # Fuel
-energy_density_LNG = 53.6                                                   
-energy_density_kerosene = 43                                                
+energy_density_LNG = 53.6
+energy_density_kerosene = 43
 chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
@@ -58,18 +62,18 @@ W_fuel = 7736.30
 W_pod = 157.55 * g
 
 # Propulsion
-M_engine = 450                    
+M_engine = 450
 W_engine = M_engine * g
 W_nacelle = None
 W_engine_controls = None
 W_starter = None
-W_APU = None   
+W_APU = None
 W_fuel_system = None
 
 # Wing
 W_wing = 1288 * g
 W_flight_controls = None
-W_anti_ice = None           
+W_anti_ice = None
 
 # Fuselage
 W_fuselage = None
@@ -96,7 +100,7 @@ W_handling_gear = None
 # Fuselage
 l_fuselage = 21.118
 d_fuselage_outside = 2.84
-d_fuselage_inside = None 
+d_fuselage_inside = None
 
 # Wing
 A = 18
@@ -107,34 +111,34 @@ dihedral = None
 taper = 0.4
 root_chord = None
 tc_ratio = 0.15
-strut_pos_perc = 0.5                    # % of span                      
+strut_pos_perc = 0.5                    # % of span
 
 # Empennage
 # Vertical Tail
 l_v = 11
 A_v = 1.5
-taper_v = 0.6   
-sweep_v = 30        
+taper_v = 0.6
+sweep_v = 30
 V_v = 0.05
 
 # Horizontal Tail
 l_h = 11
-A_h = 4             
-taper_h = 0.5       
+A_h = 4
+taper_h = 0.5
 sweep_h = 15
-V_h = 1.57        
+V_h = 1.57
 
 # Undercarriage
-main_landing_pos = 11             
-nose_landing_pos = 3   
+main_landing_pos = 11
+nose_landing_pos = 3
 h_wheel = None
 lateral_pos = None
 size_tire = None
 
 # Propulsion
-pos_engine = 10                    
-n_fueltanks = 2                     
-n_blades = 6 
+pos_engine = 10
+n_fueltanks = 2
+n_blades = 6
 d_engine = None
 l_engine = None
 d_prop = None
@@ -142,14 +146,14 @@ engine_pos_perc = 0.27                  # % of span
 
 ## -------- PERFORMANCE -------- ##
 # Aerodynamic
-e = 0.85 
-M_cruise = 0.6 
-C_L_max_land = 2.4              
-C_L_max_TO = 1.4 
+e = 0.85
+M_cruise = 0.6
+C_L_max_land = 2.4
+C_L_max_TO = 1.4
 C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
-V_stall = 46.3                  
-C_L_max_land = 2.4              
+V_stall = 46.3
+C_L_max_land = 2.4
 C_L_max_TO = 1.4
 
 # Propulsion

@@ -6,7 +6,6 @@ import os
 sys.path.append(os.getcwd())
 from detailed_design.parameters import *
 print(W_wing)
-n_pax = 60
 seat_pitch = 0.7874
 weight_passenger = 80
 cargo_passenger = 23
@@ -15,12 +14,12 @@ OEW = 12162.4
 weight_fuel = 2881.25
 CG = [CG_OEW]
 weight = [OEW]
-n_sa = 4
-n_rows = n_pax / n_sa
+
+n_rows = n_pax / n_seats_abreast
 CG_fuel = 14.5
 ## CARGO ##
 
-weight_cargo = n_pax * cargo_passenger
+weight_cargo = n_passenger * cargo_passenger
 CG_cargo = 18.24
 
 CG_cargo_loaded = (CG_OEW * OEW + CG_cargo * weight_cargo) / (OEW + weight_cargo)
@@ -38,12 +37,12 @@ for i in range(int(n_rows-1)):
     x_rowfront.append(x_rowfront[-1] + seat_pitch)
 
 for i in range(int(n_rows)):
-    weight.append(weight[-1] + (n_sa / 2) * weight_passenger)
-    CG.append((weight[-2]*CG[-1]+(n_sa / 2) * weight_passenger * x_rowaft[i])/weight[-1])
+    weight.append(weight[-1] + (n_seats_abreast / 2) * weight_passenger)
+    CG.append((weight[-2]*CG[-1]+(n_seats_abreast / 2) * weight_passenger * x_rowaft[i])/weight[-1])
 
 for i in range(int(n_rows)):
-    weight.append(weight[-1] + (n_sa / 2) * weight_passenger)
-    CG.append((weight[-2]*CG[-1]+(n_sa / 2) * weight_passenger * x_rowaft[i])/weight[-1])
+    weight.append(weight[-1] + (n_seats_abreast / 2) * weight_passenger)
+    CG.append((weight[-2]*CG[-1]+(n_seats_abreast / 2) * weight_passenger * x_rowaft[i])/weight[-1])
 
 for i in range(2):
     weight.append(weight[-1] + weight_fuel / 2)
@@ -52,12 +51,12 @@ for i in range(2):
 weight.append(weight[1])
 CG.append(CG_cargo_loaded)
 for i in range(int(n_rows)):
-    weight.append(weight[-1] + (n_sa / 2) * weight_passenger)
-    CG.append((weight[-2]*CG[-1]+(n_sa / 2) * weight_passenger * x_rowfront[i])/weight[-1])
+    weight.append(weight[-1] + (n_seats_abreast / 2) * weight_passenger)
+    CG.append((weight[-2]*CG[-1]+(n_seats_abreast / 2) * weight_passenger * x_rowfront[i])/weight[-1])
 
 for i in range(int(n_rows)):
-    weight.append(weight[-1] + (n_sa / 2) * weight_passenger)
-    CG.append((weight[-2]*CG[-1]+(n_sa / 2) * weight_passenger * x_rowfront[i])/weight[-1])
+    weight.append(weight[-1] + (n_seats_abreast / 2) * weight_passenger)
+    CG.append((weight[-2]*CG[-1]+(n_seats_abreast / 2) * weight_passenger * x_rowfront[i])/weight[-1])
 
 print("Most forward CG =", min(CG))
 print("Most afterward CG =", max(CG))
