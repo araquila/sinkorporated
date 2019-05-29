@@ -27,7 +27,7 @@ MAC = 1.8                       # Length of the MAC [m]
 C_L_h = -0.35*(A_h)**(1/3)      # Lift coefficient of the horizontal tail, for a fixed tail [-]
 C_L_Aminh = 1.93                # Lift coefficient of the entire aircraft without horizontal tail [-]
 C_m_ac = -0.5                   # Moment coefficient around the aerodyamic center [-]
-downwash = 0.022                # Downwash effect on the horizontal tail [-]
+downwash = 0.3                  # Downwash effect on the horizontal tail, typically 0.3 for a T-tail [-]
 
 SM = 0.05                       # Stability margin as a percentage of MAC [-]
 
