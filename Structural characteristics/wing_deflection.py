@@ -9,21 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import parameters as p
 
-#p0 = 20
-#L = 14.88
-#base = 0
-#
-#
-#def f(x):
-#    return p0*np.cos(np.pi*x/(2*L))
-#
-#
-#x = np.linspace(0,L,100)
-#plt.plot(x,f(x)+base)
-#plt.xlim(right=20)
-#plt.ylim(top=100)
-#plt.ylim(bottom=0)
-#plt.show()
+
 
 L = p.b/2
 F_sy = 10000
