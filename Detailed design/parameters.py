@@ -95,7 +95,7 @@ d_fuselage_outside = None
 d_fuselage_inside = None
 
 # Wing
-A = 18
+A = 20
 S = 52
 b = None
 sweep_qc = None
