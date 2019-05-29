@@ -1,6 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Horizontal Tail Parameters
+A_h = 4 
+M_cruise = 0.6
+sweep_h = 15
+
 # General Aircraft Parameters
 x_ac = 10                       # Position of the aerodynamic center [m]
 l_h = 11                        # Tail arm of the horizontal tail [-]
@@ -10,7 +15,6 @@ Vh_V2 = 1                       # Correction factor of velocity over the tail, s
 xLEMAC = 10                     # Position of the leading edge of the MAC [m]
 MAC = 1.8                       # Length of the MAC [m]
 
-C_L_alpha_h = 4.07              # Lift curve of the horizontal tail [rad^-1]
 C_L_alpha_Aminh = 5.35          # Lift curve of the entire aircraft without horizontal tail [rad^-1]
 C_L_h = -0.56                   # Lift coefficient of the horizontal tail [-]
 C_L_Aminh = 1.93                # Lift coefficient of the entire aircraft without horizontal tail [-]
@@ -18,6 +22,12 @@ C_m_ac = -0.5                   # Moment coefficient around the aerodyamic cente
 downwash = 0.022                # Downwash effect on the horizontal tail [-]
 
 SM = 0.05                       # Stability margin as a percentage of MAC [-]
+
+
+# DATCOM Estimation Methods
+beta = np.sqrt(1-M_cruise**2)
+C_L_alpha_h = (2*np.pi*A_h) / (2 + np.sqrt(4 + ((A_h*beta)/0.95)**2 * (1 + (np.tan(np.radians(sweep_h))/beta**2)))) 
+
 
 # Make array of tail surfaces
 Sh_S = np.linspace(0, 0.6, 100)
@@ -36,4 +46,5 @@ plt.plot(x_cg_neutral_stability, Sh_S)
 plt.plot(x_cg_stability, Sh_S)
 plt.plot(x_cg_controllability, Sh_S)
 plt.xlim([-0.5,1])
+plt.ylim([0,0.5])
 plt.show()
