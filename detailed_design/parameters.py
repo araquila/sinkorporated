@@ -5,7 +5,8 @@ from atmosphere import atmosphere_calc
 #test
 #test2
 
-matthijs = False
+pietro = False #kom dan met je gitbash
+matthijs = True
 ### AIRCRAFT PARAMETERS ###
 
 robert = False
