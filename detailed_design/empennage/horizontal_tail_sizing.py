@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import parameters as p
 
 M_cruise = 0.6                  # Cruise Mach number [-]
 D_fuselage = 2.8                # Diameter of the fuselage [m]
@@ -25,12 +26,11 @@ xLEMAC = 10                     # Position of the leading edge of the MAC [m]
 MAC = 1.8                       # Length of the MAC [m]
 
 C_L_h = -0.35*(A_h)**(1/3)      # Lift coefficient of the horizontal tail, for a fixed tail [-]
-C_L_Aminh = 1.93                # Lift coefficient of the entire aircraft without horizontal tail [-]
+C_L_Aminh = 1.4 - C_L_h         # Lift coefficient of the entire aircraft without horizontal tail [-]
 C_m_ac = -0.5                   # Moment coefficient around the aerodyamic center [-]
 downwash = 4/(A_w+2)            # Downwash effect on the horizontal tail [-]
 
 SM = 0.05                       # Stability margin as a percentage of MAC [-]
-
 
 # DATCOM Estimation Methods
 beta = np.sqrt(1-M_cruise**2)
@@ -55,5 +55,5 @@ plt.plot(x_cg_neutral_stability, Sh_S)
 plt.plot(x_cg_stability, Sh_S)
 plt.plot(x_cg_controllability, Sh_S)
 plt.xlim([-0.5,1])
-plt.ylim([0,0.5])
+plt.ylim([0,0.6])
 plt.show()
