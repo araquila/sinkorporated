@@ -1,17 +1,7 @@
 ### IMPORTS
-
 from atmosphere import atmosphere_calc
 
-#test
-#test2
-
-
-pietro = False # hierrrr gitkrakakakapro ejvdyuqurvecvr
-matthijs = True
-
 ### AIRCRAFT PARAMETERS ###
-
-robert = False
 
 ## -------- CONSTANTS -------- ##
 # Atmosphere
@@ -104,9 +94,11 @@ W_hydraulics = None
 W_electrical = None
 W_handling_gear = None
 
-## -------- DIMENSIONS -------- ##
+# Safetyfactors
+safetyfactor_wingloading = 2.5
 
-x_ac = 10.2
+
+## -------- DIMENSIONS -------- ##
 
 # Fuselage
 l_fuselage = 21.118
@@ -127,6 +119,7 @@ tc_ratio = 0.15
 strut_pos_perc = 0.5                    # % of span
 MAC = (2/3) * root_chord * ((1 + taper + taper**2)/(1 + taper))
 xLEMAC = 10
+x_ac_w = xLEMAC + 0.25*MAC
 
 # Empennage
 # Vertical Tail
