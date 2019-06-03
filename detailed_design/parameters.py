@@ -101,8 +101,7 @@ W_handling_gear = None
 
 # Safetyfactors
 safetyfactor_wingloading = 2.5
-
-
+safetyfactor_fuselage = 2
 ## -------- DIMENSIONS -------- ##
 
 # Fuselage
