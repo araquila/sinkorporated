@@ -88,7 +88,7 @@ W_flight_controls = None
 W_anti_ice = None
 
 # Fuselage
-W_fuselage = None
+W_fuselage = 2750 * g
 W_furnishings = None
 
 # Empennage
