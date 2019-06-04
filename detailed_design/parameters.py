@@ -78,6 +78,7 @@ EW = None
 W_fuel = 7736.30
 W_pod = 157.55 * g
 mtom = MTOW / g
+
 # Propulsion
 M_engine = 450
 W_engine = M_engine * g
@@ -115,11 +116,13 @@ W_handling_gear = None
 # Safetyfactors
 safetyfactor_wingloading = 2.5
 safetyfactor_fuselage = 2
+safetyfactor_wingbox = 1.5
 
 
 ## -------- DIMENSIONS -------- ##
 # Fuselage
 l_fuselage = 21.118
+l_cabin = 13.7414
 d_fuselage_outside = 2.84
 d_fuselage_inside = None
 l_nose = 2.8373002246584007

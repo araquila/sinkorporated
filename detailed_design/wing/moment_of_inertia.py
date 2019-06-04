@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 #wingbox discretization
 discretizations = 26
 stepsize = p.b/2/discretizations
-safety_factor = 1.5
+safety_factor = p.safetyfactor_wingbox
 
 
 #spanwise locations for each of the discretizations
