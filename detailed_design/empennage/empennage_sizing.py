@@ -24,13 +24,15 @@ V_v = p.V_v
 V_v2 = 0.379      # [-]
 
 # Determination of the Horizontal Tail Surface
-S_h = (V_h * S * c) / l_h
-S_h = 14.274
+#S_h = (V_h * S * c) / l_h
+S_h = 0.2745 * S
 
 # Determination of the Vertical Tail Surface
-S_v = (V_v * S * b) / l_v
-S_v = 10.075
-S_v2 = (V_v2 * y_engine * T) / l_v
+#S_v = (V_v * S * b) / l_v
+S_v = 0.21 * S
+#S_v2 = (V_v2 * y_engine * T) / l_v
+
+
 # Planform of the Vertical Tail
 b_v = np.sqrt(S_v * A_v)
 c_root_v = (2 * (b_v/A_v)) / (1 + taper_v)
@@ -42,3 +44,6 @@ b_h = np.sqrt(S_h * A_h)
 c_root_h = (2 * (b_h/A_h)) / (1 + taper_h)
 c_tip_h = c_root_h * taper_h
 MAC_h = (2/3) * c_root_h * ((1 + taper_h + taper_h**2)/(1 + taper_h))
+
+print("HORIZONTAL TAIL PARAMETERS")
+print("Root Chord")
