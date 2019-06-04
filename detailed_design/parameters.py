@@ -122,6 +122,7 @@ safetyfactor_wingbox = 1.5
 ## -------- DIMENSIONS -------- ##
 # Fuselage
 l_fuselage = 21.118
+l_cabin = 13.7414
 d_fuselage_outside = 2.84
 d_fuselage_inside = None
 l_nose = 2.8373002246584007
