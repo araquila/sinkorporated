@@ -63,6 +63,11 @@ fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 pressure_inside = 100000 #N/m2
 pressure_outside = 35000 #N/m2
 
+# Forces
+F_strut = 10000
+R_y = 10000
+R_x = 10000
+M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
@@ -73,6 +78,7 @@ EW = None
 W_fuel = 7736.30
 W_pod = 157.55 * g
 mtom = MTOW / g
+
 # Propulsion
 M_engine = 450
 W_engine = M_engine * g
@@ -110,30 +116,35 @@ W_handling_gear = None
 # Safetyfactors
 safetyfactor_wingloading = 2.5
 safetyfactor_fuselage = 2
+safetyfactor_wingbox = 1.5
 
 
 ## -------- DIMENSIONS -------- ##
 # Fuselage
 l_fuselage = 21.118
+l_cabin = 13.7414
 d_fuselage_outside = 2.84
 d_fuselage_inside = None
 l_nose = 2.8373002246584007
 l_lavatory = 36 * 0.0254
-l_cabin = 13.7414
 
 # Wing
 A = 20
-S = 52
-b = 29.76
+S = 49.209
+b = 31.372
 sweep_qc = 0
-dihedral = None
+dihedral = 1.
 taper = 0.4
 root_chord = 1.8
-tc_ratio = 0.15
+tc_ratio_root = 0.15
+tc_ratio_tip = 0.12
 strut_pos_perc = 0.5                    # % of span
 MAC = (2/3) * root_chord * ((1 + taper + taper**2)/(1 + taper))
-xLEMAC = 10
+xLEMAC = 9.0816
 x_ac_w = xLEMAC + 0.25*MAC
+
+# Strut
+d_strut = 5
 
 # Empennage
 # Vertical Tail
