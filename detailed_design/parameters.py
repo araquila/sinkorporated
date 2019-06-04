@@ -1,6 +1,6 @@
 ### IMPORTS
 from atmosphere import atmosphere_calc
-
+import numpy as np
 ### AIRCRAFT PARAMETERS ###
 
 ## -------- CONSTANTS -------- ##
@@ -15,7 +15,15 @@ R = 287
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 
 # Materials
+# Ultimate
 ult_stress_carbon = 600e6
+
+# Yield stress
+yield_stress_carbon = None
+yield_stress_aluminum = 324e6
+
+# Density
+density_aluminum = 2800
 
 # Passengers and Crew
 n_passenger = 60
@@ -102,8 +110,9 @@ W_handling_gear = None
 # Safetyfactors
 safetyfactor_wingloading = 2.5
 safetyfactor_fuselage = 2
-## -------- DIMENSIONS -------- ##
 
+
+## -------- DIMENSIONS -------- ##
 # Fuselage
 l_fuselage = 21.118
 d_fuselage_outside = 2.84
@@ -111,6 +120,7 @@ d_fuselage_inside = None
 l_nose = 2.8373002246584007
 l_lavatory = 36 * 0.0254
 l_cabin = 13.7414
+
 # Wing
 A = 20
 S = 52
@@ -176,7 +186,8 @@ V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
 C_L_max_land = 2.4
 C_L_max_TO = 1.4
-
+V_TO = np.sqrt((2 * MTOW) / (rho0 * S * C_L_max_TO))
+q_TO = 0.5 * rho0 * V_TO ** 2
 # Propulsion
 eff_cruise = 0.85
 eff_loiter = 0.77
