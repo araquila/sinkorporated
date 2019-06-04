@@ -186,7 +186,7 @@ l_tail = 4.539680359453441
 
 # Vertical Tail
 l_v = 11
-A_v = 1.2
+A_v = 1.5
 taper_v = 0.6
 sweep_v = 30
 V_v = 0.05

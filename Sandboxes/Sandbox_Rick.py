@@ -41,4 +41,4 @@ P = - Cl_delta_aileron / Clp * aileron_max * (2 * V) / b
 # Required time to turn; this should be smaller than 1.5
 t = angle / P
 
-print(t)
+print(Cl_delta_aileron, Clp)

@@ -1,13 +1,13 @@
 import matplotlib.pyplot as plt
 # =============================================================================
 # ## Constants ##
-# import sys
-# import os
-# 
-# sys.path.append(os.getcwd())
-# from detailed_design.parameters import *
+import sys
+import os
+#
+sys.path.append(os.getcwd())
+from detailed_design.parameters import *
 # =============================================================================
-import parameters as p
+#import parameters as p
 import numpy as np
 #constants
 n_passenger = p.n_passenger
@@ -38,53 +38,53 @@ CGmacmin = []
 CGmacmax = []
 for j in range(len(CG_winggroup)):
     ## CARGO ##
-    
+
     CG_fuel = CG_winggroup[j]
     CG_OEW = (CG_fusgroup * M_fusgroup + CG_winggroup[j] * M_winggroup) / (M_OEW)
     CG=[CG_OEW]
     weight = [M_OEW]
 
-    
+
     CG_cargo_loaded = (CG_OEW * M_OEW + CG_cargo * M_total_cargo) / (M_OEW + M_total_cargo)
     CG.append(CG_cargo_loaded)
     weight.append(M_OEW + M_total_cargo)
-    
+
     ## PASSENGERS ##
     #AISLE LOADING#
     x_rowaft = [p.l_nose + p.l_lavatory + (n_rows) * seat_pitch]
     x_rowfront = [p.l_nose + p.l_lavatory +seat_pitch]
-    
+
     #start loading aft#
     for i in range(int(n_rows-1)):
         x_rowaft.append(x_rowaft[-1] - seat_pitch)
         x_rowfront.append(x_rowfront[-1] + seat_pitch)
-    
+
     for i in range(int(n_rows)):
         weight.append(weight[-1] + (n_seats_abreast / 2) * weight_passenger)
         CG.append((weight[-2]*CG[-1] + (n_seats_abreast / 2) * weight_passenger * x_rowaft[i])/weight[-1])
-    
+
     for i in range(int(n_rows)):
         weight.append(weight[-1] + (n_seats_abreast / 2) * weight_passenger)
         CG.append((weight[-2]*CG[-1]+(n_seats_abreast / 2) * weight_passenger * x_rowaft[i])/weight[-1])
-    
+
     for i in range(2):
         weight.append(weight[-1] + W_fuel / 2)
         CG.append((weight[-2] * CG[-1] + (W_fuel / 2) * CG_fuel) / (weight[-1]))
-    
+
     weight.append(weight[1])
     CG.append(CG_cargo_loaded)
     for i in range(int(n_rows)):
         weight.append(weight[-1] + (n_seats_abreast / 2) * weight_passenger)
         CG.append((weight[-2]*CG[-1]+(n_seats_abreast / 2) * weight_passenger * x_rowfront[i])/weight[-1])
-    
+
     for i in range(int(n_rows)):
         weight.append(weight[-1] + (n_seats_abreast / 2) * weight_passenger)
         CG.append((weight[-2]*CG[-1]+(n_seats_abreast / 2) * weight_passenger * x_rowfront[i])/weight[-1])
-    
+
     CG_mostfor = (1 - cg_margin) * min(CG)
     CG_mostaft = (1 + cg_margin) * max(CG)
     CG = np.array(CG)
-    
+
 # =============================================================================
 
 # =============================================================================
@@ -98,6 +98,13 @@ for j in range(len(CG_winggroup)):
     CGmacmin.append(CG_MACmin)
     CGmacmax.append(CG_MACmax)
     CG = (CG - x_lemac) / p.MAC
+<<<<<<< HEAD
+    print("Most forward CG =", CG_mostfor)
+    print("Most afterward CG =", CG_mostaft)
+    plt.scatter(CG,weight)
+    plt.show()
+
+=======
     #if CG_winggroup[j] > 10 and CG_winggroup[j] < 11:
         #plt.scatter(CG, weight)
         #plt.show()
@@ -105,12 +112,12 @@ for j in range(len(CG_winggroup)):
     #print("Most afterward CG =", CG_mostaft)
     
    
+>>>>>>> 44a50e89b61b67c27e3e0b350ae948885bc87f61
 # =============================================================================
 plt.xlim([-0.5,1])
-  
+
 # =============================================================================
 plt.plot(CGmacmin, xlemac)
 plt.plot(CGmacmax, xlemac)
 
 plt.show()
-
