@@ -63,6 +63,11 @@ fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 pressure_inside = 100000 #N/m2
 pressure_outside = 35000 #N/m2
 
+# Forces
+F_strut = 10000
+R_y = 10000
+R_x = 10000
+M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
