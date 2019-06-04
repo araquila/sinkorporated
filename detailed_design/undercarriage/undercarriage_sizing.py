@@ -13,8 +13,8 @@ load_nl = 0.08
 l_nl = 2        
 
 # Number of Wheels
-N_ml = 4.
-N_nl = 2.
+N_ml = 4
+N_nl = 2
 
 ##### OUTPUT VALUES #####
 
@@ -56,6 +56,7 @@ print("")
 
 print("WHEEL POSITION")
 print("Wheel Height:", np.round(wheel_height, decimals=2), "m")
+print("Wheel Longitudinal Position:", np.round(l_ml, decimals=2), "m")
 print("Wheel Lateral Position:", np.round(y_mlg, decimals=2), "m")
 
 
