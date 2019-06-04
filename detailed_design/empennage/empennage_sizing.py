@@ -46,4 +46,20 @@ c_tip_h = c_root_h * taper_h
 MAC_h = (2/3) * c_root_h * ((1 + taper_h + taper_h**2)/(1 + taper_h))
 
 print("HORIZONTAL TAIL PARAMETERS")
-print("Root Chord")
+print("Root Chord:", c_root_h, "m")
+print("Tip Chord:", c_tip_h, "m")
+print("Mean Aerodynamic Chord", MAC_h, "m")
+print("Quarter Chord Sweep:",sweep_h, "deg")
+print("Span", b_h, "m")
+
+print("")
+
+print("VERTICAL TAIL PARAMETERS")
+print("Root Chord:", c_root_v, "m")
+print("Tip Chord:", c_tip_v, "m")
+print("Mean Aerodynamic Chord", MAC_v, "m")
+print("Quarter Chord Sweep:",sweep_v, "deg")
+print("Span", b_v, "m")
+
+print("")
+print("For all other parameters, please consult the variable explorer.")
