@@ -7,70 +7,130 @@ Created on Wed May 29 12:31:33 2019
 
 from math import *
 import numpy as np
-import parameters as p
+#import parameters as p
 from matplotlib import pyplot as plt
 #from wing_deflection1 import DefForces
 
-def DefForces(Iavg, Li, offsetmax):
-    g = 9.80665
+def feet_to_meter(length_in_feet):
+    length_in_meter = length_in_feet / 3.28084
+    return length_in_meter
+
+def feetsquared_to_metersquared(area_in_feetsquared):
+    area_in_metersquared = area_in_feetsquared / 10.7639
+    return area_in_metersquared
+
+
+def read_aero_data(datafile, lengthdata, V_cruise, rho_cruise):
+#    V_cruise = 184.84
+#    rho_cruise = 0.5258
     
-    d_fuselage_outside = 2.84
-    b = 29.76
-    S = 49.2
-    c_root = 2.36
-    c_tip = 0.4*c_root
-    x_strut = 0.4*b/2
-    x_pod = x_strut
-    x_engine = 0.2*b/2
-    theta = atan(d_fuselage_outside/x_strut)
+    filename = datafile
     
-    E = 70*10**9
-    EI = E*Iavg
-    vset = offsetmax
+    f = open(filename, "r")
+    lines = f.readlines()
+    f.close()
+    lengthlines = len(lines)
     
-    #Weights
-    W_empty = 9301 * g                  
-    W_engine = (2.02 + 9.68)/100*W_empty
-    W_wing = 13.85/100*W_empty
-    W_pod = 5.09/100*W_empty + 1576 * g
+#    lengthdata = 50
+    skipheader = 20
+    table = np.genfromtxt(filename,delimiter=None , skip_header=skipheader, skip_footer=(lengthlines-lengthdata-skipheader-5))
     
+    ji = []
+    Yle = []
+    Chord = []
+    Area = []
+    c_cl = []
+    ai = []
+    cl_norm = []
+    cl = []
+    cd = []
+    cdv = []
+    cm_c4 = []
+    cm_LE = []
+    CP_xc = []
+    for i in range(lengthdata):
+        ji.append(table[i][0])
+        Yle.append(feet_to_meter(table[i][1]))
+        Chord.append(feet_to_meter(table[i][2]))
+        Area.append(feetsquared_to_metersquared(table[i][3]))
+        c_cl.append(table[i][4])
+        ai.append(table[i][5])
+        cl_norm.append(table[i][6])
+        cl.append(table[i][7])
+        cd.append(table[i][8])
+        cdv.append(table[i][9])
+        cm_c4.append(table[i][10])
+        cm_LE.append(table[i][11])
+        CP_xc.append(table[i][12])
     
-    di = b/2/len(Li)
-    xi = np.zeros(len(Li)+1)
-    ci = np.zeros(len(Li)+1)
-    Si = np.zeros(len(Li)+1)
-    Wi = np.zeros(len(Li)+1)
-    FyW = np.zeros(len(Li))
-    FyL = np.zeros(len(Li))
-    MoW = np.zeros(len(Li))
-    MoL = np.zeros(len(Li))
-    defW = np.zeros(len(Li))
-    defL = np.zeros(len(Li))
-    xset = b/2
-    for i in range(len(Li)+1):
-        xi[i] = i*di
-        ci[i] = c_root - (c_root-c_tip)/(b/2)*xi[i]
-    
-    for i in range(len(Li)):
-        Si[i] = (ci[i]+ci[i+1])/2*di
-        Wi[i] = W_wing/S*Si[i]
-        FyW[i] = Wi[i]*(xi[i+1]-xi[i])
-        FyL[i] = Li[i]*(xi[i+1]-xi[i])
-        MoW[i] = Wi[i]*(xi[i+1]-xi[i])*(xi[i]+di/2)
-        MoL[i] = Li[i]*(xi[i+1]-xi[i])*(xi[i]+di/2)
-        defW[i] = Wi[i]/24*(xset-xi[i])**4 - Wi[i]/24*(xset-xi[i+1])**4
-        defL[i] = -Li[i]/24*(xset-xi[i])**4 + Li[i]/24*(xset-xi[i+1])**4
-    
-    A = [[1, 0, -cos(theta), 0], [0, 1, -sin(theta), 0], [0,0, -sin(theta)*x_strut, 1], [0, -1/6*(xset)**3, sin(theta)/6*(xset-x_strut)**3, 1/2*(xset)**2]]
-    B = [[0], [W_engine + W_pod + sum(FyW) - sum(FyL)], [W_engine*x_engine + W_pod*x_pod + sum(MoW) - sum(MoL)], [-W_engine/6*(xset-x_engine)**3 - W_pod/6*(xset-x_pod)**3 + sum(defL) + sum(defW) - EI*vset]]
-    C = np.matmul(np.linalg.inv(A),B)
-    
-    Frx = C[0][0]
-    Fry = C[1][0]
-    Fs = C[2][0]
-    Mr = C[3][0]
-    print(W_engine*x_engine + W_pod*x_pod + sum(MoW) - sum(MoL) + Fs*sin(theta)*x_strut - Mr)
-    return Frx, Fry, Fs, Mr
+    Lift = []
+    for i in range(len(ji)):
+        Lift.append(1/2*rho_cruise*Area[i]*cl[i]*V_cruise**2)
+
+    return Lift, Chord, Yle
+
+
+
+#def DefForces(Iavg, Li, offsetmax):
+#    g = 9.80665
+#    
+#    d_fuselage_outside = 2.84
+#    b = 29.76
+#    S = 49.2
+#    c_root = 2.36
+#    c_tip = 0.4*c_root
+#    x_strut = 0.4*b/2
+#    x_pod = x_strut
+#    x_engine = 0.2*b/2
+#    theta = atan(d_fuselage_outside/x_strut)
+#    
+#    E = 70*10**9
+#    EI = E*Iavg
+#    vset = offsetmax
+#    
+#    #Weights
+#    W_empty = 9301 * g                  
+#    W_engine = (2.02 + 9.68)/100*W_empty
+#    W_wing = 13.85/100*W_empty
+#    W_pod = 5.09/100*W_empty + 1576 * g
+#    
+#    
+#    di = b/2/len(Li)
+#    xi = np.zeros(len(Li)+1)
+#    ci = np.zeros(len(Li)+1)
+#    Si = np.zeros(len(Li)+1)
+#    Wi = np.zeros(len(Li)+1)
+#    FyW = np.zeros(len(Li))
+#    FyL = np.zeros(len(Li))
+#    MoW = np.zeros(len(Li))
+#    MoL = np.zeros(len(Li))
+#    defW = np.zeros(len(Li))
+#    defL = np.zeros(len(Li))
+#    xset = b/2
+#    for i in range(len(Li)+1):
+#        xi[i] = i*di
+#        ci[i] = c_root - (c_root-c_tip)/(b/2)*xi[i]
+#    
+#    for i in range(len(Li)):
+#        Si[i] = (ci[i]+ci[i+1])/2*di
+#        Wi[i] = W_wing/S*Si[i]
+#        FyW[i] = Wi[i]*(xi[i+1]-xi[i])
+#        FyL[i] = Li[i]*(xi[i+1]-xi[i])
+#        MoW[i] = Wi[i]*(xi[i+1]-xi[i])*(xi[i]+di/2)
+#        MoL[i] = Li[i]*(xi[i+1]-xi[i])*(xi[i]+di/2)
+#        defW[i] = Wi[i]/24*(xset-xi[i])**4 - Wi[i]/24*(xset-xi[i+1])**4
+#        defL[i] = -Li[i]/24*(xset-xi[i])**4 + Li[i]/24*(xset-xi[i+1])**4
+#    
+#    A = [[1, 0, -cos(theta), 0], [0, 1, -sin(theta), 0], [0,0, -sin(theta)*x_strut, 1], [0, -1/6*(xset)**3, sin(theta)/6*(xset-x_strut)**3, 1/2*(xset)**2]]
+#    B = [[0], [W_engine + W_pod + sum(FyW) - sum(FyL)], [W_engine*x_engine + W_pod*x_pod + sum(MoW) - sum(MoL)], [-W_engine/6*(xset-x_engine)**3 - W_pod/6*(xset-x_pod)**3 + sum(defL) + sum(defW) - EI*vset]]
+#    C = np.matmul(np.linalg.inv(A),B)
+#    
+#    Frx = C[0][0]
+#    Fry = C[1][0]
+#    Fs = C[2][0]
+#    Mr = C[3][0]
+#    print(W_engine*x_engine + W_pod*x_pod + sum(MoW) - sum(MoL) + Fs*sin(theta)*x_strut - Mr)
+#    return Frx, Fry, Fs, Mr
 
 
 ##set initial parameters
@@ -191,6 +251,10 @@ def SumzV(list1, xi, elementset, typeLW):
         list2.append(outcome)
     return sum(list2)
 
+V_cruise = 184.84
+rho_cruise = 0.5258
+Lift, Chord, Yle = read_aero_data("aquiladata1.txt", 50, V_cruise, rho_cruise)
+
 g = 9.80665
 
 #wing characteristics
@@ -218,14 +282,9 @@ W_pod = 5.09/100*W_empty + 1576 * g
 #W_engine = 0
 #W_pod = 0
 
-#Li = [1000, 1000, 990, 990, 900, 800, 600, 300]
 Li = np.ones(50)*20000*g/di/50
 #Li = np.ones(50)*1000
 Ii = np.ones(len(Li)+1)*10**(-4)
-
-#set forces
-#Frx, Fry, Fs, Mr = DefForces(Iavg, Li, offsetmax)
-#Forces = [Frx, Fry, Fs, Mr]
 
 di = b/2/len(Li)
 xi = np.zeros(len(Li)+1)
