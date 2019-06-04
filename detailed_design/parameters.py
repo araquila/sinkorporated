@@ -1,6 +1,6 @@
 ### IMPORTS
 from atmosphere import atmosphere_calc
-
+import numpy as np
 ### AIRCRAFT PARAMETERS ###
 
 ## -------- CONSTANTS -------- ##
@@ -186,7 +186,8 @@ V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
 C_L_max_land = 2.4
 C_L_max_TO = 1.4
-
+V_TO = np.sqrt((2 * MTOW) / (rho0 * S * C_L_max_TO))
+q_TO = 0.5 * rho0 * V_TO ** 2
 # Propulsion
 eff_cruise = 0.85
 eff_loiter = 0.77
