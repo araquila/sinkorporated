@@ -27,10 +27,10 @@ weight_passenger = p.M_passenger
 cargo_passenger = p.M_cargo
 
 #CG
-CG_fusgroup = 0.5 * l_fuselage
+CG_fusgroup = 0.40 * l_fuselage
 CG_cargo = p.l_nose + p.l_cabin - 1
 cg_margin = 0.02
-CG_winggroup = np.arange(8,14,0.5)
+CG_winggroup = np.linspace(8,14,100)
 xlemac = []
 minCG = []
 maxCG = []
@@ -98,11 +98,21 @@ for j in range(len(CG_winggroup)):
     CGmacmin.append(CG_MACmin)
     CGmacmax.append(CG_MACmax)
     CG = (CG - x_lemac) / p.MAC
+<<<<<<< HEAD
     print("Most forward CG =", CG_mostfor)
     print("Most afterward CG =", CG_mostaft)
     plt.scatter(CG,weight)
     plt.show()
 
+=======
+    #if CG_winggroup[j] > 10 and CG_winggroup[j] < 11:
+        #plt.scatter(CG, weight)
+        #plt.show()
+    #print("Most forward CG =", CG_mostfor)
+    #print("Most afterward CG =", CG_mostaft)
+    
+   
+>>>>>>> 44a50e89b61b67c27e3e0b350ae948885bc87f61
 # =============================================================================
 plt.xlim([-0.5,1])
 
