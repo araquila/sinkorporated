@@ -147,6 +147,8 @@ x_ac_w = xLEMAC + 0.25*MAC
 d_strut = 5
 
 # Empennage
+l_tail = 4.539680359453441
+
 # Vertical Tail
 l_v = 11
 A_v = 1.5
