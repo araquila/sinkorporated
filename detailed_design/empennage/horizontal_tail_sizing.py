@@ -76,7 +76,7 @@ ax2.plot(pt.CGmacmax, pt.xlemac, color='r')
 ax2.set_ylabel('x_lemac/l_fus', color='r')
 ax2.tick_params('y', colors='r')
 ax2.set_xlim([-0.5, 1.5])
-ax2.set_ylim([0.45, 0.55])
+ax2.set_ylim([0.40, 0.455])
 
 fig.tight_layout()
 plt.show()
