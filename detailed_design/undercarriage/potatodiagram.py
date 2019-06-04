@@ -98,11 +98,13 @@ for j in range(len(CG_winggroup)):
     CGmacmin.append(CG_MACmin)
     CGmacmax.append(CG_MACmax)
     CG = (CG - x_lemac) / p.MAC
+    #if CG_winggroup[j] > 10 and CG_winggroup[j] < 11:
+        #plt.scatter(CG, weight)
+        #plt.show()
     #print("Most forward CG =", CG_mostfor)
     #print("Most afterward CG =", CG_mostaft)
-    #plt.scatter(CG,weight)
-    #plt.show()
     
+   
 # =============================================================================
 plt.xlim([-0.5,1])
   

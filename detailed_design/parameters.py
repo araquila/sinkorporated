@@ -72,7 +72,7 @@ MLW = None
 EW = None
 W_fuel = 7736.30
 W_pod = 157.55 * g
-
+mtom = MTOW / g
 # Propulsion
 M_engine = 450
 W_engine = M_engine * g
@@ -88,7 +88,7 @@ W_flight_controls = None
 W_anti_ice = None
 
 # Fuselage
-W_fuselage = None
+W_fuselage = 2750 * g
 W_furnishings = None
 
 # Empennage
@@ -188,6 +188,7 @@ C_L_max_land = 2.4
 C_L_max_TO = 1.4
 V_TO = np.sqrt((2 * MTOW) / (rho0 * S * C_L_max_TO))
 q_TO = 0.5 * rho0 * V_TO ** 2
+C_D_TO = 0.023 #NOT FINAL
 # Propulsion
 eff_cruise = 0.85
 eff_loiter = 0.77
