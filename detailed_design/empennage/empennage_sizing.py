@@ -3,7 +3,7 @@ import numpy as np
 # Aircraft Parameters
 l_h = 11            # [m]
 l_v = 11            # [m]
-S = 50              # [m2]
+S = 52              # [m2]
 b = 30              # [m]
 c = 1.7             # [m]
 T = 31
@@ -24,6 +24,7 @@ V_v2 = 0.379      # [-]
 
 # Determination of the Horizontal Tail Surface
 S_h = (V_h * S * c) / l_h
+S_h = 14.274
 
 # Determination of the Vertical Tail Surface
 S_v = (V_v * S * b) / l_v
