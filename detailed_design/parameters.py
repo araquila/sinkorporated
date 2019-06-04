@@ -17,10 +17,15 @@ temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperatu
 # Materials
 # Ultimate
 ult_stress_carbon = 600e6
+ultimate_bending_stress_al2024 = 483e6
+ultimate_shear_stress_al2024 = 290e6
 
 # Yield stress
 yield_stress_carbon = None
-yield_stress_aluminum = 324e6
+yield_stress_al2024 = 324e6
+
+# E-modulus
+E_modulus = 414e6
 
 # Density
 density_aluminum = 2800
@@ -142,6 +147,36 @@ strut_pos_perc = 0.5                    # % of span
 MAC = (2/3) * root_chord * ((1 + taper + taper**2)/(1 + taper))
 xLEMAC = 9.0816
 x_ac_w = xLEMAC + 0.25*MAC
+
+# Wingbox
+# Width
+w_root_wingbox = 1.27758 #m
+w_tip_wingbox = 0.51075 #m
+
+# Height
+h_max_root_wingbox = 0.35156
+h_max_tip_wingbox = 0.09704
+
+# Stringers
+n_upper_skin_wingbox = 5
+n_lower_skin_wingbox = 2
+
+# Strutbox
+# Width
+w_root_strutbox = 1 #m
+w_tip_strutbox = 1 #m
+
+#height wing box
+h_max_root_strutbox = 0.4
+h_max_tip_strutbox = 0.4
+
+# Stringers
+n_upper_skin_strutbox = 5
+n_lower_skin_strutbox = 2
+
+# Stringer geometry
+A_stiffener = 0.001
+h_stiffener = 0.03
 
 # Strut
 d_strut = 5
