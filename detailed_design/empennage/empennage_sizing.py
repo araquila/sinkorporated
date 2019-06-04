@@ -1,25 +1,26 @@
 import numpy as np
+import parameters as p
 
 # Aircraft Parameters
-l_h = 11            # [m]
-l_v = 11            # [m]
-S = 52              # [m2]
-b = 30              # [m]
-c = 1.7             # [m]
+l_h = p.l_h            # [m]
+l_v = p.l_v            # [m]
+S = p.S              # [m2]
+b = p.b              # [m]
+c = p.MAC             # [m]
 T = 31
 y_engine = 4
 
 # Horizontal Tail Parameters
-A_h = 5             # [-]
-taper_h = 0.4       # [-]
-sweep_h = 15        # [deg]
-V_h = 1             # [-]
+A_h = p.A_h             # [-]
+taper_h = p.taper_h       # [-]
+sweep_h = p.sweep_h        # [deg]
+V_h = p.V_h             # [-]
 
 # Vertical Tail Parameters
-A_v = 1.5           # [-]
-taper_v = 0.5       # [-]
-sweep_v = 30        # [deg]
-V_v = 0.08    
+A_v = p.A_v           # [-]
+taper_v = p.taper_v       # [-]
+sweep_v = p.sweep_v        # [deg]
+V_v = p.V_v    
 V_v2 = 0.379      # [-]
 
 # Determination of the Horizontal Tail Surface
@@ -28,6 +29,7 @@ S_h = 14.274
 
 # Determination of the Vertical Tail Surface
 S_v = (V_v * S * b) / l_v
+S_v = 10.075
 S_v2 = (V_v2 * y_engine * T) / l_v
 # Planform of the Vertical Tail
 b_v = np.sqrt(S_v * A_v)
