@@ -27,7 +27,7 @@ weight_passenger = p.M_passenger
 cargo_passenger = p.M_cargo
 
 #CG
-CG_fusgroup = 0.5 * l_fuselage
+CG_fusgroup = 0.40 * l_fuselage
 CG_cargo = p.l_nose + p.l_cabin - 1
 cg_margin = 0.02
 CG_winggroup = np.linspace(8,14,100)
