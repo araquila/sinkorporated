@@ -1,14 +1,15 @@
 import matplotlib.pyplot as plt
 # =============================================================================
-# ## Constants ##
-import sys
-import os
+## ## Constants ##
+#import sys
+#import os
 #
-sys.path.append(os.getcwd())
-from detailed_design.parameters import *
+#sys.path.append(os.getcwd())
+#from detailed_design.parameters import *
 # =============================================================================
 #import parameters as p
 import numpy as np
+import parameters as p
 #constants
 n_passenger = p.n_passenger
 n_seats_abreast = p.n_seats_abreast
@@ -98,13 +99,13 @@ for j in range(len(CG_winggroup)):
     CGmacmin.append(CG_MACmin)
     CGmacmax.append(CG_MACmax)
     CG = (CG - x_lemac) / p.MAC
-<<<<<<< HEAD
+
     print("Most forward CG =", CG_mostfor)
     print("Most afterward CG =", CG_mostaft)
-    plt.scatter(CG,weight)
-    plt.show()
+#    plt.scatter(CG,weight)
+#    plt.show()
 
-=======
+
     #if CG_winggroup[j] > 10 and CG_winggroup[j] < 11:
         #plt.scatter(CG, weight)
         #plt.show()
@@ -112,7 +113,6 @@ for j in range(len(CG_winggroup)):
     #print("Most afterward CG =", CG_mostaft)
     
    
->>>>>>> 44a50e89b61b67c27e3e0b350ae948885bc87f61
 # =============================================================================
 plt.xlim([-0.5,1])
 
