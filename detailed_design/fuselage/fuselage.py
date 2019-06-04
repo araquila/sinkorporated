@@ -9,9 +9,9 @@ sigma_yield = p.yield_stress_aluminum
 density = p.density_aluminum
 
 # Import strut and reaction forces from the wing
-F_strut = 10000
+p.F_strut = 20000
 alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)          # Angle of the strut with fuselage
-R_y = 10000
+p.R_y = 20000
 
 # Constant weight distribution of fuselage weight
 W_fuselage_dist = p.W_fuselage / p.l_fuselage
@@ -40,7 +40,7 @@ while x_shear < p.l_fuselage:
     if x_shear < p.xLEMAC:
         V = x_shear * W_fuselage_dist
     else:
-        V = x_shear * W_fuselage_dist - np.cos(alpha) * F_strut - R_y
+        V = x_shear * W_fuselage_dist - np.cos(alpha) * p.F_strut - p.R_y
     V_list.append(V)
     x_shear_list.append(x_shear)
     x_shear += 0.1
@@ -54,7 +54,7 @@ while x_moment < p.l_fuselage:
     if x_moment < p.xLEMAC:
         M = x_moment**2 * W_fuselage_dist * 0.5
     else:
-        M = x_moment**2 * W_fuselage_dist * 0.5 - (np.cos(alpha) * F_strut + R_y) * (x_moment - p.xLEMAC)
+        M = x_moment**2 * W_fuselage_dist * 0.5 - (np.cos(alpha) * p.F_strut + p.R_y) * (x_moment - p.xLEMAC)
     M_list.append(M)
     x_moment_list.append(x_moment)
     x_moment += 0.1    
