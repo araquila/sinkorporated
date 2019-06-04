@@ -73,38 +73,39 @@ def DefForces(Iavg, Li, offsetmax):
     return Frx, Fry, Fs, Mr
 
 
-#set initial parameters
-g = 9.80665
-
-#wing characteristics
-d_fuselage_outside = 2.8
-b = 29.76
-S = 49.2
-c_root = 2.36
-c_tip = 0.4*c_root
-x_strut = 0.4*b/2
-x_pod = x_strut
-x_engine = 0.2*b/2
-theta = atan(d_fuselage_outside/x_strut)
-
-#wing box characteristics
-E = 70*10**9
-Iavg = 10**(-6)
-offsetmax = 0.1*b/2
-
-#Weights
-W_empty = 9301 * g                  
-W_engine = (2.02 + 9.68)/100*W_empty
-W_wing = 13.85/100*W_empty
-W_pod = 5.09/100*W_empty + 1576 * g
-
-
-#Li = [1000, 1000, 990, 990, 900, 800, 600, 300]
-Li = np.ones(50)*1000
-
-#set forces
-Frx, Fry, Fs, Mr = DefForces(Iavg, Li, offsetmax)
-Forces = [Frx, Fry, Fs, Mr]
+##set initial parameters
+#g = 9.80665
+#
+##wing characteristics
+#d_fuselage_outside = 2.8
+#b = 29.76
+#S = 49.2
+#c_root = 2.36
+#c_tip = 0.4*c_root
+#x_strut = 0.4*b/2
+#x_pod = x_strut
+#x_engine = 0.2*b/2
+#theta = atan(d_fuselage_outside/x_strut)
+#
+##wing box characteristics
+#E = 70*10**9
+#Iavg = 10**(-6)
+#offsetmax = 0.1*b/2
+#
+##Weights
+#W_empty = 9301 * g                  
+#W_engine = (2.02 + 9.68)/100*W_empty
+#W_wing = 13.85/100*W_empty
+#W_pod = 5.09/100*W_empty + 1576 * g
+#
+#
+#
+##Li = [1000, 1000, 990, 990, 900, 800, 600, 300]
+#Li = np.ones(50)*20000*g/di/50
+#
+##set forces
+#Frx, Fry, Fs, Mr = DefForces(Iavg, Li, offsetmax)
+#Forces = [Frx, Fry, Fs, Mr]
 
 #for iter in range(3):
 #   
@@ -166,21 +167,25 @@ Forces = [Frx, Fry, Fs, Mr]
 
 
 
-def SumzM(list1, xi, elementset):
+def SumzM(list1, xi, elementset, typeLW):
     list2 = []
     for i in range(len(list1)):
-        if xi[i] < elementset:
+        if xi[i] < elementset and typeLW == 1:
+            outcome = list1[i]/2*(elementset - xi[i])**2 - list1[i]/2*(elementset - xi[i+1])**2
+        elif xi[i] < elementset and typeLW == 2:
             outcome = -list1[i]/2*(elementset - xi[i])**2 + list1[i]/2*(elementset - xi[i+1])**2
         else:
             outcome = 0
         list2.append(outcome)
     return sum(list2)
 
-def SumzV(list1, xi, elementset):
+def SumzV(list1, xi, elementset, typeLW):
     list2 = []
     for i in range(len(list1)):
-        if xi[i] < elementset:
+        if xi[i] < elementset and typeLW == 1:
             outcome = list1[i]*xi[-1]/len(Li)
+        if xi[i] < elementset and typeLW == 2:
+            outcome = -list1[i]*xi[-1]/len(Li)
         else:
             outcome = 0
         list2.append(outcome)
@@ -209,49 +214,62 @@ W_empty = 9301 * g
 W_engine = (2.02 + 9.68)/100*W_empty
 W_wing = 13.85/100*W_empty
 W_pod = 5.09/100*W_empty + 1576 * g
-
+#W_empty = 0                 
+#W_engine = 0
+#W_pod = 0
 
 #Li = [1000, 1000, 990, 990, 900, 800, 600, 300]
-Li = np.ones(50)*10
-Ii = np.ones(51)*10**(-5)
+Li = np.ones(50)*20000*g/di/50
+#Li = np.ones(50)*1000
+Ii = np.ones(len(Li)+1)*10**(-4)
 
 #set forces
-Frx, Fry, Fs, Mr = DefForces(Iavg, Li, offsetmax)
-Forces = [Frx, Fry, Fs, Mr]
+#Frx, Fry, Fs, Mr = DefForces(Iavg, Li, offsetmax)
+#Forces = [Frx, Fry, Fs, Mr]
 
 di = b/2/len(Li)
 xi = np.zeros(len(Li)+1)
+dii = np.zeros(len(Li)+1)
 ci = np.zeros(len(Li)+1)
 vi = np.zeros(len(Li)+1)
-Si = np.zeros(len(Li)+1)
-Wi = np.zeros(len(Li)+1)
+Si = np.zeros(len(Li))
+Wi = np.zeros(len(Li))
 
 for i in range(len(Li)+1):
     xi[i] = i*di
     ci[i] = c_root - (c_root-c_tip)/(b/2)*xi[i]
-    vi[i] = offsetmax/(b/2)**2*xi[i]**2
+
+#    vi[i] = offsetmax/(b/2)**2*xi[i]**2
     
 for i in range(len(Li)):
+    dii[i+1] = xi[i+1] - xi[i]
     Si[i] = (ci[i]+ci[i+1])/2*di
-    Wi[i] = W_wing/S*Si[i]
+    Wi[i] = W_wing/S*Si[i]/di
 
     
 momentLi = []
 momentWi = []
 for i in range(len(Li)+1):
     xset = xi[i]
-    momentL = SumzM(Li, xi, xset)
-    momentW = SumzM(Wi, xi, xset)
+    momentL = SumzM(Li, xi, xset, 1)
+    momentW = SumzM(Wi, xi, xset, 2)
     momentLi.append(momentL)
     momentWi.append(momentW)
 
-funcMr = []
-funcFy = []
-funcFs = []
-funcWe = []
-funcWp = []
-funcmL = []
-funcmW = []
+xmr = [0]
+xry = [0]
+xfs = [0]
+xwe = [0]
+xwp = [0]
+xL = [0]
+xW = [0]
+vmr = [0]
+vry = [0]
+vfs = [0]
+vwe = [0]
+vwp = [0]
+vL = [0]
+vW = [0]
 varMr1 = []
 varRy1 = []
 varFs1 = np.zeros(len(Li)+1)
@@ -266,11 +284,11 @@ varWe2 = np.zeros(len(Li)+1)
 varWp2 = np.zeros(len(Li)+1)
 varmL2 = np.zeros(len(Li)+1)
 varmW2 = np.zeros(len(Li)+1)
-for i in range(len(Li)+1):
-    varMr1.append(-di/(2*E)*(sum(1/Ii[:i])+sum(1/Ii[:(i-1)])))
+for i in range(1,len(Li)+1):
+    varMr1.append(di/(2*E)*(sum(1/Ii[:i])+sum(1/Ii[:(i-1)])))
     varRy1.append(di/(2*E)*(sum(xi[:i]/Ii[:i])+sum(xi[:(i-1)]/Ii[:(i-1)])))
-    varmL1.append(-di/(2*E)*(sum(momentLi[:i]/Ii[:i])+sum(momentLi[:(i-1)]/Ii[:(i-1)])))
-    varmW1.append(-di/(2*E)*(sum(momentWi[:i]/Ii[:i])+sum(momentWi[:(i-1)]/Ii[:(i-1)])))
+    varmL1.append(di/(2*E)*(sum(momentLi[:i]/Ii[:i]) + sum(momentLi[:(i-1)]/Ii[:(i-1)])))
+    varmW1.append(-di/(2*E)*(sum(momentWi[:i]/Ii[:i]) + sum(momentWi[:(i-1)]/Ii[:(i-1)])))
     if xi[i] >= x_engine and xi[i] < x_strut and xi[i] < x_pod:
         varWe1[i] = (W_engine*(-di/(2*E)*(sum((xi[:i]-x_engine)/Ii[:i])+sum((xi[:(i-1)]-x_engine)/Ii[:(i-1)]))))
     elif xi[i] >= x_strut and xi[i] >= x_engine and xi[i] < x_pod:
@@ -280,7 +298,6 @@ for i in range(len(Li)+1):
         varWp1[i] = (W_pod*(-di/(2*E)*(sum((xi[:i]-x_pod)/Ii[:i])+sum((xi[:(i-1)]-x_pod)/Ii[:(i-1)]))))
         varFs1[i] = (-sin(theta)*di/(2*E)*(sum((xi[:i]-x_strut)/Ii[:i])+sum((xi[:(i-1)]-x_strut)/Ii[:(i-1)])))
         varWe1[i] = (W_engine*(-di/(2*E)*(sum((xi[:i]-x_engine)/Ii[:i])+sum((xi[:(i-1)]-x_engine)/Ii[:(i-1)]))))
-        
 
 
 for i in range(1,len(Li)+1):
@@ -292,11 +309,41 @@ for i in range(1,len(Li)+1):
     varWp2[i] = di/2*(sum(varWp1[:i]) + sum(varWp1[:(i-1)]))
     varFs2[i] = di/2*(sum(varFs1[:i]) + sum(varFs1[:(i-1)]))
     
+for i in range(1,len(Li)+1):
+    xmr.append(-(dii[i]+dii[i-1])/(2*E*Ii[i]) + xmr[i-1])
+    xry.append((dii[i]+dii[i-1])/(2*E*Ii[i])*xi[i] + xry[i-1])
+    xL.append(momentLi[i]*(dii[i]+dii[i-1])/(2*E*Ii[i]) + xL[i-1])
+    xW.append(momentWi[i]*(dii[i]+dii[i-1])/(2*E*Ii[i]) + xW[i-1])
+    if xi[i] >= x_engine and xi[i] < x_strut and xi[i] < x_pod:
+        xwe.append(-(dii[i]+dii[i-1])/(2*E*Ii[i])*(xi[i]-x_engine) + xwe[i-1])
+        xwp.append(0)
+        xfs.append(0)
+    elif xi[i] >= x_strut and xi[i] >= x_engine and xi[i] < x_pod:
+        xwe.append(-(dii[i]+dii[i-1])/(2*E*Ii[i])*(xi[i]-x_engine) + xwe[i-1])
+        xfs.append(-sin(theta)*(dii[i]+dii[i-1])/(2*E*Ii[i])*(xi[i]-x_strut) + xfs[i-1])
+        xwp.append(0)
+    elif xi[i] >= x_strut and xi[i] >= x_engine and xi[i] >= x_pod:
+        xwe.append(-(dii[i]+dii[i-1])/(2*E*Ii[i])*(xi[i]-x_engine) + xwe[i-1])
+        xfs.append(-sin(theta)*(dii[i]+dii[i-1])/(2*E*Ii[i])*(xi[i]-x_strut) + xfs[i-1])
+        xwp.append(-(dii[i]+dii[i-1])/(2*E*Ii[i])*(xi[i]-x_pod) + xwp[i-1])
+    elif xi[i] < x_strut and xi[i] < x_engine and xi[i] < x_pod:
+        xfs.append(0)
+        xwe.append(0)
+        xwp.append(0)
+
+for i in range(1,len(Li)+1):
+    vmr.append((xmr[i]+xmr[i-1])/2*dii[i] + vmr[i-1])
+    vry.append((xry[i]+xry[i-1])/2*dii[i] + vry[i-1])
+    vL.append((xL[i]+xL[i-1])/2*dii[i] + vL[i-1])
+    vW.append((xW[i]+xW[i-1])/2*dii[i] + vW[i-1])
+    vwe.append((xwe[i]+xwe[i-1])/2*dii[i] + vwe[i-1])
+    vwp.append((xwp[i]+xwp[i-1])/2*dii[i] + vwp[i-1])
+    vfs.append((xfs[i]+xfs[i-1])/2*dii[i] + vfs[i-1])
+
+    
 di = b/2/len(Li)
 xi = np.zeros(len(Li)+1)
 ci = np.zeros(len(Li)+1)
-Si = np.zeros(len(Li)+1)
-Wi = np.zeros(len(Li)+1)
 FyW = np.zeros(len(Li))
 FyL = np.zeros(len(Li))
 MoW = np.zeros(len(Li))
@@ -304,23 +351,20 @@ MoL = np.zeros(len(Li))
 defW = np.zeros(len(Li))
 defL = np.zeros(len(Li))
 xset = b/2
-vset = b/2*0.002
+vset = b/2*0.1
+
 for i in range(len(Li)+1):
     xi[i] = i*di
     ci[i] = c_root - (c_root-c_tip)/(b/2)*xi[i]
 
 for i in range(len(Li)):
-    Si[i] = (ci[i]+ci[i+1])/2*di
-    Wi[i] = W_wing/S*Si[i]
     FyW[i] = Wi[i]*(xi[i+1]-xi[i])
     FyL[i] = Li[i]*(xi[i+1]-xi[i])
-    MoW[i] = Wi[i]*(xi[i+1]-xi[i])*(xi[i]+di/2)
-    MoL[i] = Li[i]*(xi[i+1]-xi[i])*(xi[i]+di/2)
-#    defW[i] = Wi[i]/24*(xset-xi[i])**4 - Wi[i]/24*(xset-xi[i+1])**4
-#    defL[i] = -Li[i]/24*(xset-xi[i])**4 + Li[i]/24*(xset-xi[i+1])**4
+    MoW[i] = Wi[i]*(xi[i+1]-xi[i])*(xi[i]+(xi[i+1]-xi[i])/2)
+    MoL[i] = Li[i]*(xi[i+1]-xi[i])*(xi[i]+(xi[i+1]-xi[i])/2)
 
-Amatrix = A = [[1, 0, -cos(theta), 0], [0, 1, -sin(theta), 0], [0,0, -sin(theta)*x_strut, 1], [0, varRy2[-1], varFs2[-1] , varMr2[-1]]]
-B = [[0], [W_engine + W_pod + sum(FyW) - sum(FyL)], [W_engine*x_engine + W_pod*x_pod + sum(MoW) - sum(MoL)], [ vset - varWe2[-1] - varWp2[-1] - varmL2[-1] - varmW2[-1]]]
+A = [[1, 0, -cos(theta), 0], [0, 1, -sin(theta), 0], [0, -(xi[-1]), sin(theta)*(xi[-1] - x_strut), 1], [0, -vry[-1], -vfs[-1] , -vmr[-1]]]
+B = [[0], [W_engine + W_pod + sum(FyW) - sum(FyL)], [-W_engine*(xi[-1] - x_engine) - W_pod*(xi[-1] - x_pod) - sum(MoW) + sum(MoL)], [ -vset + vwe[-1]*W_engine + vwp[-1]*W_pod + vL[-1] + vW[-1]]]
 C = np.matmul(np.linalg.inv(A),B)
 
 Frx = C[0][0]
@@ -329,28 +373,31 @@ Fs = C[2][0]
 Mr = C[3][0]
 
 
+
 #moment diagram
 momenti = []
 for i in range(len(Li)+1):
     xset = xi[i]
-    momentL = SumzM(Li, xi, xset)
-    momentW = SumzM(Wi, xi, xset)
     if xset >= x_engine and xset >= x_strut and xset >= x_pod:
-        momi = -(Mr - Fry*xset + W_engine*(xset - x_engine) + Fs*cos(theta)*(xset - x_strut) + W_pod*(xset - x_pod) + momentL + momentW)
+        momi = -Mr + Fry*xset - W_engine*(xset - x_engine) - Fs*sin(theta)*(xset - x_strut) - W_pod*(xset - x_pod) + momentLi[i] + momentWi[i]
+        momenti.append(momi)
     elif xset >= x_engine and xset >= x_strut and xset < x_pod:
-        momi = -(Mr - Fry*xset + W_engine*(xset - x_engine) + Fs*cos(theta)*(xset - x_strut) + momentL + momentW)
+        momi = -Mr + Fry*xset - W_engine*(xset - x_engine) - Fs*sin(theta)*(xset - x_strut) + momentLi[i] + momentWi[i]
+        momenti.append(momi)
     elif xset >= x_engine and xset < x_strut and xset < x_pod:
-        momi = -(Mr - Fry*xset + W_engine*(xset - x_engine) + momentL + momentW)
+        momi = -Mr + Fry*xset - W_engine*(xset - x_engine) + momentLi[i] + momentWi[i]
+        momenti.append(momi)
     elif xset < x_engine and xset < x_strut and xset < x_pod:
-        momi = -(Mr - Fry*xset + momentL + momentW)
-    momenti.append(momi)
+        momi = -Mr + Fry*xset + momentLi[i] + momentWi[i]
+        momenti.append(momi)
+    
 
 #shear diagram
 sheari = []
 for i in range(len(Li)+1):
     xset = xi[i]
-    shearL = SumzV(Li, xi, xset)
-    shearW = SumzV(Wi, xi, xset)
+    shearL = SumzV(Li, xi, xset, 1)
+    shearW = SumzV(Wi, xi, xset, 2)
     if xset >= x_engine and xset >= x_strut and xset >= x_pod:
         shri = Fry - W_engine - W_pod - Fs*sin(theta) + shearL + shearW
     elif xset >= x_engine and xset >= x_strut and xset < x_pod:
@@ -362,14 +409,17 @@ for i in range(len(Li)+1):
     sheari.append(shri)
     
 thetai = [0]
-vi1 = [0]
+vii = [0]
+vn = [0]
 for i in range(1,(len(Li)+1)):
-    theti = thetai[i-1] + 1/2*(momenti[i]/(E*Ii[i]) + momenti[i-1]/(E*Ii[i-1]))*(di)
-    thetai.append(theti)
-    vi2 = vi1[i-1] + 1/2*(thetai[i] + thetai[i-1])*(di)
-    vi1.append(vi2)
+    thetai.append(thetai[i-1] + 1/2*(momenti[i]/(E*Ii[i]) + momenti[i-1]/(E*Ii[i-1]))*(dii[i]))
+    
+for i in range(1,(len(Li)+1)):
+    vii.append(vii[i-1] + 1/2*(thetai[i] + thetai[i-1])*dii[i])
 
+for n in range(1, len(Li)+1):
+    vn.append(vmr[n]*Mr + vry[n]*Fry + vwe[n]*W_engine + vfs[n]*Fs + vwp[n]*W_pod + vW[n]+ vL[n] )
 #plt.plot(xi, vi1)    
 
-plt.plot(xi, vi1)
+plt.plot(xi, vii)
     
