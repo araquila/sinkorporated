@@ -64,7 +64,7 @@ energy_density_kerosene = 43
 chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
-# 
+#
 pressure_inside = 100000 #N/m2
 pressure_outside = 35000 #N/m2
 
@@ -237,6 +237,8 @@ C_L_max_TO = 1.4
 V_TO = np.sqrt((2 * MTOW) / (rho0 * S * C_L_max_TO))
 q_TO = 0.5 * rho0 * V_TO ** 2
 C_D_TO = 0.023 #NOT FINAL
+Cl_delta_aileron = 0.11217
+Clp = -25.8276
 # Propulsion
 eff_cruise = 0.85
 eff_loiter = 0.77
