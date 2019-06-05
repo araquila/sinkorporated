@@ -286,21 +286,21 @@ def CallForces(Lift, Chord, Yle, Drag, I, E, perc_engine, perc_strut, perc_pod):
     Mr = C[3][0]
     
     #moment diagram
-    momenti = []
+    momentzi = []
     for i in range(len(Li)+1):
         xset = xi[i]
         if xset >= x_engine and xset >= x_strut and xset >= x_pod:
             momi = -Mr + Fry*xset - W_engine*(xset - x_engine) - Fs*sin(theta)*(xset - x_strut) - W_pod*(xset - x_pod) + momentLi[i] + momentWi[i]
-            momenti.append(momi)
+            momentzi.append(momi)
         elif xset >= x_engine and xset >= x_strut and xset < x_pod:
             momi = -Mr + Fry*xset - W_engine*(xset - x_engine) - Fs*sin(theta)*(xset - x_strut) + momentLi[i] + momentWi[i]
-            momenti.append(momi)
+            momentzi.append(momi)
         elif xset >= x_engine and xset < x_strut and xset < x_pod:
             momi = -Mr + Fry*xset - W_engine*(xset - x_engine) + momentLi[i] + momentWi[i]
-            momenti.append(momi)
+            momentzi.append(momi)
         elif xset < x_engine and xset < x_strut and xset < x_pod:
             momi = -Mr + Fry*xset + momentLi[i] + momentWi[i]
-            momenti.append(momi)
+            momentzi.append(momi)
         
     
     #shear diagram
@@ -324,11 +324,17 @@ def CallForces(Lift, Chord, Yle, Drag, I, E, perc_engine, perc_strut, perc_pod):
         shearD = sum(Drag[:(i)])
         shearzi.append(shearD)
         
+    momentyi = []
+    for i in range(len(Li)+1):
+        xset = xi[i]
+        momentD = SumzML(Drag, Yle, xset)
+        momentyi.append(momentD)
+    
     thetai = [0]
     vii = [0]
     vn = [0]
     for i in range(1,(len(Li)+1)):
-        thetai.append(thetai[i-1] + 1/2*(momenti[i]/(E*Ii[i]) + momenti[i-1]/(E*Ii[i-1]))*(dii[i]))
+        thetai.append(thetai[i-1] + 1/2*(momentzi[i]/(E*Ii[i]) + momentzi[i-1]/(E*Ii[i-1]))*(dii[i]))
         
     for i in range(1,(len(Li)+1)):
         vii.append(vii[i-1] + 1/2*(thetai[i] + thetai[i-1])*dii[i])
@@ -339,11 +345,11 @@ def CallForces(Lift, Chord, Yle, Drag, I, E, perc_engine, perc_strut, perc_pod):
     
     #plt.plot(xi, vii)
     
-    return Frx, Fry, Fs, Mr, momenti, shearyi, shearzi, vii
+    return Frx, Fry, Fs, Mr, momentyi, momentzi, shearyi, shearzi, vii
 
 
 V_cruise = 184.84
 rho_cruise = 0.5258
 lengthdata = 50
 Lift, Chord, Yle, Drag = read_aero_data("aquiladata1.txt", lengthdata, V_cruise, rho_cruise)
-Frx, Fry, Fs, Mr, momenti, shearyi, shearzi, vii = CallForces(Lift, Chord, Yle, Drag, np.ones(len(Lift)+1)*10**(-4), 70*10**9, 0.2, 0.4, 0.4)
+Frx, Fry, Fs, Mr, momentyi, momentzi, shearyi, shearzi, vii = CallForces(Lift, Chord, Yle, Drag, np.ones(len(Lift)+1)*10**(-4), 70*10**9, 0.2, 0.4, 0.4)
