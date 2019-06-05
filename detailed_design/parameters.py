@@ -213,7 +213,7 @@ l_engine = None
 d_prop = None
 engine_pos_perc = 0.27                  # % of span
 pod_pos_perc = 0.5
-y_engine = 4
+y_engine = 4.74
 
 x_engine = engine_pos_perc*b/2
 x_pod = pod_pos_perc*b/2
