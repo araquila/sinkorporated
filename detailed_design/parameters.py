@@ -19,6 +19,7 @@ temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperatu
 ult_stress_carbon = 600e6
 ultimate_bending_stress_al2024 = 483e6
 ultimate_shear_stress_al2024 = 290e6
+ultimate_stress_al2014 = 469e6
 
 # Yield stress
 yield_stress_carbon = None
