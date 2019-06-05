@@ -5,13 +5,12 @@ from matplotlib import pyplot as plt
 radius = p.d_fuselage_outside / 2 
 
 # Choose which material
-sigma_yield = p.yield_stress_aluminum
+sigma_yield = p.yield_stress_al2024
 density = p.density_aluminum
 
 # Import strut and reaction forces from the wing
-p.F_strut = 20000
 alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)          # Angle of the strut with fuselage
-p.R_y = 20000
+
 
 # Constant weight distribution of fuselage weight
 W_fuselage_dist = p.W_fuselage / p.l_fuselage

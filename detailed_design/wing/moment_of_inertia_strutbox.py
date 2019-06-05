@@ -11,9 +11,10 @@ import matplotlib.pyplot as plt
 
 ### STRUT DIAMETER ###
 A_strut_carbon = p.F_strut / p.ult_stress_carbon
-A_strut_al2014 = p.F_strut / p.ultimate_stress_al2014
+A_strut_al2024 = p.F_strut / p.ultimate_stress_al2014
 
-
+d_strut_carbon =2 * np.sqrt(A_strut_carbon/np.pi)
+d_strut_al2024 =2 * np.sqrt(A_strut_al2024/np.pi)
 
 ### STRUTBOX ###
 t_sheet = 0.003 #m
