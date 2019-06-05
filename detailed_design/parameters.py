@@ -167,9 +167,11 @@ n_lower_skin_wingbox = 2
 w_root_strutbox = 1 #m
 w_tip_strutbox = 1 #m
 
-#height wing box
+# Height strutbox
 h_max_root_strutbox = 0.4
 h_max_tip_strutbox = 0.4
+
+# Length strutbox
 
 # Stringers
 n_upper_skin_strutbox = 5
