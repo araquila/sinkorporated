@@ -64,8 +64,8 @@ I_zz_z = e**3*t_z*(e+t_z)**2 +f*t_z*(e+3*t_z/2)**2
 I_yy_z = d**3*t_z/12 + (d/2-z_centroid_z)**2*d*t_z + e*t_z*(d-t_z/2-z_centroid_z)**2 + f**3*t_z/12 + f*t_z*(d-t_z+f/2-z_centroid_z)**2
 
 #section properties
-n_top = 6 # at the upper skin
-n_bottom = 1 # at the lower skin
+n_top = p.n_upper_skin_wingbox # at the upper skin
+n_bottom = p.n_lower_skin_wingbox # at the lower skin
 
 
 #select top and bottom stiffener
