@@ -172,6 +172,7 @@ h_max_root_strutbox = 0.4
 h_max_tip_strutbox = 0.4
 
 # Length strutbox
+l_strutbox = d_fuselage_outside - 0.5
 
 # Stringers
 n_upper_skin_strutbox = 5
