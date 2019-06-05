@@ -194,6 +194,8 @@ def first_moment_of_area(x):
 
 def cross_sectional_area(x):
     """Returns cross sectional area at spanwise position x"""
+    centroid_y = (2*(height_wingbox(x)/2*(height_wingbox(x)-2*t_sheet)*t_sheet) + width_wingbox(x)*t_sheet*((height_wingbox(x)-t_sheet/2)+t_sheet/2) + n_top*(height_wingbox(x)-t_sheet-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*((height_wingbox(x)-2*t_sheet)*t_sheet + width_wingbox(x)*t_sheet) + n_top*A_top + n_bottom*A_bottom)    
+
     A_toppart = width_wingbox(x)*t_sheet + (height_wingbox(x) - centroid_y - t_sheet)*t_sheet*2 + n_top*A_top
     A_bottompart = width_wingbox(x)*t_sheet + (centroid_y - t_sheet)*t_sheet*2 + n_bottom*A_bottom
     
