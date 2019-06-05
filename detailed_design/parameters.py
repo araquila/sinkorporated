@@ -19,6 +19,7 @@ temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperatu
 ult_stress_carbon = 600e6
 ultimate_bending_stress_al2024 = 483e6
 ultimate_shear_stress_al2024 = 290e6
+ultimate_stress_al2014 = 469e6
 
 # Yield stress
 yield_stress_carbon = None
@@ -150,12 +151,12 @@ x_ac_w = xLEMAC + 0.25*MAC
 
 # Wingbox
 # Width
-w_root_wingbox = 1.27758 #m
-w_tip_wingbox = 0.51075 #m
+w_root_wingbox = 1.008 #m
+w_tip_wingbox = 0.4487 #m
 
 # Height
 h_max_root_wingbox = 0.35156
-h_max_tip_wingbox = 0.09704
+h_max_tip_wingbox = 0.08518
 
 # Stringers
 n_upper_skin_wingbox = 5
@@ -166,13 +167,16 @@ n_lower_skin_wingbox = 2
 w_root_strutbox = 1 #m
 w_tip_strutbox = 1 #m
 
-#height wing box
+# Height strutbox
 h_max_root_strutbox = 0.4
 h_max_tip_strutbox = 0.4
 
+# Length strutbox
+l_strutbox = d_fuselage_outside - 0.5
+
 # Stringers
-n_upper_skin_strutbox = 5
-n_lower_skin_strutbox = 2
+n_upper_skin_strutbox = 7
+n_lower_skin_strutbox = 3
 
 # Stringer geometry
 A_stiffener = 0.001
@@ -192,7 +196,7 @@ sweep_v = 30
 V_v = 0.05
 
 # Horizontal Tail
-l_h = 11
+l_h = 12
 A_h = 4
 taper_h = 0.5
 sweep_h = 15
@@ -213,7 +217,7 @@ l_engine = None
 d_prop = None
 engine_pos_perc = 0.27                  # % of span
 pod_pos_perc = 0.5
-y_engine = 4
+y_engine = 4.74
 
 x_engine = engine_pos_perc*b/2
 x_pod = pod_pos_perc*b/2
