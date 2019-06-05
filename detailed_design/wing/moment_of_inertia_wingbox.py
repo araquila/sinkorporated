@@ -121,9 +121,6 @@ def I_zz_wingbox(x,n_top,n_bottom):
     Izz = t_sheet*(height_wingbox(x)-2*t_sheet)**3/12 + n_top*I_zz_top + n_bottom*I_zz_bottom + 2*(height_wingbox(x)-2*t_sheet)*t_sheet*dy_vertical_flange**2 + width_wingbox(x)*t_sheet*dy_upper_flange**2 + width_wingbox(x)*t_sheet*dy_bottom_flange**2 + n_top*A_top*dy_top_stiffener**2 + n_bottom*A_bottom*dy_bottom_stiffener**2
     
     
-
-    
-    
     return Izz,top_spacing,lower_spacing
 
 
