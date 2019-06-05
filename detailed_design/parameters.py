@@ -196,7 +196,7 @@ sweep_v = 30
 V_v = 0.05
 
 # Horizontal Tail
-l_h = 11
+l_h = 12
 A_h = 4
 taper_h = 0.5
 sweep_h = 15

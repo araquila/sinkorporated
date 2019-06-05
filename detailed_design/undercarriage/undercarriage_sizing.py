@@ -49,8 +49,8 @@ print("")
 
 print("WHEEL DIMENSIONS")
 print("Wheel = Outer Diameter x Width - Inner Diameter")
-print("Nose Landing Gear = 0.46 x 0.11 - 0.25")
-print("Main Landing Gear = 0.84 x 0.25 - 0.41")
+print("Nose Landing Gear = 0.35 x 0.11 - 0.15")
+print("Main Landing Gear = 0.66 x 0.22 - 0.28")
 
 print("")
 
