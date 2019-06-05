@@ -10,7 +10,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-
 #actual root enclosed area 0.316
 #actual tip enclosed area 0.045
 

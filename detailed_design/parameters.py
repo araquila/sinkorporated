@@ -151,12 +151,12 @@ x_ac_w = xLEMAC + 0.25*MAC
 
 # Wingbox
 # Width
-w_root_wingbox = 1.27758 #m
-w_tip_wingbox = 0.51075 #m
+w_root_wingbox = 1.008 #m
+w_tip_wingbox = 0.4487 #m
 
 # Height
 h_max_root_wingbox = 0.35156
-h_max_tip_wingbox = 0.09704
+h_max_tip_wingbox = 0.08518
 
 # Stringers
 n_upper_skin_wingbox = 5
@@ -175,8 +175,8 @@ h_max_tip_strutbox = 0.4
 l_strutbox = d_fuselage_outside - 0.5
 
 # Stringers
-n_upper_skin_strutbox = 5
-n_lower_skin_strutbox = 2
+n_upper_skin_strutbox = 7
+n_lower_skin_strutbox = 3
 
 # Stringer geometry
 A_stiffener = 0.001
