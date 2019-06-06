@@ -46,12 +46,13 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     z = sp.width_wingbox(x)/2
     
     #-my/I according to the formula, makes sense because for a positive Mz the top skin will be in compression
-    moment_z_upperskin = -moment_z*(sp.height_wingbox(x)-y)/I_zz
+    moment_z_upperskin = -moment_z*(sp.height_wingbox(x)-abs(y))/I_zz
     moment_z_lowerskin = -moment_z*y/I_zz
     
     moment_y_rightflange = -moment_y*z/I_yy
     moment_y_leftflange = -moment_y*-z/I_yy
     
+    print(moment_y_leftflange,moment_y_rightflange,moment_z_lowerskin,moment_z_upperskin)
     area = sp.cross_sectional_area(x)
     
     normal_force_stress = normal_force/area
@@ -85,6 +86,7 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     print("Neutral axis: y =",sp.centroid_y(x),"(",sp.centroid_y(x)/sp.height_wingbox(x)*100,"%)",)
     print("Maximum tension: ",max(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
     print("Maximum compression: ", min(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
+    print("Normal force stress: ",normal_force_stress,"MPa")
     print("")
     
     return normal_ru,normal_lu,normal_rl,normal_ll
@@ -94,20 +96,20 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
 def skin_buckling_stress(x):
     """Returns compressive stress at which buckling will occur"""
     
-    k = None # to be determined based on the "final" stiffener and rib spacing
+    #k = None # to be determined based on the "final" stiffener and rib spacing
     b = sp.top_spacing
-    poisson_ratio = p.poisson_ratio
     t = p.t_sheet
     
-    return k*np.pi**2*p.E_al2014*(t/b)/(12*(1-poisson_ratio)**2)
+    return k*np.pi**2*p.E_al2014*(t/b)/(12*(1-p.poisson_ratio_al2014)**2)
 
+#print("Skin buckling limit: ", skin_buckling_stress(0))
 
-def critical_colunn_buckling(x):
+def critical_column_buckling(x):
     """Critical column buckling force on the stiffener""" 
     
     l_eff = 0.5*p.rib_spacing
     
-    return (np.pi**2*p.E_al2014*sp.I_zz_wingbox(x))/(l_eff**2)
+    return (np.pi**2*p.E_al2014*sp.I_zz_wingbox(x))/(l_eff**2)/10**6
 
 
 def critical_crippling_stiffener(x):
@@ -141,7 +143,6 @@ def critical_crippling_stiffener(x):
     
     return total_crippling/10**6
 
-print(critical_crippling_stiffener(0))
 
 ###  SHEAR STRESS CALCULATOR ###
 
@@ -186,3 +187,19 @@ plt.plot(x_pos, normal_lu_list, 'g', label='Left upper corner')
 plt.plot(x_pos, normal_rl_list, 'b', label='Right lower corner')
 plt.plot(x_pos, normal_ll_list, 'y', label='Left lower corner')
 plt.legend(loc = 'upper right')      
+
+plt.show()
+
+print("Total weight: ",sp.total_weight,"kg")
+
+print("Column buckling force: ",critical_column_buckling(0),"MPa")
+
+print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.b/2/2),"MPa")
+
+
+
+
+
+
+
+
