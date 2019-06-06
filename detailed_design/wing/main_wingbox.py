@@ -46,8 +46,9 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     z = sp.width_wingbox(x)/2
     
     #-my/I according to the formula, makes sense because for a positive Mz the top skin will be in compression
-    moment_z_upperskin = -moment_z*(sp.height_wingbox(x)-y)/I_zz
+    moment_z_upperskin = -moment_z*(sp.height_wingbox(x)+y)/I_zz
     moment_z_lowerskin = -moment_z*y/I_zz
+    
     
     moment_y_rightflange = -moment_y*z/I_yy
     moment_y_leftflange = -moment_y*-z/I_yy
@@ -155,7 +156,7 @@ normal_ll_list= []
 
 for i in range(len(x_pos)):
     if x_pos[i] < p.x_strut:
-        F_normal = F_strut_x
+        F_normal = -Frx
     else:
         F_normal = 0
     
@@ -169,13 +170,24 @@ for i in range(len(x_pos)):
 ### MOMENT AND SHEAR DIAGRAM ###
 plt.figure(2,figsize = (8,6))
 plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
-plt.ylabel('Moment [Nm]',fontsize=13)
+plt.ylabel('Moment in z-axis [Nm]',fontsize=13)
 plt.plot(x_pos, momentzi, 'b') 
 
 plt.figure(3,figsize = (8,6))
 plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
-plt.ylabel('Shear force [N]',fontsize=13)
+plt.ylabel('Shear force in y direction[N]',fontsize=13)
 plt.plot(x_pos, shearyi,'r')   
+
+plt.figure(4,figsize = (8,6))
+plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
+plt.ylabel('Moment in around y-axis [Nm]',fontsize=13)
+plt.plot(x_pos, momentyi, 'b') 
+
+plt.figure(5,figsize = (8,6))
+plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
+plt.ylabel('Shear force in z direction [N]',fontsize=13)
+plt.plot(x_pos, shearzi,'r') 
+
 
 ### PLOT NORMAL STRESS AT THE FOUR CORNERS
 plt.figure(1,figsize = (8,6))
