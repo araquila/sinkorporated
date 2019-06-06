@@ -35,7 +35,6 @@ fatigue_strength_al2014 = 124e6
 poisson_ratio_al2014 = 0.33
 
 # E-modulus
-E_modulus = 414e6
 E_al2014 = 72.4e9 #E-modulus
 
 # Shear modulus

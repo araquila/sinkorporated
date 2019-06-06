@@ -97,7 +97,7 @@ def skin_buckling_stress(x):
     poisson_ratio = p.poisson_ratio
     t = p.t_sheet
     
-    return k*np.pi**2*p.E*(t/b)/(12*(1-poisson_ratio)**2)
+    return k*np.pi**2*p.E_al2014*(t/b)/(12*(1-poisson_ratio)**2)
 
 
 def critical_colunn_buckling(x):
@@ -105,21 +105,21 @@ def critical_colunn_buckling(x):
     
     l_eff = 0.5*p.rib_spacing
     
-    return (np.pi**2*p.E*sp.I_zz_wingbox(x))/(l_eff**2)
+    return (np.pi**2*p.E_modulus*sp.I_zz_wingbox(x))/(l_eff**2)
 
 
 def critical_crippling_stiffener(x):
-    """Critical crippling stress for aluminium top stiffener"""
+    """Critical crippling stress for aluminium top stiffener in MPa"""
     
     alpha = 0.8
     n = 0.6
-    yield_stress =
+    yield_stress = p.tensile_yield_strength_al2014
     
     
     def stress_cc(K,b):
-        return K*(np.pi**2*p.E*(p.t_sheet/b)**2/(12*(1-p.poisson_ratio)))
+        return K*(np.pi**2*p.E_al2014*(sp.t_hat/b)**2/(12*(1-p.poisson_ratio_al2014**2)))
     
-    t_sheet = p.t_sheet
+    t_sheet = sp.t_hat
     
     #areas
     area_a = sp.a*t_sheet
@@ -131,38 +131,44 @@ def critical_crippling_stiffener(x):
     cc_b = stress_cc(0.425,sp.b)
     cc_c = stress_cc(4,sp.c)
     
-    ratio_a = 
+    ratio_a = alpha*(cc_a/yield_stress)**(1-n)
+    ratio_b = alpha*(cc_b/yield_stress)**(1-n)
+    ratio_c = alpha*(cc_c/yield_stress)**(1-n)
+
+    total_crippling = yield_stress*(2*(ratio_a*area_a+ratio_b*area_b)+ratio_c*area_c) / (2*area_a + 2*area_b + area_c)
     
-    
-    
+    return total_crippling/10**6
+
+print(critical_crippling_stiffener(0))
+
 ###  SHEAR STRESS CALCULATOR ###
 
 
 
-### CALCULATE SHEAR AND NORMAL STRESS ###
-normal_ru_list= []
-normal_lu_list= []
-normal_rl_list= []
-normal_ll_list= []
-
-for i in range(len(x_pos)):
-    if x_pos[i] < p.x_strut:
-        F_normal = F_strut_x
-    else:
-        F_normal = 0
-    
-    normal_ru, normal_lu, normal_rl, normal_ll = normal_stress(x_pos[i],y_max_list[i],momentzi[i],momentyi[i],F_normal,Izz_list[i],Iyy_list[i],area_list[i])
-    normal_ru_list.append(normal_ru/10**6)
-    normal_lu_list.append(normal_lu/10**6)
-    normal_rl_list.append(normal_rl/10**6)
-    normal_ll_list.append(normal_ll/10**6)
-    
-### PLOT NORMAL STRESS AT THE FOUR CORNERS
-plt.figure(1,figsize = (8,6))
-plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
-plt.ylabel('Normal stress [MPa]',fontsize=13)
-plt.plot(x_pos, normal_ru_list, 'r', label='Right upper corner')
-plt.plot(x_pos, normal_lu_list, 'g', label='Left upper corner')
-plt.plot(x_pos, normal_rl_list, 'b', label='Right lower corner')
-plt.plot(x_pos, normal_ll_list, 'y', label='Left lower corner')
-plt.legend(loc = 'upper right')      
+#### CALCULATE SHEAR AND NORMAL STRESS ###
+#normal_ru_list= []
+#normal_lu_list= []
+#normal_rl_list= []
+#normal_ll_list= []
+#
+#for i in range(len(x_pos)):
+#    if x_pos[i] < p.x_strut:
+#        F_normal = F_strut_x
+#    else:
+#        F_normal = 0
+#    
+#    normal_ru, normal_lu, normal_rl, normal_ll = normal_stress(x_pos[i],y_max_list[i],momentzi[i],momentyi[i],F_normal,Izz_list[i],Iyy_list[i],area_list[i])
+#    normal_ru_list.append(normal_ru/10**6)
+#    normal_lu_list.append(normal_lu/10**6)
+#    normal_rl_list.append(normal_rl/10**6)
+#    normal_ll_list.append(normal_ll/10**6)
+#    
+#### PLOT NORMAL STRESS AT THE FOUR CORNERS
+#plt.figure(1,figsize = (8,6))
+#plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
+#plt.ylabel('Normal stress [MPa]',fontsize=13)
+#plt.plot(x_pos, normal_ru_list, 'r', label='Right upper corner')
+#plt.plot(x_pos, normal_lu_list, 'g', label='Left upper corner')
+#plt.plot(x_pos, normal_rl_list, 'b', label='Right lower corner')
+#plt.plot(x_pos, normal_ll_list, 'y', label='Left lower corner')
+#plt.legend(loc = 'upper right')      
