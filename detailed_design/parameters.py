@@ -142,6 +142,7 @@ sweep_qc = 0
 dihedral = 1.
 taper = 0.4
 root_chord = 2.241
+tip_chord = root_chord * taper
 tc_ratio_root = 0.15
 tc_ratio_tip = 0.12
 strut_pos_perc = 0.5                    # % of span
@@ -243,6 +244,11 @@ q_TO = 0.5 * rho0 * V_TO ** 2
 C_D_TO = 0.023 #NOT FINAL
 Cl_delta_aileron = 0.11217
 Clp = -25.8276
+Cl_alpha = 2 * np.pi
+tau = 0.57
+Cd0 = 0.008
+
+
 # Propulsion
 eff_cruise = 0.85
 eff_loiter = 0.77
