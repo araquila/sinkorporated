@@ -19,18 +19,30 @@ R = 287
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 
 # Materials
+#material aluminium 2014-T6 http://asm.matweb.com/search/SpecificMaterial.asp?bassnum=MA2014T6
+
 # Ultimate
 ult_stress_carbon = 600e6
 ultimate_bending_stress_al2024 = 483e6
 ultimate_shear_stress_al2024 = 290e6
-ultimate_stress_al2014 = 469e6
+ultimate_stress_al2024 = 469e6
+tensile_yield_strength_al2014 = 414e6
 
 # Yield stress
 yield_stress_carbon = None
 yield_stress_al2024 = 324e6
 
+# Fatigue
+fatigue_strength_al2014 = 124e6
+
+# Poisson
+poisson_ratio_al2014 = 0.33
+
 # E-modulus
-E_modulus = 414e6
+E_al2014 = 72.4e9 #E-modulus
+
+# Shear modulus
+G_al2014 = 28e9 #shear modulus
 
 # Density
 density_aluminum = 2800
@@ -170,6 +182,9 @@ n_lower_skin_wingbox = 2
 #thickness
 t_sheet = 0.003 #m
 
+#amount of ribs, excluding root and tip caps
+n_ribs = 8
+rib_spacing = (b/2)/(n_ribs+1)
 
 # Strutbox
 # Width

@@ -15,8 +15,8 @@ import matplotlib.pyplot as plt
 
 
 #height at root of the wing box
-h_root = 0.929*p.h_max_root_strutbox
-h_tip = 0.825*p.h_max_tip_strutbox #arbitrary
+h_root = 0.9*p.h_max_root_strutbox
+h_tip = h_root
 
 
 def width_strutbox(x):
@@ -143,7 +143,7 @@ def I_yy_strutbox(x):
     #top stiffeners
     if n_top%2==0:
         Adz_top = 0
-        for i in range(1,n_top/2+1):
+        for i in range(1,int(n_top/2+1)):
             Adz_top += A_top*(i*((top_spacing + z_top)/2))**2
     else:
         Adz_top = 0
@@ -153,7 +153,7 @@ def I_yy_strutbox(x):
     #bottom stiffeners
     if n_bottom%2==0:
         Adz_bottom = 0
-        for i in range(1,n_bottom/2+1):
+        for i in range(1,int(n_bottom/2+1)):
             Adz_bottom += A_bottom*(i*((bottom_spacing + z_bottom)/2))**2
     else:
         Adz_bottom = 0
@@ -213,7 +213,9 @@ def y_max(x):
         print('y max is at the bottom, i.e. has a negative value: ') 
         return -centroid_y
    
-    
+def centroid_y(x):
+    centroid_y = (2*(height_strutbox(x)/2*(height_strutbox(x)-2*t_sheet)*t_sheet) + width_strutbox(x)*t_sheet*((height_strutbox(x)-t_sheet/2)+t_sheet/2) + n_top*(height_strutbox(x)-t_sheet-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*((height_strutbox(x)-2*t_sheet)*t_sheet + width_strutbox(x)*t_sheet) + n_top*A_top + n_bottom*A_bottom)
+    return centroid_y
 #print(first_moment_of_area(0))
 
 #x = np.linspace(0,16,50)

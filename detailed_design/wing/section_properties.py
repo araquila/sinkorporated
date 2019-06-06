@@ -28,14 +28,14 @@ def height_wingbox(x):
 
 
 t_sheet = p.t_sheet #m
-t_hat = 0.002 #m
-t_z = 0.002 #m
+t_hat = 0.005 #m
+t_z = 0.005 #m
 
 
 #hat geometry
-a = 0.06
+a = 0.05
 b = 0.04
-c = 0.05
+c = 0.06
 
 width_hat = 2*b+c-t_hat
 
