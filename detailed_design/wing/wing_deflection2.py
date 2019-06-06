@@ -349,13 +349,13 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
         MtD.append(Drag[i] * (xi[-1] - Yle[i]))
     
     
-    A1 = [[1, 1, 0], [0, (x_strut), 1], [vyrz[indexstrut], vyfsz[indexstrut], vymr[indexstrut]]]
-    B1 = [[-thrust_per_engine + sum(Drag)],[-thrust_per_engine*(xi[-1] - x_engine) + sum(MoD)], [vset_strut - vD[indexstrut] - vyT[indexstrut]*thrust_per_engine]]
+    A1 = [[1, 1, 0], [xi[-1], (xi[-1] - x_strut), 1], [vyrz[indexstrut], vyfsz[indexstrut],vymr[indexstrut]]]
+    B1 = [[-thrust_per_engine + sum(Drag)],[-thrust_per_engine*(xi[-1] - x_engine) + sum(MtD)], [vset_strut - vD[indexstrut] - vyT[indexstrut]*thrust_per_engine]]
     C1 = np.matmul(np.linalg.inv(A1), B1)
     Frz = C1[0][0]
     Fsz = C1[1][0]
     Mry = C1[2][0]    
-    
+
     
     #moment diagram
     momentzi = []
@@ -419,7 +419,7 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
         elif xset < x_engine and xset < x_strut:
             momi = -Mry - Frz*xset + momentD
             momentyi.append(momi)
-#    plt.plot(momentyi)
+    plt.plot(momentyi)
     
     thetayi = [0]
     vzi = [0]
