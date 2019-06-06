@@ -58,6 +58,7 @@ def normal_stress(x):
     elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
         print("Max compression at left lower corner")
         
+        
     print("x: ",x)
     print("Neutral axis: y =",sp.centroid_y(x),"(",sp.centroid_y(x)/sp.height_wingbox(x)*100,"%)",)
     print("Maximum tension: ",max(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
@@ -65,6 +66,8 @@ def normal_stress(x):
     print("")
     
     return min(normal_ru,normal_lu,normal_rl,normal_ll)
+
+
 
 x = np.linspace(0,p.b/2,100)
 normal_stress_values = np.zeros(len(x))
