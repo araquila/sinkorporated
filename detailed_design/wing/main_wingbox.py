@@ -152,15 +152,15 @@ for i in range(len(x_pos)):
         F_normal = 0
     
     normal_ru, normal_lu, normal_rl, normal_ll = normal_stress(x_pos[i],y_max_list[i],momentzi[i],momentyi[i],F_normal,Izz_list[i],Iyy_list[i],area_list[i])
-    normal_ru_list.append(normal_ru)
-    normal_lu_list.append(normal_lu)
-    normal_rl_list.append(normal_rl)
-    normal_ll_list.append(normal_ll)
+    normal_ru_list.append(normal_ru/10**6)
+    normal_lu_list.append(normal_lu/10**6)
+    normal_rl_list.append(normal_rl/10**6)
+    normal_ll_list.append(normal_ll/10**6)
     
 ### PLOT NORMAL STRESS AT THE FOUR CORNERS
 plt.figure(1,figsize = (8,6))
 plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
-plt.ylabel('Normal stress [N/m^2]',fontsize=13)
+plt.ylabel('Normal stress [MPa]',fontsize=13)
 plt.plot(x_pos, normal_ru_list, 'r', label='Right upper corner')
 plt.plot(x_pos, normal_lu_list, 'g', label='Left upper corner')
 plt.plot(x_pos, normal_rl_list, 'b', label='Right lower corner')
