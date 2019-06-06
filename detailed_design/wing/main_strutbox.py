@@ -7,16 +7,8 @@ import wing.wing_deflection2 as wd2
 
 
 ### DISCRETIZATION OF THE STRUTBOX ###
-n = 50
+n = 51
 x_pos = np.linspace(0,p.l_strutbox,n)
-
-### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
-lengthdata = 50
-Lift, Chord, Yle, Drag = wd2.read_aero_data("wing/aquiladata1.txt", lengthdata, p.V_cruise, p.rho)
-Frx, Fry, Fs, Mr, momentyi, momentzi, shearyi, shearzi, vii, xi, Iyy = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, np.ones(len(Lift)+1)*10**(-4), 70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
-alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
-F_strut_y = Fs * np.cos(alpha)
-F_strut_x = Fs * np.sin(alpha)
 
 ### OBTAIN CROSSECTIONAL PROPERTIES ###
 Izz_list = []
@@ -31,6 +23,14 @@ for x in x_pos:
     first_moment_of_area_list.append(scs.first_moment_of_area(x))
     area_list.append(scs.cross_sectional_area(x))
     y_max_list.append(scs.y_max(x))
+    
+### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
+lengthdata = 50
+Lift, Chord, Yle, Drag = wd2.read_aero_data("wing/aquiladata1.txt", lengthdata, p.V_cruise, p.rho)
+Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
+alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
+F_strut_y = Fs * np.cos(alpha)
+F_strut_x = Fs * np.sin(alpha)
 
 ### OBTAIN SHEAR AND MOMENT DIAGRAM ###
 V_list, M_list = shear_and_moment(Fs,n)
