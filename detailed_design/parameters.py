@@ -166,6 +166,21 @@ n_lower_skin_wingbox = 2
 #thickness
 t_sheet = 0.003 #m
 
+#amount of ribs, excluding root and tip caps
+n_ribs = 8
+rib_spacing = (b/2)/(n_ribs+1)
+
+#material aluminium 2014-T6 http://asm.matweb.com/search/SpecificMaterial.asp?bassnum=MA2014T6
+
+E = 72.4e9 #E-modulus
+G = 28e9 #shear modulus
+
+tensile_yield_strength = 414e6
+fatigue_strength = 124e6
+
+poisson_ratio = 0.33
+
+
 
 # Strutbox
 # Width
