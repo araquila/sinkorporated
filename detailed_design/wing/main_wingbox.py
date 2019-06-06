@@ -9,18 +9,38 @@ import parameters as p
 import numpy as np
 import matplotlib.pyplot as plt
 import wing.section_properties as sp
+import wing.wing_deflection2 as wd2 
 
-def normal_stress(x):
+### DISCRETIZATION OF THE STRUTBOX ###
+n = 51
+x_pos = np.linspace(0,p.b/2,n)
+
+### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
+lengthdata = 50
+Lift, Chord, Yle, Drag = wd2.read_aero_data("wing/aquiladata1.txt", lengthdata, p.V_cruise, p.rho)
+Frx, Fry, Fs, Mr, momentyi, momentzi, shearyi, shearzi, vii, xi, Iyy = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, np.ones(len(Lift)+1)*10**(-4), 70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
+alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
+F_strut_y = Fs * np.cos(alpha)
+F_strut_x = Fs * np.sin(alpha)
+
+### OBTAIN CROSSECTIONAL PROPERTIES ###
+Izz_list = []
+Iyy_list = []
+first_moment_of_area_list = []
+area_list = []
+y_max_list = []
+
+for x in x_pos:
+    Izz_list.append(sp.I_zz_wingbox(x))
+    Iyy_list.append(sp.I_yy_wingbox(x))
+    first_moment_of_area_list.append(sp.first_moment_of_area(x))
+    area_list.append(sp.cross_sectional_area(x))
+    y_max_list.append(sp.y_max(x))
+
+### NORMAL STRESS CALCULATOR ###
+def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     """Returns bending moment and normal force stress""" 
-    moment_z = 10000
-    moment_y = 10000
     
-    normal_force = 1000 #positive along right wing span
-        
-    I_zz = sp.I_zz_wingbox(x)
-    I_yy = sp.I_yy_wingbox(x)
-    
-    y = sp.y_max(x)
     z = sp.width_wingbox(x)/2
     
     #-my/I according to the formula, makes sense because for a positive Mz the top skin will be in compression
@@ -65,7 +85,7 @@ def normal_stress(x):
     print("Maximum compression: ", min(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
     print("")
     
-    return min(normal_ru,normal_lu,normal_rl,normal_ll)
+    return normal_ru,normal_lu,normal_rl,normal_ll
 
 
 
@@ -92,17 +112,34 @@ def critical_colunn_buckling(x):
 #    """Critical crippling top stiffener"""
 #    
     
-    
-
-x = np.linspace(0,p.b/2,100)
-normal_stress_values = np.zeros(len(x))
-for i in range(len(x)):
-    normal_stress_values[i] = normal_stress(x[i])
-    
-    
-plt.plot(x,normal_stress_values)
-plt.show()
+###  SHEAR STRESS CALCULATOR ###
 
 
+
+### CALCULATE SHEAR AND NORMAL STRESS ###
+normal_ru_list= []
+normal_lu_list= []
+normal_rl_list= []
+normal_ll_list= []
+
+for i in range(len(x_pos)):
+    if x_pos[i] < p.x_strut:
+        F_normal = F_strut_x
+    else:
+        F_normal = 0
     
+    normal_ru, normal_lu, normal_rl, normal_ll = normal_stress(x_pos[i],y_max_list[i],momentzi[i],momentyi[i],F_normal,Izz_list[i],Iyy_list[i],area_list[i])
+    normal_ru_list.append(normal_ru)
+    normal_lu_list.append(normal_lu)
+    normal_rl_list.append(normal_rl)
+    normal_ll_list.append(normal_ll)
     
+### PLOT NORMAL STRESS AT THE FOUR CORNERS
+plt.figure(1,figsize = (8,6))
+plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
+plt.ylabel('Normal stress [N/m^2]',fontsize=13)
+plt.plot(x_pos, normal_ru_list, 'r', label='Right upper corner')
+plt.plot(x_pos, normal_lu_list, 'g', label='Left upper corner')
+plt.plot(x_pos, normal_rl_list, 'b', label='Right lower corner')
+plt.plot(x_pos, normal_ll_list, 'y', label='Left lower corner')
+plt.legend(loc = 'upper right')      
