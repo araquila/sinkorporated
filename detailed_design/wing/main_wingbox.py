@@ -11,9 +11,11 @@ import matplotlib.pyplot as plt
 import wing.section_properties as sp
 import wing.wing_deflection2 as wd2 
 
+
 ### DISCRETIZATION OF THE STRUTBOX ###
 n = 51
 x_pos = np.linspace(0,p.b/2,n)
+
 
 ### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
 lengthdata = 50
@@ -105,7 +107,7 @@ def critical_colunn_buckling(x):
     
     l_eff = 0.5*p.rib_spacing
     
-    return (np.pi**2*p.E_modulus*sp.I_zz_wingbox(x))/(l_eff**2)
+    return (np.pi**2*p.E_al2014*sp.I_zz_wingbox(x))/(l_eff**2)
 
 
 def critical_crippling_stiffener(x):
@@ -162,6 +164,7 @@ for i in range(len(x_pos)):
     normal_lu_list.append(normal_lu/10**6)
     normal_rl_list.append(normal_rl/10**6)
     normal_ll_list.append(normal_ll/10**6)
+    
    
 ### MOMENT AND SHEAR DIAGRAM ###
 plt.figure(2,figsize = (8,6))
