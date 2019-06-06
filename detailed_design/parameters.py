@@ -176,8 +176,8 @@ h_max_tip_strutbox = 0.4
 l_strutbox = d_fuselage_outside - 0.5
 
 # Stringers
-n_upper_skin_strutbox = 7
-n_lower_skin_strutbox = 3
+n_upper_skin_strutbox = 0
+n_lower_skin_strutbox = 0
 
 # Stringer geometry
 A_stiffener = 0.001
