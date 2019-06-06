@@ -109,9 +109,31 @@ def critical_colunn_buckling(x):
 
 
 def critical_crippling_stiffener(x):
-    """Critical crippling top stiffener"""
+    """Critical crippling stress for aluminium top stiffener"""
     
-        
+    alpha = 0.8
+    n = 0.6
+    yield_stress =
+    
+    
+    def stress_cc(K,b):
+        return K*(np.pi**2*p.E*(p.t_sheet/b)**2/(12*(1-p.poisson_ratio)))
+    
+    t_sheet = p.t_sheet
+    
+    #areas
+    area_a = sp.a*t_sheet
+    area_b = (sp.b-t_sheet)*t_sheet
+    area_c = (sp.c-t_sheet)*t_sheet
+    
+    #critical crippling stress
+    cc_a = stress_cc(4,sp.a)
+    cc_b = stress_cc(0.425,sp.b)
+    cc_c = stress_cc(4,sp.c)
+    
+    ratio_a = 
+    
+    
 ###  SHEAR STRESS CALCULATOR ###
 
 
