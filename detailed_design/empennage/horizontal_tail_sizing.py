@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import parameters as p
+import undercarriage.potatodiagram as pt
 
 M_cruise = p.M_cruise               # Cruise Mach number [-]
 D_fuselage = p.d_fuselage_outside   # Diameter of the fuselage [m]
@@ -57,4 +58,25 @@ plt.plot(x_cg_stability, Sh_S)
 plt.plot(x_cg_controllability, Sh_S)
 plt.xlim([-0.5,1])
 plt.ylim([0,0.6])
+plt.show()
+
+fig, ax1 = plt.subplots()
+ax1.plot(x_cg_stability, Sh_S, color='b')
+ax1.plot(x_cg_controllability, Sh_S, color='b')
+ax1.set_xlabel('x_cg/MAC')
+ax1.set_xlim([-0.5, 1.5])
+ax1.set_ylim([0, 0.6])
+# Make the y-axis label, ticks and tick labels match the line color.
+ax1.set_ylabel('S_h/S', color='b')
+ax1.tick_params('y', colors='b')
+
+ax2 = ax1.twinx()
+ax2.plot(pt.CGmacmin, pt.xlemac, color='r')
+ax2.plot(pt.CGmacmax, pt.xlemac, color='r')
+ax2.set_ylabel('x_lemac/l_fus', color='r')
+ax2.tick_params('y', colors='r')
+ax2.set_xlim([-0.5, 1.5])
+ax2.set_ylim([0.35, 0.53])
+
+fig.tight_layout()
 plt.show()
