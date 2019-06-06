@@ -145,30 +145,41 @@ print(critical_crippling_stiffener(0))
 
 
 
-#### CALCULATE SHEAR AND NORMAL STRESS ###
-#normal_ru_list= []
-#normal_lu_list= []
-#normal_rl_list= []
-#normal_ll_list= []
-#
-#for i in range(len(x_pos)):
-#    if x_pos[i] < p.x_strut:
-#        F_normal = F_strut_x
-#    else:
-#        F_normal = 0
-#    
-#    normal_ru, normal_lu, normal_rl, normal_ll = normal_stress(x_pos[i],y_max_list[i],momentzi[i],momentyi[i],F_normal,Izz_list[i],Iyy_list[i],area_list[i])
-#    normal_ru_list.append(normal_ru/10**6)
-#    normal_lu_list.append(normal_lu/10**6)
-#    normal_rl_list.append(normal_rl/10**6)
-#    normal_ll_list.append(normal_ll/10**6)
-#    
-#### PLOT NORMAL STRESS AT THE FOUR CORNERS
-#plt.figure(1,figsize = (8,6))
-#plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
-#plt.ylabel('Normal stress [MPa]',fontsize=13)
-#plt.plot(x_pos, normal_ru_list, 'r', label='Right upper corner')
-#plt.plot(x_pos, normal_lu_list, 'g', label='Left upper corner')
-#plt.plot(x_pos, normal_rl_list, 'b', label='Right lower corner')
-#plt.plot(x_pos, normal_ll_list, 'y', label='Left lower corner')
-#plt.legend(loc = 'upper right')      
+### CALCULATE SHEAR AND NORMAL STRESS ###
+normal_ru_list= []
+normal_lu_list= []
+normal_rl_list= []
+normal_ll_list= []
+
+for i in range(len(x_pos)):
+    if x_pos[i] < p.x_strut:
+        F_normal = F_strut_x
+    else:
+        F_normal = 0
+    
+    normal_ru, normal_lu, normal_rl, normal_ll = normal_stress(x_pos[i],y_max_list[i],momentzi[i],momentyi[i],F_normal,Izz_list[i],Iyy_list[i],area_list[i])
+    normal_ru_list.append(normal_ru/10**6)
+    normal_lu_list.append(normal_lu/10**6)
+    normal_rl_list.append(normal_rl/10**6)
+    normal_ll_list.append(normal_ll/10**6)
+   
+### MOMENT AND SHEAR DIAGRAM ###
+plt.figure(2,figsize = (8,6))
+plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
+plt.ylabel('Moment [Nm]',fontsize=13)
+plt.plot(x_pos, momentzi, 'b') 
+
+plt.figure(3,figsize = (8,6))
+plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
+plt.ylabel('Shear force [N]',fontsize=13)
+plt.plot(x_pos, shearyi,'r')   
+
+### PLOT NORMAL STRESS AT THE FOUR CORNERS
+plt.figure(1,figsize = (8,6))
+plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
+plt.ylabel('Normal stress [MPa]',fontsize=13)
+plt.plot(x_pos, normal_ru_list, 'r', label='Right upper corner')
+plt.plot(x_pos, normal_lu_list, 'g', label='Left upper corner')
+plt.plot(x_pos, normal_rl_list, 'b', label='Right lower corner')
+plt.plot(x_pos, normal_ll_list, 'y', label='Left lower corner')
+plt.legend(loc = 'upper right')      
