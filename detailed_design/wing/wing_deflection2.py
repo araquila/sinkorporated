@@ -419,7 +419,7 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
         elif xset < x_engine and xset < x_strut:
             momi = -Mry - Frz*xset + momentD
             momentyi.append(momi)
-    plt.plot(momentyi)
+#    plt.plot(momentyi)
     
     thetayi = [0]
     vzi = [0]
