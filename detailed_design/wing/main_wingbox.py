@@ -112,7 +112,6 @@ def critical_crippling_stiffener(x):
     """Critical crippling top stiffener"""
     
         
-    
 ###  SHEAR STRESS CALCULATOR ###
 
 
@@ -134,7 +133,18 @@ for i in range(len(x_pos)):
     normal_lu_list.append(normal_lu/10**6)
     normal_rl_list.append(normal_rl/10**6)
     normal_ll_list.append(normal_ll/10**6)
-    
+   
+### MOMENT AND SHEAR DIAGRAM ###
+plt.figure(2,figsize = (8,6))
+plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
+plt.ylabel('Moment [Nm]',fontsize=13)
+plt.plot(x_pos, momentzi, 'b') 
+
+plt.figure(3,figsize = (8,6))
+plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
+plt.ylabel('Shear force [N]',fontsize=13)
+plt.plot(x_pos, shearyi,'r')   
+
 ### PLOT NORMAL STRESS AT THE FOUR CORNERS
 plt.figure(1,figsize = (8,6))
 plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
