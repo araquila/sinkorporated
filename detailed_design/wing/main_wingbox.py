@@ -53,7 +53,6 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     moment_y_rightflange = -moment_y*z/I_yy
     moment_y_leftflange = -moment_y*-z/I_yy
     
-    print(moment_y_leftflange,moment_y_rightflange,moment_z_lowerskin,moment_z_upperskin)
     area = sp.cross_sectional_area(x)
     
     normal_force_stress = normal_force/area
@@ -97,11 +96,11 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
 def skin_buckling_stress(x):
     """Returns compressive stress at which buckling will occur"""
     
-    #k = None # to be determined based on the "final" stiffener and rib spacing
+    k = 4 # to be determined based on the "final" stiffener and rib spacing
     b = sp.top_spacing
     t = p.t_sheet
     
-    return k*np.pi**2*p.E_al2014*(t/b)/(12*(1-p.poisson_ratio_al2014)**2)
+    return k*np.pi**2*p.E_al2014/(12*(1-p.poisson_ratio_al2014**2)) * (t/b)**2
 
 #print("Skin buckling limit: ", skin_buckling_stress(0))
 
@@ -202,15 +201,42 @@ plt.legend(loc = 'upper right')
 
 plt.show()
 
+max_compressive_stress = min(normal_ru_list)
+max_tensile_stress = max(normal_ll_list)
+
+print("Max compressive: ",max_compressive_stress,"MPa")
+print("Max tensile: ",max_tensile_stress,"MPa")
+
 print("Total weight: ",sp.total_weight,"kg")
 
-print("Column buckling force: ",critical_column_buckling(0),"MPa")
+print("Skin buckling limit: ",skin_buckling_stress(p.b/2/2)/10**6,"MPa")
+
+print("Column buckling limit: ",critical_column_buckling(p.b/2/2),"MPa")
 
 print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.b/2/2),"MPa")
 
+print("")
 
 
-
+if abs(max_compressive_stress) < abs(skin_buckling_stress(8)/10**6):
+    print("Skin buckling passed")
+else:
+    print("Failure on skin buckling")
+    
+if abs(max_compressive_stress) < abs(critical_column_buckling(8)):
+    print("Column buckling passed")
+else:
+    print("Failure on column buckling")
+    
+if abs(max_compressive_stress) < abs(critical_crippling_stiffener(p.b/2/2)):
+    print("Cripple limit of the stiffener passed")
+else:
+    print("Failure on stiffener crippling")
+    
+if max_tensile_stress > p.tensile_yield_strength_al2014/10**6:
+    print("Yielded at the strut")
+else:
+    print("Max stress",max_tensile_stress/(p.tensile_yield_strength_al2014/10**6)*100,"% of the yield strength")
 
 
 

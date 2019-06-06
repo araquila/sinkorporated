@@ -24,12 +24,11 @@ temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperatu
 ult_stress_carbon = 600e6
 ultimate_bending_stress_al2024 = 483e6
 ultimate_shear_stress_al2024 = 290e6
-ultimate_stress_al2024 = 469e6
 tensile_yield_strength_al2014 = 414e6
 
 # Yield stress
 yield_stress_carbon = None
-yield_stress_al2024 = 324e6
+yield_stress_al2024 = 414e6
 
 # Fatigue
 fatigue_strength_al2014 = 124e6
@@ -179,10 +178,10 @@ n_upper_skin_wingbox = 5
 n_lower_skin_wingbox = 2
 
 #thickness
-t_sheet = 0.0025 #m
+t_sheet = 0.002 #m
 
 #amount of ribs, excluding root and tip caps
-n_ribs = 10
+n_ribs = 15
 rib_spacing = (b/2)/(n_ribs+1)
 
 # Strutbox
@@ -199,7 +198,7 @@ l_strutbox = d_fuselage_outside - 0.5
 
 # Stringers
 n_upper_skin_strutbox = 7
-n_lower_skin_strutbox = 2
+n_lower_skin_strutbox = 3
 
 # Stringer geometry
 A_stiffener = 0.001
