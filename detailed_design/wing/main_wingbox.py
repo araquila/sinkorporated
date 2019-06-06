@@ -108,9 +108,10 @@ def critical_colunn_buckling(x):
     return (np.pi**2*p.E*sp.I_zz_wingbox(x))/(l_eff**2)
 
 
-#def critical_crippling_stiffener(x):
-#    """Critical crippling top stiffener"""
-#    
+def critical_crippling_stiffener(x):
+    """Critical crippling top stiffener"""
+    
+        
     
 ###  SHEAR STRESS CALCULATOR ###
 
