@@ -31,11 +31,11 @@ def shear_and_moment():
     plt.ylabel('Moment [Nm]',fontsize=13)
     plt.plot(x_pos, M_list, 'b')
     
-    x_pos = np.linspace(0,p.l_strutbox,302)
+    x_pos_shear = np.linspace(0,p.l_strutbox,302)
     V_list.append(0)  
     
     plt.figure(1,figsize = (8,6))
     plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
     plt.ylabel('Shear force [N]',fontsize=13)
-    plt.plot(x_pos, V_list, 'r')
+    plt.plot(x_pos_shear, V_list, 'r')
     return x_pos, V_list, M_list

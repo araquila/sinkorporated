@@ -27,7 +27,7 @@ def height_wingbox(x):
 
 
 
-t_sheet = 0.003 #m
+t_sheet = p.t_sheet #m
 t_hat = 0.002 #m
 t_z = 0.002 #m
 
@@ -93,6 +93,12 @@ I_yy_bottom = I_yy_z
 top_spacing = (width_wingbox(0) - n_top * (width_top))/(n_top+1)
 lower_spacing = (width_wingbox(0) - n_bottom * (width_bottom))/(n_bottom+1)
 
+#centroid y
+def centroid_y(x):
+    return (2*(height_wingbox(x)/2*(height_wingbox(x)-2*t_sheet)*t_sheet) + width_wingbox(x)*t_sheet*((height_wingbox(x)-t_sheet/2)+t_sheet/2) + n_top*(height_wingbox(x)-t_sheet-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*((height_wingbox(x)-2*t_sheet)*t_sheet + width_wingbox(x)*t_sheet) + n_top*A_top + n_bottom*A_bottom)    
+
+
+
 #at the root
 centroid_y_root = (2*((t_sheet+height_wingbox(0)/2)*(height_wingbox(0)-2*t_sheet)*t_sheet) + (-t_sheet/2+height_wingbox(0))*width_wingbox(0)*t_sheet + t_sheet**2/2*width_wingbox(0) + n_top*(3*t_sheet/2+height_wingbox(0)-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*(height_wingbox(0)-2*t_sheet)*t_sheet + 2*width_wingbox(0)*t_sheet + n_top * A_top + n_bottom * A_bottom)
 
@@ -143,7 +149,7 @@ def I_yy_wingbox(x):
     #top stiffeners
     if n_top%2==0:
         Adz_top = 0
-        for i in range(1,n_top/2+1):
+        for i in range(1,int(n_top/2)+1):
             Adz_top += A_top*(i*((top_spacing + z_top)/2))**2
     else:
         Adz_top = 0
@@ -153,7 +159,7 @@ def I_yy_wingbox(x):
     #bottom stiffeners
     if n_bottom%2==0:
         Adz_bottom = 0
-        for i in range(1,n_bottom/2+1):
+        for i in range(1,int(n_bottom/2)+1):
             Adz_bottom += A_bottom*(i*((bottom_spacing + z_bottom)/2))**2
     else:
         Adz_bottom = 0
@@ -207,10 +213,10 @@ def y_max(x):
     centroid_y = (2*(height_wingbox(x)/2*(height_wingbox(x)-2*t_sheet)*t_sheet) + width_wingbox(x)*t_sheet*((height_wingbox(x)-t_sheet/2)+t_sheet/2) + n_top*(height_wingbox(x)-t_sheet-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*((height_wingbox(x)-2*t_sheet)*t_sheet + width_wingbox(x)*t_sheet) + n_top*A_top + n_bottom*A_bottom)    
    
     if height_wingbox(x)/2 > centroid_y:
-        print('y max is at the top, i.e. has a positive value: ') 
+#        print('y max is at the top, i.e. has a positive value: ') 
         return height_wingbox(x) - centroid_y
     else:
-        print('y max is at the bottom, i.e. has a negative value: ') 
+#        print('y max is at the bottom, i.e. has a negative value: ') 
         return -centroid_y
    
     
@@ -219,4 +225,10 @@ def y_max(x):
 #x = np.linspace(0,16,50)
 #plt.plot(x,first_moment_of_area(x))
 #plt.show()
+        
+    
+    
+    
+    
+
 
