@@ -2,7 +2,6 @@
 import os
 import sys
 sys.path.append(os.getcwd())
-from detailed_design import atmosphere
 from atmosphere import atmosphere_calc
 import numpy as np
 ### AIRCRAFT PARAMETERS ###
@@ -180,10 +179,10 @@ n_upper_skin_wingbox = 5
 n_lower_skin_wingbox = 2
 
 #thickness
-t_sheet = 0.003 #m
+t_sheet = 0.0025 #m
 
 #amount of ribs, excluding root and tip caps
-n_ribs = 8
+n_ribs = 10
 rib_spacing = (b/2)/(n_ribs+1)
 
 # Strutbox
@@ -199,8 +198,8 @@ h_max_tip_strutbox = 0.4
 l_strutbox = d_fuselage_outside - 0.5
 
 # Stringers
-n_upper_skin_strutbox = 0
-n_lower_skin_strutbox = 0
+n_upper_skin_strutbox = 7
+n_lower_skin_strutbox = 2
 
 # Stringer geometry
 A_stiffener = 0.001

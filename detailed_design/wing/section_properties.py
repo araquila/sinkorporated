@@ -28,8 +28,8 @@ def height_wingbox(x):
 
 
 t_sheet = p.t_sheet #m
-t_hat = 0.005 #m
-t_z = 0.005 #m
+t_hat = 0.003 #m
+t_z = 0.003 #m
 
 
 #hat geometry
@@ -49,9 +49,9 @@ I_yy_hat = 2*b**3*t_hat/12 + c**3*t_hat/12 + 2*b*t_hat*(b-t_hat+c/2) + c*t_hat*(
 
 
 #Z-stiffener geometry
-d = 0.04
-e = 0.06 
-f = 0.045
+d = 0.05
+e = 0.05 
+f = 0.06
 
 width_z = d+f-t_z
 
@@ -88,13 +88,13 @@ I_yy_top = I_yy_hat
 I_yy_bottom = I_yy_z
 
 
-density_stiffeners = 2700
+density_stiffeners = 2800
 weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.b/2 
 
 area_horizontal_flanges = 2*np.sqrt(((height_wingbox(0)-height_wingbox(p.b/2))/2)**2 + (p.b/2)**2)*width_wingbox(p.b/2/2)
 area_vertical_flanges = 2*np.sqrt(((width_wingbox(0)-width_wingbox(p.b/2))/2)**2 + (p.b/2)**2)*(height_wingbox(p.b/2/2)-2*t_sheet)
 
-density_sheet = 2700
+density_sheet = 2800
 weight_wingbox = (area_horizontal_flanges + area_vertical_flanges)*t_sheet*density_sheet
 
 
@@ -106,6 +106,7 @@ def V(x):
 
 volume_wingbox = integrate.quad(V,0,p.b/2)[0]
 
+total_weight = weight_stiffeners+weight_wingbox
 
 
 
@@ -157,8 +158,8 @@ def I_zz_wingbox(x):
 
 def I_yy_wingbox(x):
     """Returns moment of inertia around the y-axis as a function of the spanwise position"""
-    top_spacing = (width_wingbox(0) - n_top * (width_top))/(n_top+1)
-    bottom_spacing = (width_wingbox(0) - n_bottom * (width_bottom))/(n_bottom+1)
+    top_spacing = (width_wingbox(x) - n_top * (width_top))/(n_top+1)
+    bottom_spacing = (width_wingbox(x) - n_bottom * (width_bottom))/(n_bottom+1)
 
     #moment of inertia
     dz_vertical_flange = np.abs(width_wingbox(x)-t_sheet)/2
