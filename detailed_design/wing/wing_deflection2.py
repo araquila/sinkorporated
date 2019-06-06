@@ -7,7 +7,7 @@ Created on Wed May 29 12:31:33 2019
 
 from math import *
 import numpy as np
-#import parameters as p
+import parameters as p
 from matplotlib import pyplot as plt
 
 
@@ -81,7 +81,7 @@ def read_aero_data(datafile, lengthdata, V_cruise, rho_cruise):
 
 
 
-def CallForces(Lift, Chord, Yle, Drag, I, E, perc_engine, perc_strut, perc_pod):
+def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, E, perc_engine, perc_strut, perc_pod):
     def SumzM(list1, xi, elementset, typeLW):
         list2 = []
         for i in range(len(list1)):
@@ -125,34 +125,35 @@ def CallForces(Lift, Chord, Yle, Drag, I, E, perc_engine, perc_strut, perc_pod):
     #wing characteristics
     
     #UPDATE THESE VALUES
-    d_fuselage_outside = 2.8
-    S = 49.209
-    b = 31.372
-    taper = 0.4
-    c_root = 2.241
+    d_fuselage_outside = p.d_fuselage_outside
+    S = p.S
+    b = p.b
+    taper = p.taper
+    c_root = p.root_chord
     c_tip = taper*c_root
     x_strut = perc_strut*b/2
     x_pod = perc_pod*b/2
     x_engine = perc_strut*b/2
     theta = atan(d_fuselage_outside/x_strut)
     
+    thrust_per_engine = tot_thrust/2
     #wing box characteristics
     #E = 70*10**9
     #Iavg = 10**(-6)
     #offsetmax = 0.1*b/2
     
     #Weights
-    W_empty = 9301 * g                  
-    W_engine = (2.02 + 9.68)/100*W_empty
-    W_wing = 13.85/100*W_empty
-    W_pod = 5.09/100*W_empty + 1576 * g
+    W_empty = 9301 * g
+    W_engine = (2.02 + 9.68)/100*W_empty/2
+    W_wing = 13.85/100*W_empty/2
+    W_pod = (5.09/100*W_empty + 1576 * g)/2
     #W_empty = 0                 
     #W_engine = 0
     #W_pod = 0
     Li = Lift
     di = b/2/len(Li)
     #Ii = np.ones(len(Li)+1)*10**(-4)
-    Ii = I
+    Ii = Iyy
     
     di = b/2/len(Li)
     xi = np.zeros(len(Li)+1)
@@ -165,8 +166,7 @@ def CallForces(Lift, Chord, Yle, Drag, I, E, perc_engine, perc_strut, perc_pod):
     for i in range(len(Li)+1):
         xi[i] = i*di
         ci[i] = c_root - (c_root-c_tip)/(b/2)*xi[i]
-    
-    #    vi[i] = offsetmax/(b/2)**2*xi[i]**2
+
         
     for i in range(len(Li)):
         dii[i+1] = xi[i+1] - xi[i]
@@ -264,7 +264,9 @@ def CallForces(Lift, Chord, Yle, Drag, I, E, perc_engine, perc_strut, perc_pod):
     defW = np.zeros(len(Li))
     defL = np.zeros(len(Li))
     xset = b/2
-    vset = b/2*0.1
+    
+    vset_end = b/2*0.1
+    vset_strut = 0
     
     for i in range(len(Li)+1):
         xi[i] = i*di
@@ -276,14 +278,25 @@ def CallForces(Lift, Chord, Yle, Drag, I, E, perc_engine, perc_strut, perc_pod):
         MoW[i] = Wi[i]*(xi[i+1]-xi[i])*(xi[i]+(xi[i+1]-xi[i])/2)
         MoL[i] = Li[i]*(xi[-1] - Yle[i])
     
-    A = [[1, 0, -cos(theta), 0], [0, 1, -sin(theta), 0], [0, -(xi[-1]), sin(theta)*(xi[-1] - x_strut), 1], [0, -vry[-1], -vfs[-1] , -vmr[-1]]]
-    B = [[0], [W_engine + W_pod + sum(FyW) - sum(FyL)], [-W_engine*(xi[-1] - x_engine) - W_pod*(xi[-1] - x_pod) - sum(MoW) + sum(MoL)], [ -vset + vwe[-1]*W_engine + vwp[-1]*W_pod + vL[-1] + vW[-1]]]
+    indexend = len(Li)
+    for i in range(len(Li)):
+        if xi[i] >= x_strut:
+            indexstrut = i
+            break
+    
+    
+    A = [[1, 0, -cos(theta), 0], [0, 1, -sin(theta), 0], [0, -(xi[-1]), sin(theta)*(xi[-1] - x_strut), 1], [0, -vry[indexstrut], -vfs[indexstrut] , -vmr[indexstrut]]]
+    B = [[0], [W_engine + W_pod + sum(FyW) - sum(FyL)], [-W_engine*(xi[-1] - x_engine) - W_pod*(xi[-1] - x_pod) - sum(MoW) + sum(MoL)], [ -vset_strut + vwe[indexstrut]*W_engine + vwp[indexstrut]*W_pod + vL[indexstrut] + vW[indexstrut]]]
     C = np.matmul(np.linalg.inv(A),B)
     
     Frx = C[0][0]
     Fry = C[1][0]
     Fs = C[2][0]
     Mr = C[3][0]
+    
+    
+    
+    
     
     #moment diagram
     momentzi = []
@@ -321,8 +334,12 @@ def CallForces(Lift, Chord, Yle, Drag, I, E, perc_engine, perc_strut, perc_pod):
         
     shearzi = []
     for i in range(len(Li)+1):
-        shearD = sum(Drag[:(i)])
-        shearzi.append(shearD)
+        if xi[i] < x_engine:
+            shearD = sum(Drag[:(i)])
+            shearzi.append(shearD)
+        elif xi[i] >= x_engine:
+            shearD = sum(Drag[:(i)]) + thrust_per_engine
+            shearzi.append(shearD)
         
     momentyi = []
     for i in range(len(Li)+1):
@@ -345,11 +362,16 @@ def CallForces(Lift, Chord, Yle, Drag, I, E, perc_engine, perc_strut, perc_pod):
     
     #plt.plot(xi, vii)
     
-    return Frx, Fry, Fs, Mr, momentyi, momentzi, shearyi, shearzi, vii
+    return Frx, Fry, Fs, Mr, momentyi, momentzi, shearyi, shearzi, vii, xi, Ii
 
+tot_thrust = 20000
+V_cruise = p.V_cruise
+rho_cruise = p.rho
+perc_engine = 0.15
+perc_strut = 0.5
+perc_pod = 0.5
 
-V_cruise = 184.84
-rho_cruise = 0.5258
 lengthdata = 50
-Lift, Chord, Yle, Drag = read_aero_data("aquiladata1.txt", lengthdata, V_cruise, rho_cruise)
-Frx, Fry, Fs, Mr, momentyi, momentzi, shearyi, shearzi, vii = CallForces(Lift, Chord, Yle, Drag, np.ones(len(Lift)+1)*10**(-4), 70*10**9, 0.2, 0.4, 0.4)
+Lift, Chord, Yle, Drag = read_aero_data("wing/aquiladata1.txt", lengthdata, V_cruise, rho_cruise)
+Frx, Fry, Fs, Mr, momentyi, momentzi, shearyi, shearzi, vii, xi, Iyy = CallForces(Lift, Yle, Drag, tot_thrust, np.ones(len(Lift)+1)*10**(-4), 70*10**9, perc_engine, perc_strut, perc_pod)
+Forces = [['Frx = ', Frx], ['Fry = ', Fry], ['Fs = ', Fs], ['Mr = ', Mr]]
