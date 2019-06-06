@@ -8,7 +8,7 @@ Created on Tue Jun  4 14:48:26 2019
 import parameters as p
 import numpy as np
 import matplotlib.pyplot as plt
-
+from scipy import integrate
 
 #actual root enclosed area 0.316
 #actual tip enclosed area 0.045
@@ -28,14 +28,14 @@ def height_wingbox(x):
 
 
 t_sheet = p.t_sheet #m
-t_hat = 0.002 #m
-t_z = 0.002 #m
+t_hat = 0.005 #m
+t_z = 0.005 #m
 
 
 #hat geometry
-a = 0.06
+a = 0.05
 b = 0.04
-c = 0.05
+c = 0.06
 
 width_hat = 2*b+c-t_hat
 
@@ -88,6 +88,26 @@ I_yy_top = I_yy_hat
 I_yy_bottom = I_yy_z
 
 
+density_stiffeners = 2700
+weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.b/2 
+
+area_horizontal_flanges = 2*np.sqrt(((height_wingbox(0)-height_wingbox(p.b/2))/2)**2 + (p.b/2)**2)*width_wingbox(p.b/2/2)
+area_vertical_flanges = 2*np.sqrt(((width_wingbox(0)-width_wingbox(p.b/2))/2)**2 + (p.b/2)**2)*(height_wingbox(p.b/2/2)-2*t_sheet)
+
+density_sheet = 2700
+weight_wingbox = (area_horizontal_flanges + area_vertical_flanges)*t_sheet*density_sheet
+
+
+def V(x):     
+    l1 = np.sqrt(((height_wingbox(0)-height_wingbox(p.b/2))/2)**2 + (p.b/2)**2)
+    l2 = np.sqrt(((width_wingbox(0)-width_wingbox(p.b/2))/2)**2 + (p.b/2)**2)
+    return 2*(l1*width_wingbox(x) + l2*height_wingbox(x))
+
+
+volume_wingbox = integrate.quad(V,0,p.b/2)[0]
+
+
+
 
 #stiffener spacing
 top_spacing = (width_wingbox(0) - n_top * (width_top))/(n_top+1)
@@ -96,8 +116,6 @@ lower_spacing = (width_wingbox(0) - n_bottom * (width_bottom))/(n_bottom+1)
 #centroid y
 def centroid_y(x):
     return (2*(height_wingbox(x)/2*(height_wingbox(x)-2*t_sheet)*t_sheet) + width_wingbox(x)*t_sheet*((height_wingbox(x)-t_sheet/2)+t_sheet/2) + n_top*(height_wingbox(x)-t_sheet-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*((height_wingbox(x)-2*t_sheet)*t_sheet + width_wingbox(x)*t_sheet) + n_top*A_top + n_bottom*A_bottom)    
-
-
 
 #at the root
 centroid_y_root = (2*((t_sheet+height_wingbox(0)/2)*(height_wingbox(0)-2*t_sheet)*t_sheet) + (-t_sheet/2+height_wingbox(0))*width_wingbox(0)*t_sheet + t_sheet**2/2*width_wingbox(0) + n_top*(3*t_sheet/2+height_wingbox(0)-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*(height_wingbox(0)-2*t_sheet)*t_sheet + 2*width_wingbox(0)*t_sheet + n_top * A_top + n_bottom * A_bottom)
