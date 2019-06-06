@@ -260,3 +260,4 @@ cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
 cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
 P_TO = 5.8e6
 T_TO = 31000
+tot_thrust = 78e3
