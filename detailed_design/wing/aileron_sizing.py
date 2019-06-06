@@ -1,6 +1,10 @@
 from scipy.integrate import quad
 import numpy as np
-import parameters as p
+import sys
+import os
+
+sys.path.append(os.getcwd())
+from detailed_design import parameters as p
 
 # Required turn angle in 1.5 seconds
 angle = np.deg2rad(30)

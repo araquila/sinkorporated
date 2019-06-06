@@ -11,17 +11,11 @@ import matplotlib.pyplot as plt
 import wing.section_properties as sp
 import wing.wing_deflection2 as wd2 
 
-### DISCRETIZATION OF THE STRUTBOX ###
+
+### DISCRETIZATION OF THE WINGBOX ###
 n = 51
 x_pos = np.linspace(0,p.b/2,n)
 
-### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
-lengthdata = 50
-Lift, Chord, Yle, Drag = wd2.read_aero_data("wing/aquiladata1.txt", lengthdata, p.V_cruise, p.rho)
-Frx, Fry, Fs, Mr, momentyi, momentzi, shearyi, shearzi, vii, xi, Iyy = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, np.ones(len(Lift)+1)*10**(-4), 70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
-alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
-F_strut_y = Fs * np.cos(alpha)
-F_strut_x = Fs * np.sin(alpha)
 
 ### OBTAIN CROSSECTIONAL PROPERTIES ###
 Izz_list = []
@@ -36,6 +30,14 @@ for x in x_pos:
     first_moment_of_area_list.append(sp.first_moment_of_area(x))
     area_list.append(sp.cross_sectional_area(x))
     y_max_list.append(sp.y_max(x))
+
+### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
+lengthdata = 50
+Lift, Chord, Yle, Drag = wd2.read_aero_data("wing/aquiladata1.txt", lengthdata, p.V_cruise, p.rho)
+Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
+alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
+F_strut_y = Fs * np.cos(alpha)
+F_strut_x = Fs * np.sin(alpha)
 
 ### NORMAL STRESS CALCULATOR ###
 def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
@@ -105,7 +107,7 @@ def critical_colunn_buckling(x):
     
     l_eff = 0.5*p.rib_spacing
     
-    return (np.pi**2*p.E_modulus*sp.I_zz_wingbox(x))/(l_eff**2)
+    return (np.pi**2*p.E_al2014*sp.I_zz_wingbox(x))/(l_eff**2)
 
 
 def critical_crippling_stiffener(x):
@@ -162,6 +164,7 @@ for i in range(len(x_pos)):
     normal_lu_list.append(normal_lu/10**6)
     normal_rl_list.append(normal_rl/10**6)
     normal_ll_list.append(normal_ll/10**6)
+    
    
 ### MOMENT AND SHEAR DIAGRAM ###
 plt.figure(2,figsize = (8,6))
