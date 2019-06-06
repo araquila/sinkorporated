@@ -6,9 +6,9 @@ import wing.section_properties_strutbox as scs
 import wing.wing_deflection2 as wd2 
 
 
-### DISCRETIZATION OF THE WINGBOX ###
+### DISCRETIZATION OF THE STRUTBOX ###
 n = 50
-x_pos = np.linspace(0,p.l_strutbox,50)
+x_pos = np.linspace(0,p.l_strutbox,n)
 
 ### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
 lengthdata = 50
