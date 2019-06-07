@@ -27,9 +27,10 @@ y_max_list = []
 for x in x_pos:
     Izz_list.append(sp.I_zz_wingbox(x))
     Iyy_list.append(sp.I_yy_wingbox(x))
-    first_moment_of_area_list.append(sp.first_moment_of_area(x))
+    first_moment_of_area_list.append(sp.first_moment_of_area_y(x))
     area_list.append(sp.cross_sectional_area(x))
     y_max_list.append(sp.y_max(x))
+
 
 ### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
 lengthdata = 50
@@ -38,6 +39,7 @@ Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny
 alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
 F_strut_y = Fs * np.cos(alpha)
 F_strut_x = Fs * np.sin(alpha)
+
 
 ### NORMAL STRESS CALCULATOR ###
 def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
@@ -61,32 +63,32 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     normal_rl = moment_z_lowerskin + moment_y_rightflange +     normal_force_stress 
     normal_ll = moment_z_lowerskin + moment_y_leftflange +  normal_force_stress 
     
-    if max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
-        print("Max tension at right upper corner")
-    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
-        print("Max tension at left upper corner")
-    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
-        print("Max tension at right lower corner")
-    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
-        print("Max tension at left lower corner")
-        
-    
-    if min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
-        print("Max compression at right upper corner")
-    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
-        print("Max compression at left upper corner")
-    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
-        print("Max compression at right lower corner")
-    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
-        print("Max compression at left lower corner")
-        
-        
-    print("x: ",x)
-    print("Neutral axis: y =",sp.centroid_y(x),"(",sp.centroid_y(x)/sp.height_wingbox(x)*100,"%)",)
-    print("Maximum tension: ",max(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
-    print("Maximum compression: ", min(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
-    print("Normal force stress: ",normal_force_stress,"MPa")
-    print("")
+#    if max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
+#        print("Max tension at right upper corner")
+#    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
+#        print("Max tension at left upper corner")
+#    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
+#        print("Max tension at right lower corner")
+#    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
+#        print("Max tension at left lower corner")
+#        
+#    
+#    if min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
+#        print("Max compression at right upper corner")
+#    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
+#        print("Max compression at left upper corner")
+#    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
+#        print("Max compression at right lower corner")
+#    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
+#        print("Max compression at left lower corner")
+#        
+#        
+#    print("x: ",x)
+#    print("Neutral axis: y =",sp.centroid_y(x),"(",sp.centroid_y(x)/sp.height_wingbox(x)*100,"%)",)
+#    print("Maximum tension: ",max(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
+#    print("Maximum compression: ", min(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
+#    print("Normal force stress: ",normal_force_stress,"MPa")
+#    print("")
     
     return normal_ru,normal_lu,normal_rl,normal_ll
 
@@ -101,6 +103,18 @@ def skin_buckling_stress(x):
     
     return k*np.pi**2*p.E_al2014/(12*(1-p.poisson_ratio_al2014**2)) * (t/b)**2
 
+
+def shear_skin_buckling_stress(x):
+    """Returns compressive stress at which buckling will occur"""
+    
+    k = 5.35 # to be determined based on the "final" stiffener and rib spacing
+    b = sp.top_spacing
+    t = p.t_sheet
+    
+    return k*np.pi**2*p.E_al2014/(12*(1-p.poisson_ratio_al2014**2)) * (t/b)**2
+
+
+
 #print("Skin buckling limit: ", skin_buckling_stress(0))
 
 def critical_column_buckling(x):
@@ -108,7 +122,7 @@ def critical_column_buckling(x):
     
     l_eff = 0.5*p.rib_spacing
     
-    return (np.pi**2*p.E_al2014*sp.I_zz_wingbox(x))/(l_eff**2)/10**6
+    return (np.pi**2*p.E_al2014*sp.I_yy_wingbox(x))/(l_eff**2)/10**6
 
 
 def critical_crippling_stiffener(x):
@@ -142,8 +156,6 @@ def critical_crippling_stiffener(x):
     
     return total_crippling/10**6
 
-
-###  SHEAR STRESS CALCULATOR ###
 
 
 
@@ -214,6 +226,9 @@ plt.show()
 max_compressive_stress = min(normal_ru_list)*p.safety_factor_compression
 max_tensile_stress = max(normal_ll_list)*p.safety_factor_tension
 
+
+
+
 print("Max compressive: ",max_compressive_stress,"MPa")
 print("Max tensile: ",max_tensile_stress,"MPa")
 
@@ -223,7 +238,9 @@ print("Skin buckling limit: ",skin_buckling_stress(p.b/2/2)/10**6,"MPa")
 
 print("Column buckling limit: ",critical_column_buckling(p.b/2/2),"MPa")
 
-print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.b/2/2),"MPa")
+print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.b/2/2)/10**6,"MPa")
+
+print("Shear stress buckling limit: ",shear_skin_buckling_stress(0),"MPa (still to be determined where the maximum shear stress occurs spanwise)")
 
 print("")
 

@@ -87,6 +87,10 @@ I_zz_bottom = I_zz_z
 I_yy_top = I_yy_hat
 I_yy_bottom = I_yy_z
 
+#stiffener spacing at the top
+top_spacing = (width_wingbox(0) - n_top * (width_top))/(n_top+1)
+lower_spacing = (width_wingbox(0) - n_bottom * (width_bottom))/(n_bottom+1)
+
 
 density_stiffeners = 2800
 weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.b/2 
@@ -106,13 +110,26 @@ def V(x):
 
 volume_wingbox = integrate.quad(V,0,p.b/2)[0]
 
-total_weight = weight_stiffeners+weight_wingbox
+
+density_rib = 2800
+
+def area_rib(x):
+    return 0.001*x**2 - 0.0447*x + 0.517
+
+def weight_rib(x):
+    return area_rib(x)*p.t_rib*density_rib
+
+weight_ribs = 0
+
+for i in range(p.n_ribs+2):
+    x = p.rib_spacing*i
+    weight_ribs += weight_rib(x)    
+
+
+total_weight = weight_stiffeners+weight_wingbox+weight_ribs
 
 
 
-#stiffener spacing
-top_spacing = (width_wingbox(0) - n_top * (width_top))/(n_top+1)
-lower_spacing = (width_wingbox(0) - n_bottom * (width_bottom))/(n_bottom+1)
 
 #centroid y
 def centroid_y(x):
@@ -135,7 +152,15 @@ Izz = t_sheet*(height_wingbox(0)-2*t_sheet)**3/12 + n_top*I_zz_top + n_bottom*I_
 #moment of inertia about y-axis without stiffeners
 I_yy_nostiffeners = 2*((height_wingbox(0)-2*t_sheet)*t_sheet*((width_wingbox(0)-t_sheet)/2)**2 + width_wingbox(0)**3*t_sheet/12)
 
+def cross_sectional_area(x):
+    """Returns cross sectional area at spanwise position x"""
+    centroid_y = (2*(height_wingbox(x)/2*(height_wingbox(x)-2*t_sheet)*t_sheet) + width_wingbox(x)*t_sheet*((height_wingbox(x)-t_sheet/2)+t_sheet/2) + n_top*(height_wingbox(x)-t_sheet-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*((height_wingbox(x)-2*t_sheet)*t_sheet + width_wingbox(x)*t_sheet) + n_top*A_top + n_bottom*A_bottom)    
+
+    A_toppart = width_wingbox(x)*t_sheet + (height_wingbox(x) - centroid_y - t_sheet)*t_sheet*2 + n_top*A_top
+    A_bottompart = width_wingbox(x)*t_sheet + (centroid_y - t_sheet)*t_sheet*2 + n_bottom*A_bottom
     
+    A_total = A_bottompart + A_toppart
+    return A_total
 
 def I_zz_wingbox(x):
     """Returns moment of inertia around the z-axis as a function of the spanwise position"""
@@ -192,8 +217,8 @@ def I_yy_wingbox(x):
     return I_yy
     
 
-def first_moment_of_area(x):
-    """Returns Q along spanwise direction of the wingbox"""
+def first_moment_of_area_y(x):
+    """Returns Qy along spanwise direction of the wingbox"""
 
     A_top = A_hat
     A_bottom = A_z
@@ -217,15 +242,22 @@ def first_moment_of_area(x):
     
     return Q_toppart
 
-def cross_sectional_area(x):
-    """Returns cross sectional area at spanwise position x"""
-    centroid_y = (2*(height_wingbox(x)/2*(height_wingbox(x)-2*t_sheet)*t_sheet) + width_wingbox(x)*t_sheet*((height_wingbox(x)-t_sheet/2)+t_sheet/2) + n_top*(height_wingbox(x)-t_sheet-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*((height_wingbox(x)-2*t_sheet)*t_sheet + width_wingbox(x)*t_sheet) + n_top*A_top + n_bottom*A_bottom)    
-
-    A_toppart = width_wingbox(x)*t_sheet + (height_wingbox(x) - centroid_y - t_sheet)*t_sheet*2 + n_top*A_top
-    A_bottompart = width_wingbox(x)*t_sheet + (centroid_y - t_sheet)*t_sheet*2 + n_bottom*A_bottom
+def first_moment_of_area_z(x):
+    """Returns Qz along spanwise direction of the wingbox"""
     
-    A_total = A_bottompart + A_toppart
-    return A_total
+    A_top = A_hat
+    A_bottom = A_z
+    
+    #neutral axis
+    centroid_z = width_wingbox(x)/2
+    
+    A_left = cross_sectional_area(x)/2
+    
+    sumproduct_yA_left = (2*width_wingbox(x)**2*t_sheet/8 + (height_wingbox(x)-2*t_sheet)*t_sheet*(width_wingbox(x)/2 - t_sheet/2))/A_left
+    
+    return sumproduct_yA_left/A_left
+
+
 
 def y_max(x):
     """Returns maximum y-distance from the neutral axis for a given cross section"""
