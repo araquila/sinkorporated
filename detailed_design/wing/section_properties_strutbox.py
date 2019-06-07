@@ -184,9 +184,8 @@ def I_yy_strutbox(x):
     
     return I_yy
     
-
-def first_moment_of_area(x):
-    """Returns Q along spanwise direction of the strutbox"""
+def first_moment_of_area_y(x):
+    """Returns Qy along spanwise direction of the strutbox"""
 
     A_top = A_hat
     A_bottom = A_z
@@ -209,6 +208,22 @@ def first_moment_of_area(x):
     Q_bottompart = sumproduct_yA_bottompart/A_bottompart    
     
     return Q_toppart
+
+def first_moment_of_area_z(x):
+    """Returns Qz along spanwise direction of the strutbox"""
+    
+    A_top = A_hat
+    A_bottom = A_z
+    
+    #neutral axis
+    centroid_z = width_strutbox(x)/2
+    
+    A_left = cross_sectional_area(x)/2
+    
+    sumproduct_yA_left = (2*width_strutbox(x)**2*t_sheet/8 + (height_strutbox(x)-2*t_sheet)*t_sheet*(width_strutbox(x)/2 - t_sheet/2))/A_left
+    
+    return sumproduct_yA_left/A_left
+
 
 def cross_sectional_area(x):
     """Returns cross sectional area at spanwise position x"""
