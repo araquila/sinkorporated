@@ -35,6 +35,10 @@ for x in x_pos:
 ### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
 lengthdata = 50
 Lift, Chord, Yle, Drag = wd2.read_aero_data("wing/aquiladata1.txt", lengthdata, p.V_cruise, p.rho)
+
+nullen = np.zeros(len(Lift))
+#Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(nullen, Yle, nullen, 0, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
+
 Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
 alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
 F_strut_y = Fs * np.cos(alpha)
@@ -238,9 +242,9 @@ print("Skin buckling limit: ",skin_buckling_stress(p.b/2/2)/10**6,"MPa")
 
 print("Column buckling limit: ",critical_column_buckling(p.b/2/2),"MPa")
 
-print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.b/2/2)/10**6,"MPa")
+print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.b/2/2),"MPa")
 
-print("Shear stress buckling limit: ",shear_skin_buckling_stress(0),"MPa (still to be determined where the maximum shear stress occurs spanwise)")
+print("Shear stress buckling limit: ",shear_skin_buckling_stress(0)/10**6,"MPa (still to be determined where the maximum shear stress occurs spanwise)")
 
 print("")
 
