@@ -4,6 +4,7 @@ from sympy.solvers import solve
 from sympy import Symbol
 import numpy as np
 from p_t_data import *
+from untitled2 import t_hoop, t_long
 
 # hydrogen aircraft technologies p. 30 (allowance) and p. 154 (tank volume)
 
@@ -15,11 +16,14 @@ min_amb_pres    = None
 allowance       = 0.07      # allowance of the tank in fraction of 1 (usually 7%)
 rho_CH4_cryo    = 425      # density of methane at cryogenic temperatures
 Lambda          = 511e3          # heat of vaporation in J/kg
-insulation      = 0.20 # insulation in meters
+insulation      = 0.10 # insulation in meters
 kappa_eff       = 0.003588 # effecctive insulation parameter
 timestep        = 30
 T_outside       = 300
 
+#weight Calculation
+sigma_yield     = 700e6 #[Pa]
+safety_factor   = 1.5 #[-]
 def LNG_volume(LNG_mass):
     """
     simple converter from mass to m^3
@@ -62,9 +66,9 @@ def det_internal_dimensions(tank_volume, shell_length_ratio =  0.5, tank_circula
 
 
 def det_total_tank_volume(radius, length, thickness_insulation, shell_length_ratio =  0.5, tank_circular_ratio = 1, tank_head_ratio = 3):
-    ans = length * shell_length_ratio * radius**2 *np.pi
+    ans = length * shell_length_ratio * (radius + thickness_insulation)**2 *np.pi
     # ans += 4/3 * np.pi * (radius * tank_head_ratio) * radius**2
-    ans += 4/3 * np.pi * (length * shell_length_ratio)/2 * radius**2
+    ans += 4/3 * np.pi * (length * shell_length_ratio)/2 * (radius + thickness_insulation)**2
     return ans
 
 def det_external_wetted_area(radius, length, thickness_insulation, shell_length_ratio =  0.5, tank_circular_ratio = 1, tank_head_ratio = 3):
@@ -132,9 +136,18 @@ def pressure_build_up(total_t):
         T_vaporise = det_T_vaporise(pressure[-1]/1000)
         temperature += det_heat_flux(kappa_eff, (T_outside - temperature), insulation, det_external_wetted_area(0.4, 4.8, insulation)) * timestep / (2 * 1000 * liquid_mass)
         print("Timestep (" + str(timestep) + " sec): " + str(t) + " pressure " + str(pressure[-1]) + " temperature " + str(temperature))
-    return
+    return pressure
 
-print(pressure_build_up(432000))
+pressure = pressure_build_up(432000)
+
+t_hoop = t_hoop(0.4,sigma_yield,max(pressure))
+t_long = t_long(0.4, sigma_yield, max(pressure))
+print(t_hoop)
+print(t_long)
+volume = det_tank_volume(0.4 + t_long, 4.8, 0) - det_tank_volume(0.4, 4.8, 0)
+print(volume)
+print("internal skin mass " + str(volume * 8050))
+print(det_external_wetted_area(0.4, 4.8, t_long) * t_long * 8050)
 # print(benedict_webb_rubin(111, 1.8))
 #
 # print("External Wetted Area of One Tank: " + str(det_external_wetted_area(0.4, 4.8, insulation)))
