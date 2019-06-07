@@ -147,6 +147,8 @@ d_fuselage_outside = 2.84
 d_fuselage_inside = None
 l_nose = 2.8373002246584007
 l_lavatory = 36 * 0.0254
+S_wet_fuselage = np.pi * d_fuselage_outside * l_fuselage
+volume_fuselage = 0.25 * np.pi * d_fuselage_outside**2 * l_fuselage
 
 # Wing
 A = 20
@@ -276,6 +278,7 @@ Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
 Cd0 = 0.008
+LD_ratio = 28 #NOT FINAL
 
 
 # Propulsion
