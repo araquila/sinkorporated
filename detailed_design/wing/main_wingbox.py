@@ -251,7 +251,7 @@ print("Column buckling limit: ",critical_column_buckling(p.b/2/2),"MPa")
 
 print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.b/2/2),"MPa")
 
-print("Shear stress buckling limit: ",shear_skin_buckling_stress(0)/10**6,"MPa (still to be determined where the maximum shear stress occurs spanwise)")
+print("Shear stress buckling limit: ",shear_skin_buckling_stress(p.b/2/2)/10**6,"MPa (still to be determined where the maximum shear stress occurs spanwise)")
 
 print("")
 
@@ -271,11 +271,21 @@ if abs(max_compressive_stress) < abs(critical_crippling_stiffener(p.b/2/2)):
 else:
     print("Failure on stiffener crippling")
     
+if shear_skin_buckling_stress(p.b/2/2) > max(tau_max):
+    print("Shear buckling passed")
+else:
+    print("Failure on shear buckling")
+
+print("")
+    
 if max_tensile_stress > p.tensile_yield_strength_al2014/10**6:
-    print("Yielded at the strut")
+    print("Failure on yielding at the strut")
 else:
     print("Max stress",max_tensile_stress/(p.tensile_yield_strength_al2014/10**6)*100,"% of the yield strength")
 
-
+if p.ultimate_shear_stress_al2024 > max(tau_max):
+    print("Shear limit of the material passed: ",max(tau_max)*10**6/p.ultimate_shear_stress_al2024*100,"% of the max")
+else: 
+    print("Shear failure of the material")
 
 
