@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import wing.section_properties as sp
 import wing.wing_deflection2 as wd2 
-from wing.shear_stress import max_shear_stress
+
 
 ### DISCRETIZATION OF THE WINGBOX ###
 n = 101
@@ -23,8 +23,6 @@ Iyy_list = []
 first_moment_of_area_list = []
 area_list = []
 y_max_list = []
-hi = []
-bi = []
 
 for x in x_pos:
     Izz_list.append(sp.I_zz_wingbox(x))
@@ -32,13 +30,11 @@ for x in x_pos:
     first_moment_of_area_list.append(sp.first_moment_of_area_y(x))
     area_list.append(sp.cross_sectional_area(x))
     y_max_list.append(sp.y_max(x))
-    hi.append(sp.height_wingbox(x))
-    bi.append(sp.width_wingbox(x))
-    
+
 
 ### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
 lengthdata = 100
-Lift, Chord, Yle, Drag, AeroMoment = wd2.read_aero_data("wing/datastrut4.txt", lengthdata, p.V_cruise, p.rho)
+Lift, Chord, Yle, Drag, Aeromoment = wd2.read_aero_data("wing/datastrut4.txt", lengthdata, p.V_cruise, p.rho)
 
 nullen = np.zeros(len(Lift))
 #Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(nullen, Yle, nullen, 0, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
@@ -164,6 +160,9 @@ def critical_crippling_stiffener(x):
     
     return total_crippling/10**6
 
+
+
+
 ### CALCULATE SHEAR AND NORMAL STRESS ###
 normal_ru_list= []
 normal_lu_list= []
@@ -192,8 +191,7 @@ for i in range(len(x_pos)):
     normal_rl_list[i] -= error_lower
     normal_ll_list[i] -= error_lower
     
-### MAXIMUM SHEAR STRESS ###
-tau_max = max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, hi, bi, Izz_list, Iyy_list)
+    
    
 ### MOMENT AND SHEAR DIAGRAM ###
 plt.figure(2,figsize = (8,6))
@@ -215,12 +213,6 @@ plt.figure(5,figsize = (8,6))
 plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
 plt.ylabel('Shear force in z direction [N]',fontsize=13)
 plt.plot(x_pos, shearzi,'r') 
-
-### PLOT SHEAR STRESS ###
-plt.figure(7,figsize = (8,6))
-plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
-plt.ylabel('Shear stress [MPa]',fontsize=13)
-plt.plot(x_pos, tau_max,'b') 
 
 
 ### PLOT NORMAL STRESS AT THE FOUR CORNERS
