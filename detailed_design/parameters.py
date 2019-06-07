@@ -1,4 +1,7 @@
 ### IMPORTS
+import os
+import sys
+sys.path.append(os.getcwd())
 from atmosphere import atmosphere_calc
 import numpy as np
 ### AIRCRAFT PARAMETERS ###
@@ -15,17 +18,29 @@ R = 287
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 
 # Materials
+#material aluminium 2014-T6 http://asm.matweb.com/search/SpecificMaterial.asp?bassnum=MA2014T6
+
 # Ultimate
 ult_stress_carbon = 600e6
 ultimate_bending_stress_al2024 = 483e6
 ultimate_shear_stress_al2024 = 290e6
+tensile_yield_strength_al2014 = 414e6
 
 # Yield stress
 yield_stress_carbon = None
-yield_stress_al2024 = 324e6
+yield_stress_al2024 = 414e6
+
+# Fatigue
+fatigue_strength_al2014 = 124e6
+
+# Poisson
+poisson_ratio_al2014 = 0.33
 
 # E-modulus
-E_modulus = 414e6
+E_al2014 = 72.4e9 #E-modulus
+
+# Shear modulus
+G_al2014 = 28e9 #shear modulus
 
 # Density
 density_aluminum = 2800
@@ -141,6 +156,7 @@ sweep_qc = 0
 dihedral = 1.
 taper = 0.4
 root_chord = 2.241
+tip_chord = root_chord * taper
 tc_ratio_root = 0.15
 tc_ratio_tip = 0.12
 strut_pos_perc = 0.5                    # % of span
@@ -150,29 +166,42 @@ x_ac_w = xLEMAC + 0.25*MAC
 
 # Wingbox
 # Width
-w_root_wingbox = 1.27758 #m
-w_tip_wingbox = 0.51075 #m
+w_root_wingbox = 1.008 #m
+w_tip_wingbox = 0.4487 #m
 
 # Height
 h_max_root_wingbox = 0.35156
-h_max_tip_wingbox = 0.09704
+h_max_tip_wingbox = 0.08518
 
 # Stringers
 n_upper_skin_wingbox = 5
 n_lower_skin_wingbox = 2
+
+#thickness
+t_sheet = 0.002 #m
+
+#amount of ribs, excluding root and tip caps
+n_ribs = 17
+rib_spacing = (b/2)/(n_ribs+1)
+
+safety_factor_compression = 1.5
+safety_factor_tension = 1.5
 
 # Strutbox
 # Width
 w_root_strutbox = 1 #m
 w_tip_strutbox = 1 #m
 
-#height wing box
+# Height strutbox
 h_max_root_strutbox = 0.4
 h_max_tip_strutbox = 0.4
 
+# Length strutbox
+l_strutbox = d_fuselage_outside - 0.5
+
 # Stringers
-n_upper_skin_strutbox = 5
-n_lower_skin_strutbox = 2
+n_upper_skin_strutbox = 7
+n_lower_skin_strutbox = 3
 
 # Stringer geometry
 A_stiffener = 0.001
@@ -192,7 +221,7 @@ sweep_v = 30
 V_v = 0.05
 
 # Horizontal Tail
-l_h = 11
+l_h = 12
 A_h = 4
 taper_h = 0.5
 sweep_h = 15
@@ -242,6 +271,11 @@ q_TO = 0.5 * rho0 * V_TO ** 2
 C_D_TO = 0.023 #NOT FINAL
 Cl_delta_aileron = 0.11217
 Clp = -25.8276
+Cl_alpha = 2 * np.pi
+tau = 0.57
+Cd0 = 0.008
+
+
 # Propulsion
 eff_cruise = 0.85
 eff_loiter = 0.77
@@ -249,3 +283,4 @@ cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
 cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
 P_TO = 5.8e6
 T_TO = 31000
+tot_thrust = 78e3
