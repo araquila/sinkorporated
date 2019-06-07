@@ -29,7 +29,7 @@ S_h = 0.2745 * S
 
 # Determination of the Vertical Tail Surface
 #S_v = (V_v * S * b) / l_v
-S_v = 0.21 * S
+S_v = 0.19 * S
 #S_v2 = (V_v2 * y_engine * T) / l_v
 
 

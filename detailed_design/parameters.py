@@ -255,6 +255,8 @@ strut_pos_perc = 0.5
 x_strut = strut_pos_perc*b/2
 
 
+
+
 ## -------- PERFORMANCE -------- ##
 # Aerodynamic
 e = 0.85

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import parameters as p
 import empennage.horizontal_tail_sizing as h
-bank_angle_1 = 30 * (2 * np.pi / 180)
+bank_angle_1 = 30 * (np.pi / 180)
 time_1 = 3.5
 rho = 0.525168
 aileron_angle_max = 0.28

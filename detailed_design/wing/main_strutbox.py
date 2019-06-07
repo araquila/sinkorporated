@@ -156,3 +156,45 @@ plt.plot(x_pos, normal_lu_list, 'g', label='Left upper corner')
 plt.plot(x_pos, normal_rl_list, 'b', label='Right lower corner')
 plt.plot(x_pos, normal_ll_list, 'y', label='Left lower corner')
 plt.legend(loc = 'upper right')
+
+max_compressive_stress = min(normal_ru_list)*p.safety_factor_compression
+max_tensile_stress = max(normal_ll_list)*p.safety_factor_tension
+
+print("Max compressive: ",max_compressive_stress,"MPa")
+print("Max tensile: ",max_tensile_stress,"MPa")
+
+print("Total weight: ",scs.total_weight,"kg")
+
+print("Skin buckling limit: ",skin_buckling_stress(p.b/2/2)/10**6,"MPa")
+
+print("Column buckling limit: ",critical_column_buckling(p.b/2/2),"MPa")
+
+print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.b/2/2),"MPa")
+
+print("")
+
+
+if abs(max_compressive_stress) < abs(skin_buckling_stress(8)/10**6):
+    print("Skin buckling passed")
+else:
+    print("Failure on skin buckling")
+    
+if abs(max_compressive_stress) < abs(critical_column_buckling(8)):
+    print("Column buckling passed")
+else:
+    print("Failure on column buckling")
+    
+if abs(max_compressive_stress) < abs(critical_crippling_stiffener(p.b/2/2)):
+    print("Cripple limit of the stiffener passed")
+else:
+    print("Failure on stiffener crippling")
+    
+if max_tensile_stress > p.tensile_yield_strength_al2014/10**6:
+    print("Yielded at the strut")
+else:
+    print("Max stress",max_tensile_stress/(p.tensile_yield_strength_al2014/10**6)*100,"% of the yield strength")
+
+
+
+
+
