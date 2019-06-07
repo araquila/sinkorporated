@@ -100,6 +100,59 @@ def det_ver_tail_weight(W_dg, L_t, S_vt, quarter_chord_sweep_vt, AR_vt, t_c_root
     ver_tail_weight = cf.pounds_to_kg(ver_tail_weight)
     return ver_tail_weight
 
-#print(det_hor_tail_weight(0.4, 7.35, 18000, 13.51, 12, 15, 4, 1.78))
-#print(det_ver_tail_weight(18000, 11, 9.35, 30, 1.2, 0.12))
+def det_main_lg_weight(W_l, L_m, N_mw, N_mss, V_stall, N_gear = 3, kneeling_main_lg = False):
+    """
+    Inputs:
+    W_l = landing design weight in kg
+    L_m = length of the main landing gear in m
+    N_mw = number of main wheels
+    N_mss = number of main gear shock struts
+    V_stall = stall speed in m/s
 
+    conditional inputs:
+    K_mp = factor for landing gear (1.126 for kneeling landing gear, 1 otherwise)
+
+    outputs:
+    main landing gear weight in lb
+    """
+    
+    W_l = cf.kg_to_pounds(W_l)
+    N_l = N_gear * 1.5
+    L_m = cf.meter_to_inch(L_m)
+    V_stall = V_stall * 1.94384449
+    
+    K_mp = 1
+    if kneeling_main_lg:
+        K_mp = 1.126
+        
+    main_lg_weight = 0.0106 * K_mp * W_l**0.888 * N_l**0.25 * L_m**0.4 * N_mw**0.321 * N_mss**-0.5 * V_stall**0.1
+    
+    main_lg_weight = cf.pounds_to_kg(main_lg_weight)
+    return main_lg_weight
+
+def det_nose_lg_weight(W_l, L_n, N_nw, N_gear = 3, kneeling_nose_lg = False):
+    """
+    Inputs:
+    W_l = landing design weight in lb
+    N_l = ultimate landing load factor = N_gear * 1.5
+    L_n = length of the nose landing gear in inches
+    N_mw = number of nose wheels
+
+    conditional inputs:
+    K_np = factor for landing gear (1.15 for kneeling gear, 1 otherwise)
+
+    outputs:
+    nose landing gear weight in lb
+    """
+    
+    W_l = cf.kg_to_pounds(W_l)
+    N_l = N_gear * 1.5
+    L_n = cf.meter_to_inch(L_n)
+    
+    K_np = 1
+    if kneeling_nose_lg:
+        K_np = 1.15
+    nose_lg_weight = 0.032 * K_np * W_l**0.646 * N_l**0.2 * L_n**0.5 * N_nw**0.45
+    
+    nose_lg_weight = cf.pounds_to_kg(nose_lg_weight)
+    return nose_lg_weight
