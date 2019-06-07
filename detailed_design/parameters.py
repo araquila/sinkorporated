@@ -176,11 +176,11 @@ h_max_root_wingbox = 0.35156
 h_max_tip_wingbox = 0.08518
 
 # Stringers
-n_upper_skin_wingbox = 10
-n_lower_skin_wingbox = 10
+n_upper_skin_wingbox = 20
+n_lower_skin_wingbox = 20
 
 #thickness
-t_sheet = 0.003 #m
+t_sheet = 0.0037 #m
 
 #amount of ribs, excluding root and tip caps
 n_ribs = 10
@@ -189,8 +189,8 @@ t_rib = 0.002
 
 
 
-safety_factor_compression = 1.2
-safety_factor_tension = 1.2
+safety_factor_compression = 1.0
+safety_factor_tension = 1.0
 
 # Strutbox
 # Width

@@ -237,13 +237,14 @@ plt.show()
 max_compressive_stress = min(normal_ru_list)*p.safety_factor_compression
 max_tensile_stress = max(normal_ll_list)*p.safety_factor_tension
 
+print("Total weight: ",sp.total_weight,"kg")
+print("")
 
 
-
+print("Max shear: ",max(tau_max),"MPa")
 print("Max compressive: ",max_compressive_stress,"MPa")
 print("Max tensile: ",max_tensile_stress,"MPa")
-
-print("Total weight: ",sp.total_weight,"kg")
+print("")
 
 print("Skin buckling limit: ",skin_buckling_stress(p.b/2/2)/10**6,"MPa")
 
@@ -278,7 +279,7 @@ else:
 
 print("")
     
-if max_tensile_stress > p.tensile_yield_strength_al2014/10**6:
+if (max_tensile_stress > p.tensile_yield_strength_al2014/10**6) or abs(max_compressive_stress) > (p.tensile_yield_strength_al2014/10**6):
     print("Failure on yielding at the strut")
 else:
     print("Max stress",max_tensile_stress/(p.tensile_yield_strength_al2014/10**6)*100,"% of the yield strength")
