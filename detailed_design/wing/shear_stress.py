@@ -17,6 +17,8 @@ def max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, height_alo
     Izz = Izz_along_wingbox
     Iyy = Iyy_along_wingbox
     
+    t = p.t_sheet
+    
     sheary = shearyi
     shearz = shearzi
     
@@ -41,7 +43,7 @@ def max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, height_alo
     
     Shear_center = []
     cp_perc = 0.25
-    for i in range(len(xi)):
+    for i in range(len(Iyy)):
         step = 0.001
         s1 = np.arange(0, bi[i]/2 + step , step)
         s2 = np.arange(0, hi[i] + step, step)
@@ -130,36 +132,36 @@ def max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, height_alo
 
 
 
-#TESTING
-tot_thrust = 20000
-V_cruise = p.V_cruise
-rho_cruise = p.rho
-perc_engine = 0.15
-perc_strut = 0.5
-perc_pod = 0.5
-
-di = p.b/2/lengthdata
-xi = np.zeros(lengthdata + 1)
-for i in range(len(xi)):
-    xi[i] = i*di
-    
-hi = []
-bi = []
-t = p.t_sheet
-Izz = []
-Iyy = []
-for i in range(len(xi)):
-    hi.append(height_wingbox(xi[i]))
-    bi.append(width_wingbox(xi[i]))
-    Izz.append(I_zz_wingbox(xi[i]))
-    Iyy.append(I_yy_wingbox(xi[i]))
-
-
-lengthdata = 50
-Lift, Chord, Yle, Drag, AeroMoment = read_aero_data("wing/aquiladata1.txt", lengthdata, V_cruise, rho_cruise)
-Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz , p.E_al2014, perc_engine, perc_strut, perc_pod)
-lengthdata = len(Lift)
-b = p.b
-
-taumax = max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, hi, bi, Izz, Iyy)
-#TESTING
+##TESTING
+#tot_thrust = 20000
+#V_cruise = p.V_cruise
+#rho_cruise = p.rho
+#perc_engine = 0.15
+#perc_strut = 0.5
+#perc_pod = 0.5
+#
+#di = p.b/2/lengthdata
+#xi = np.zeros(lengthdata + 1)
+#for i in range(len(xi)):
+#    xi[i] = i*di
+#    
+#hi = []
+#bi = []
+#t = p.t_sheet
+#Izz = []
+#Iyy = []
+#for i in range(len(xi)):
+#    hi.append(height_wingbox(xi[i]))
+#    bi.append(width_wingbox(xi[i]))
+#    Izz.append(I_zz_wingbox(xi[i]))
+#    Iyy.append(I_yy_wingbox(xi[i]))
+#
+#
+#lengthdata = 50
+#Lift, Chord, Yle, Drag, AeroMoment = read_aero_data("wing/aquiladata1.txt", lengthdata, V_cruise, rho_cruise)
+#Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz , p.E_al2014, perc_engine, perc_strut, perc_pod)
+#lengthdata = len(Lift)
+#b = p.b
+#
+#taumax = max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, hi, bi, Izz, Iyy)
+##TESTING

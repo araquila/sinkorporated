@@ -156,3 +156,92 @@ def det_nose_lg_weight(W_l, L_n, N_nw, N_gear = 3, kneeling_nose_lg = False):
     
     nose_lg_weight = cf.pounds_to_kg(nose_lg_weight)
     return nose_lg_weight
+
+def det_fuselage_weight(W_dg, L, S_f, taper, B_w, quarter_chord_sweep, L_D_ratio, cargo_doors = 1, fuselage_mounted_lg = True):
+    """
+    Inputs:
+    W_dg = design gross weigth in kg
+    L = fuselage structural length in m (no radome/nosecone and tail cap)
+    S_f = fuselage wetted area in m^2
+    taper = taper ratio
+    B_w = wing span in m
+    quarter_chord_sweep = sweep angle at the quarter chord line in degrees
+    L_D_ratio = the lift over drag ratio of the aircraft
+
+    conditional inputs:
+    K_door = factor for the cargo doors (1 for no cargo door, 1.06 for one side cargo door, 1.12 for 2 side cargo doors)
+    K_lg = factor for landing gear (1.12 for fuselage mounted landing gear, 1 otherwise)
+
+    outputs:
+    fuselage weight in kg
+    """
+    
+    N_z = 1.5* lim_load_factor(W_dg)
+    W_dg = cf.kg_to_pounds(W_dg)
+    L = cf.meter_to_feet(L)
+    S_f = cf.metersquared_to_feetsquared(S_f)
+    B_w = cf.meter_to_feet(B_w)
+    quarter_chord_sweep = quarter_chord_sweep * (np.pi/180)
+    
+    K_door = 1 + cargo_doors * 0.06
+    K_lg = 1
+    if fuselage_mounted_lg:
+        K_lg = 1.12
+        
+    K_ws = 0.75 * (1 + 2 * taper)/(1 + taper) * (B_w * np.tan(quarter_chord_sweep)/L)
+    fuselage_weight = 0.3280 * K_door * K_lg * (W_dg * N_z)**0.5 * L**0.25 * S_f**0.302 * (1 + K_ws)**0.04 * L_D_ratio**0.10
+    
+    fuselage_weight = cf.pounds_to_kg(fuselage_weight)
+    return fuselage_weight
+
+def det_anti_ice_weight(W_dg):
+    """
+    inputs:
+    W_dg = design gross weight in lb
+
+    outputs:
+    the total weight of the anti icing system in lb
+    """
+    
+    W_dg = cf.kg_to_pounds(W_dg)
+    
+    anti_ice_weight = 0.002 * W_dg
+    
+    anti_ice_weight = cf.pounds_to_kg(anti_ice_weight)
+    return anti_ice_weight
+
+def det_aircond_weight(N_p, V_pr, W_uav = 1100):
+    """
+    inputs:
+    N_p = number of personnel on board (crew and passengers)
+    V_pr = volume of pressurised section in m^3
+
+    conditional inputs:
+    W_uav = uninstalled avionics weight, typically 800-1400 lb
+
+    outputs:
+    the total weight of the furnishings in kg
+    """
+    
+    V_pr = cf.metercubed_to_feetcubed(V_pr)
+    
+    aircond_weight = 62.36 * N_p**0.25 * (V_pr/1000)**0.604 * W_uav**0.10
+    
+    aircond_weight = cf.pounds_to_kg(aircond_weight)
+    return aircond_weight
+
+def det_handling_gear_weight(W_dg):
+    """
+    inputs:
+    W_dg = design gross weight in kg
+
+    outputs:
+    the total weight of the furnishings in kg
+    """
+    
+    W_dg = cf.kg_to_pounds(W_dg)
+    
+    handling_gear_weight = 3.0 * 10**-4 * W_dg
+    
+    handling_gear_weight = cf.pounds_to_kg(handling_gear_weight)
+    return handling_gear_weight

@@ -54,19 +54,19 @@ def shear_and_moment(F_strut,F_strut_z,n):
     x_pos_shear = np.linspace(0,p.l_strutbox,n+2)
     V_list_y_0 = V_list_y
     V_list_z_0 = V_list_z
-    V_list_z_0.insert(0,0)
-    V_list_z_0.append(0)
-    V_list_y_0.insert(0,0)
-    V_list_y_0.append(0)  
+#    V_list_z_0.insert(0,0)
+#    V_list_z_0.append(0)
+#    V_list_y_0.insert(0,0)
+#    V_list_y_0.append(0)  
     
     plt.figure(1,figsize = (8,6))
     plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
     plt.ylabel('Shear force in the y-direction [N]',fontsize=13)
-    plt.plot(x_pos_shear, V_list_y_0, 'r')
+    plt.plot(x_pos, V_list_y_0, 'r')
     
     plt.figure(5,figsize = (8,6))
     plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
     plt.ylabel('Shear force in the z-direction [N]',fontsize=13)
-    plt.plot(x_pos_shear, V_list_z_0, 'r')
+    plt.plot(x_pos, V_list_z_0, 'r')
     
     return V_list_y, V_list_z, M_list_z, M_list_y
