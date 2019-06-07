@@ -96,7 +96,7 @@ MTOW = 173185.74
 MLW = None
 EW = None
 W_fuel = 7736.30
-W_pod = 157.55 * g
+W_pod = 250 * g
 mtom = MTOW / g
 
 # Propulsion
@@ -176,11 +176,11 @@ h_max_root_wingbox = 0.35156
 h_max_tip_wingbox = 0.08518
 
 # Stringers
-n_upper_skin_wingbox = 9
-n_lower_skin_wingbox = 3
+n_upper_skin_wingbox = 10
+n_lower_skin_wingbox = 10
 
 #thickness
-t_sheet = 0.0035 #m
+t_sheet = 0.003 #m
 
 #amount of ribs, excluding root and tip caps
 n_ribs = 10
