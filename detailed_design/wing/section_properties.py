@@ -87,6 +87,10 @@ I_zz_bottom = I_zz_z
 I_yy_top = I_yy_hat
 I_yy_bottom = I_yy_z
 
+#stiffener spacing at the top
+top_spacing = (width_wingbox(0) - n_top * (width_top))/(n_top+1)
+lower_spacing = (width_wingbox(0) - n_bottom * (width_bottom))/(n_bottom+1)
+
 
 density_stiffeners = 2800
 weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.b/2 
@@ -106,13 +110,26 @@ def V(x):
 
 volume_wingbox = integrate.quad(V,0,p.b/2)[0]
 
-total_weight = weight_stiffeners+weight_wingbox
+
+density_rib = 2800
+
+def area_rib(x):
+    return 0.001*x**2 - 0.0447*x + 0.517
+
+def weight_rib(x):
+    return area_rib(x)*p.t_rib*density_rib
+
+weight_ribs = 0
+
+for i in range(p.n_ribs+2):
+    x = p.rib_spacing*i
+    weight_ribs += weight_rib(x)    
+
+
+total_weight = weight_stiffeners+weight_wingbox+weight_ribs
 
 
 
-#stiffener spacing
-top_spacing = (width_wingbox(0) - n_top * (width_top))/(n_top+1)
-lower_spacing = (width_wingbox(0) - n_bottom * (width_bottom))/(n_bottom+1)
 
 #centroid y
 def centroid_y(x):
