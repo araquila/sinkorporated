@@ -33,7 +33,7 @@ E_steel = 200e9 #[Pa] E-modulus of steel
 E_fibre = 70e9 #[Pa] E-modulus of carbon fibre
 radius_outer = 0.5
 rho_alu = 2800 #[kg/m3]
-rho_airgel = 130 #[kg/m3]
+rho_aerogel = 130 #[kg/m3]
 
 #Functions
 def LNG_volume(LNG_mass):
@@ -167,6 +167,9 @@ def t_dewar(radius_outer,p_a,n,E,k):
     return t_dewar
 
 pressure, timedata = pressure_build_up(432000)
+LNG_mass = weight_CH4/2
+tank_volume = det_tank_volume(LNG_mass,rho_CH4_cryo,allowance)
+radius, length = det_internal_dimensions(tank_volume)
 
 #t_hoop_steel = t_hoop(0.4,sigma_yield_steel,max(pressure))
 t_long_steel = t_long(0.4, sigma_yield_steel, max(pressure))
@@ -188,8 +191,14 @@ print("external skin mass of an aluminium tank is " + str(det_external_wetted_ar
 print("external skin mass of a steel tank is "+ str(det_external_wetted_area(0.4, 4.8, insulation) * t_dewar_steel * rho_steel))
 print("external skin mass of a fibre tank is "+ str(det_external_wetted_area(0.4, 4.8, insulation) * t_dewar_fibre * rho_fibre))
 
-
-
+inner_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre)
+outer_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre+insulation)
+outer_outer_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre+insulation+0.0001)
+aerogel_mass = (outer_volume-inner_volume)*rho_aerogel
+outer_alu_layer_mass = (outer_outer_volume-outer_volume)*rho_alu
+inner_tank_mass = (rho_fibre+0.25*rho_alu)*(det_external_wetted_area(0.4, 4.8, t_long_fibre) * t_long_fibre)
+total_mass = inner_tank_mass + aerogel_mass + outer_alu_layer_mass
+print(total_mass)
 # print(benedict_webb_rubin(111, 1.8))
 #
 # print("External Wetted Area of One Tank: " + str(det_external_wetted_area(0.4, 4.8, insulation)))
