@@ -174,7 +174,7 @@ h_max_root_wingbox = 0.35156
 h_max_tip_wingbox = 0.08518
 
 # Stringers
-n_upper_skin_wingbox = 7
+n_upper_skin_wingbox = 5
 n_lower_skin_wingbox = 3
 
 #thickness
