@@ -8,7 +8,7 @@ Created on Tue Jun  4 14:48:26 2019
 import parameters as p
 import numpy as np
 import matplotlib.pyplot as plt
-
+from scipy import integrate
 
 #actual root enclosed area 0.316
 #actual tip enclosed area 0.045
@@ -87,7 +87,25 @@ I_zz_bottom = I_zz_z
 I_yy_top = I_yy_hat
 I_yy_bottom = I_yy_z
 
+density_stiffeners = 2800
+weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.b/2 
 
+area_horizontal_flanges = 2*np.sqrt(((height_strutbox(0)-height_strutbox(p.b/2))/2)**2 + (p.b/2)**2)*width_strutbox(p.b/2/2)
+area_vertical_flanges = 2*np.sqrt(((width_strutbox(0)-width_strutbox(p.b/2))/2)**2 + (p.b/2)**2)*(height_strutbox(p.b/2/2)-2*t_sheet)
+
+density_sheet = 2800
+weight_strutbox = (area_horizontal_flanges + area_vertical_flanges)*t_sheet*density_sheet
+
+
+def V(x):     
+    l1 = np.sqrt(((height_strutbox(0)-height_strutbox(p.b/2))/2)**2 + (p.b/2)**2)
+    l2 = np.sqrt(((width_strutbox(0)-width_strutbox(p.b/2))/2)**2 + (p.b/2)**2)
+    return 2*(l1*width_strutbox(x) + l2*height_strutbox(x))
+
+
+volume_strutbox = integrate.quad(V,0,p.b/2)[0]
+
+total_weight = weight_stiffeners+weight_strutbox
 
 #stiffener spacing
 top_spacing = (width_strutbox(0) - n_top * (width_top))/(n_top+1)
