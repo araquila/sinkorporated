@@ -222,6 +222,9 @@ x_pod = pod_pos_perc*b/2
 strut_pos_perc = 0.5
 x_strut = strut_pos_perc*b/2
 
+#vertical tail
+
+
 
 ## -------- PERFORMANCE -------- ##
 # Aerodynamic
