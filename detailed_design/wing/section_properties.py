@@ -34,7 +34,7 @@ t_z = 0.002 #m
 
 #hat geometry
 a = 0.06
-b = 0.02
+b = 0.03
 c = 0.06
 
 width_hat = 2*b+c-t_hat
