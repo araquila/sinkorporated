@@ -187,8 +187,8 @@ t_rib = 0.001
 
 
 
-safety_factor_compression = 1.5
-safety_factor_tension = 1.5
+safety_factor_compression = 1.2
+safety_factor_tension = 1.2
 
 # Strutbox
 # Width

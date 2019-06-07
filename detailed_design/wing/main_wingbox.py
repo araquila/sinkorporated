@@ -27,7 +27,7 @@ y_max_list = []
 for x in x_pos:
     Izz_list.append(sp.I_zz_wingbox(x))
     Iyy_list.append(sp.I_yy_wingbox(x))
-    first_moment_of_area_list.append(sp.first_moment_of_area(x))
+    first_moment_of_area_list.append(sp.first_moment_of_area_y(x))
     area_list.append(sp.cross_sectional_area(x))
     y_max_list.append(sp.y_max(x))
 
