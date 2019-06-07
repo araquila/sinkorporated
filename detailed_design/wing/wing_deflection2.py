@@ -33,7 +33,7 @@ def read_aero_data(datafile, lengthdata, V_cruise, rho_cruise):
     
 #    lengthdata = 50
     skipheader = 20
-    table = np.genfromtxt(filename,delimiter=None , skip_header=skipheader, skip_footer=(lengthlines-lengthdata-skipheader-5))
+    table = np.genfromtxt(filename,delimiter=None , skip_header=skipheader, skip_footer=(lengthlines-lengthdata-skipheader-12))
     
     ji = []
     Yle = []
@@ -204,7 +204,7 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
     
     
     for i in range(1,len(Li)+1):
-        if i == 50:
+        if i == 100:
             xmr.append(-(dii[i])/(2*E*Ii[i]) + xmr[i-1])
             xry.append((dii[i])/(2*E*Ii[i])*xi[i] + xry[i-1])
             xL.append(momentLi[i]*(dii[i])/(2*E*Ii[i]) + xL[i-1])
@@ -271,7 +271,7 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
     
     
     for i in range(1,len(Drag)+1):
-        if i == 50:
+        if i == 100:
             ymr.append((dii[i])/(2*E*Iyy[i]) + ymr[i-1])
             yrz.append((dii[i])/(2*E*Iyy[i])*xi[i] + yrz[i-1])
             yD.append(-momentDi[i]*(dii[i])/(2*E*Iyy[i]) + yD[i-1])
@@ -463,8 +463,8 @@ perc_engine = 0.15
 perc_strut = 0.5
 perc_pod = 0.5
 
-lengthdata = 50
-Lift, Chord, Yle, Drag, AeroMoment = read_aero_data("wing/aquiladata1.txt", lengthdata, V_cruise, rho_cruise)
+lengthdata = 100
+Lift, Chord, Yle, Drag, AeroMoment = read_aero_data("wing/datastrut4.txt", lengthdata, V_cruise, rho_cruise)
 Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = CallForces(Lift, Yle, Drag, tot_thrust, np.ones(len(Lift)+1)*10**(-4), np.ones(len(Lift)+1)*10**(-4) , 70*10**9, perc_engine, perc_strut, perc_pod)
 Forces1 = [['Frx = ', Frx], ['Fry = ', Fry], ['Fs = ', Fs], ['Mr = ', Mrz]]
 Forces2 = [['Frz = ', Frz], ['Fsz = ', Fsz], ['Mry = ', Mry]]
