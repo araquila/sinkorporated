@@ -13,14 +13,14 @@ x_pos = np.linspace(0,p.l_strutbox,n)
 ### OBTAIN CROSSECTIONAL PROPERTIES ###
 Izz_list = []
 Iyy_list = []
-first_moment_of_area_list = []
+first_moment_of_area_list_y = []
 area_list = []
 y_max_list = []
 
 for x in x_pos:
     Izz_list.append(scs.I_zz_strutbox(x))
     Iyy_list.append(scs.I_yy_strutbox(x))
-    first_moment_of_area_list.append(scs.first_moment_of_area(x))
+    first_moment_of_area_list_y.append(scs.first_moment_of_area(x))
     area_list.append(scs.cross_sectional_area(x))
     y_max_list.append(scs.y_max(x))
     
@@ -28,16 +28,18 @@ for x in x_pos:
 lengthdata = 50
 Lift, Chord, Yle, Drag = wd2.read_aero_data("wing/aquiladata1.txt", lengthdata, p.V_cruise, p.rho)
 Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
+
 alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
-F_strut_y = Fs * np.cos(alpha)
 F_strut_x = Fs * np.sin(alpha)
 
 ### OBTAIN SHEAR AND MOMENT DIAGRAM ###
-V_list, M_list = shear_and_moment(Fs,n)
+V_list_y, V_list_z, M_list_z, M_list_y = shear_and_moment(Fs,Fsz,n)
 
 ### NORMAL STRESS CALCULATOR ###
-def normal_stress(x,y,z,moment_z,moment_y,normal_force,I_zz,I_yy,area):
+def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     """Returns bending moment and normal force stress""" 
+    
+    z = scs.width_strutbox(x)/2
     
     #-my/I according to the formula, makes sense because for a positive Mz the top skin will be in compression
     moment_z_upperskin = -moment_z*(scs.height_strutbox(x)-y)/I_zz
@@ -46,7 +48,7 @@ def normal_stress(x,y,z,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     moment_y_rightflange = -moment_y*z/I_yy
     moment_y_leftflange = -moment_y*-z/I_yy
     
-    normal_force_stress = normal_force/area
+    normal_force_stress = 2*normal_force/area
     
     normal_ru = moment_z_upperskin + moment_y_rightflange +     normal_force_stress 
     normal_lu = moment_z_upperskin + moment_y_leftflange +     normal_force_stress 
@@ -86,20 +88,20 @@ def normal_stress(x,y,z,moment_z,moment_y,normal_force,I_zz,I_yy,area):
 def skin_buckling_stress(x):
     """Returns compressive stress at which buckling will occur"""
     
-    k = None # to be determined based on the "final" stiffener and rib spacing
+    k = 4 # to be determined based on the "final" stiffener and rib spacing
     b = scs.top_spacing
-    poisson_ratio = p.poisson_ratio
+    poisson_ratio = p.poisson_ratio_al2014
     t = p.t_sheet
     
     return k*np.pi**2*p.E_al2014*(t/b)/(12*(1-poisson_ratio)**2)
 
 
-def critical_colunn_buckling(x):
+def critical_column_buckling(x):
     """Critical column buckling force on the stiffener""" 
     
     l_eff = 0.5*p.rib_spacing
     
-    return (np.pi**2*p.E_al2014*scs.I_zz_wingbox(x))/(l_eff**2)
+    return (np.pi**2*p.E_al2014*scs.I_yy_strutbox(x))/(l_eff**2)
 
 
 def critical_crippling_stiffener(x):
@@ -133,15 +135,25 @@ def critical_crippling_stiffener(x):
     
     return total_crippling/10**6
 
+### CALCULATE REQUIRED THICKNESS ###
 
-### CALCULATE SHEAR AND NORMAL STRESS ###
+def required_shear_thickness(V_list_y,V_list_z,Iyy_list,Izz_list,first_moment_of_area_list_y,moment_of_area_list_z):
+    t = 0
+    for i in range(len(x_pos)):
+        t_temp = 1
+        if t_temp > t:
+            t = t_temp
+        return t
+
+
+### CALCULATE NORMAL STRESS ###
 normal_ru_list= []
 normal_lu_list= []
 normal_rl_list= []
 normal_ll_list= []
 
 for i in range(len(x_pos)):
-    normal_ru, normal_lu, normal_rl, normal_ll = normal_stress(x_pos[i],y_max_list[i],0,M_list[i],0,F_strut_x,Izz_list[i],Iyy_list[i],area_list[i])
+    normal_ru, normal_lu, normal_rl, normal_ll = normal_stress(x_pos[i],y_max_list[i],M_list_z[i],M_list_y[i],F_strut_x,Izz_list[i],Iyy_list[i],area_list[i])
     normal_ru_list.append(normal_ru/10**6)
     normal_lu_list.append(normal_lu/10**6)
     normal_rl_list.append(normal_rl/10**6)
@@ -193,6 +205,8 @@ if max_tensile_stress > p.tensile_yield_strength_al2014/10**6:
     print("Yielded at the strut")
 else:
     print("Max stress",max_tensile_stress/(p.tensile_yield_strength_al2014/10**6)*100,"% of the yield strength")
+    
+
 
 
 

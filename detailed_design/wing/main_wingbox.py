@@ -101,6 +101,18 @@ def skin_buckling_stress(x):
     
     return k*np.pi**2*p.E_al2014/(12*(1-p.poisson_ratio_al2014**2)) * (t/b)**2
 
+
+def shear_skin_buckling_stress(x):
+    """Returns compressive stress at which buckling will occur"""
+    
+    k = 5.35 # to be determined based on the "final" stiffener and rib spacing
+    b = sp.top_spacing
+    t = p.t_sheet
+    
+    return k*np.pi**2*p.E_al2014/(12*(1-p.poisson_ratio_al2014**2)) * (t/b)**2
+
+
+
 #print("Skin buckling limit: ", skin_buckling_stress(0))
 
 def critical_column_buckling(x):
@@ -108,7 +120,7 @@ def critical_column_buckling(x):
     
     l_eff = 0.5*p.rib_spacing
     
-    return (np.pi**2*p.E_al2014*sp.I_zz_wingbox(x))/(l_eff**2)/10**6
+    return (np.pi**2*p.E_al2014*sp.I_yy_wingbox(x))/(l_eff**2)/10**6
 
 
 def critical_crippling_stiffener(x):
@@ -141,9 +153,6 @@ def critical_crippling_stiffener(x):
     total_crippling = yield_stress*(2*(ratio_a*area_a+ratio_b*area_b)+ratio_c*area_c) / (2*area_a + 2*area_b + area_c)
     
     return total_crippling/10**6
-
-
-###  SHEAR STRESS CALCULATOR ###
 
 
 
@@ -213,6 +222,9 @@ plt.show()
 
 max_compressive_stress = min(normal_ru_list)*p.safety_factor_compression
 max_tensile_stress = max(normal_ll_list)*p.safety_factor_tension
+
+
+
 
 print("Max compressive: ",max_compressive_stress,"MPa")
 print("Max tensile: ",max_tensile_stress,"MPa")
