@@ -175,7 +175,7 @@ h_max_tip_wingbox = 0.08518
 
 # Stringers
 n_upper_skin_wingbox = 5
-n_lower_skin_wingbox = 3
+n_lower_skin_wingbox = 2
 
 #thickness
 t_sheet = 0.002 #m
