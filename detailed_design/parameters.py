@@ -100,7 +100,7 @@ W_pod = 157.55 * g
 mtom = MTOW / g
 
 # Propulsion
-M_engine = 450
+M_engine = 481
 W_engine = M_engine * g
 W_nacelle = None
 W_engine_controls = None
@@ -174,16 +174,16 @@ h_max_root_wingbox = 0.35156
 h_max_tip_wingbox = 0.08518
 
 # Stringers
-n_upper_skin_wingbox = 5
+n_upper_skin_wingbox = 7
 n_lower_skin_wingbox = 3
 
 #thickness
-t_sheet = 0.002 #m
+t_sheet = 0.0015 #m
 
 #amount of ribs, excluding root and tip caps
 n_ribs = 10
 rib_spacing = (b/2)/(n_ribs+1)
-t_rib = 0.001 
+t_rib = 0.002 
 
 
 
