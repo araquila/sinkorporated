@@ -181,8 +181,11 @@ n_lower_skin_wingbox = 2
 t_sheet = 0.002 #m
 
 #amount of ribs, excluding root and tip caps
-n_ribs = 15
+n_ribs = 17
 rib_spacing = (b/2)/(n_ribs+1)
+
+safety_factor_compression = 1.5
+safety_factor_tension = 1.5
 
 # Strutbox
 # Width

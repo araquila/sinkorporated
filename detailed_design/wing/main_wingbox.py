@@ -49,7 +49,6 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     moment_z_upperskin = -moment_z*(sp.height_wingbox(x)-abs(y))/I_zz
     moment_z_lowerskin = -moment_z*y/I_zz
     
-    
     moment_y_rightflange = -moment_y*z/I_yy
     moment_y_leftflange = -moment_y*-z/I_yy
     
@@ -191,7 +190,7 @@ plt.plot(x_pos, shearzi,'r')
 
 ### PLOT NORMAL STRESS AT THE FOUR CORNERS
 plt.figure(1,figsize = (8,6))
-plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
+plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
 plt.ylabel('Normal stress [MPa]',fontsize=13)
 plt.plot(x_pos, normal_ru_list, 'r', label='Right upper corner')
 plt.plot(x_pos, normal_lu_list, 'g', label='Left upper corner')
@@ -201,8 +200,8 @@ plt.legend(loc = 'upper right')
 
 plt.show()
 
-max_compressive_stress = min(normal_ru_list)
-max_tensile_stress = max(normal_ll_list)
+max_compressive_stress = min(normal_ru_list)*p.safety_factor_compression
+max_tensile_stress = max(normal_ll_list)*p.safety_factor_tension
 
 print("Max compressive: ",max_compressive_stress,"MPa")
 print("Max tensile: ",max_tensile_stress,"MPa")
