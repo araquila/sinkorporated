@@ -83,6 +83,56 @@ def normal_stress(x,y,z,moment_z,moment_y,normal_force,I_zz,I_yy,area):
 ###  SHEAR STRESS CALCULATOR ###
 
 
+def skin_buckling_stress(x):
+    """Returns compressive stress at which buckling will occur"""
+    
+    k = None # to be determined based on the "final" stiffener and rib spacing
+    b = scs.top_spacing
+    poisson_ratio = p.poisson_ratio
+    t = p.t_sheet
+    
+    return k*np.pi**2*p.E_al2014*(t/b)/(12*(1-poisson_ratio)**2)
+
+
+def critical_colunn_buckling(x):
+    """Critical column buckling force on the stiffener""" 
+    
+    l_eff = 0.5*p.rib_spacing
+    
+    return (np.pi**2*p.E_al2014*scs.I_zz_wingbox(x))/(l_eff**2)
+
+
+def critical_crippling_stiffener(x):
+    """Critical crippling stress for aluminium top stiffener in MPa"""
+    
+    alpha = 0.8
+    n = 0.6
+    yield_stress = p.tensile_yield_strength_al2014
+    
+    
+    def stress_cc(K,b):
+        return K*(np.pi**2*p.E_al2014*(scs.t_hat/b)**2/(12*(1-p.poisson_ratio_al2014**2)))
+    
+    t_sheet = scs.t_hat
+    
+    #areas
+    area_a = scs.a*t_sheet
+    area_b = (scs.b-t_sheet)*t_sheet
+    area_c = (scs.c-t_sheet)*t_sheet
+    
+    #critical crippling stress
+    cc_a = stress_cc(4,scs.a)
+    cc_b = stress_cc(0.425,scs.b)
+    cc_c = stress_cc(4,scs.c)
+    
+    ratio_a = alpha*(cc_a/yield_stress)**(1-n)
+    ratio_b = alpha*(cc_b/yield_stress)**(1-n)
+    ratio_c = alpha*(cc_c/yield_stress)**(1-n)
+
+    total_crippling = yield_stress*(2*(ratio_a*area_a+ratio_b*area_b)+ratio_c*area_c) / (2*area_a + 2*area_b + area_c)
+    
+    return total_crippling/10**6
+
 
 ### CALCULATE SHEAR AND NORMAL STRESS ###
 normal_ru_list= []
