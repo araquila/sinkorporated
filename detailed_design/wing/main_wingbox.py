@@ -160,7 +160,7 @@ def critical_crippling_stiffener(x):
     
     return total_crippling/10**6
 
-
+#dd
 
 
 ### CALCULATE SHEAR AND NORMAL STRESS ###
