@@ -4,7 +4,6 @@ from sympy.solvers import solve
 from sympy import Symbol
 import numpy as np
 from p_t_data import *
-from untitled2 import t_hoop, t_long
 
 # hydrogen aircraft technologies p. 30 (allowance) and p. 154 (tank volume)
 
@@ -22,8 +21,19 @@ timestep        = 30
 T_outside       = 300
 
 #weight Calculation
-sigma_yield     = 700e6 #[Pa]
+sigma_yield_steel     = 1000e6 #[Pa]
+sigma_yield_alu = 324e6 #[Pa]
 safety_factor   = 1.5 #[-]
+p_a = 101325 #[Pa]
+k = 48
+n = 4
+E_alu = 72e9 #[Pa] E-modulus of aluminium
+E_steel = 200e9 #[Pa] E-modulus of steel
+radius_outer = 0.5
+rho_alu = 2800 #[kg/m3]
+rho_steel = 8050 #[kg/m3]
+
+#Functions
 def LNG_volume(LNG_mass):
     """
     simple converter from mass to m^3
@@ -135,19 +145,38 @@ def pressure_build_up(total_t):
             density = gas_mass / V_gas
         T_vaporise = det_T_vaporise(pressure[-1]/1000)
         temperature += det_heat_flux(kappa_eff, (T_outside - temperature), insulation, det_external_wetted_area(0.4, 4.8, insulation)) * timestep / (2 * 1000 * liquid_mass)
-        print("Timestep (" + str(timestep) + " sec): " + str(t) + " pressure " + str(pressure[-1]) + " temperature " + str(temperature))
+#        print("Timestep (" + str(timestep) + " sec): " + str(t) + " pressure " + str(pressure[-1]) + " temperature " + str(temperature))
     return pressure
+
+#thickness functions
+def t_hoop(radius,sigma_yield,p):
+    t_hoop = (safety_factor*p*radius)/(2*sigma_yield)
+    return t_hoop
+
+def t_long(radius,sigma_yield,p):
+    t_long = (safety_factor*p*radius)/sigma_yield
+    return t_long
+
+def t_dewar(radius_outer,p_a,n,E,k):
+    t_dewar = 2*radius_outer*((p_a*n)/(E*k))**(1./3)
+    return t_dewar
 
 pressure = pressure_build_up(432000)
 
-t_hoop = t_hoop(0.4,sigma_yield,max(pressure))
-t_long = t_long(0.4, sigma_yield, max(pressure))
+t_hoop_steel = t_hoop(0.4,sigma_yield_steel,max(pressure))
+t_long_steel = t_long(0.4, sigma_yield_steel, max(pressure))
+t_hoop_alu = t_hoop(0.4,sigma_yield_alu,max(pressure))
+t_long_alu = t_long(0.4,sigma_yield_alu, max(pressure))
+t_dewar_alu = t_dewar(radius_outer,p_a,n,E_alu,k)
+t_dewar_steel = t_dewar(radius_outer,p_a,n,E_steel,k)
 print(t_hoop)
 print(t_long)
-volume = det_tank_volume(0.4 + t_long, 4.8, 0) - det_tank_volume(0.4, 4.8, 0)
-print(volume)
-print("internal skin mass " + str(volume * 8050))
-print(det_external_wetted_area(0.4, 4.8, t_long) * t_long * 8050)
+print(t_dewar_alu)
+print(t_dewar_steel)
+print("internal skin mass of a steel tank is " + str(det_external_wetted_area(0.4, 4.8, t_long_steel) * t_long_steel * rho_steel))
+print("internal skin mass of a aluminium tank is " + str(det_external_wetted_area(0.4, 4.8, t_long_alu) * t_long_alu * rho_alu))
+print("external skin mass of an aluminium tank is " + str(det_external_wetted_area(0.4, 4.8, t_long_alu) * t_dewar_alu * rho_alu))
+print("external skin mass of a steel tank is "+ str(det_external_wetted_area(0.4, 4.8, t_long_alu) * t_dewar_steel * rho_steel))
 # print(benedict_webb_rubin(111, 1.8))
 #
 # print("External Wetted Area of One Tank: " + str(det_external_wetted_area(0.4, 4.8, insulation)))
