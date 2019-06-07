@@ -165,6 +165,17 @@ for i in range(len(x_pos)):
     normal_lu_list.append(normal_lu/10**6)
     normal_rl_list.append(normal_rl/10**6)
     normal_ll_list.append(normal_ll/10**6)
+
+# Error correction
+error_lower = normal_ll_list[-1]
+error_upper = normal_lu_list[-1]
+    
+for i in range(len(x_pos)):
+    normal_ru_list[i] -= error_upper
+    normal_lu_list[i] -= error_upper
+    normal_rl_list[i] -= error_lower
+    normal_ll_list[i] -= error_lower
+    
     
    
 ### MOMENT AND SHEAR DIAGRAM ###
