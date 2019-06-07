@@ -6,7 +6,7 @@ import wing.section_properties_strutbox as scs
 import wing.wing_deflection2 as wd2 
 
 ### DISCRETIZATION OF THE STRUTBOX ###
-n = 51
+n = 101
 x_pos = np.linspace(0,p.l_strutbox,n)
 
 ### OBTAIN CROSSECTIONAL PROPERTIES ###
@@ -26,8 +26,8 @@ for x in x_pos:
     y_max_list.append(scs.y_max(x))
     
 ### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
-lengthdata = 50
-Lift, Chord, Yle, Drag = wd2.read_aero_data("wing/aquiladata1.txt", lengthdata, p.V_cruise, p.rho)
+lengthdata = 100
+Lift, Chord, Yle, Drag, AeroMoment = wd2.read_aero_data("wing/datastrut4.txt", lengthdata, p.V_cruise, p.rho)
 Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
 
 alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
@@ -61,30 +61,30 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     normal_rl = moment_z_lowerskin + moment_y_rightflange +     normal_force_stress 
     normal_ll = moment_z_lowerskin + moment_y_leftflange +  normal_force_stress 
     
-    if max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
-        print("Max tension at right upper corner")
-    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
-        print("Max tension at left upper corner")
-    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
-        print("Max tension at right lower corner")
-    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
-        print("Max tension at left lower corner")
-        
-    
-    if min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
-        print("Max compression at right upper corner")
-    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
-        print("Max compression at left upper corner")
-    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
-        print("Max compression at right lower corner")
-    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
-        print("Max compression at left lower corner")
-        
-    print("x: ",x)
-    print("Neutral axis: y =",scs.centroid_y(x),"(",scs.centroid_y(x)/scs.height_strutbox(x)*100,"%)",)
-    print("Maximum tension: ",max(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
-    print("Maximum compression: ", min(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
-    print("")
+#    if max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
+#        print("Max tension at right upper corner")
+#    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
+#        print("Max tension at left upper corner")
+#    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
+#        print("Max tension at right lower corner")
+#    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
+#        print("Max tension at left lower corner")
+#        
+#    
+#    if min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
+#        print("Max compression at right upper corner")
+#    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
+#        print("Max compression at left upper corner")
+#    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
+#        print("Max compression at right lower corner")
+#    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
+#        print("Max compression at left lower corner")
+#        
+#    print("x: ",x)
+#    print("Neutral axis: y =",scs.centroid_y(x),"(",scs.centroid_y(x)/scs.height_strutbox(x)*100,"%)",)
+#    print("Maximum tension: ",max(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
+#    print("Maximum compression: ", min(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
+#    print("")
     
     return normal_ru,normal_lu,normal_rl,normal_ll
 
@@ -168,7 +168,8 @@ for i in range(len(x_pos)):
     
 ### REQUIRED THICKNESS ###
 t = required_shear_thickness(V_list_y,V_list_z,Iyy_list,Izz_list,first_moment_of_area_list_y,first_moment_of_area_list_z)
-print(t)
+print('Required thickness [mm]: ' + str(t))
+print()
 
 ### PLOT NORMAL STRESS AT THE FOUR CORNERS ###
 plt.figure(3,figsize = (8,6))

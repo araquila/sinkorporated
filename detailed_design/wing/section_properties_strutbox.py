@@ -240,10 +240,10 @@ def y_max(x):
     centroid_y = (2*(height_strutbox(x)/2*(height_strutbox(x)-2*t_sheet)*t_sheet) + width_strutbox(x)*t_sheet*((height_strutbox(x)-t_sheet/2)+t_sheet/2) + n_top*(height_strutbox(x)-t_sheet-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*((height_strutbox(x)-2*t_sheet)*t_sheet + width_strutbox(x)*t_sheet) + n_top*A_top + n_bottom*A_bottom)    
    
     if height_strutbox(x)/2 > centroid_y:
-        print('y max is at the top, i.e. has a positive value: ') 
+#        print('y max is at the top, i.e. has a positive value: ') 
         return height_strutbox(x) - centroid_y
     else:
-        print('y max is at the bottom, i.e. has a negative value: ') 
+#        print('y max is at the bottom, i.e. has a negative value: ') 
         return -centroid_y
    
 def centroid_y(x):
