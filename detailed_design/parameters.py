@@ -100,7 +100,7 @@ W_pod = 157.55 * g
 mtom = MTOW / g
 
 # Propulsion
-M_engine = 450
+M_engine = 481
 W_engine = M_engine * g
 W_nacelle = None
 W_engine_controls = None
@@ -147,6 +147,8 @@ d_fuselage_outside = 2.84
 d_fuselage_inside = None
 l_nose = 2.8373002246584007
 l_lavatory = 36 * 0.0254
+S_wet_fuselage = np.pi * d_fuselage_outside * l_fuselage
+volume_fuselage = 0.25 * np.pi * d_fuselage_outside**2 * l_fuselage
 
 # Wing
 A = 20
@@ -174,16 +176,16 @@ h_max_root_wingbox = 0.35156
 h_max_tip_wingbox = 0.08518
 
 # Stringers
-n_upper_skin_wingbox = 7
+n_upper_skin_wingbox = 9
 n_lower_skin_wingbox = 3
 
 #thickness
-t_sheet = 0.003 #m
+t_sheet = 0.0035 #m
 
 #amount of ribs, excluding root and tip caps
 n_ribs = 10
 rib_spacing = (b/2)/(n_ribs+1)
-t_rib = 0.001 
+t_rib = 0.002 
 
 
 
@@ -276,6 +278,7 @@ Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
 Cd0 = 0.008
+LD_ratio = 28 #NOT FINAL
 
 
 # Propulsion

@@ -28,13 +28,13 @@ def height_wingbox(x):
 
 
 t_sheet = p.t_sheet #m
-t_hat = 0.003 #m
-t_z = 0.003 #m
+t_hat = 0.002 #m
+t_z = 0.002 #m
 
 
 #hat geometry
-a = 0.05
-b = 0.04
+a = 0.06
+b = 0.03
 c = 0.06
 
 width_hat = 2*b+c-t_hat
@@ -49,9 +49,9 @@ I_yy_hat = 2*b**3*t_hat/12 + c**3*t_hat/12 + 2*b*t_hat*(b-t_hat+c/2) + c*t_hat*(
 
 
 #Z-stiffener geometry
-d = 0.05
+d = 0.03
 e = 0.05 
-f = 0.06
+f = 0.04
 
 width_z = d+f-t_z
 

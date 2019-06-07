@@ -5,28 +5,29 @@ from wing.shear_and_moment_strutbox import shear_and_moment
 import wing.section_properties_strutbox as scs
 import wing.wing_deflection2 as wd2 
 
-
 ### DISCRETIZATION OF THE STRUTBOX ###
-n = 51
+n = 101
 x_pos = np.linspace(0,p.l_strutbox,n)
 
 ### OBTAIN CROSSECTIONAL PROPERTIES ###
 Izz_list = []
 Iyy_list = []
 first_moment_of_area_list_y = []
+first_moment_of_area_list_z = []
 area_list = []
 y_max_list = []
 
 for x in x_pos:
     Izz_list.append(scs.I_zz_strutbox(x))
     Iyy_list.append(scs.I_yy_strutbox(x))
-    first_moment_of_area_list_y.append(scs.first_moment_of_area(x))
+    first_moment_of_area_list_y.append(scs.first_moment_of_area_y(x))
+    first_moment_of_area_list_z.append(scs.first_moment_of_area_z(x))
     area_list.append(scs.cross_sectional_area(x))
     y_max_list.append(scs.y_max(x))
     
 ### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
-lengthdata = 50
-Lift, Chord, Yle, Drag = wd2.read_aero_data("wing/aquiladata1.txt", lengthdata, p.V_cruise, p.rho)
+lengthdata = 100
+Lift, Chord, Yle, Drag, AeroMoment = wd2.read_aero_data("wing/datastrut4.txt", lengthdata, p.V_cruise, p.rho)
 Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
 
 alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
@@ -34,6 +35,11 @@ F_strut_x = Fs * np.sin(alpha)
 
 ### OBTAIN SHEAR AND MOMENT DIAGRAM ###
 V_list_y, V_list_z, M_list_z, M_list_y = shear_and_moment(Fs,Fsz,n)
+
+### DIAMETER STRUT ###
+A_strut = p.ult_stress_carbon / Fs
+d_strut = 2 * np.sqrt(A_strut/np.pi)
+
 
 ### NORMAL STRESS CALCULATOR ###
 def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
@@ -55,30 +61,30 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     normal_rl = moment_z_lowerskin + moment_y_rightflange +     normal_force_stress 
     normal_ll = moment_z_lowerskin + moment_y_leftflange +  normal_force_stress 
     
-    if max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
-        print("Max tension at right upper corner")
-    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
-        print("Max tension at left upper corner")
-    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
-        print("Max tension at right lower corner")
-    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
-        print("Max tension at left lower corner")
-        
-    
-    if min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
-        print("Max compression at right upper corner")
-    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
-        print("Max compression at left upper corner")
-    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
-        print("Max compression at right lower corner")
-    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
-        print("Max compression at left lower corner")
-        
-    print("x: ",x)
-    print("Neutral axis: y =",scs.centroid_y(x),"(",scs.centroid_y(x)/scs.height_strutbox(x)*100,"%)",)
-    print("Maximum tension: ",max(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
-    print("Maximum compression: ", min(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
-    print("")
+#    if max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
+#        print("Max tension at right upper corner")
+#    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
+#        print("Max tension at left upper corner")
+#    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
+#        print("Max tension at right lower corner")
+#    elif max(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
+#        print("Max tension at left lower corner")
+#        
+#    
+#    if min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ru:
+#        print("Max compression at right upper corner")
+#    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_lu:
+#        print("Max compression at left upper corner")
+#    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_rl:
+#        print("Max compression at right lower corner")
+#    elif min(normal_ru,normal_lu,normal_rl,normal_ll) == normal_ll:
+#        print("Max compression at left lower corner")
+#        
+#    print("x: ",x)
+#    print("Neutral axis: y =",scs.centroid_y(x),"(",scs.centroid_y(x)/scs.height_strutbox(x)*100,"%)",)
+#    print("Maximum tension: ",max(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
+#    print("Maximum compression: ", min(normal_ru,normal_lu,normal_rl,normal_ll)/10**6,"MPa")
+#    print("")
     
     return normal_ru,normal_lu,normal_rl,normal_ll
 
@@ -137,13 +143,14 @@ def critical_crippling_stiffener(x):
 
 ### CALCULATE REQUIRED THICKNESS ###
 
-def required_shear_thickness(V_list_y,V_list_z,Iyy_list,Izz_list,first_moment_of_area_list_y,moment_of_area_list_z):
+def required_shear_thickness(V_list_y,V_list_z,Iyy_list,Izz_list,first_moment_of_area_list_y,first_moment_of_area_list_z):
     t = 0
+    t_lsit = []
     for i in range(len(x_pos)):
-        t_temp = 1
+        t_temp = (V_list_y[i] * first_moment_of_area_list_y[i] * Iyy_list[i] + V_list_z[i]*first_moment_of_area_list_z[i]*Izz_list[i]) / (p.ultimate_shear_stress_al2024 * Izz_list[i] * Iyy_list[i])
         if t_temp > t:
             t = t_temp
-        return t
+    return t
 
 
 ### CALCULATE NORMAL STRESS ###
@@ -159,7 +166,12 @@ for i in range(len(x_pos)):
     normal_rl_list.append(normal_rl/10**6)
     normal_ll_list.append(normal_ll/10**6)
     
-### PLOT NORMAL STRESS AT THE FOUR CORNERS
+### REQUIRED THICKNESS ###
+t = required_shear_thickness(V_list_y,V_list_z,Iyy_list,Izz_list,first_moment_of_area_list_y,first_moment_of_area_list_z)
+print('Required thickness [mm]: ' + str(t))
+print()
+
+### PLOT NORMAL STRESS AT THE FOUR CORNERS ###
 plt.figure(3,figsize = (8,6))
 plt.xlabel('Location along the length of the strutbox [m]',fontsize=13)
 plt.ylabel('Normal stress [MPa]',fontsize=13)
@@ -169,6 +181,7 @@ plt.plot(x_pos, normal_rl_list, 'b', label='Right lower corner')
 plt.plot(x_pos, normal_ll_list, 'y', label='Left lower corner')
 plt.legend(loc = 'upper right')
 
+### CHECK FOR OTHER FAILURE MODES ###
 max_compressive_stress = min(normal_ru_list)*p.safety_factor_compression
 max_tensile_stress = max(normal_ll_list)*p.safety_factor_tension
 

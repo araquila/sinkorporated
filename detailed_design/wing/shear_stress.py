@@ -17,6 +17,8 @@ def max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, height_alo
     Izz = Izz_along_wingbox
     Iyy = Iyy_along_wingbox
     
+    t = p.t_sheet
+    
     sheary = shearyi
     shearz = shearzi
 #    sheary = np.zeros(len(shearzi))
@@ -42,7 +44,7 @@ def max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, height_alo
     
     Shear_center = []
     cp_perc = 0.25
-    for i in range(len(xi)):
+    for i in range(len(Iyy)):
         step = 0.001
         s1 = np.arange(0, bi[i]/2 + step , step)
         s2 = np.arange(0, hi[i] + step, step)
