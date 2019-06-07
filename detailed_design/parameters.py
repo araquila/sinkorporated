@@ -242,9 +242,10 @@ size_tire = None
 # Propulsion
 n_fueltanks = 2
 n_blades = 6
-d_engine = 3.66
-l_engine = None
-d_prop = None
+w_engine = 0.66
+l_engine = 2.134
+h_engine = 0.838
+d_prop = 3.66
 engine_pos_perc = 0.27                  # % of span
 pod_pos_perc = 0.5
 y_engine = 4.74
