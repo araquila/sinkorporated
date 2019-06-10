@@ -43,7 +43,7 @@ E_al2014 = 72.4e9 #E-modulus
 G_al2014 = 28e9 #shear modulus
 
 # Density
-density_aluminum = 2800
+#density_aluminum = 2800
 
 # Passengers and Crew
 n_passenger = 60
@@ -101,7 +101,7 @@ mtom = MTOW / g
 
 # Propulsion
 M_engine = 481
-W_engine = M_engine * g
+W_engine = M_engine * g 
 W_nacelle = None
 W_engine_controls = None
 W_starter = None
@@ -176,16 +176,39 @@ h_max_root_wingbox = 0.35156
 h_max_tip_wingbox = 0.08518
 
 # Stringers
-n_upper_skin_wingbox = 20
-n_lower_skin_wingbox = 20
+n_upper_skin_wingbox = 14
+n_lower_skin_wingbox = 14
 
+#al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
+density_stiffeners = 2630
+
+t_hat = 0.0017
+t_z = 0.0017
+
+ultimate_compressive_strength_2099 = 476*10**6
+ultimate_yield_strength_2099 = 490*10**6
+
+E_compressive_2099 = 82.1*10**9
+
+#al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
-t_sheet = 0.0037 #m
+t_sheet = 0.003 #m
+
+E_sheet = 78*10**9
+density_sheet = 2700
+ult_tensile_strength_2195 = 595*10**6
+ult_yield_strength_2195 = 500*10**6
+fracture_toughness_2195 = 35*10**6
+
 
 #amount of ribs, excluding root and tip caps
 n_ribs = 10
 rib_spacing = (b/2)/(n_ribs+1)
 t_rib = 0.002 
+
+#al2050-t84 https://www.constellium.com/sites/default/files/markets/airware_2050_t84_plate.pdf
+E_rib = 76.5*10**9
+density_rib = 2700
 
 
 

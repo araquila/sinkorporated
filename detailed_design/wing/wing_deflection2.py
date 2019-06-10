@@ -70,7 +70,7 @@ def read_aero_data(datafile, lengthdata, V_cruise, rho_cruise):
 #        Lift.append(-1/2*rho_cruise*Area[i]*cl[i]*V_cruise**2)
 #        Drag.append(-1/2*rho_cruise*Area[i]*cd[i]*V_cruise**2)
 #        AeroMoment.append(-1/2*rho_cruise*Area[i]*cm_c4[i]*V_cruise**2*Chord[i])
-        
+#        
         Lift.append(2.5*1/2*rho_cruise*Area[i]*cl[i]*V_cruise**2)
         Drag.append(2.5*1/2*rho_cruise*Area[i]*cd[i]*V_cruise**2)
         AeroMoment.append(2.5*1/2*rho_cruise*Area[i]*cm_c4[i]*V_cruise**2*Chord[i])
@@ -150,7 +150,7 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
     
     #Weights
     W_empty = 9301 * g
-    W_engine = (2.02 + 9.68)/100*W_empty/2
+    W_engine = p.W_engine
     W_wing = 13.85/100*W_empty/2
     W_pod = (5.09/100*W_empty + 1576 * g)/2
     #W_empty = 0                 
@@ -318,7 +318,7 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
     xset = b/2
     
     vset_end = b/2*0.1
-    vset_strut = 0
+    vset_strut = 0.0
     
     for i in range(len(Li)+1):
         xi[i] = i*di

@@ -28,14 +28,14 @@ def height_wingbox(x):
 
 
 t_sheet = p.t_sheet #m
-t_hat = 0.0013 #m
-t_z = 0.0013 #m
+t_hat = p.t_hat #m
+t_z = p.t_hat #m
 
 
 #hat geometry
-a = 0.015
-b = 0.005
-c = 0.015
+a = 0.03
+b = 0.01
+c = 0.03
 
 width_hat = 2*b+c-t_hat
 
@@ -100,14 +100,14 @@ def check_n_stiff_top(x):
     """Returns amount of stiffeners left"""
     n_stiff = n_top
     
-    z_location = (width_wingbox(0)-width_wingbox(x))
+    z_location = (width_wingbox(0)-width_wingbox(x))/2
     
     sum_spacing_width = top_spacing+width_z
     
     ratio = z_location / sum_spacing_width
     
     while ratio > 1:
-        n_stiff -= 1
+        n_stiff -= 2
         ratio -= 1
         
     return n_stiff
@@ -117,40 +117,38 @@ def check_n_stiff_bottom(x):
     """Returns amount of stiffeners left"""
     n_stiff = n_bottom
     
-    z_location = (width_wingbox(0)-width_wingbox(x))
+    z_location = (width_wingbox(0)-width_wingbox(x))/2
     
     sum_spacing_width = lower_spacing+width_z
     
     ratio = z_location / sum_spacing_width
     
     while ratio > 1:
-        n_stiff -= 1
+        n_stiff -= 2
         ratio -= 1
         
     return n_stiff
 
 
 
-density_stiffeners = 2800
 #weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.b/2 
 
 weight_stiffeners = 0
 
-discretizationss = 10
+discretizationss = 100000
 x_range = p.b/2 / discretizationss
 
 x = x_range/2
 
 for i in range(discretizationss):
     x = i*x_range
-    weight_stiffeners += density_stiffeners*(check_n_stiff_top(x)*A_top + check_n_stiff_bottom(x)*A_bottom)*x_range
+    weight_stiffeners += p.density_stiffeners*(check_n_stiff_top(x)*A_top + check_n_stiff_bottom(x)*A_bottom)*x_range
 
     
 area_horizontal_flanges = 2*np.sqrt(((height_wingbox(0)-height_wingbox(p.b/2))/2)**2 + (p.b/2)**2)*width_wingbox(p.b/2/2)
 area_vertical_flanges = 2*np.sqrt(((width_wingbox(0)-width_wingbox(p.b/2))/2)**2 + (p.b/2)**2)*(height_wingbox(p.b/2/2)-2*t_sheet)
 
-density_sheet = 2800
-weight_wingbox = (area_horizontal_flanges + area_vertical_flanges)*t_sheet*density_sheet
+weight_wingbox = (area_horizontal_flanges + area_vertical_flanges)*t_sheet*p.density_sheet
 
 
 def V(x):     
@@ -162,13 +160,12 @@ def V(x):
 volume_wingbox = integrate.quad(V,0,p.b/2)[0]
 
 
-density_rib = 2800
 
 def area_rib(x):
     return 0.001*x**2 - 0.0447*x + 0.517
 
 def weight_rib(x):
-    return area_rib(x)*p.t_rib*density_rib
+    return area_rib(x)*p.t_rib*p.density_rib
 
 weight_ribs = 0
 
@@ -185,6 +182,9 @@ total_weight = weight_stiffeners+weight_wingbox+weight_ribs
 #centroid y
 def centroid_y(x):
     return (2*(height_wingbox(x)/2*(height_wingbox(x)-2*t_sheet)*t_sheet) + width_wingbox(x)*t_sheet*((height_wingbox(x)-t_sheet/2)+t_sheet/2) + check_n_stiff_top(x)*(height_wingbox(x)-t_sheet-y_top)*A_top + check_n_stiff_bottom(x)*(t_sheet+y_bottom)*A_bottom) / (2*((height_wingbox(x)-2*t_sheet)*t_sheet + width_wingbox(x)*t_sheet) + check_n_stiff_top(x)*A_top + n_bottom*A_bottom)    
+
+
+
 
 #at the root
 centroid_y_root = (2*((t_sheet+height_wingbox(0)/2)*(height_wingbox(0)-2*t_sheet)*t_sheet) + (-t_sheet/2+height_wingbox(0))*width_wingbox(0)*t_sheet + t_sheet**2/2*width_wingbox(0) + n_top*(3*t_sheet/2+height_wingbox(0)-y_top)*A_top + check_n_stiff_bottom(x)*(t_sheet+y_bottom)*A_bottom) / (2*(height_wingbox(0)-2*t_sheet)*t_sheet + 2*width_wingbox(0)*t_sheet + check_n_stiff_top(x) * A_top + check_n_stiff_bottom(x) * A_bottom)
@@ -317,13 +317,20 @@ def y_max(x):
     """Returns maximum y-distance from the neutral axis for a given cross section"""
     centroid_y = (2*(height_wingbox(x)/2*(height_wingbox(x)-2*t_sheet)*t_sheet) + width_wingbox(x)*t_sheet*((height_wingbox(x)-t_sheet/2)+t_sheet/2) + check_n_stiff_top(x)*(height_wingbox(x)-t_sheet-y_top)*A_top + check_n_stiff_bottom(x)*(t_sheet+y_bottom)*A_bottom) / (2*((height_wingbox(x)-2*t_sheet)*t_sheet + width_wingbox(x)*t_sheet) + check_n_stiff_top(x)*A_top + check_n_stiff_bottom(x)*A_bottom)    
    
-    if height_wingbox(x)/2 > centroid_y:
-#        print('y max is at the top, i.e. has a positive value: ') 
-        return height_wingbox(x) - centroid_y
-    else:
-#        print('y max is at the bottom, i.e. has a negative value: ') 
-        return -centroid_y
-   
+#    if height_wingbox(x)/2 > centroid_y:
+##        print('y max is at the top, i.e. has a positive value: ') 
+#        return height_wingbox(x) - centroid_y
+#    else:
+##        print('y max is at the bottom, i.e. has a negative value: ') 
+#        return -centroid_y
+    return -centroid_y
+
+#y_check = []
+#for i in range(len(x_pos)):
+#    y_check.append(y_max(x_pos[i]))
+#    
+#plt.plot(list(x_pos),y_check)
+#       
     
 #print(first_moment_of_area(0))
 
