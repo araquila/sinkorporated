@@ -161,7 +161,6 @@ root_chord = 2.241
 tip_chord = root_chord * taper
 tc_ratio_root = 0.15
 tc_ratio_tip = 0.12
-strut_pos_perc = 0.5                    # % of span
 MAC = (2/3) * root_chord * ((1 + taper + taper**2)/(1 + taper))
 xLEMAC = 9.0816
 x_ac_w = xLEMAC + 0.25*MAC
@@ -269,15 +268,18 @@ w_engine = 0.66
 l_engine = 2.134
 h_engine = 0.838
 d_prop = 3.66
+
+strut_pos_perc = 0.5                    # % of span
+
+
 engine_pos_perc = 0.27                  # % of span
-pod_pos_perc = 0.5
+pod_pos_perc = 0.55
 y_engine = 4.74
 
 x_engine = engine_pos_perc*b/2
 x_pod = pod_pos_perc*b/2
 
 #Strut
-strut_pos_perc = 0.5
 x_strut = strut_pos_perc*b/2
 
 

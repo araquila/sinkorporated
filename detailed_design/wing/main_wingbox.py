@@ -260,33 +260,33 @@ print("Max compressive: ",max_compressive_stress,"MPa")
 print("Max tensile: ",max_tensile_stress,"MPa")
 print("")
 
-print("Skin buckling limit: ",skin_buckling_stress(p.b/2/2)/10**6,"MPa")
+print("Skin buckling limit: ",skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6,"MPa")
 
-print("Column buckling limit: ",critical_column_buckling(p.b/2/2),"MPa")
+print("Column buckling limit: ",critical_column_buckling(p.strut_pos_perc*p.b/2),"MPa")
 
-print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.b/2/2),"MPa")
+print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.strut_pos_perc*p.b/2),"MPa")
 
-print("Shear stress buckling limit: ",shear_skin_buckling_stress(p.b/2/2)/10**6,"MPa (still to be determined where the maximum shear stress occurs spanwise)")
+print("Shear stress buckling limit: ",shear_skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6,"MPa (still to be determined where the maximum shear stress occurs spanwise)")
 
 print("")
 print("Crack length: ",crack_length_sheet(max(max_tensile_stress,max_compressive_stress)),"m")
 
-if abs(max_compressive_stress) < abs(skin_buckling_stress(p.b/2/2)/10**6):
+if abs(max_compressive_stress) < abs(skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6):
     print("Skin buckling passed")
 else:
     print("Failure on skin buckling")
     
-if abs(max_compressive_stress) < abs(critical_column_buckling(p.b/2/2)):
+if abs(max_compressive_stress) < abs(critical_column_buckling(p.strut_pos_perc*p.b/2)):
     print("Column buckling passed")
 else:
     print("Failure on column buckling")
     
-if abs(max_compressive_stress) < abs(critical_crippling_stiffener(p.b/2/2)):
+if abs(max_compressive_stress) < abs(critical_crippling_stiffener(p.strut_pos_perc*p.b/2)):
     print("Cripple limit of the stiffener passed")
 else:
     print("Failure on stiffener crippling")
     
-if shear_skin_buckling_stress(p.b/2/2) > max(tau_max):
+if shear_skin_buckling_stress(p.strut_pos_perc*p.b/2) > max(tau_max):
     print("Shear buckling passed")
 else:
     print("Failure on shear buckling")

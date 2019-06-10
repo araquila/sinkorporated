@@ -137,9 +137,9 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
     taper = p.taper
     c_root = p.root_chord
     c_tip = taper*c_root
-    x_strut = perc_strut*b/2
-    x_pod = perc_pod*b/2
-    x_engine = perc_engine*b/2
+    x_strut = p.strut_pos_perc*p.b/2
+    x_pod = p.pod_pos_perc*p.b/2
+    x_engine = p.engine_pos_perc*p.b/2
     theta = atan(d_fuselage_outside/x_strut)
     
     thrust_per_engine = tot_thrust/2
@@ -152,7 +152,7 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
     W_empty = 9301 * g
     W_engine = p.W_engine
     W_wing = 13.85/100*W_empty/2
-    W_pod = (5.09/100*W_empty + 1576 * g)/2
+    W_pod = p.W_fuel+p.W_pod
     #W_empty = 0                 
     #W_engine = 0
     #W_pod = 0
@@ -464,9 +464,9 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
 tot_thrust = 20000
 V_cruise = p.V_cruise
 rho_cruise = p.rho
-perc_engine = 0.15
-perc_strut = 0.5
-perc_pod = 0.5
+perc_engine = p.engine_pos_perc
+perc_strut = p.strut_pos_perc
+perc_pod = p.pod_pos_perc
 
 lengthdata = 100
 Lift, Chord, Yle, Drag, AeroMoment = read_aero_data("wing/datastrut4.txt", lengthdata, V_cruise, rho_cruise)
