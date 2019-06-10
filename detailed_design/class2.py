@@ -194,13 +194,167 @@ def det_fuselage_weight(W_dg, L, S_f, taper, B_w, quarter_chord_sweep, L_D_ratio
     fuselage_weight = cf.pounds_to_kg(fuselage_weight)
     return fuselage_weight
 
+def det_nacelle_group_weight(N_lt, N_w, W_dg, N_en, S_n, W_engine, pylon_mounted = True, W_ec = 0, propeller = True, thrust_reverser = False):
+    """
+    Inputs:
+    N_lt = nacelle length in m
+    N_w = nacelle width in m
+    W_dg = design gross weight in kg
+    N_en = number of engines
+    S_n = nacelle wetted area in m^2
+    W_engine = weight of each engine in kg
+
+    conditional inputs:
+    K_ng = factor for nacelles (1.017 for pylon mounted nacelle, 1.0 otherwise)
+    W_ec = weight of the engine and contents in lb
+    (approximated by 2.331 W_engine^0.901 * K_p * K_tr)
+    K_p = 1.4 for propeller, 1.0 otherwise
+    K_tr = 1.18 for jet with thrust reverser, 1.0 otherwise
+
+    outputs:
+    nacelle group weight in kg
+    """
+    
+    N_lt = cf.meter_to_feet(N_lt)
+    N_w = cf.meter_to_feet(N_w)
+    N_z = 1.5* lim_load_factor(W_dg)
+    S_n = cf.metersquared_to_feetsquared(S_n)
+    W_engine = cf.kg_to_pounds(W_engine)
+    
+    K_ng = 1
+    if pylon_mounted:
+        K_ng = 1.017
+    if W_ec == 0 and W_engine == 0:
+        raise NameError("no propulsion??")
+    K_p = 1
+    K_tr = 1
+    if propeller:
+        K_p = 1.4
+    if thrust_reverser:
+        K_tr = 1.18
+    if W_ec == 0:
+        W_ec = 2.331 * W_engine**0.901 * K_p * K_tr
+        
+    nacelle_group_weight = 0.6724 * K_ng * N_lt**0.10 * N_w**0.294 * N_z**0.119 * W_ec**0.611 * N_en**0.984 * S_n**0.224
+    
+    nacelle_group_weight = cf.pounds_to_kg(nacelle_group_weight)
+    return nacelle_group_weight
+
+def det_instruments_weight(N_c, N_en, L_f, B_w, reciprocating = False, turboprop = True):
+    """
+    inputs:
+    N_c = number of pilots
+    N_en = number of engines
+    L_f = total fuselage length in m
+    B_w = wing span in m
+
+    conditional inputs:
+    K_r = 1.133 for reciprocating engine, 1.0 otherwise
+    K_tbp = 0.793 for turboprop, 1.0 otherwise
+
+    outputs:
+    the instruments weight in kg
+    """
+    
+    L_f = cf.meter_to_feet(L_f)
+    B_w = cf.meter_to_feet(B_w)
+    
+    K_r = 1
+    if reciprocating:
+        K_r = 1.133
+    K_tbp = 1
+    if turboprop:
+        K_tbp = 0.793
+        
+    instruments_weight = 4.509 * K_r * K_tbp * N_c**0.541 * N_en * (L_f + B_w)**0.5
+    
+    instruments_weight = cf.pounds_to_kg(instruments_weight)
+    return instruments_weight
+
+def det_hydraulics_weight(L_f, B_w, N_f = 6):
+    """
+    inputs:
+    L_f = total fuselage length in m
+    B_w = wing span in m
+
+    conditional inputs:
+    N_f = number of functions performed by controls, typically 4 - 7
+
+    outputs:
+    the hydraulics weight in kg
+    """
+    L_f = cf.meter_to_feet(L_f)
+    B_w = cf.meter_to_feet(B_w)
+    
+    hydraulics_weight = 0.2673 * N_f * (L_f + B_w)**0.937
+    
+    hydraulics_weight = cf.pounds_to_kg(hydraulics_weight)
+    return hydraulics_weight
+
+def det_electrical_weight(L_a, N_en, R_kva = 50, N_gen = 0):
+    """
+    inputs:
+    L_a = electrical routing distance, generators to avionics to cockpit, in m
+
+    conditional inputs:
+    R_kva = system electrical rating typically 40-60 in kV * A
+    N_gen = number of generators, typically number of engines
+    N_en = number of engines
+
+    outputs:
+    the total weight of the electrical system in kg
+    """
+    
+    L_a = cf.meter_to_feet(L_a)
+    
+    if N_gen == 0:
+        N_gen = N_en
+    if N_gen == 0:
+        raise NameError("No generators?")
+    electrical_weight = 7.291 * R_kva**0.782 * L_a**0.346 * N_gen**0.10
+    
+    electrical_weight = cf.pounds_to_kg(electrical_weight)
+    return electrical_weight
+
+def det_avionics_weight(W_uav = 1100):
+    """
+    conditional inputs:
+    W_uav = uninstalled avionics weight, typically 800-1400 lb
+
+    outputs:
+    the total weight of the avionics system in kg
+    """
+    avionics_weight = 1.73 * W_uav**0.983
+    
+    avionics_weight = cf.pounds_to_kg(avionics_weight)
+    return avionics_weight
+
+def det_furnishings_weight(N_c, W_c, S_f):
+    """
+    inputs:
+    N_c = number of pilots
+    W_c = maximum cargo weight in kg
+    S_f = fuselage wetted area in m^2
+
+    outputs:
+    the total weight of the furnishings in kg
+    """
+    
+    W_c = cf.kg_to_pounds(W_c)
+    S_f = cf.metersquared_to_feetsquared(S_f)
+    
+    furnishings_weight = 0.0577 * N_c**0.1 * W_c**0.393 * S_f**0.75
+    
+    furnishings_weight = cf.pounds_to_kg(furnishings_weight)
+    return furnishings_weight
+
 def det_anti_ice_weight(W_dg):
     """
     inputs:
-    W_dg = design gross weight in lb
+    W_dg = design gross weight in kg
 
     outputs:
-    the total weight of the anti icing system in lb
+    the total weight of the anti icing system in kg
     """
     
     W_dg = cf.kg_to_pounds(W_dg)

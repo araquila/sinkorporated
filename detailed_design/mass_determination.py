@@ -19,7 +19,16 @@ W_main_landing = c.det_main_lg_weight(p.mtom, uc.wheel_height, 4, 2, p.V_stall)
 # Fuselage
 W_fuselage = c.det_fuselage_weight(p.mtom, p.l_cabin, p.S_wet_fuselage, p.taper, p.b, p.sweep_qc, p.LD_ratio)
 
+# Engines
+W_engine = 2 * 481
+W_nacelle = c.det_nacelle_group_weight(p.l_engine, p.w_engine, p.mtom, p.n_engines, 4*p.l_engine*p.w_engine, W_engine/p.n_engines)
+
 # Miscellaneous
+W_instruments = c.det_instruments_weight(p.n_pilots, p.n_engines, p.l_fuselage, p.b)
+W_hydraulics = c.det_hydraulics_weight(p.l_fuselage, p.b)
+W_electrics = c.det_electrical_weight(p.xLEMAC+p.y_engine, p.n_engines)
+W_avionics = c.det_avionics_weight()
+W_furnishings = c.det_furnishings_weight(p.n_pilots, p.M_total_cargo, p.S_wet_fuselage)
 W_airco = c.det_aircond_weight(p.n_crew+p.n_pilots, p.volume_fuselage)
 W_anti_icing = c.det_anti_ice_weight(p.mtom)
 W_handling_gear = c.det_handling_gear_weight(p.mtom)
