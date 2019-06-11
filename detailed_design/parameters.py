@@ -176,11 +176,12 @@ h_max_root_wingbox = 0.35156
 h_max_tip_wingbox = 0.08518
 
 # Stringers
-n_upper_skin_wingbox = 10
-n_lower_skin_wingbox = 10
+n_upper_skin_wingbox = 7
+n_lower_skin_wingbox = 5
 
 #thickness
 t_sheet = 0.003 #m
+t_sheet_strutbox = 0.003
 
 #amount of ribs, excluding root and tip caps
 n_ribs = 10
@@ -205,7 +206,7 @@ h_max_tip_strutbox = 0.4
 l_strutbox = d_fuselage_outside - 0.5
 
 # Stringers
-n_upper_skin_strutbox = 7
+n_upper_skin_strutbox = 2
 n_lower_skin_strutbox = 3
 
 # Stringer geometry
