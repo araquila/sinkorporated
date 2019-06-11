@@ -8,7 +8,7 @@ import numpy as np
 
 ## -------- CONSTANTS -------- ##
 # Atmosphere
-altitude = 000
+altitude = 8000
 temperature0 = 288.15
 temperature_gradient = -0.0065
 gamma = 1.4
@@ -19,6 +19,9 @@ p0 = 101325
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 rho = rho0 * rho
 pressure = pressure * p0
+
+print(rho)
+print(pressure)
 
 # Materials
 #material aluminium 2014-T6 http://asm.matweb.com/search/SpecificMaterial.asp?bassnum=MA2014T6
