@@ -20,9 +20,6 @@ temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperatu
 rho = rho0 * rho
 pressure = pressure * p0
 
-print(rho)
-print(pressure)
-
 # Materials
 #material aluminium 2014-T6 http://asm.matweb.com/search/SpecificMaterial.asp?bassnum=MA2014T6
 
