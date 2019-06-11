@@ -35,7 +35,7 @@ V_landing = 48.93                   #[m/s] maximum landing speed that is allowed
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
 pressure = pressure * 101325
 rho = rho * 1.225
-print(rho)
+
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
 S = 1
@@ -53,7 +53,7 @@ C_L_cruise_jet = 0.4
 C_L_max_jet = 2.3
 C_L_max_land_jet = 2.3
 C_L_max_TO_jet = 1.7
-range_cruise_jet = 1850000               # [m]
+range_cruise_jet = 2500000               # [m]
 endurance_loiter_jet = 2700              # [s]
 
 # Empennage jet
