@@ -8,14 +8,17 @@ import numpy as np
 
 ## -------- CONSTANTS -------- ##
 # Atmosphere
-altitude = 8000
+altitude = 000
 temperature0 = 288.15
 temperature_gradient = -0.0065
 gamma = 1.4
 rho0 = 1.225
 g = 9.80665
 R = 287
+p0 = 101325
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
+rho = rho0 * rho
+pressure = pressure * p0
 
 # Materials
 #material aluminium 2014-T6 http://asm.matweb.com/search/SpecificMaterial.asp?bassnum=MA2014T6
@@ -347,5 +350,5 @@ eff_loiter = 0.77
 cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
 cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
 P_TO = 5.8e6
-T_TO = 39000
+T_TO = 100000
 tot_thrust = 78e3
