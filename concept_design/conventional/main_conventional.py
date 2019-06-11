@@ -28,12 +28,14 @@ fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
 # Flight parameters
 s_landing = 1400                    #[m]
-altitude = 7600
+altitude = 8000
 V_landing = 48.93                   #[m/s] maximum landing speed that is allowed on a runway of 1400 m this is set for all aircraft
 
 # Atmospherical parameters at cruise altitude
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
-
+pressure = pressure * 101325
+rho = rho * 1.225
+print(rho)
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
 S = 1
@@ -60,8 +62,8 @@ V_v_jet = 0.085                          # [-]
 nose_landing_pos_jet = 3                 # [m]
 
 # Other tbp parameters
-A_tbp = 12
-e_tbp = 0.85                             # Adjust per concept
+A_tbp = 20
+e_tbp = 0.9                             # Adjust per concept
 V_loiter_tbp = 80                        # [m/s]
 M_cruise_tbp = 0.6
 V_cruise_tbp = M_cruise_tbp*speed_of_sound                      # [m/s]
@@ -70,7 +72,7 @@ S_tbp = 76
 TOP_tbp = 139
 C_L_max_tbp = 2.6
 C_L_max_land_tbp = 2.6
-C_L_max_TO_tbp = 1.6
+C_L_max_TO_tbp = 1.8
 range_cruise_tbp = 1850000               # [m]
 endurance_loiter_tbp = 2700              # [s]
 
@@ -89,10 +91,10 @@ cj_loiter_jet = fuel_efficiency_factor*12.5e-6                  # (0.4-0.6) [g/j
 cj_cruise_jet = fuel_efficiency_factor*12.5e-6                  # (0.5-0.9) [g/j] Propfan: 0.441
 
 power_to_weight_tbp = 4000               # [W/kg]
-eff_cruise_tbp = 0.8                    # [-]
+eff_cruise_tbp = 0.85                    # [-]
 eff_loiter_tbp = 0.77                    # [-]
-cp_cruise_tbp = 5.92e-8              # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = 5.92e-8              # (0.5-0.7) [kg/ns]
+cp_cruise_tbp = 5.94e-8              # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = 5.94e-8              # (0.5-0.7) [kg/ns]
 
 class2_jet = {"wing weight": [], "horizontal tail weight": [], "vertical tail weight": [], "fuselage weight": [], "main landing gear weight": [], "nose landing gear weight": [], "nacelle group weight": [], "engine weight": [], "engine controls weight": [], "starter weight": [], "fuel system weight" : []}
 class2_jet["flight controls weight"] = []
@@ -530,3 +532,5 @@ if print_payloadrange_tbp:
     plt.ylabel('Payload Mass [kg]', fontsize = 13)
     plt.xlabel('Range [km]', fontsize = 13)
     plt.show()
+    
+print("Fuel mass:", W_fuel_tbp/g)

@@ -22,7 +22,7 @@ n_aisles = 1
 M_payload = n_passenger * M_passenger
 M_crew = n_crew * M_crew_member
 f_trapped_fuel = 0.003              # Range 0.001-0.005
-M_empty_tbp = 13311
+M_empty_tbp = 8688
 M_empty_jet = 16300
 
 # Convert to weights
