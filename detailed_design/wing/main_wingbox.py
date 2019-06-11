@@ -205,6 +205,9 @@ for i in range(len(x_pos)):
 ### CALCULATE MAXIMUM SHEAR STRESS PER SECTION ###
 tau_max = max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, hi, bi, Izz_list, Iyy_list)
    
+
+
+
 ### MOMENT AND SHEAR DIAGRAM ###
 plt.figure(2,figsize = (8,6))
 plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
@@ -269,7 +272,8 @@ print("Critical crippling stress of the hat stiffener: ",critical_crippling_stif
 print("Shear stress buckling limit: ",shear_skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6,"MPa (still to be determined where the maximum shear stress occurs spanwise)")
 
 print("")
-print("Crack length: ",crack_length_sheet(max(max_tensile_stress,max_compressive_stress)),"m")
+print("Tests: ")
+#print("Crack length: ",crack_length_sheet(max(max_tensile_stress,max_compressive_stress)),"m")
 
 if abs(max_compressive_stress) < abs(skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6):
     print("Skin buckling passed")
@@ -304,8 +308,8 @@ if abs(max_compressive_stress) > (p.ult_yield_strength_2195/10**6):
 else:
     print("Max compressive stress",-max_compressive_stress/(p.ult_yield_strength_2195/10**6)*100,"% of the yield strength")
 
-if p.ultimate_shear_stress_al2024 > max(tau_max):
-    print("Shear limit of the material passed: ",max(tau_max)*10**6/p.ultimate_shear_stress_al2024*100,"% of the max")
+if p.ultimate_shear_stress_al2024 > max(tau_max)*10**6:
+    print("Shear limit of the material passed: ",max(tau_max)*10**6/p.ult_shear_strength_2195 *100,"% of the max")
 else: 
     print("Shear failure of the material")
 

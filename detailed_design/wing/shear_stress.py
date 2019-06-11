@@ -65,7 +65,7 @@ def max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, height_alo
         
         qs0 = -sheary[i]/Izz[i]*(1/8*bi[i]*t + 1/4*hi[i]*t + 1/12*hi[i]**2*t/bi[i]) - shearz[i]/Iyy[i]*(1/8*bi[i]**2/hi[i]*t + 3/8*bi[i]*t + 1/4*hi[i]*t) + shearz[i]*dzeta/(2*hi[i]*bi[i])
         qT = Torsion/(2*(hi[i]*bi[i]))
-        print(Torsion)
+#        print(Torsion)
         qb12y = sheary[i]/Izz[i]*(1/2*hi[i]*t*s1) 
         qb23y = -sheary[i]/Izz[i]*(1/2*t*(s2)**2 - 1/2*t*hi[i]*s2 - 1/4*hi[i]*bi[i]*t) 
         qb34y = -sheary[i]/Izz[i]*(hi[i]/2*t*s3 - 1/4*hi[i]*bi[i]*t) 
