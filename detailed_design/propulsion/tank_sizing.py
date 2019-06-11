@@ -15,7 +15,7 @@ min_amb_pres    = None
 allowance       = 0.07      # allowance of the tank in fraction of 1 (usually 7%)
 rho_CH4_cryo    = 425      # density of methane at cryogenic temperatures
 Lambda          = 511e3          # heat of vaporation in J/kg
-insulation      = 0.03 # insulation in meters
+insulation      = 0.04 # insulation in meters
 kappa_eff       = 0.0032#0.011 # effecctive insulation parameter
 kappa_2         = 0.032
 thickness_2     = 0.012
@@ -84,7 +84,6 @@ def det_internal_dimensions(tank_volume, shell_length_ratio =  0.5, tank_circula
 
 def det_total_tank_volume(radius, length, thickness_insulation, shell_length_ratio =  0.5, tank_circular_ratio = 1, tank_head_ratio = 3):
     ans = length * shell_length_ratio * (radius + thickness_insulation)**2 *np.pi
-    # ans += 4/3 * np.pi * (radius * tank_head_ratio) * radius**2
     ans += 4/3 * np.pi * (length * shell_length_ratio)/2 * (radius + thickness_insulation)**2
     return ans
 
@@ -171,50 +170,51 @@ def t_dewar(radius_outer,p_a,n,E,k):
     return t_dewar
 
 pressure, timedata = pressure_build_up(432000)
+print("max pressure 5 days", max(pressure))
 LNG_mass = weight_CH4/2
 tank_volume = det_tank_volume(LNG_mass,rho_CH4_cryo,allowance)
 radius, length = det_internal_dimensions(tank_volume)
 
 #t_hoop_steel = t_hoop(0.4,sigma_yield_steel,max(pressure))
-t_long_steel = t_long(0.4, sigma_yield_steel, max(pressure))
-#t_hoop_alu = t_hoop(0.4,sigma_yield_alu,max(pressure))
-t_long_alu = t_long(0.4,sigma_yield_alu, max(pressure))
-#t_hoop_fibre = t_hoop(0.4,sigma_ultimate_fibre,max(pressure))
-t_long_fibre = t_long(0.4,sigma_ultimate_fibre, max(pressure))
+# t_long_steel = t_long(0.4, sigma_yield_steel, max(pressure))
+# #t_hoop_alu = t_hoop(0.4,sigma_yield_alu,max(pressure))
+# t_long_alu = t_long(0.4,sigma_yield_alu, max(pressure))
+# #t_hoop_fibre = t_hoop(0.4,sigma_ultimate_fibre,max(pressure))
+# t_long_fibre = t_long(0.4,sigma_ultimate_fibre, max(pressure))
 
 t_dewar_alu = t_dewar(radius_outer,p_a,n,E_alu,k)
 t_dewar_steel = t_dewar(radius_outer,p_a,n,E_steel,k)
 t_dewar_fibre = t_dewar(radius_outer,p_a,n,E_fibre,k)
-print(t_long_fibre)
-print(t_long_steel)
-print(t_long_alu)
-print("Thickness dewar steel" +str(t_dewar_steel))
-print("internal skin mass of a carbon composite tank is " + str(det_external_wetted_area(0.4, 4.8, t_long_fibre) * t_long_fibre * rho_fibre))
-print("the weight of the aluminium carbon tank is " + str((rho_fibre+0.25*rho_alu)*(det_external_wetted_area(0.4, 4.8, t_long_fibre) * t_long_fibre)) + " kg")
-print("internal skin mass of a aluminium tank is " + str(det_external_wetted_area(0.4, 4.8, t_long_alu) * t_long_alu * rho_alu))
-print("external skin mass of an aluminium tank is " + str(det_external_wetted_area(0.4, 4.8, insulation) * t_dewar_alu * rho_alu))
-print("external skin mass of a steel tank is "+ str(det_external_wetted_area(0.4, 4.8, insulation) * t_dewar_steel * rho_steel))
-print("external skin mass of a fibre tank is "+ str(det_external_wetted_area(0.4, 4.8, insulation) * t_dewar_fibre * rho_fibre))
+# print(t_long_fibre)
+# print(t_long_steel)
+# print(t_long_alu)
+# print("Thickness dewar steel" +str(t_dewar_steel))
+# print("internal skin mass of a carbon composite tank is " + str(det_external_wetted_area(0.4, 4.8, t_long_fibre) * t_long_fibre * rho_fibre))
+# print("the weight of the aluminium carbon tank is " + str((rho_fibre+0.25*rho_alu)*(det_external_wetted_area(0.4, 4.8, t_long_fibre) * t_long_fibre)) + " kg")
+# print("internal skin mass of a aluminium tank is " + str(det_external_wetted_area(0.4, 4.8, t_long_alu) * t_long_alu * rho_alu))
+# print("external skin mass of an aluminium tank is " + str(det_external_wetted_area(0.4, 4.8, insulation) * t_dewar_alu * rho_alu))
+# print("external skin mass of a steel tank is "+ str(det_external_wetted_area(0.4, 4.8, insulation) * t_dewar_steel * rho_steel))
+# print("external skin mass of a fibre tank is "+ str(det_external_wetted_area(0.4, 4.8, insulation) * t_dewar_fibre * rho_fibre))
 
-inner_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre)
-outer_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre+insulation)
-outer_outer_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre+insulation+thickness_2)
-outer_alu_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre+insulation+thickness_2+0.0001)
-mass_last_layer = outer_outer_volume*rho_last_layer
-aerogel_mass = (outer_volume-inner_volume)*rho_aerogel
-outer_alu_layer_mass = (outer_alu_volume-outer_outer_volume)*rho_alu
-inner_tank_mass = (rho_fibre+0.25*rho_alu)*(det_external_wetted_area(0.4, 4.8, t_long_fibre) * t_long_fibre)
-total_mass = inner_tank_mass + aerogel_mass + mass_last_layer + outer_alu_layer_mass
-total_diameter = 2*(radius+1.25*t_long_fibre+insulation+thickness_2+0.0001)
-print(total_mass,total_diameter)
+# inner_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre)
+# outer_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre+insulation)
+# outer_outer_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre+insulation+thickness_2)
+# outer_alu_volume = det_total_tank_volume(radius,length,1.25*t_long_fibre+insulation+thickness_2+0.0001)
+# mass_last_layer = outer_outer_volume*rho_last_layer
+# aerogel_mass = (outer_volume-inner_volume)*rho_aerogel
+# outer_alu_layer_mass = (outer_alu_volume-outer_outer_volume)*rho_alu
+# inner_tank_mass = (rho_fibre+0.25*rho_alu)*(det_external_wetted_area(0.4, 4.8, t_long_fibre) * t_long_fibre)
+# total_mass = inner_tank_mass + aerogel_mass + mass_last_layer + outer_alu_layer_mass
+# total_diameter = 2*(radius+1.25*t_long_fibre+insulation+thickness_2+0.0001)
+# print(total_mass,total_diameter)
 print(timedata[960])
 
 #dewar calculations
-inner_volume2 = det_total_tank_volume(radius,length,1.25*t_long_fibre)
-outer_volume2 = det_total_tank_volume(radius,length,1.25*t_long_fibre+insulation)
-total_diameter2 = 2*(radius+1.25*t_long_fibre+insulation+t_dewar_fibre)
-total_mass2 = (rho_fibre+0.25*rho_alu)*(det_external_wetted_area(0.4, 4.8, t_long_fibre) * t_long_fibre)+det_external_wetted_area(0.4, 4.8, insulation) * t_dewar_fibre * rho_fibre
-print(total_mass2,total_diameter2)
+# inner_volume2 = det_total_tank_volume(radius,length,1.25*t_long_fibre)
+# outer_volume2 = det_total_tank_volume(radius,length,1.25*t_long_fibre+insulation)
+# total_diameter2 = 2*(radius+1.25*t_long_fibre+insulation+t_dewar_fibre)
+# total_mass2 = (rho_fibre+0.25*rho_alu)*(det_external_wetted_area(0.4, 4.8, t_long_fibre) * t_long_fibre)+det_external_wetted_area(0.4, 4.8, insulation) * t_dewar_fibre * rho_fibre
+# print(total_mass2,total_diameter2)
 # print(benedict_webb_rubin(111, 1.8))
 #
 # print("External Wetted Area of One Tank: " + str(det_external_wetted_area(0.4, 4.8, insulation)))
