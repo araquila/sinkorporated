@@ -15,7 +15,10 @@ gamma = 1.4
 rho0 = 1.225
 g = 9.80665
 R = 287
+p0 = 101325
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
+rho = rho0 * rho
+pressure = pressure * p0
 
 # Materials
 #material aluminium 2014-T6 http://asm.matweb.com/search/SpecificMaterial.asp?bassnum=MA2014T6
@@ -324,7 +327,7 @@ x_strut = strut_pos_perc*b/2
 e = 0.85
 M_cruise = 0.6
 C_L_max_land = 2.4
-C_L_max_TO = 1.4
+C_L_max_TO = 1.8
 C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
@@ -347,5 +350,5 @@ eff_loiter = 0.77
 cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
 cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
 P_TO = 5.8e6
-T_TO = 31000
+T_TO = 100000
 tot_thrust = 78e3
