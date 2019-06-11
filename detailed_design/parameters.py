@@ -96,16 +96,18 @@ MTOW = 173185.74
 MLW = None
 EW = None
 W_fuel = 7736.30
-W_pod = 250 * g
+W_pod = 300 * g
 mtom = MTOW / g
+W_empty = 7271.44 * g
+W_wing = 13.85/100*W_empty/2
 
 # Propulsion
 M_engine = 481
-W_engine = M_engine * g 
-W_nacelle = None
+W_nacelle = 131.48 * g
+W_engine = M_engine * g  + W_nacelle
 W_engine_controls = None
 W_starter = None
-W_APU = None
+W_APU = 264 * g
 W_fuel_system = None
 
 # Wing
@@ -175,14 +177,21 @@ h_max_root_wingbox = 0.35156
 h_max_tip_wingbox = 0.08518
 
 # Stringers
-n_upper_skin_wingbox = 14
-n_lower_skin_wingbox = 14
+
+n_upper_skin_wingbox = 13
+n_lower_skin_wingbox = 13
 
 #al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
-density_stiffeners = 2630
+density_stiffeners = 2780
 
-t_hat = 0.0017
-t_z = 0.0017
+t_hat = 0.0018
+t_z = 0.0018
+
+#2024 nrs for tradeoff
+#ultimate_compressive_strength_2099 = 324*10**6
+#ultimate_yield_strength_2099 = 324*10**6
+#
+#E_compressive_2099 = 73.1*10**9
 
 ultimate_compressive_strength_2099 = 476*10**6
 ultimate_yield_strength_2099 = 490*10**6
@@ -191,19 +200,39 @@ E_compressive_2099 = 82.1*10**9
 
 #al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
-t_sheet = 0.003 #m
+t_sheet = 0.0027 #m
+t_sheet_strutbox = 0.003
 
-E_sheet = 78*10**9
-density_sheet = 2700
-ult_tensile_strength_2195 = 595*10**6
-ult_yield_strength_2195 = 500*10**6
+
+#2024 nrs for tradeoff
+#E_sheet = 73.1*10**9
+#density_sheet = 2780
+#ult_tensile_strength_2195 = 469*10**6
+#ult_yield_strength_2195 = 324*10**6
+#ult_shear_strength_2195 = 283*10**6
+#fracture_toughness_2195 = 26*10**6
+
+#E_sheet = 78*10**9
+#density_sheet = 2700
+#ult_tensile_strength_2195 = 595*10**6
+#ult_yield_strength_2195 = 500*10**6
+#ult_shear_strength_2195 = 350*10**6
+#fracture_toughness_2195 = 35*10**6
+
+#al 2055-t84 https://www.arconic.com/adip/catalog/AFE2055-factsheet.pdf
+
+E_sheet = 76.5*10**9
+density_sheet = 2710
+ult_tensile_strength_2195 = 565*10**6
+ult_yield_strength_2195 = 538*10**6
+ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
 fracture_toughness_2195 = 35*10**6
 
 
 #amount of ribs, excluding root and tip caps
-n_ribs = 10
+n_ribs = 11
 rib_spacing = (b/2)/(n_ribs+1)
-t_rib = 0.002 
+t_rib = 0.003
 
 #al2050-t84 https://www.constellium.com/sites/default/files/markets/airware_2050_t84_plate.pdf
 E_rib = 76.5*10**9
@@ -227,12 +256,12 @@ h_max_tip_strutbox = 0.4
 l_strutbox = d_fuselage_outside - 0.5
 
 # Stringers
-n_upper_skin_strutbox = 7
+n_upper_skin_strutbox = 2
 n_lower_skin_strutbox = 3
 
 # Stringer geometry
-A_stiffener = 0.001
-h_stiffener = 0.03
+#A_stiffener = 0.001
+#h_stiffener = 0.03
 
 # Strut
 d_strut = 5
@@ -270,8 +299,6 @@ h_engine = 0.838
 d_prop = 3.66
 
 strut_pos_perc = 0.5                    # % of span
-
-
 engine_pos_perc = 0.27                  # % of span
 pod_pos_perc = 0.55
 y_engine = 4.74

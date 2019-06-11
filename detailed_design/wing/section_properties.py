@@ -16,7 +16,7 @@ from scipy import integrate
 
 #height at root of the wing box
 h_root = 0.929*p.h_max_root_wingbox
-h_tip = 0.825*p.h_max_tip_wingbox #arbitrary
+h_tip = 0.825*p.h_max_tip_wingbox
 
 
 def width_wingbox(x):
@@ -50,8 +50,8 @@ I_yy_hat = 2*b**3*t_hat/12 + c**3*t_hat/12 + 2*b*t_hat*(b-t_hat+c/2) + c*t_hat*(
 
 #Z-stiffener geometry
 d = 0.015
-e = 0.03 
-f = 0.01
+e = 0.035 
+f = 0.015
 
 width_z = d+f-t_z
 
@@ -130,7 +130,6 @@ def check_n_stiff_bottom(x):
     return n_stiff
 
 
-
 #weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.b/2 
 
 weight_stiffeners = 0
@@ -144,12 +143,11 @@ for i in range(discretizationss):
     x = i*x_range
     weight_stiffeners += p.density_stiffeners*(check_n_stiff_top(x)*A_top + check_n_stiff_bottom(x)*A_bottom)*x_range
 
-    
+   
 area_horizontal_flanges = 2*np.sqrt(((height_wingbox(0)-height_wingbox(p.b/2))/2)**2 + (p.b/2)**2)*width_wingbox(p.b/2/2)
 area_vertical_flanges = 2*np.sqrt(((width_wingbox(0)-width_wingbox(p.b/2))/2)**2 + (p.b/2)**2)*(height_wingbox(p.b/2/2)-2*t_sheet)
 
 weight_wingbox = (area_horizontal_flanges + area_vertical_flanges)*t_sheet*p.density_sheet
-
 
 def V(x):     
     l1 = np.sqrt(((height_wingbox(0)-height_wingbox(p.b/2))/2)**2 + (p.b/2)**2)
