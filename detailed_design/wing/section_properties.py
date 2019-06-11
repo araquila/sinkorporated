@@ -129,7 +129,6 @@ def check_n_stiff_bottom(x):
         
     return n_stiff
 
-print(top_spacing)
 
 #weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.b/2 
 

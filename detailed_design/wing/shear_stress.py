@@ -155,9 +155,9 @@ lengthdata = 100
 tot_thrust = 20000
 V_cruise = p.V_cruise
 rho_cruise = p.rho
-perc_engine = 0.15
-perc_strut = 0.5
-perc_pod = 0.5
+perc_engine = p.engine_pos_perc
+perc_strut = p.strut_pos_perc
+perc_pod = p.pod_pos_perc
 
 di = p.b/2/lengthdata
 xi = np.zeros(lengthdata + 1)

@@ -257,8 +257,8 @@ n_upper_skin_strutbox = 7
 n_lower_skin_strutbox = 3
 
 # Stringer geometry
-A_stiffener = 0.001
-h_stiffener = 0.03
+#A_stiffener = 0.001
+#h_stiffener = 0.03
 
 # Strut
 d_strut = 5
