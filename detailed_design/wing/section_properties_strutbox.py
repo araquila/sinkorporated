@@ -27,7 +27,7 @@ def height_strutbox(x):
 
 
 
-t_sheet = 0.003 #m
+t_sheet = p.t_sheet_strutbox #m
 t_hat = 0.002 #m
 t_z = 0.002 #m
 
@@ -88,10 +88,10 @@ I_yy_top = I_yy_hat
 I_yy_bottom = I_yy_z
 
 density_stiffeners = 2800
-weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.b/2 
+weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.l_strutbox 
 
-area_horizontal_flanges = 2*np.sqrt(((height_strutbox(0)-height_strutbox(p.b/2))/2)**2 + (p.b/2)**2)*width_strutbox(p.b/2/2)
-area_vertical_flanges = 2*np.sqrt(((width_strutbox(0)-width_strutbox(p.b/2))/2)**2 + (p.b/2)**2)*(height_strutbox(p.b/2/2)-2*t_sheet)
+area_horizontal_flanges = 2 * p.l_strutbox * p.w_root_strutbox
+area_vertical_flanges = 2 * p.l_strutbox * h_root
 
 density_sheet = 2800
 weight_strutbox = (area_horizontal_flanges + area_vertical_flanges)*t_sheet*density_sheet
