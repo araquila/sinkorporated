@@ -330,7 +330,7 @@ Cl_delta_aileron = 0.11217
 Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
-Cd0 = 0.008
+Cd0 = 0.0165 #NOT FINAL
 LD_ratio = 28 #NOT FINAL
 
 
