@@ -13,26 +13,36 @@ g = p.g
 
 # Aircraft Input Parameters
 S = p.S
+A = p.A
+e = p.e
 CD0 = p.Cd0
 T = p.T_TO
 P = p.P_TO
 W = p.MTOW
-CL_max = 1.8
 
-h_range = np.linspace(0, 15000, 3)
+altitude = 0
 
-for altitude in h_range:
-    temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, t0, t_gradient, g, atR, atgamma)
-    rho = 1.225*rho
-    V_stall = np.sqrt((W/S)*(2/rho)*(1/CL_max))
-    V = np.linspace(V_stall, 300, 1000)
-    CL = W / (0.5 * rho * V**2 * S)
-    CD_L = CL**2 / (np.pi * p.A * p.e)
-    CD = CD0 + CD_L
-    D = CD * 0.5 * rho * V**2 * S
-    Pr = D * V
-    Pa = np.ones(len(V)) * P
-    plt.plot(V, Pa)
-    plt.plot(V, Pr)
-  
+temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, t0, t_gradient, g, atR, atgamma)
+rho = 1.225 * rho
+pressure = 101325 * pressure
+
+V = np.linspace(20, 250, 1001)
+k1 = (1 / (np.pi * A * e))
+CL = W / (0.5*rho*V**2*S)
+CD0 = 0.02
+CD = CD0 + k1 * CL**2
+D = CD * 0.5 * rho * V**2 * S
+Pr = D*V
+Pa = np.ones(len(V))*P
+
+ROC = (Pa-Pr)/W
+ROC_max = np.max(ROC)
+
+plt.plot(V, Pr/1e6, label="Power Required")
+plt.plot(V, Pa/1e6, label="Power Available")
+plt.xlabel("Velocity [m/s]")
+plt.ylabel("Power [MW]")
+plt.legend()
 plt.show()
+
+print("Maximum ROC:", np.round(ROC_max, decimals=2), "m/s")
