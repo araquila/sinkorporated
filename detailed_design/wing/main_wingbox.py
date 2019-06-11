@@ -108,7 +108,7 @@ def skin_buckling_stress(x):
     b = sp.top_spacing
     t = p.t_sheet
     
-    return k*np.pi**2*p.E_al2014/(12*(1-p.poisson_ratio_al2014**2)) * (t/b)**2
+    return k*np.pi**2*p.E_sheet/(12*(1-p.poisson_ratio_al2014**2)) * (t/b)**2
 
 
 def shear_skin_buckling_stress(x):
@@ -118,7 +118,7 @@ def shear_skin_buckling_stress(x):
     b = sp.top_spacing
     t = p.t_sheet
     
-    return k*np.pi**2*p.E_al2014/(12*(1-p.poisson_ratio_al2014**2)) * (t/b)**2
+    return k*np.pi**2*p.E_sheet/(12*(1-p.poisson_ratio_al2014**2)) * (t/b)**2
 
 
 
@@ -129,7 +129,7 @@ def critical_column_buckling(x):
     
     l_eff = 0.5*p.rib_spacing
     
-    return (np.pi**2*p.E_al2014*sp.I_yy_wingbox(x))/(l_eff**2)/10**6
+    return (np.pi**2*p.E_sheet*sp.I_yy_wingbox(x))/(l_eff**2)/10**6
 
 
 def critical_crippling_stiffener(x):
@@ -137,11 +137,11 @@ def critical_crippling_stiffener(x):
     
     alpha = 0.8
     n = 0.6
-    yield_stress = p.tensile_yield_strength_al2014
+    yield_stress = p.ultimate_yield_strength_2099
     
     
     def stress_cc(K,b):
-        return K*(np.pi**2*p.E_al2014*(sp.t_hat/b)**2/(12*(1-p.poisson_ratio_al2014**2)))
+        return K*(np.pi**2*p.E_compressive_2099*(sp.t_hat/b)**2/(12*(1-p.poisson_ratio_al2014**2)))
     
     t_sheet = sp.t_hat
     
@@ -163,6 +163,14 @@ def critical_crippling_stiffener(x):
     
     return total_crippling/10**6
 
+def crack_length_sheet(stress):
+    """Fast fracture crack length for given stress"""
+    
+    Kic  = p.fracture_toughness_2195
+    a = Kic/((stress*10**6)**2 * np.pi)
+    
+    return a
+    
 
 ### CALCULATE SHEAR AND NORMAL STRESS ###
 normal_ru_list= []
@@ -181,6 +189,8 @@ for i in range(len(x_pos)):
     normal_lu_list.append(normal_lu/10**6)
     normal_rl_list.append(normal_rl/10**6)
     normal_ll_list.append(normal_ll/10**6)
+    
+
 
 # Error correction
 error_lower = normal_ll_list[-1]
@@ -195,6 +205,9 @@ for i in range(len(x_pos)):
 ### CALCULATE MAXIMUM SHEAR STRESS PER SECTION ###
 tau_max = max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, hi, bi, Izz_list, Iyy_list)
    
+
+
+
 ### MOMENT AND SHEAR DIAGRAM ###
 plt.figure(2,figsize = (8,6))
 plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
@@ -238,53 +251,65 @@ max_compressive_stress = min(normal_ru_list)*p.safety_factor_compression
 max_tensile_stress = max(normal_ll_list)*p.safety_factor_tension
 
 
-
-
-print("Max compressive: ",max_compressive_stress,"MPa")
-print("Max tensile: ",max_tensile_stress,"MPa")
-
+print("Top stiffeners: ",p.n_upper_skin_wingbox)
+print("Bottom stiffeners: ",p.n_lower_skin_wingbox)
+print("Skin thickness: ",p.t_sheet*1000, "mm")
 print("Total weight: ",sp.total_weight,"kg")
-
-print("Skin buckling limit: ",skin_buckling_stress(p.b/2/2)/10**6,"MPa")
-
-print("Column buckling limit: ",critical_column_buckling(p.b/2/2),"MPa")
-
-print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.b/2/2),"MPa")
-
-print("Shear stress buckling limit: ",shear_skin_buckling_stress(p.b/2/2)/10**6,"MPa (still to be determined where the maximum shear stress occurs spanwise)")
-
 print("")
 
 
-if abs(max_compressive_stress) < abs(skin_buckling_stress(8)/10**6):
+print("Max shear: ",max(tau_max),"MPa")
+print("Max compressive: ",max_compressive_stress,"MPa")
+print("Max tensile: ",max_tensile_stress,"MPa")
+print("")
+
+print("Skin buckling limit: ",skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6,"MPa")
+
+print("Column buckling limit: ",critical_column_buckling(p.strut_pos_perc*p.b/2),"MPa")
+
+print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.strut_pos_perc*p.b/2),"MPa")
+
+print("Shear stress buckling limit: ",shear_skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6,"MPa (still to be determined where the maximum shear stress occurs spanwise)")
+
+print("")
+print("Tests: ")
+#print("Crack length: ",crack_length_sheet(max(max_tensile_stress,max_compressive_stress)),"m")
+
+if abs(max_compressive_stress) < abs(skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6):
     print("Skin buckling passed")
 else:
     print("Failure on skin buckling")
     
-if abs(max_compressive_stress) < abs(critical_column_buckling(8)):
+if abs(max_compressive_stress) < abs(critical_column_buckling(p.strut_pos_perc*p.b/2)):
     print("Column buckling passed")
 else:
     print("Failure on column buckling")
     
-if abs(max_compressive_stress) < abs(critical_crippling_stiffener(p.b/2/2)):
+if abs(max_compressive_stress) < abs(critical_crippling_stiffener(p.strut_pos_perc*p.b/2)):
     print("Cripple limit of the stiffener passed")
 else:
     print("Failure on stiffener crippling")
     
-if shear_skin_buckling_stress(p.b/2/2) > max(tau_max):
+if shear_skin_buckling_stress(p.strut_pos_perc*p.b/2) > max(tau_max):
     print("Shear buckling passed")
 else:
     print("Failure on shear buckling")
 
 print("")
-    
-if max_tensile_stress > p.tensile_yield_strength_al2014/10**6:
-    print("Failure on yielding at the strut")
-else:
-    print("Max stress",max_tensile_stress/(p.tensile_yield_strength_al2014/10**6)*100,"% of the yield strength")
 
-if p.ultimate_shear_stress_al2024 > max(tau_max):
-    print("Shear limit of the material passed: ",max(tau_max)*10**6/p.ultimate_shear_stress_al2024*100,"% of the max")
+if (max_tensile_stress > p.ult_yield_strength_2195/10**6) :
+    print("Failure on tensile yielding at the strut")
+else:
+    print("Max tensile stress",max_tensile_stress/(p.ult_yield_strength_2195/10**6)*100,"% of the yield strength")
+
+    
+if abs(max_compressive_stress) > (p.ult_yield_strength_2195/10**6):
+    print("Failure on compressive yielding at the strut")
+else:
+    print("Max compressive stress",-max_compressive_stress/(p.ult_yield_strength_2195/10**6)*100,"% of the yield strength")
+
+if p.ultimate_shear_stress_al2024 > max(tau_max)*10**6:
+    print("Shear limit of the material passed: ",max(tau_max)*10**6/p.ult_shear_strength_2195 *100,"% of the max")
 else: 
     print("Shear failure of the material")
 
