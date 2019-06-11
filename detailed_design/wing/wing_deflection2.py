@@ -440,17 +440,20 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
         vyi.append(vyi[i-1] + 1/2*(thetayi[i] + thetayi[i-1])*dii[i])
     
     for i in range(1,(len(Drag)+1)):
-        thetazi.append(thetazi[i-1] + 1/2*(momentyi[i]/(E*Iyy[i]) + momentyi[i-1]/(E*Iyy[i-1]))*(dii[i]))
+        thetazi.append((thetazi[i-1] + 1/2*(momentyi[i]/(E*Iyy[i]) + momentyi[i-1]/(E*Iyy[i-1]))*(dii[i])))
         
     for i in range(1,(len(Drag)+1)):
-        vzi.append(vzi[i-1] + 1/2*(thetazi[i] + thetazi[i-1])*dii[i])
+        vzi.append((vzi[i-1] + 1/2*(thetazi[i] + thetazi[i-1])*dii[i]))
+    
+    for i in range(1,(len(Drag)+1)):
+        vzi[i] = -vzi[i]
     
     
     for n in range(1, len(Li)+1):
         vny.append(vmr[n]*Mr + vry[n]*Fry + vwe[n]*W_engine + vfs[n]*Fs + vwp[n]*W_pod + vW[n]+ vL[n] )
     
     for n in range(1, len(Drag)+1):
-        vnz.append(-(vymr[n]*Mry + vyrz[n]*Frz + vyT[n]*thrust_per_engine + vyfsz[n]*Fsz + vD[n] ))
+        vnz.append((vymr[n]*Mry + vyrz[n]*Frz + vyT[n]*thrust_per_engine + vyfsz[n]*Fsz + vD[n] ))
 #    plt.plot(xi, vnz)
 #    plt.plot(xi, vzi)    
     
