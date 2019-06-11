@@ -39,6 +39,12 @@ poisson_ratio_al2014 = 0.33
 # E-modulus
 E_al2014 = 72.4e9 #E-modulus
 
+## Trade-off aluminum fuselage skin
+yield_al_2198_T8 = 407e6
+yield_al_2199_T8E74 = 345e6
+yield_al_2060_T8E30 = 345e6
+
+
 # Shear modulus
 G_al2014 = 28e9 #shear modulus
 

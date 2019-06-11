@@ -219,6 +219,8 @@ if max_tensile_stress > p.tensile_yield_strength_al2014/10**6:
 else:
     print("Max stress",max_tensile_stress/(p.tensile_yield_strength_al2014/10**6)*100,"% of the yield strength")
     
+print()
+print('Mass strutbox [kg]: ' + str(scs.weight_strutbox))
 
 
 
