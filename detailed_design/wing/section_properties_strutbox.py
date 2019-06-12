@@ -27,7 +27,7 @@ def height_strutbox(x):
 
 
 
-t_sheet = 0.003 #m
+t_sheet = p.t_sheet_strutbox #m
 t_hat = 0.002 #m
 t_z = 0.002 #m
 
@@ -88,10 +88,10 @@ I_yy_top = I_yy_hat
 I_yy_bottom = I_yy_z
 
 density_stiffeners = 2800
-weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.b/2 
+weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.l_strutbox 
 
-area_horizontal_flanges = 2*np.sqrt(((height_strutbox(0)-height_strutbox(p.b/2))/2)**2 + (p.b/2)**2)*width_strutbox(p.b/2/2)
-area_vertical_flanges = 2*np.sqrt(((width_strutbox(0)-width_strutbox(p.b/2))/2)**2 + (p.b/2)**2)*(height_strutbox(p.b/2/2)-2*t_sheet)
+area_horizontal_flanges = 2 * p.l_strutbox * p.w_root_strutbox
+area_vertical_flanges = 2 * p.l_strutbox * h_root
 
 density_sheet = 2800
 weight_strutbox = (area_horizontal_flanges + area_vertical_flanges)*t_sheet*density_sheet
@@ -184,9 +184,8 @@ def I_yy_strutbox(x):
     
     return I_yy
     
-
-def first_moment_of_area(x):
-    """Returns Q along spanwise direction of the strutbox"""
+def first_moment_of_area_y(x):
+    """Returns Qy along spanwise direction of the strutbox"""
 
     A_top = A_hat
     A_bottom = A_z
@@ -210,6 +209,22 @@ def first_moment_of_area(x):
     
     return Q_toppart
 
+def first_moment_of_area_z(x):
+    """Returns Qz along spanwise direction of the strutbox"""
+    
+    A_top = A_hat
+    A_bottom = A_z
+    
+    #neutral axis
+    centroid_z = width_strutbox(x)/2
+    
+    A_left = cross_sectional_area(x)/2
+    
+    sumproduct_yA_left = (2*width_strutbox(x)**2*t_sheet/8 + (height_strutbox(x)-2*t_sheet)*t_sheet*(width_strutbox(x)/2 - t_sheet/2))/A_left
+    
+    return sumproduct_yA_left/A_left
+
+
 def cross_sectional_area(x):
     """Returns cross sectional area at spanwise position x"""
     centroid_y = (2*(height_strutbox(x)/2*(height_strutbox(x)-2*t_sheet)*t_sheet) + width_strutbox(x)*t_sheet*((height_strutbox(x)-t_sheet/2)+t_sheet/2) + n_top*(height_strutbox(x)-t_sheet-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*((height_strutbox(x)-2*t_sheet)*t_sheet + width_strutbox(x)*t_sheet) + n_top*A_top + n_bottom*A_bottom)    
@@ -225,10 +240,10 @@ def y_max(x):
     centroid_y = (2*(height_strutbox(x)/2*(height_strutbox(x)-2*t_sheet)*t_sheet) + width_strutbox(x)*t_sheet*((height_strutbox(x)-t_sheet/2)+t_sheet/2) + n_top*(height_strutbox(x)-t_sheet-y_top)*A_top + n_bottom*(t_sheet+y_bottom)*A_bottom) / (2*((height_strutbox(x)-2*t_sheet)*t_sheet + width_strutbox(x)*t_sheet) + n_top*A_top + n_bottom*A_bottom)    
    
     if height_strutbox(x)/2 > centroid_y:
-        print('y max is at the top, i.e. has a positive value: ') 
+#        print('y max is at the top, i.e. has a positive value: ') 
         return height_strutbox(x) - centroid_y
     else:
-        print('y max is at the bottom, i.e. has a negative value: ') 
+#        print('y max is at the bottom, i.e. has a negative value: ') 
         return -centroid_y
    
 def centroid_y(x):

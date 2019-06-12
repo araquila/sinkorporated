@@ -15,7 +15,10 @@ gamma = 1.4
 rho0 = 1.225
 g = 9.80665
 R = 287
+p0 = 101325
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
+rho = rho0 * rho
+pressure = pressure * p0
 
 # Materials
 #material aluminium 2014-T6 http://asm.matweb.com/search/SpecificMaterial.asp?bassnum=MA2014T6
@@ -39,11 +42,18 @@ poisson_ratio_al2014 = 0.33
 # E-modulus
 E_al2014 = 72.4e9 #E-modulus
 
+## Trade-off aluminum fuselage skin
+yield_al_2198_T8 = 407e6
+yield_al_2199_T8E74 = 345e6
+yield_al_2060_T8E30 = 345e6
+
+
 # Shear modulus
 G_al2014 = 28e9 #shear modulus
 
 # Density
-density_aluminum = 2800
+density_al_2198_T8 = 2.7 * 1000
+density_carbon = 1.55 * 1000
 
 # Passengers and Crew
 n_passenger = 60
@@ -96,16 +106,18 @@ MTOW = 173185.74
 MLW = None
 EW = None
 W_fuel = 7736.30
-W_pod = 157.55 * g
+W_pod = 300 * g
 mtom = MTOW / g
+W_empty = 7271.44 * g
+W_wing = 13.85/100*W_empty/2
 
 # Propulsion
-M_engine = 450
-W_engine = M_engine * g
-W_nacelle = None
+M_engine = 481
+W_nacelle = 131.48 * g
+W_engine = M_engine * g  + W_nacelle
 W_engine_controls = None
 W_starter = None
-W_APU = None
+W_APU = 264 * g
 W_fuel_system = None
 
 # Wing
@@ -147,6 +159,8 @@ d_fuselage_outside = 2.84
 d_fuselage_inside = None
 l_nose = 2.8373002246584007
 l_lavatory = 36 * 0.0254
+S_wet_fuselage = np.pi * d_fuselage_outside * l_fuselage
+volume_fuselage = 0.25 * np.pi * d_fuselage_outside**2 * l_fuselage
 
 # Wing
 A = 20
@@ -159,7 +173,6 @@ root_chord = 2.241
 tip_chord = root_chord * taper
 tc_ratio_root = 0.15
 tc_ratio_tip = 0.12
-strut_pos_perc = 0.5                    # % of span
 MAC = (2/3) * root_chord * ((1 + taper + taper**2)/(1 + taper))
 xLEMAC = 9.0816
 x_ac_w = xLEMAC + 0.25*MAC
@@ -174,21 +187,71 @@ h_max_root_wingbox = 0.35156
 h_max_tip_wingbox = 0.08518
 
 # Stringers
-n_upper_skin_wingbox = 5
-n_lower_skin_wingbox = 2
 
+n_upper_skin_wingbox = 13
+n_lower_skin_wingbox = 13
+
+#al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
+density_stiffeners = 2780
+
+t_hat = 0.0018
+t_z = 0.0018
+
+#2024 nrs for tradeoff
+#ultimate_compressive_strength_2099 = 324*10**6
+#ultimate_yield_strength_2099 = 324*10**6
+#
+#E_compressive_2099 = 73.1*10**9
+
+ultimate_compressive_strength_2099 = 476*10**6
+ultimate_yield_strength_2099 = 490*10**6
+
+E_compressive_2099 = 82.1*10**9
+
+#al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
-t_sheet = 0.002 #m
+t_sheet = 0.0027 #m
+t_sheet_strutbox = 0.003
+
+
+#2024 nrs for tradeoff
+#E_sheet = 73.1*10**9
+#density_sheet = 2780
+#ult_tensile_strength_2195 = 469*10**6
+#ult_yield_strength_2195 = 324*10**6
+#ult_shear_strength_2195 = 283*10**6
+#fracture_toughness_2195 = 26*10**6
+
+#E_sheet = 78*10**9
+#density_sheet = 2700
+#ult_tensile_strength_2195 = 595*10**6
+#ult_yield_strength_2195 = 500*10**6
+#ult_shear_strength_2195 = 350*10**6
+#fracture_toughness_2195 = 35*10**6
+
+#al 2055-t84 https://www.arconic.com/adip/catalog/AFE2055-factsheet.pdf
+
+E_sheet = 76.5*10**9
+density_sheet = 2710
+ult_tensile_strength_2195 = 565*10**6
+ult_yield_strength_2195 = 538*10**6
+ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
+fracture_toughness_2195 = 35*10**6
+
 
 #amount of ribs, excluding root and tip caps
-n_ribs = 10
+n_ribs = 11
 rib_spacing = (b/2)/(n_ribs+1)
-t_rib = 0.001 
+t_rib = 0.003
+
+#al2050-t84 https://www.constellium.com/sites/default/files/markets/airware_2050_t84_plate.pdf
+E_rib = 76.5*10**9
+density_rib = 2700
 
 
 
-safety_factor_compression = 1.2
-safety_factor_tension = 1.2
+safety_factor_compression = 1.0
+safety_factor_tension = 1.0
 
 # Strutbox
 # Width
@@ -203,12 +266,12 @@ h_max_tip_strutbox = 0.4
 l_strutbox = d_fuselage_outside - 0.5
 
 # Stringers
-n_upper_skin_strutbox = 7
+n_upper_skin_strutbox = 2
 n_lower_skin_strutbox = 3
 
 # Stringer geometry
-A_stiffener = 0.001
-h_stiffener = 0.03
+#A_stiffener = 0.001
+#h_stiffener = 0.03
 
 # Strut
 d_strut = 5
@@ -240,18 +303,20 @@ size_tire = None
 # Propulsion
 n_fueltanks = 2
 n_blades = 6
-d_engine = 3.66
-l_engine = None
-d_prop = None
+w_engine = 0.66
+l_engine = 2.134
+h_engine = 0.838
+d_prop = 3.66
+
+strut_pos_perc = 0.5                    # % of span
 engine_pos_perc = 0.27                  # % of span
-pod_pos_perc = 0.5
+pod_pos_perc = 0.55
 y_engine = 4.74
 
 x_engine = engine_pos_perc*b/2
 x_pod = pod_pos_perc*b/2
 
 #Strut
-strut_pos_perc = 0.5
 x_strut = strut_pos_perc*b/2
 
 
@@ -262,12 +327,12 @@ x_strut = strut_pos_perc*b/2
 e = 0.85
 M_cruise = 0.6
 C_L_max_land = 2.4
-C_L_max_TO = 1.4
+C_L_max_TO = 1.8
 C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
 C_L_max_land = 2.4
-C_L_max_TO = 1.4
+C_L_max_TO = 1.8
 V_TO = np.sqrt((2 * MTOW) / (rho0 * S * C_L_max_TO))
 q_TO = 0.5 * rho0 * V_TO ** 2
 C_D_TO = 0.023 #NOT FINAL
@@ -275,7 +340,8 @@ Cl_delta_aileron = 0.11217
 Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
-Cd0 = 0.008
+Cd0 = 0.0165 #NOT FINAL
+LD_ratio = 28 #NOT FINAL
 
 
 # Propulsion
@@ -284,5 +350,5 @@ eff_loiter = 0.77
 cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
 cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
 P_TO = 5.8e6
-T_TO = 31000
+T_TO = 100000
 tot_thrust = 78e3
