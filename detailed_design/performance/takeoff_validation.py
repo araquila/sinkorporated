@@ -21,10 +21,10 @@ for altitude in altrange:
     # Aircraft Input Parameters
     S = 61
     CL = 1.6
-    CD0 = 0.025
+    CD0 = 0.02
     CD = CD0 + CL**2 / (np.pi * p.A * p.e)
-    P = 3.577e6
-    W = 210915
+    P = 3.689e6
+    W = 223668
     
     # Take-Off Input Parameters
     V_stall = np.sqrt((W/S)*(2/rho)*(1/CL))
@@ -36,7 +36,7 @@ for altitude in altrange:
     V_LOF = 1.05 * V_min
     V_bar = V_LOF / (np.sqrt(2))
     
-    T = (0.88 * P) / V_stall
+    T = (0.9 * P) / V_bar
     
     # Calculate Forces
     D = CD * 0.5 * rho * V_bar**2 * S
@@ -62,4 +62,4 @@ plt.ylim([dist_TO[0],dist_TO[-1]])
 plt.xlabel("Runway height above sea level [m]")
 plt.ylabel("Take-Off distance required [m]")
 
-print((dist_TO[0] / 1408)*100)
+print((dist_TO[0] / 1175)*100)
