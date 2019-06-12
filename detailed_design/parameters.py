@@ -326,7 +326,7 @@ x_strut = strut_pos_perc*b/2
 # Aerodynamic
 e = 0.85
 M_cruise = 0.6
-C_L_max_land = 2.4
+C_L_max_land = 2.6
 C_L_max_TO = 1.8
 C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
