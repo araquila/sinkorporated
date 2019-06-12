@@ -86,7 +86,7 @@ for i in range(len(altitude)):
 #    print(x_total*landing_factor)
     LFlength.append(x_total*landing_factor)
 
-plt.plot(altitude, LFlength)
+#plt.plot(altitude, LFlength)
 
 # ATR 72 verification
 S = 61

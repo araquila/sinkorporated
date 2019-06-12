@@ -20,7 +20,7 @@ T = p.T_TO
 P = p.P_TO
 W = p.MTOW
 
-alt = [8000, 9000, 13000]
+alt = [4500]
 
 Vmin = []
 Vmax = []
@@ -45,19 +45,12 @@ for altitude in alt:
     D = CD * 0.5 * rho * V**2 * S
     Pr = D*V
     Pr = W * np.sqrt((W/S)*(2/rho)*(CD**2/CL**3))
-    Pa = np.ones(len(V))*P
+    Pa = np.ones(len(V))*3e6
 
     for i in range(len(Pr)):
         if Pr[i] > Pa[i]:
             index_Vmax = i
             break
-
-    for i in range(len(V)):
-        if V[i] > 0.6*speed_of_sound:
-            test = i
-            break
-    print(CL[test])
-    print(D[test])
     
     Vmin.append(V_stall)
     Vmax.append(V[index_Vmax])    
@@ -68,6 +61,8 @@ for altitude in alt:
     ROC_max = np.max(ROC)
     ROClist.append(ROC_max)
 
+plt.plot(V/speed_of_sound, Pr)
+plt.plot(V/speed_of_sound, Pa)
 #plt.plot(ROClist, alt)
 #plt.show()
 #plt.plot(Vmin, alt)
