@@ -101,7 +101,7 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = None
+OEW = 9301 * g
 MTOW = 173185.74
 MLW = None
 EW = None
@@ -285,6 +285,8 @@ A_v = 1.2
 taper_v = 0.6
 sweep_v = 30
 V_v = 0.05
+S_v = 0.28 * S
+b_v = np.sqrt(S_v * A_v)
 
 # Horizontal Tail
 l_h = 12
@@ -292,6 +294,9 @@ A_h = 4
 taper_h = 0.5
 sweep_h = 15
 V_h = 1.57
+S_h = 0.29 * S
+b_h = np.sqrt(S_h * A_h)
+S_e = 0.4
 
 # Undercarriage
 main_landing_pos = 11

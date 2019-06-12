@@ -1,6 +1,6 @@
 # MAIN OF THE CONVENTIAL AIRCRAFT SIZING PROGRAM
-import os
-import sys
+#import os
+#import sys
 #sys.path.append(os.getcwd())
 
 # Import modules
