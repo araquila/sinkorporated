@@ -163,7 +163,8 @@ def area_rib(x):
     return 0.001*x**2 - 0.0447*x + 0.517
 
 def weight_rib(x):
-    return area_rib(x)*p.t_rib*p.density_rib
+    area_flange = (2*width_wingbox(x)+2*height_wingbox(x))*0.04
+    return (area_rib(x)+area_flange)*p.t_rib*p.density_rib
 
 weight_ribs = 0
 
