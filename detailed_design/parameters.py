@@ -15,7 +15,10 @@ gamma = 1.4
 rho0 = 1.225
 g = 9.80665
 R = 287
+p0 = 101325
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
+rho = rho0 * rho
+pressure = pressure * p0
 
 # Materials
 #material aluminium 2014-T6 http://asm.matweb.com/search/SpecificMaterial.asp?bassnum=MA2014T6
@@ -39,11 +42,18 @@ poisson_ratio_al2014 = 0.1
 # E-modulus
 E_al2014 = 72.4e9 #E-modulus
 
+## Trade-off aluminum fuselage skin
+yield_al_2198_T8 = 407e6
+yield_al_2199_T8E74 = 345e6
+yield_al_2060_T8E30 = 345e6
+
+
 # Shear modulus
 G_al2014 = 28e9 #shear modulus
 
 # Density
-#density_aluminum = 2800
+density_al_2198_T8 = 2.7 * 1000
+density_carbon = 1.55 * 1000
 
 # Passengers and Crew
 n_passenger = 60
@@ -80,7 +90,7 @@ chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
 #
-pressure_inside = 100000 #N/m2
+pressure_inside = 81200 #N/m2
 pressure_outside = 35000 #N/m2
 
 # Forces
@@ -91,49 +101,49 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = None
-MTOW = 173185.74
-MLW = None
+OEW = 9074.716123 * g
+MTOW = 17431.71612 * g
 EW = None
 W_fuel = 800 * g
 W_pod = 210 * g
 mtom = MTOW / g
 W_empty = 8618 * g
 W_wing = 13.85/100*W_empty/2
+MLW = MTOW - W_fuel
 
 # Propulsion
 M_engine = 481
 W_nacelle = 131.48 * g
 W_engine = M_engine * g  + W_nacelle
-W_engine_controls = None
-W_starter = None
-W_APU = 264 * g
-W_fuel_system = 359
+W_engine_controls = g
+W_starter = 0
+W_APU = 61.23 * g
+W_fuel_system = 358.7959
 
 # Wing
 W_wing = 1288 * g
-W_flight_controls = None
-W_anti_ice = None
+W_flight_controls = 330
+W_anti_ice = 35.32006139
 
 # Fuselage
 W_fuselage = 2750 * g
-W_furnishings = None
+W_furnishings = 360.3467386
 
 # Empennage
-W_hor_emp = None
-W_ver_emp = None
+W_hor_emp = 159.1798947
+W_ver_emp = 83.85475628
 
 # Undercarriage
-W_main_landing = None
-W_nose_landing = None
+W_main_landing = 661.1444655
+W_nose_landing = 141.4487833
 
 # Other systems
-W_avionics = None
-W_airco = None
-W_instruments =  None
-W_hydraulics = None
-W_electrical = None
-W_handling_gear = None
+W_avionics = 767.91
+W_airco = 412.35
+W_instruments =  62.05734245
+W_hydraulics = 60.49532434
+W_electrical = 341.580681
+W_handling_gear = 5.30
 
 # Safetyfactors
 safetyfactor_wingloading = 2.5
@@ -318,6 +328,8 @@ A_v = 1.2
 taper_v = 0.6
 sweep_v = 30
 V_v = 0.05
+S_v = 0.28 * S
+b_v = np.sqrt(S_v * A_v)
 
 # Horizontal Tail
 l_h = 12
@@ -325,6 +337,9 @@ A_h = 4
 taper_h = 0.5
 sweep_h = 15
 V_h = 1.57
+S_h = 0.29 * S
+b_h = np.sqrt(S_h * A_h)
+S_e = 0.4
 
 # Undercarriage
 main_landing_pos = 11
@@ -357,15 +372,15 @@ x_strut = strut_pos_perc*b/2
 
 ## -------- PERFORMANCE -------- ##
 # Aerodynamic
-e = 0.85
+e = 0.90
 M_cruise = 0.6
-C_L_max_land = 2.4
-C_L_max_TO = 1.4
+C_L_max_land = 2.6
+C_L_max_TO = 1.8
 C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
-C_L_max_land = 2.4
-C_L_max_TO = 1.4
+C_L_max_land = 2.6
+C_L_max_TO = 1.8
 V_TO = np.sqrt((2 * MTOW) / (rho0 * S * C_L_max_TO))
 q_TO = 0.5 * rho0 * V_TO ** 2
 C_D_TO = 0.023 #NOT FINAL
@@ -373,7 +388,7 @@ Cl_delta_aileron = 0.11217
 Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
-Cd0 = 0.008
+Cd0 = 0.027 #NOT FINAL
 LD_ratio = 28 #NOT FINAL
 
 
@@ -382,6 +397,6 @@ eff_cruise = 0.85
 eff_loiter = 0.77
 cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
 cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
-P_TO = 5.8e6
-T_TO = 31000
+P_TO = 2.38e6
+T_TO = 49.8e3
 tot_thrust = 78e3

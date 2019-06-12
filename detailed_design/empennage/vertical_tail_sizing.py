@@ -6,10 +6,10 @@ k_OEI = 1.3
 rudder_angle_max = 35 * np.pi / 180         #[rad]
 moment_OEI = p.y_engine * T_TO
 q_TO = p.q_TO
-c_ratio = 0.4
+c_ratio = 0.3
 
 
-C_n_e = k_OEI * (p.y_engine * T_TO) / (q_TO * p.S * p.b)
+C_n_e = k_OEI * (p.y_engine * T_TO / 2) / (q_TO * p.S * p.b)
 
 S_ratio = np.arange(0.1,0.3,0.005)
 

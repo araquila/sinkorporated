@@ -37,9 +37,12 @@ F_strut_x = Fs * np.sin(alpha)
 V_list_y, V_list_z, M_list_z, M_list_y = shear_and_moment(Fs,Fsz,n)
 
 ### DIAMETER STRUT ###
-A_strut = p.ult_stress_carbon / Fs
+A_strut =  Fs / p.ult_stress_carbon
 d_strut = 2 * np.sqrt(A_strut/np.pi)
+M_strut =  0.0012566370614359172 * np.sqrt(6.671**2 + 2.66**2) * p.density_carbon
 
+print(d_strut)
+print(M_strut)
 
 ### NORMAL STRESS CALCULATOR ###
 def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
@@ -219,6 +222,8 @@ if max_tensile_stress > p.tensile_yield_strength_al2014/10**6:
 else:
     print("Max stress",max_tensile_stress/(p.tensile_yield_strength_al2014/10**6)*100,"% of the yield strength")
     
+print()
+print('Mass strutbox [kg]: ' + str(scs.weight_strutbox))
 
 
 
