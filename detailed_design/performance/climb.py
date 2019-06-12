@@ -20,31 +20,32 @@ T = p.T_TO
 P = p.P_TO
 W = p.MTOW
 
-altitude = 0
+alt = [0]
+for altitude in alt:
+    temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, t0, t_gradient, g, atR, atgamma)
+    rho = 1.225 * rho
+    pressure = 101325 * pressure
 
-temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, t0, t_gradient, g, atR, atgamma)
-rho = 1.225 * rho
-pressure = 101325 * pressure
+    CLmax = 2
 
-CLmax = 2
+    V_stall = np.sqrt((W/S)*(2/rho)*(1/CLmax))
 
-V_stall = np.sqrt((W/S)*(2/rho)*(1/CLmax))
+    V = np.linspace(V_stall, V_stall+150, 1001)
+    k1 = (1 / (np.pi * A * e))
+    CL = W / (0.5*rho*V**2*S)
+    CD = CD0 + k1 * CL**2
+    D = CD * 0.5 * rho * V**2 * S
+    Pr = D*V
+    Pr = W * np.sqrt((W/S)*(2/rho)*(CD**2/CL**3))
+    Pa = np.ones(len(V))*P
 
-V = np.linspace(V_stall, 200, 1001)
-k1 = (1 / (np.pi * A * e))
-CL = W / (0.5*rho*V**2*S)
-CD = CD0 + k1 * CL**2
-D = CD * 0.5 * rho * V**2 * S
-Pr = D*V
-Pr = W * np.sqrt((W/S)*(2/rho)*(CD**2/CL**3))
-Pa = np.ones(len(V))*P
+    D0 = CD0 * 0.5 * rho * V**2 * S
+    DL = k1 * CL**2 * 0.5 * rho * V**2 * S
 
-D0 = CD0 * 0.5 * rho * V**2 * S
-DL = k1 * CL**2 * 0.5 * rho * V**2 * S
-
-plt.plot(V, D0)
-plt.plot(V, DL)
-plt.plot(V, D)
+    #plt.plot(V, D0)
+    #plt.plot(V, DL)
+    plt.plot(V, D*V)
+    plt.plot(V, Pa)
 plt.show()
 
 
