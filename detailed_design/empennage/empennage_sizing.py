@@ -25,7 +25,7 @@ V_v2 = 0.379      # [-]
 
 # Determination of the Horizontal Tail Surface
 #S_h = (V_h * S * c) / l_h
-S_h = 0.2745 * S
+S_h = 0.26 * S
 
 # Determination of the Vertical Tail Surface
 #S_v = (V_v * S * b) / l_v
