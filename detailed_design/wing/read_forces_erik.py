@@ -95,17 +95,22 @@ for a in z:
         CP_xc.append(table[i][12])
         cd012 = 0.00617
         cd015 = 0.00657
-        e = 0.95
+        cd018 = 0.00606
+        e = 0.9
         A = 20.
 #        if a == 0:
 #            AR = (15.686/lengthdata)**2/feetsquared_to_metersquared(table[i][3])
 #            print(AR)
-        cd0 = cd015-(cd015-cd012)/(i+1)
+        if a == 0 or a == 1:
+            cd0 = cd015-(cd015-cd012)/(i+1)
+        elif a == 2 or a == 3:
+            cd0 = cd018
+        
         Cd.append(cd0+table[i][7]**2/np.pi/e/A)
     
     if a == 0:
         plt.figure()
-        plt.plot(Yle,Cd)
+        plt.plot(Yle,cl)
         plt.show()
         
     Lift = []

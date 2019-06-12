@@ -39,7 +39,7 @@ V_list_y, V_list_z, M_list_z, M_list_y = shear_and_moment(Fs,Fsz,n)
 ### DIAMETER STRUT ###
 A_strut =  Fs / p.ult_stress_carbon
 d_strut = 2 * np.sqrt(A_strut/np.pi)
-M_strut =  0.0012566370614359172 * (np.sqrt(p.d_fuselage_outside**2 + p.x_strut**2)) * p.density_carbon
+M_strut =  0.0012566370614359172 * np.sqrt(6.671**2 + 2.66**2) * p.density_carbon
 
 print(d_strut)
 print(M_strut)

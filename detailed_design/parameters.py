@@ -90,7 +90,7 @@ chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
 #
-pressure_inside = 100000 #N/m2
+pressure_inside = 81200 #N/m2
 pressure_outside = 35000 #N/m2
 
 # Forces
@@ -329,14 +329,14 @@ x_strut = strut_pos_perc*b/2
 
 ## -------- PERFORMANCE -------- ##
 # Aerodynamic
-e = 0.85
+e = 0.90
 M_cruise = 0.6
 C_L_max_land = 2.6
 C_L_max_TO = 1.8
 C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
-C_L_max_land = 2.4
+C_L_max_land = 2.6
 C_L_max_TO = 1.8
 V_TO = np.sqrt((2 * MTOW) / (rho0 * S * C_L_max_TO))
 q_TO = 0.5 * rho0 * V_TO ** 2
