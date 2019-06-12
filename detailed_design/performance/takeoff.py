@@ -15,7 +15,7 @@ T = p.T_TO
 W = p.MTOW
 
 # Take-Off Input Parameters
-V_stall = p.V_stall
+V_stall = np.sqrt((W/S)*(2/rho)*(1/CL))
 gamma = 4 * (np.pi/180)
 n_rotation = 1.15
 h_screen = 15.2

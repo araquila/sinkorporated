@@ -331,7 +331,7 @@ x_strut = strut_pos_perc*b/2
 # Aerodynamic
 e = 0.85
 M_cruise = 0.6
-C_L_max_land = 2.4
+C_L_max_land = 2.6
 C_L_max_TO = 1.8
 C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
@@ -345,7 +345,7 @@ Cl_delta_aileron = 0.11217
 Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
-Cd0 = 0.0165 #NOT FINAL
+Cd0 = 0.02 #NOT FINAL
 LD_ratio = 28 #NOT FINAL
 
 
@@ -354,6 +354,6 @@ eff_cruise = 0.85
 eff_loiter = 0.77
 cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
 cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
-P_TO = 5.8e6
-T_TO = 100000
+P_TO = 2.38e6
+T_TO = 49.8e3
 tot_thrust = 78e3
