@@ -20,7 +20,7 @@ W_main_landing = c.det_main_lg_weight(p.mtom, uc.wheel_height, 4, 2, p.V_stall)
 W_fuselage = c.det_fuselage_weight(p.mtom, p.l_cabin, p.S_wet_fuselage, p.taper, p.b, p.sweep_qc, p.LD_ratio)
 
 # Engines
-W_engine = 2 * 481
+W_engine = 924
 W_nacelle = c.det_nacelle_group_weight(p.l_engine, p.w_engine, p.mtom, p.n_engines, 4*p.l_engine*p.w_engine, W_engine/p.n_engines)
 
 # Miscellaneous

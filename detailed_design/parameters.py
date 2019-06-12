@@ -101,49 +101,49 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = 9301 * g
-MTOW = 173185.74
-MLW = None
+OEW = 9074.716123 * g
+MTOW = 17431.71612 * g
 EW = None
 W_fuel = 7736.30
 W_pod = 300 * g
 mtom = MTOW / g
 W_empty = 7271.44 * g
 W_wing = 13.85/100*W_empty/2
+MLW = MTOW - W_fuel
 
 # Propulsion
 M_engine = 481
 W_nacelle = 131.48 * g
 W_engine = M_engine * g  + W_nacelle
-W_engine_controls = None
-W_starter = None
-W_APU = 264 * g
-W_fuel_system = None
+W_engine_controls = g
+W_starter = 0
+W_APU = 61.23 * g
+W_fuel_system = 358.7959
 
 # Wing
 W_wing = 1288 * g
-W_flight_controls = None
-W_anti_ice = None
+W_flight_controls = 330
+W_anti_ice = 35.32006139
 
 # Fuselage
 W_fuselage = 2750 * g
-W_furnishings = None
+W_furnishings = 360.3467386
 
 # Empennage
-W_hor_emp = None
-W_ver_emp = None
+W_hor_emp = 159.1798947
+W_ver_emp = 83.85475628
 
 # Undercarriage
-W_main_landing = None
-W_nose_landing = None
+W_main_landing = 661.1444655
+W_nose_landing = 141.4487833
 
 # Other systems
-W_avionics = None
-W_airco = None
-W_instruments =  None
-W_hydraulics = None
-W_electrical = None
-W_handling_gear = None
+W_avionics = 767.91
+W_airco = 412.35
+W_instruments =  62.05734245
+W_hydraulics = 60.49532434
+W_electrical = 341.580681
+W_handling_gear = 5.30
 
 # Safetyfactors
 safetyfactor_wingloading = 2.5
