@@ -90,7 +90,7 @@ chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
 #
-pressure_inside = 100000 #N/m2
+pressure_inside = 81200 #N/m2
 pressure_outside = 35000 #N/m2
 
 # Forces
