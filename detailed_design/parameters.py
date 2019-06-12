@@ -90,7 +90,7 @@ chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
 #
-pressure_inside = 100000 #N/m2
+pressure_inside = 81200 #N/m2
 pressure_outside = 35000 #N/m2
 
 # Forces
@@ -101,7 +101,7 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = None
+OEW = 9301 * g
 MTOW = 173185.74
 MLW = None
 EW = None
@@ -285,6 +285,8 @@ A_v = 1.2
 taper_v = 0.6
 sweep_v = 30
 V_v = 0.05
+S_v = 0.28 * S
+b_v = np.sqrt(S_v * A_v)
 
 # Horizontal Tail
 l_h = 12
@@ -292,6 +294,9 @@ A_h = 4
 taper_h = 0.5
 sweep_h = 15
 V_h = 1.57
+S_h = 0.29 * S
+b_h = np.sqrt(S_h * A_h)
+S_e = 0.4
 
 # Undercarriage
 main_landing_pos = 11
@@ -324,14 +329,14 @@ x_strut = strut_pos_perc*b/2
 
 ## -------- PERFORMANCE -------- ##
 # Aerodynamic
-e = 0.85
+e = 0.90
 M_cruise = 0.6
-C_L_max_land = 2.4
+C_L_max_land = 2.6
 C_L_max_TO = 1.8
 C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
-C_L_max_land = 2.4
+C_L_max_land = 2.6
 C_L_max_TO = 1.8
 V_TO = np.sqrt((2 * MTOW) / (rho0 * S * C_L_max_TO))
 q_TO = 0.5 * rho0 * V_TO ** 2
@@ -340,7 +345,7 @@ Cl_delta_aileron = 0.11217
 Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
-Cd0 = 0.0165 #NOT FINAL
+Cd0 = 0.02 #NOT FINAL
 LD_ratio = 28 #NOT FINAL
 
 
@@ -349,6 +354,6 @@ eff_cruise = 0.85
 eff_loiter = 0.77
 cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
 cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
-P_TO = 5.8e6
-T_TO = 100000
+P_TO = 2.38e6
+T_TO = 49.8e3
 tot_thrust = 78e3

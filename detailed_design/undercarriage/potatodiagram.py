@@ -101,7 +101,7 @@ for j in range(len(CG_winggroup)):
     CG = (CG - x_lemac) / p.MAC
     
 #    print("Most forward CG =", CG_mostfor)
-##    print("Most afterward CG =", CG_mostaft)
+#    print("Most afterward CG =", CG_mostaft)
 #    plt.scatter(CG,weight)
 #    plt.show()
 
