@@ -245,7 +245,7 @@ density_stiffeners = 2630
 
 #al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
-t_sheet = 0.004 #m
+t_sheet = 0.0038 #m
 t_sheet_strutbox = 0.003
 
 
@@ -298,7 +298,7 @@ fracture_toughness_2195 = 35*10**6
 
 
 #amount of ribs, excluding root and tip caps
-n_ribs = 8
+n_ribs = 6
 rib_spacing = (b/2)/(n_ribs+1)
 t_rib = 0.0025
 

@@ -127,7 +127,7 @@ def shear_skin_buckling_stress(x):
 def critical_column_buckling(x):
     """Critical column buckling stress on the panel""" 
     
-    l_eff = rib_spacing
+    l_eff = p.rib_spacing
     
     return (np.pi**2*p.E_sheet*sp.I_yy_wingbox(x))/(l_eff**2*sp.cross_sectional_area(x))/10**6
 
@@ -270,8 +270,8 @@ plt.legend(loc = 'upper right')
 
 plt.show()
 
-max_compressive_stress = min(normal_ru_list)*p.safety_factor_compression
-max_tensile_stress = max(normal_ll_list)*p.safety_factor_tension
+max_compressive_stress = min(normal_ru_list) #*p.safety_factor_compression
+max_tensile_stress = max(normal_ll_list) #*p.safety_factor_tension
 
 
 print("Top stiffeners: ",p.n_upper_skin_wingbox)
