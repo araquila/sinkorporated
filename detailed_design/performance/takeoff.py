@@ -21,21 +21,23 @@ for altitude in altrange:
     
     # Aircraft Input Parameters
     S = p.S
-    CL = p.C_L_max_TO
+    CL = p.C_L_max_TO/1.21
     CD0 = p.Cd0
     CD = CD0 + CL**2 / (np.pi * p.A * p.e)
-    T = p.T_TO
-    W = p.MTOW
+    P = p.P_TO
+    W = p.MTOW 
     
     # Take-Off Input Parameters
-    V_stall = np.sqrt((W/S)*(2/rho)*(1/CL))
+    V_stall = np.sqrt((W/S)*(2/rho)*(1/p.C_L_max_TO))
     gamma = 4 * (np.pi/180)
     n_rotation = 1.15
-    h_screen = 15.2
+    h_screen = 15.2 #10.668
     
     V_min = V_stall
     V_LOF = 1.05 * V_min
     V_bar = V_LOF / (np.sqrt(2))
+    
+    T = (0.88*P)/V_LOF
     
     # Calculate Forces
     D = CD * 0.5 * rho * V_bar**2 * S
@@ -55,6 +57,7 @@ for altitude in altrange:
 
     #print("Take-Off Length Required:", np.round(s_TO, decimals=2), "m")
     
+print(dist_TO[0])
 plt.plot(altrange, dist_TO)
 plt.plot(altrange, LFlength)
 plt.xlim([altrange[0],altrange[-1]])
