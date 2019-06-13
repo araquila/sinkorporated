@@ -37,7 +37,7 @@ yield_stress_al2024 = 414e6
 fatigue_strength_al2014 = 124e6
 
 # Poisson
-poisson_ratio_al2014 = 0.1
+poisson_ratio_al2014 = 0.33
 
 # E-modulus
 E_al2014 = 72.4e9 #E-modulus
@@ -197,23 +197,27 @@ h_max_tip_wingbox = 0.08518
 
 # Stringers
 
-n_upper_skin_wingbox = 13
-n_lower_skin_wingbox = 13
+n_upper_skin_wingbox = 15
+n_lower_skin_wingbox = 15
 
 #al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
 #https://www.smithmetal.com/2099-lithium.htm
 #https://www.smithshp.com/assets/pdf/2099-aluminium-lithium.pdf
 
 
-t_hat = 0.0018
-t_z = 0.0018
+t_hat = 0.0028
+t_z = 0.0028
 
 #2024 nrs for tradeoff
 #ultimate_compressive_strength_2099 = 324*10**6
 #ultimate_yield_strength_2099 = 324*10**6
 #
 #E_compressive_2099 = 73.1*10**9
+#
+#density_stiffeners = 2780
 
+#al2099-t83
+#
 ultimate_compressive_strength_2099 = 476*10**6
 ultimate_yield_strength_2099 = 490*10**6
 ultimate_tensile_strength_2099 = 560*10**6
@@ -222,6 +226,15 @@ E_compressive_2099 = 82.1*10**9
 
 
 density_stiffeners = 2630
+
+#al7075
+#E_compressive_2099 = 71.7*10**9
+#density_stiffeners = 2810
+#ultimate_tensile_strength_2099 = 572*10**6
+#ultimate_yield_strength_2099 = 503*10**6
+#ultimate_shear_strength_2099 = 0.55*ultimate_yield_strength_2099
+#fracture_toughness_2195 = 35*10**6
+
 
 #CFRP
 #ultimate_compressive_strength_2099 = 570*10**6
@@ -232,11 +245,10 @@ density_stiffeners = 2630
 #
 #density_stiffeners = 1600
 
-#testt
 
 #al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
-t_sheet = 0.0027 #m
+t_sheet = 0.0035 #m
 t_sheet_strutbox = 0.003
 
 
@@ -248,6 +260,7 @@ t_sheet_strutbox = 0.003
 #ult_shear_strength_2195 = 283*10**6
 #fracture_toughness_2195 = 26*10**6
 
+#al2195
 #E_sheet = 78*10**9
 #density_sheet = 2700
 #ult_tensile_strength_2195 = 595*10**6
@@ -268,7 +281,7 @@ fracture_toughness_2195 = 35*10**6
 
 
 #al7075
-#
+
 #E_sheet = 71.7*10**9
 #density_sheet = 2810
 #ult_tensile_strength_2195 = 572*10**6
@@ -277,7 +290,7 @@ fracture_toughness_2195 = 35*10**6
 #fracture_toughness_2195 = 35*10**6
 
 #CFRP
-
+#
 #E_sheet = 70*10**9
 #density_sheet = 1600
 #ult_tensile_strength_2195 = 600*10**6
@@ -288,7 +301,7 @@ fracture_toughness_2195 = 35*10**6
 
 
 #amount of ribs, excluding root and tip caps
-n_ribs = 11
+n_ribs = 6
 rib_spacing = (b/2)/(n_ribs+1)
 t_rib = 0.0025
 
@@ -301,8 +314,8 @@ E_rib = 78.6*10**9
 density_rib = 2630
 ult_shear_strength_2099 = 262*10**6
 
-safety_factor_compression = 1.0
-safety_factor_tension = 1.0
+safety_factor_compression = 1.5
+safety_factor_tension = 1.5
 
 
 # Strutbox
@@ -405,8 +418,8 @@ LD_ratio = 21.4 #NOT FINAL
 # Propulsion
 eff_cruise = 0.85
 eff_loiter = 0.77
+P_TO = 2*1775e3
+T_TO = 50.24e3
 cp_cruise = 6.2e-8
 cp_loiter = 6.5e-8
-P_TO = 2.38e6
-T_TO = 49.8e3
 tot_thrust = 78e3
