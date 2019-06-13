@@ -27,13 +27,16 @@ end_cabin = begin_cabin + n_rows * p.seat_pitch
 
 x_cargo = end_cabin + p.l_galley + 0.5
 x_seats = np.arange(begin_cabin, end_cabin, p.seat_pitch)
-### OEW CG ###
+
 
 x_lemac = np.arange(8,15,2)
 for i in range(len(x_lemac)):
+    ### OEW CG ###
     cgx_oew = (m_fusgroup * cgx_fusgroup + (x_lemac[i] + p.MAC * cgx_winggroup) * m_winggroup) / (m_fusgroup + m_winggroup)
     mass_oew = m_fusgroup + m_winggroup
+    plt.plot(cgx_oew, mass_oew)
 
+    ### WINDOW LOADING
     cgx.append((x_cargo * p.M_total_cargo + cgx[-1] * mass[-1]) / (mass[-1] + p.M_total_cargo))
     mass.append(p.M_total_cargo + mass[-1])
     for i in range(len(x_seats)):
