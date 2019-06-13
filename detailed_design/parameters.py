@@ -101,19 +101,19 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = 10120.52562 * g
-MTOW = 17431.71612 * g
+OEW = 10061.74562 * g
+MTOW = 18925.53891 * g
 EW = None
-W_fuel = 800 * g
-W_pod = 210 * g
+W_fuel = 2163.79329 * g
+W_pod = 436 * g / 2
 mtom = MTOW / g
-W_empty = 8618 * g
-W_wing = 13.85/100*W_empty/2
+W_empty = OEW
+
 MLW = MTOW - W_fuel
 
 # Propulsion
 M_engine = 868.00 / 2
-W_nacelle = (368.16 / 2) * g
+W_nacelle = (357.38 / 2) * g
 W_engine = M_engine * g  + W_nacelle
 W_engine_controls = 0
 W_starter = 0
