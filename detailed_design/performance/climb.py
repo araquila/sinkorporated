@@ -11,7 +11,7 @@ atR = p.R
 atgamma = p.gamma
 g = p.g
 
-alt = np.linspace(0, 12525, 50)
+alt = np.linspace(0, 12525, 100)
 
 Vmin = []
 Vmax = []
@@ -75,11 +75,13 @@ for altitude in alt:
     ROC_max = np.max(ROC)
     idxVROCmax = list(ROC).index(ROC_max)
     ROClist.append(ROC_max)
-    V_ROC_max.append(V[idxVROCmax]/speed_of_sound)
+    V_ROC_max.append(V[idxVROCmax])
     
 
-plt.plot(machmin, alt)
-plt.plot(machmax, alt)
-plt.plot(V_ROC_max, alt)
-
-
+plt.plot(Vmin, alt, label="Minimum Velocity")
+plt.plot(Vmax, alt, label="Maximum Velocity")
+plt.plot(V_ROC_max, alt, label="Velocity for Maximum ROC")
+plt.xlabel("Velocity [m/s]")
+plt.ylabel("Altitude [m]")
+plt.legend()
+plt.show()
