@@ -37,7 +37,7 @@ yield_stress_al2024 = 414e6
 fatigue_strength_al2014 = 124e6
 
 # Poisson
-poisson_ratio_al2014 = 0.1
+poisson_ratio_al2014 = 0.33
 
 # E-modulus
 E_al2014 = 72.4e9 #E-modulus
@@ -101,34 +101,36 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = 9074.716123 * g
+OEW = 10120.52562 * g
 MTOW = 17431.71612 * g
 EW = None
 W_fuel = 800 * g
-W_pod = 210 * g
+W_pod = 260 * g
 mtom = MTOW / g
 W_empty = 8618 * g
 W_wing = 13.85/100*W_empty/2
 MLW = MTOW - W_fuel
 
 # Propulsion
-M_engine = 924.00 / 2
-W_nacelle = (257.190498 / 2) * g
+M_engine = 868.00 / 2
+W_nacelle = (368.16 / 2) * g
 W_engine = M_engine * g  + W_nacelle
 W_engine_controls = 0
 W_starter = 0
 W_APU = 61.23 * g
-W_fuel_system = 358.7959
-W_fuel_tanks = 436 * g
+W_fuel_system = 358.7959 * g
+W_fuel_tanks = 520 * g
 
 # Wing
-W_wing = 1288 * g
+W_wing = 1549.6 * g
 W_flight_controls = 330 * g
 W_anti_ice = 35.32006139 * g
+W_strut = 79.55 * g
+W_aileronflaps = 84.02 * g
 
 # Fuselage
 W_fuselage = 2750 * g
-W_furnishings = 360.3467386
+W_furnishings = 360.3467386 * g
 
 # Empennage
 W_hor_emp = 159.1798947 * g
@@ -153,7 +155,7 @@ safetyfactor_wingbox = 1.5
 
 m_fuselage = (W_fuselage + W_furnishings + W_avionics + W_airco + W_instruments + W_hydraulics + W_electrical + W_handling_gear + W_APU) / g
 m_tail = (W_hor_emp + W_ver_emp) / g
-m_wing = (W_wing + W_flight_controls + W_anti_ice) / g
+m_wing = (W_wing + W_strut + W_aileronflaps + W_flight_controls + W_anti_ice) / g
 m_engine = (2 * W_engine + W_fuel_system) / g
 m_fuel_tanks = W_fuel_tanks / g
 
@@ -165,6 +167,7 @@ d_fuselage_outside = 2.84
 d_fuselage_inside = None
 l_nose = 2.8373002246584007
 l_lavatory = 36 * 0.0254
+l_galley = 30 * 0.0254
 S_wet_fuselage = np.pi * d_fuselage_outside * l_fuselage
 volume_fuselage = 0.25 * np.pi * d_fuselage_outside**2 * l_fuselage
 
@@ -194,23 +197,27 @@ h_max_tip_wingbox = 0.08518
 
 # Stringers
 
-n_upper_skin_wingbox = 13
-n_lower_skin_wingbox = 13
+n_upper_skin_wingbox = 15
+n_lower_skin_wingbox = 15
 
 #al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
 #https://www.smithmetal.com/2099-lithium.htm
 #https://www.smithshp.com/assets/pdf/2099-aluminium-lithium.pdf
 
 
-t_hat = 0.0018
-t_z = 0.0018
+t_hat = 0.003
+t_z = 0.003
 
 #2024 nrs for tradeoff
 #ultimate_compressive_strength_2099 = 324*10**6
 #ultimate_yield_strength_2099 = 324*10**6
 #
 #E_compressive_2099 = 73.1*10**9
+#
+#density_stiffeners = 2780
 
+#al2099-t83
+##
 ultimate_compressive_strength_2099 = 476*10**6
 ultimate_yield_strength_2099 = 490*10**6
 ultimate_tensile_strength_2099 = 560*10**6
@@ -219,6 +226,15 @@ E_compressive_2099 = 82.1*10**9
 
 
 density_stiffeners = 2630
+
+#al7075
+#E_compressive_2099 = 71.7*10**9
+#density_stiffeners = 2810
+#ultimate_tensile_strength_2099 = 572*10**6
+#ultimate_yield_strength_2099 = 503*10**6
+#ultimate_shear_strength_2099 = 0.55*ultimate_yield_strength_2099
+#fracture_toughness_2195 = 35*10**6
+
 
 #CFRP
 #ultimate_compressive_strength_2099 = 570*10**6
@@ -229,11 +245,10 @@ density_stiffeners = 2630
 #
 #density_stiffeners = 1600
 
-#testt
 
 #al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
-t_sheet = 0.0027 #m
+t_sheet = 0.0033 #m
 t_sheet_strutbox = 0.003
 
 
@@ -245,6 +260,7 @@ t_sheet_strutbox = 0.003
 #ult_shear_strength_2195 = 283*10**6
 #fracture_toughness_2195 = 26*10**6
 
+#al2195
 #E_sheet = 78*10**9
 #density_sheet = 2700
 #ult_tensile_strength_2195 = 595*10**6
@@ -254,8 +270,8 @@ t_sheet_strutbox = 0.003
 
 #al 2055-t84 https://www.arconic.com/adip/catalog/AFE2055-factsheet.pdf  
 #https://www.smithshp.com/assets/pdf/2055-t84-extrusions.pdf
-
-
+#
+#
 E_sheet = 76.5*10**9
 density_sheet = 2710
 ult_tensile_strength_2195 = 565*10**6
@@ -265,7 +281,7 @@ fracture_toughness_2195 = 35*10**6
 
 
 #al7075
-#
+
 #E_sheet = 71.7*10**9
 #density_sheet = 2810
 #ult_tensile_strength_2195 = 572*10**6
@@ -282,10 +298,10 @@ fracture_toughness_2195 = 35*10**6
 #ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
 #fracture_toughness_2195 = 35*10**6
 #cost_per_kg = 52.5
-
+#
 
 #amount of ribs, excluding root and tip caps
-n_ribs = 11
+n_ribs = 6
 rib_spacing = (b/2)/(n_ribs+1)
 t_rib = 0.0025
 
@@ -298,8 +314,8 @@ E_rib = 78.6*10**9
 density_rib = 2630
 ult_shear_strength_2099 = 262*10**6
 
-safety_factor_compression = 1.0
-safety_factor_tension = 1.0
+safety_factor_compression = 1.5
+safety_factor_tension = 1.5
 
 
 # Strutbox
@@ -346,6 +362,7 @@ V_h = 1.57
 S_h = 0.29 * S
 b_h = np.sqrt(S_h * A_h)
 S_e = 0.4
+print(b_h)
 
 # Undercarriage
 main_landing_pos = 11
@@ -387,6 +404,7 @@ V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
 C_L_max_land = 2.6
 C_L_max_TO = 1.8
+C_L_TO = C_L_max_TO / 1.21
 V_TO = np.sqrt((2 * MTOW) / (rho0 * S * C_L_max_TO))
 q_TO = 0.5 * rho0 * V_TO ** 2
 C_D_TO = 0.023 #NOT FINAL
@@ -395,14 +413,14 @@ Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
 Cd0 = 0.027 #NOT FINAL
-LD_ratio = 28 #NOT FINAL
+LD_ratio = 21.4 #NOT FINAL
 
 
 # Propulsion
 eff_cruise = 0.85
 eff_loiter = 0.77
-cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
-cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
 P_TO = 2*1775e3
 T_TO = 50.24e3
+cp_cruise = 6.2e-8
+cp_loiter = 6.5e-8
 tot_thrust = 78e3

@@ -9,6 +9,7 @@ import parameters as p
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import integrate
+from section_properties import a,b,c,d,e,f
 
 #actual root enclosed area 0.316
 #actual tip enclosed area 0.045
@@ -28,14 +29,14 @@ def height_strutbox(x):
 
 
 t_sheet = p.t_sheet_strutbox #m
-t_hat = 0.002 #m
-t_z = 0.002 #m
+t_hat = p.t_hat #m
+t_z = p.t_z #m
 
 
 #hat geometry
-a = 0.06
-b = 0.04
-c = 0.05
+#a = 0.06
+#b = 0.04
+#c = 0.05
 
 width_hat = 2*b+c-t_hat
 
@@ -49,9 +50,9 @@ I_yy_hat = 2*b**3*t_hat/12 + c**3*t_hat/12 + 2*b*t_hat*(b-t_hat+c/2) + c*t_hat*(
 
 
 #Z-stiffener geometry
-d = 0.04
-e = 0.06 
-f = 0.045
+#d = 0.04
+#e = 0.06 
+#f = 0.045
 
 width_z = d+f-t_z
 
@@ -87,13 +88,13 @@ I_zz_bottom = I_zz_z
 I_yy_top = I_yy_hat
 I_yy_bottom = I_yy_z
 
-density_stiffeners = 2800
+density_stiffeners = p.density_stiffeners
 weight_stiffeners = density_stiffeners*(n_top*A_top + n_bottom*A_bottom)*p.l_strutbox 
 
 area_horizontal_flanges = 2 * p.l_strutbox * p.w_root_strutbox
 area_vertical_flanges = 2 * p.l_strutbox * h_root
 
-density_sheet = 2800
+density_sheet = p.density_sheet
 weight_strutbox = (area_horizontal_flanges + area_vertical_flanges)*t_sheet*density_sheet
 
 

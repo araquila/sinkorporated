@@ -10,7 +10,7 @@ def fuel_fraction(eff_cruise_tbp = 0.85, eff_loiter_tbp = 0.77, LD_cruise_jet = 
 
     # Range for tbp and jet aircraft
     range_cruise_jet = 2500000     # [m]
-    range_cruise_tbp = 2500000     # [m]
+    range_cruise_tbp = 1850000     # [m]
 
     # Endurance loiter {source: CS-25}
     endurance_loiter_jet = 2700    # [sec]
