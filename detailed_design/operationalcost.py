@@ -12,7 +12,4 @@ batch_size = 300
 
 #cost of aircraft components
 
-C_wing = 1730 * p.W_wing**0.766 * batch_size ** -.218
-C_tail = 1820 * p.W_wing**0.766 * batch_size ** -.218
-C_fuselage = 2060 * p.W_fuselage**0.766 * batch_size ** -.218
-C_lg = 1180 * 
+C_crew_capt = 

@@ -4,12 +4,15 @@ from matplotlib import pyplot as plt
 from wing.shear_and_moment_strutbox import shear_and_moment
 import wing.section_properties_strutbox as scs
 import wing.wing_deflection2 as wd2 
+import wing.section_properties as sp
 
 ### DISCRETIZATION OF THE STRUTBOX ###
 n = 101
 x_pos = np.linspace(0,p.l_strutbox,n)
 
-### OBTAIN CROSSECTIONAL PROPERTIES ###
+x_pos_wingbox = np.linspace(0,p.b/2,n)
+
+### OBTAIN CROSSECTIONAL PROPERTIES STRUTBOX ###
 Izz_list = []
 Iyy_list = []
 first_moment_of_area_list_y = []
@@ -25,10 +28,28 @@ for x in x_pos:
     area_list.append(scs.cross_sectional_area(x))
     y_max_list.append(scs.y_max(x))
     
+### OBTAIN CROSSECTIONAL PROPERTIES WINGBOX ###
+Izz_list_wingbox = []
+Iyy_list_wingbox = []
+first_moment_of_area_list_wingbox = []
+area_list_wingbox = []
+y_max_list_wingbox = []
+hi_wingbox = []
+bi_wingbox = []
+
+for x in x_pos_wingbox:
+    Izz_list_wingbox.append(sp.I_zz_wingbox(x))
+    Iyy_list_wingbox.append(sp.I_yy_wingbox(x))
+    first_moment_of_area_list_wingbox.append(sp.first_moment_of_area_y(x))
+    area_list_wingbox.append(sp.cross_sectional_area(x))
+    y_max_list_wingbox.append(sp.y_max(x))
+    hi_wingbox.append(sp.height_wingbox(x))
+    bi_wingbox.append(sp.width_wingbox(x))    
+
 ### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
 lengthdata = 100
-Lift, Chord, Yle, Drag, AeroMoment = wd2.read_aero_data("wing/datastrut4.txt", lengthdata, p.V_cruise, p.rho)
-Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
+Lift, Chord, Yle, Drag, AeroMoment = wd2.read_aero_data("wing/datastrut5.txt", lengthdata, p.V_cruise, p.rho)
+Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(Lift, Yle, Drag, p.tot_thrust, Iyy_list_wingbox, Izz_list_wingbox,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
 
 alpha = np.arctan((p.strut_pos_perc * p.b/2)/p.d_fuselage_outside)        # Angle of the strut with fuselage
 F_strut_x = Fs * np.sin(alpha)
@@ -148,7 +169,6 @@ def critical_crippling_stiffener(x):
 
 def required_shear_thickness(V_list_y,V_list_z,Iyy_list,Izz_list,first_moment_of_area_list_y,first_moment_of_area_list_z):
     t = 0
-    t_lsit = []
     for i in range(len(x_pos)):
         t_temp = (V_list_y[i] * first_moment_of_area_list_y[i] * Iyy_list[i] + V_list_z[i]*first_moment_of_area_list_z[i]*Izz_list[i]) / (p.ultimate_shear_stress_al2024 * Izz_list[i] * Iyy_list[i])
         if t_temp > t:
@@ -185,8 +205,8 @@ plt.plot(x_pos, normal_ll_list, 'y', label='Left lower corner')
 plt.legend(loc = 'upper right')
 
 ### CHECK FOR OTHER FAILURE MODES ###
-max_compressive_stress = min(normal_ru_list)*p.safety_factor_compression
-max_tensile_stress = max(normal_ll_list)*p.safety_factor_tension
+max_compressive_stress = min(normal_ru_list)
+max_tensile_stress = max(normal_ll_list)
 
 print("Max compressive: ",max_compressive_stress,"MPa")
 print("Max tensile: ",max_tensile_stress,"MPa")

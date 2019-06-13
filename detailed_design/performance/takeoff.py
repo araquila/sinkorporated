@@ -58,9 +58,10 @@ for altitude in altrange:
     #print("Take-Off Length Required:", np.round(s_TO, decimals=2), "m")
     
 print(dist_TO[0])
-plt.plot(altrange, dist_TO)
-plt.plot(altrange, LFlength)
+plt.plot(altrange, dist_TO, label="Take-Off Distance")
+plt.plot(altrange, LFlength, label="Landing Distance")
 plt.xlim([altrange[0],altrange[-1]])
 plt.ylim([1000,1400])
 plt.xlabel("Runway height above sea level [m]")
-plt.ylabel("Take-Off distance required [m]")
+plt.ylabel("Distance required [m]")
+plt.legend()

@@ -11,7 +11,7 @@ atR = p.R
 atgamma = p.gamma
 g = p.g
 
-alt = np.linspace(0, 12525, 100)
+alt = np.linspace(0, 12470, 100)
 
 Vmin = []
 Vmax = []
@@ -44,7 +44,7 @@ for altitude in alt:
     V = np.linspace(10, 0.6*speed_of_sound, 1001)
     
     for i in range(len(V)):
-        if V[i] > 0.5*speed_of_sound:
+        if V[i] > 0.4*speed_of_sound:
             test = i
             break
         
@@ -77,11 +77,16 @@ for altitude in alt:
     ROClist.append(ROC_max)
     V_ROC_max.append(V[idxVROCmax])
     
-
 plt.plot(Vmin, alt, label="Minimum Velocity")
 plt.plot(Vmax, alt, label="Maximum Velocity")
-plt.plot(V_ROC_max, alt, label="Velocity for Maximum ROC")
 plt.xlabel("Velocity [m/s]")
 plt.ylabel("Altitude [m]")
 plt.legend()
 plt.show()
+
+print("ROC at sea level:", np.round(ROClist[0], decimals=3), "m/s")
+
+rrr = 0
+for i in range(len(alt)-37):
+    rrr = rrr+(alt[i+1]-alt[i])/ROClist[i]
+print(rrr)
