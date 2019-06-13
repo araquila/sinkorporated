@@ -20,4 +20,5 @@ m_winggroup = (p.m_wing + p.m_engine + p.m_fuel_tanks + p.W_main_landing / p.g)
 cgx_winggroup = (cgx_wing * p.m_wing + cgx_fueltank * p.m_fuel_tanks + cgx_ml * (p.W_main_landing / p.g)) / m_winggroup
 
 ### OEW CG ###
+cgx_oew = (cgx_fusgroup * cgx_fusgroup + cgx_winggroup * m_winggroup) / (m_fusgroup + m_winggroup)
 

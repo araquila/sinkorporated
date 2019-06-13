@@ -387,6 +387,7 @@ V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
 C_L_max_land = 2.6
 C_L_max_TO = 1.8
+C_L_TO = C_L_max_TO / 1.21
 V_TO = np.sqrt((2 * MTOW) / (rho0 * S * C_L_max_TO))
 q_TO = 0.5 * rho0 * V_TO ** 2
 C_D_TO = 0.023 #NOT FINAL
