@@ -37,7 +37,7 @@ for x in x_pos:
 
 ### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
 lengthdata = 100
-Lift, Chord, Yle, Drag, AeroMoment = wd2.read_aero_data("wing/datastrut4.txt", lengthdata, p.V_cruise, p.rho)
+Lift, Chord, Yle, Drag, AeroMoment = wd2.read_aero_data("wing/datastrut5.txt", lengthdata, p.V_cruise, p.rho)
 
 nullen = np.zeros(len(Lift))
 #Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(nullen, Yle, nullen, 0, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)

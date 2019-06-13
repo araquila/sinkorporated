@@ -194,16 +194,16 @@ h_max_tip_wingbox = 0.08518
 
 # Stringers
 
-n_upper_skin_wingbox = 16
-n_lower_skin_wingbox = 16
+n_upper_skin_wingbox = 15
+n_lower_skin_wingbox = 15
 
 #al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
 #https://www.smithmetal.com/2099-lithium.htm
 #https://www.smithshp.com/assets/pdf/2099-aluminium-lithium.pdf
 
 
-t_hat = 0.0031
-t_z = 0.0031
+t_hat = 0.0028
+t_z = 0.0028
 
 #2024 nrs for tradeoff
 #ultimate_compressive_strength_2099 = 324*10**6
@@ -245,7 +245,7 @@ density_stiffeners = 2630
 
 #al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
-t_sheet = 0.0038 #m
+t_sheet = 0.0035 #m
 t_sheet_strutbox = 0.003
 
 
