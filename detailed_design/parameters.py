@@ -101,25 +101,25 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = 10061.74562 * g
-MTOW = 18925.53891 * g
+OEW = 10120.52562 * g
+MTOW = 17431.71612 * g
 EW = None
-W_fuel = 2163.79329 * g
-W_pod = 436 * g / 2
+W_fuel = 800 * g
+W_pod = 260 * g
 mtom = MTOW / g
-W_empty = OEW
-
+W_empty = 8618 * g
+W_wing = 13.85/100*W_empty/2
 MLW = MTOW - W_fuel
 
 # Propulsion
 M_engine = 868.00 / 2
-W_nacelle = (357.38 / 2) * g
+W_nacelle = (368.16 / 2) * g
 W_engine = M_engine * g  + W_nacelle
 W_engine_controls = 0
 W_starter = 0
 W_APU = 61.23 * g
 W_fuel_system = 358.7959 * g
-W_fuel_tanks = 436 * g
+W_fuel_tanks = 520 * g
 
 # Wing
 W_wing = 1549.6 * g
@@ -205,8 +205,8 @@ n_lower_skin_wingbox = 15
 #https://www.smithshp.com/assets/pdf/2099-aluminium-lithium.pdf
 
 
-t_hat = 0.0028
-t_z = 0.0028
+t_hat = 0.003
+t_z = 0.003
 
 #2024 nrs for tradeoff
 #ultimate_compressive_strength_2099 = 324*10**6
@@ -217,7 +217,7 @@ t_z = 0.0028
 #density_stiffeners = 2780
 
 #al2099-t83
-#
+##
 ultimate_compressive_strength_2099 = 476*10**6
 ultimate_yield_strength_2099 = 490*10**6
 ultimate_tensile_strength_2099 = 560*10**6
@@ -248,7 +248,7 @@ density_stiffeners = 2630
 
 #al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
-t_sheet = 0.0035 #m
+t_sheet = 0.0033 #m
 t_sheet_strutbox = 0.003
 
 
@@ -270,8 +270,8 @@ t_sheet_strutbox = 0.003
 
 #al 2055-t84 https://www.arconic.com/adip/catalog/AFE2055-factsheet.pdf  
 #https://www.smithshp.com/assets/pdf/2055-t84-extrusions.pdf
-
-
+#
+#
 E_sheet = 76.5*10**9
 density_sheet = 2710
 ult_tensile_strength_2195 = 565*10**6
@@ -290,7 +290,7 @@ fracture_toughness_2195 = 35*10**6
 #fracture_toughness_2195 = 35*10**6
 
 #CFRP
-#
+
 #E_sheet = 70*10**9
 #density_sheet = 1600
 #ult_tensile_strength_2195 = 600*10**6
@@ -298,7 +298,7 @@ fracture_toughness_2195 = 35*10**6
 #ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
 #fracture_toughness_2195 = 35*10**6
 #cost_per_kg = 52.5
-
+#
 
 #amount of ribs, excluding root and tip caps
 n_ribs = 6
