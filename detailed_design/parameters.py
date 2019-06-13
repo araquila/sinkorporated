@@ -101,7 +101,7 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = 9074.716123 * g
+OEW = 10120.52562 * g
 MTOW = 17431.71612 * g
 EW = None
 W_fuel = 800 * g
@@ -112,23 +112,25 @@ W_wing = 13.85/100*W_empty/2
 MLW = MTOW - W_fuel
 
 # Propulsion
-M_engine = 924.00 / 2
-W_nacelle = (257.190498 / 2) * g
+M_engine = 868.00 / 2
+W_nacelle = (368.16 / 2) * g
 W_engine = M_engine * g  + W_nacelle
 W_engine_controls = 0
 W_starter = 0
 W_APU = 61.23 * g
-W_fuel_system = 358.7959
+W_fuel_system = 358.7959 * g
 W_fuel_tanks = 436 * g
 
 # Wing
-W_wing = 1288 * g
+W_wing = 1549.6 * g
 W_flight_controls = 330 * g
 W_anti_ice = 35.32006139 * g
+W_strut = 79.55 * g
+W_aileronflaps = 84.02 * g
 
 # Fuselage
 W_fuselage = 2750 * g
-W_furnishings = 360.3467386
+W_furnishings = 360.3467386 * g
 
 # Empennage
 W_hor_emp = 159.1798947 * g
@@ -153,7 +155,7 @@ safetyfactor_wingbox = 1.5
 
 m_fuselage = (W_fuselage + W_furnishings + W_avionics + W_airco + W_instruments + W_hydraulics + W_electrical + W_handling_gear + W_APU) / g
 m_tail = (W_hor_emp + W_ver_emp) / g
-m_wing = (W_wing + W_flight_controls + W_anti_ice) / g
+m_wing = (W_wing + W_strut + W_aileronflaps + W_flight_controls + W_anti_ice) / g
 m_engine = (2 * W_engine + W_fuel_system) / g
 m_fuel_tanks = W_fuel_tanks / g
 
@@ -165,6 +167,7 @@ d_fuselage_outside = 2.84
 d_fuselage_inside = None
 l_nose = 2.8373002246584007
 l_lavatory = 36 * 0.0254
+l_galley = 30 * 0.0254
 S_wet_fuselage = np.pi * d_fuselage_outside * l_fuselage
 volume_fuselage = 0.25 * np.pi * d_fuselage_outside**2 * l_fuselage
 
@@ -396,14 +399,14 @@ Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
 Cd0 = 0.027 #NOT FINAL
-LD_ratio = 28 #NOT FINAL
+LD_ratio = 21.4 #NOT FINAL
 
 
 # Propulsion
 eff_cruise = 0.85
 eff_loiter = 0.77
-cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
-cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
+cp_cruise = 6.2e-8
+cp_loiter = 6.5e-8
 P_TO = 2.38e6
 T_TO = 49.8e3
 tot_thrust = 78e3
