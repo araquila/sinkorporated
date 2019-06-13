@@ -127,7 +127,7 @@ def shear_skin_buckling_stress(x):
 def critical_column_buckling(x):
     """Critical column buckling stress on the panel""" 
     
-    l_eff = 0.5*p.b/2
+    l_eff = rib_spacing
     
     return (np.pi**2*p.E_sheet*sp.I_yy_wingbox(x))/(l_eff**2*sp.cross_sectional_area(x))/10**6
 
