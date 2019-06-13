@@ -112,44 +112,50 @@ W_wing = 13.85/100*W_empty/2
 MLW = MTOW - W_fuel
 
 # Propulsion
-M_engine = 481
-W_nacelle = 131.48 * g
+M_engine = 924.00 / 2
+W_nacelle = (257.190498 / 2) * g
 W_engine = M_engine * g  + W_nacelle
-W_engine_controls = g
+W_engine_controls = 0
 W_starter = 0
 W_APU = 61.23 * g
 W_fuel_system = 358.7959
+W_fuel_tanks = 436 * g
 
 # Wing
 W_wing = 1288 * g
-W_flight_controls = 330
-W_anti_ice = 35.32006139
+W_flight_controls = 330 * g
+W_anti_ice = 35.32006139 * g
 
 # Fuselage
 W_fuselage = 2750 * g
 W_furnishings = 360.3467386
 
 # Empennage
-W_hor_emp = 159.1798947
-W_ver_emp = 83.85475628
+W_hor_emp = 159.1798947 * g
+W_ver_emp = 83.85475628 * g
 
 # Undercarriage
-W_main_landing = 661.1444655
-W_nose_landing = 141.4487833
+W_main_landing = 661.1444655 * g
+W_nose_landing = 141.4487833 * g
 
 # Other systems
-W_avionics = 767.91
-W_airco = 412.35
-W_instruments =  62.05734245
-W_hydraulics = 60.49532434
-W_electrical = 341.580681
-W_handling_gear = 5.30
+W_avionics = 767.91 * g
+W_airco = 412.35 * g
+W_instruments =  62.05734245 * g
+W_hydraulics = 60.49532434 * g
+W_electrical = 341.580681 * g
+W_handling_gear = 5.30 * g
 
 # Safetyfactors
 safetyfactor_wingloading = 2.5
 safetyfactor_fuselage = 2
 safetyfactor_wingbox = 1.5
 
+m_fuselage = (W_fuselage + W_furnishings + W_avionics + W_airco + W_instruments + W_hydraulics + W_electrical + W_handling_gear + W_APU) / g
+m_tail = (W_hor_emp + W_ver_emp) / g
+m_wing = (W_wing + W_flight_controls + W_anti_ice) / g
+m_engine = (2 * W_engine + W_fuel_system) / g
+m_fuel_tanks = W_fuel_tanks / g
 
 ## -------- DIMENSIONS -------- ##
 # Fuselage
@@ -410,6 +416,6 @@ eff_cruise = 0.85
 eff_loiter = 0.77
 cp_cruise = 0.8 * fuel_efficiency_factor * 74e-9
 cp_loiter = 0.8*fuel_efficiency_factor * 74e-9
-P_TO = 2.38e6
-T_TO = 49.8e3
+P_TO = 2*1775e3
+T_TO = 50.24e3
 tot_thrust = 78e3

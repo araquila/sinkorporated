@@ -20,13 +20,12 @@ T = p.T_TO
 P = p.P_TO
 W = p.MTOW
 
-alt = [4500]
+alt = [8000]
 
 Vmin = []
 Vmax = []
-CLlist = []
-CDlist = []
 ROClist = []
+
 for altitude in alt:
     # Calculate density at certain height
     temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, t0, t_gradient, g, atR, atgamma)
@@ -42,10 +41,8 @@ for altitude in alt:
     k1 = (1 / (np.pi * A * e))
     CL = W / (0.5*rho*V**2*S)
     CD = CD0 + k1 * CL**2
-    D = CD * 0.5 * rho * V**2 * S
-    Pr = D*V
     Pr = W * np.sqrt((W/S)*(2/rho)*(CD**2/CL**3))
-    Pa = np.ones(len(V))*3e6
+    Pa = np.ones(len(V))*P
 
     for i in range(len(Pr)):
         if Pr[i] > Pa[i]:
@@ -54,23 +51,14 @@ for altitude in alt:
     
     Vmin.append(V_stall)
     Vmax.append(V[index_Vmax])    
-    CLlist.append(CL)
-    CDlist.append(CD)    
     
     ROC = (Pa-Pr)/W
     ROC_max = np.max(ROC)
     ROClist.append(ROC_max)
 
-plt.plot(V/speed_of_sound, Pr)
 plt.plot(V/speed_of_sound, Pa)
-#plt.plot(ROClist, alt)
-#plt.show()
-#plt.plot(Vmin, alt)
-#plt.plot(Vmax, alt)
-#plt.show()
-    
-#plt.scatter(Vmin, alt)
-#plt.scatter(Vmax, alt)
+plt.plot(V/speed_of_sound, Pr)
+plt.plot()
 
 
 
