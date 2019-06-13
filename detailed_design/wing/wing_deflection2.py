@@ -71,9 +71,9 @@ def read_aero_data(datafile, lengthdata, V_cruise, rho_cruise):
 #        Drag.append(-1/2*rho_cruise*Area[i]*cd[i]*V_cruise**2)
 #        AeroMoment.append(-1/2*rho_cruise*Area[i]*cm_c4[i]*V_cruise**2*Chord[i])
 #        
-        Lift.append(2.5*1/2*rho_cruise*Area[i]*cl[i]*V_cruise**2)
-        Drag.append(2.5*1/2*rho_cruise*Area[i]*cd[i]*V_cruise**2)
-        AeroMoment.append(2.5*1/2*rho_cruise*Area[i]*cm_c4[i]*V_cruise**2*Chord[i])
+        Lift.append(1.5*2.5*1/2*rho_cruise*Area[i]*cl[i]*V_cruise**2)
+        Drag.append(1.5*2.5*1/2*rho_cruise*Area[i]*cd[i]*V_cruise**2)
+        AeroMoment.append(1.5*2.5*1/2*rho_cruise*Area[i]*cm_c4[i]*V_cruise**2*Chord[i])
 
     return Lift, Chord, Yle, Drag, AeroMoment
 
@@ -150,9 +150,9 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
     
     #Weights
     W_empty = p.W_empty
-    W_engine = p.W_engine
+    W_engine = p.W_engine+0.5*p.W_fuel_system
     W_wing = p.W_wing
-    W_pod = p.W_fuel+p.W_pod
+    W_pod = p.W_fuel+p.W_pod+0.5*p.W_fuel_system
     #W_empty = 0                 
     #W_engine = 0
     #W_pod = 0
@@ -472,7 +472,7 @@ perc_strut = p.strut_pos_perc
 perc_pod = p.pod_pos_perc
 
 lengthdata = 100
-Lift, Chord, Yle, Drag, AeroMoment = read_aero_data("wing/datastrut4.txt", lengthdata, V_cruise, rho_cruise)
+Lift, Chord, Yle, Drag, AeroMoment = read_aero_data("wing/datastrut5.txt", lengthdata, V_cruise, rho_cruise)
 Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = CallForces(Lift, Yle, Drag, tot_thrust, np.ones(len(Lift)+1)*10**(-4), np.ones(len(Lift)+1)*10**(-4) , 70*10**9, perc_engine, perc_strut, perc_pod)
 Forces1 = [['Frx = ', Frx], ['Fry = ', Fry], ['Fs = ', Fs], ['Mr = ', Mrz]]
 Forces2 = [['Frz = ', Frz], ['Fsz = ', Fsz], ['Mry = ', Mry]]

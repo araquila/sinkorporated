@@ -3,14 +3,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from atmosphere import atmosphere_calc
-from performance.landing2 import LFlength
 
 # Runway Input Parameters
 g = p.g
 rho0 = p.rho0
 mu = 0.02
 
-altrange = np.arange(0, 1501, 1)
+altrange = np.linspace(0, 1500, 100)
 dist_TO = []
 
 for altitude in altrange:
@@ -20,24 +19,24 @@ for altitude in altrange:
     
     
     # Aircraft Input Parameters
-    S = p.S
-    CL = p.C_L_max_TO/1.21
-    CD0 = p.Cd0
+    S = 61
+    CL = 1.6
+    CD0 = 0.02
     CD = CD0 + CL**2 / (np.pi * p.A * p.e)
-    P = p.P_TO
-    W = p.MTOW 
+    P = 3.689e6
+    W = 223668
     
     # Take-Off Input Parameters
-    V_stall = np.sqrt((W/S)*(2/rho)*(1/p.C_L_max_TO))
+    V_stall = np.sqrt((W/S)*(2/rho)*(1/CL))
     gamma = 4 * (np.pi/180)
     n_rotation = 1.15
-    h_screen = 15.2 #10.668
+    h_screen = 15.2
     
     V_min = V_stall
     V_LOF = 1.05 * V_min
     V_bar = V_LOF / (np.sqrt(2))
     
-    T = (0.88*P)/V_LOF
+    T = (0.9 * P) / V_bar
     
     # Calculate Forces
     D = CD * 0.5 * rho * V_bar**2 * S
@@ -57,11 +56,10 @@ for altitude in altrange:
 
     #print("Take-Off Length Required:", np.round(s_TO, decimals=2), "m")
     
-print(dist_TO[0])
-plt.plot(altrange, dist_TO, label="Take-Off Distance")
-plt.plot(altrange, LFlength, label="Landing Distance")
+plt.plot(altrange, dist_TO)
 plt.xlim([altrange[0],altrange[-1]])
-plt.ylim([1000,1400])
+plt.ylim([dist_TO[0],dist_TO[-1]])
 plt.xlabel("Runway height above sea level [m]")
-plt.ylabel("Distance required [m]")
-plt.legend()
+plt.ylabel("Take-Off distance required [m]")
+
+print((dist_TO[0] / 1175)*100)

@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 import rangepldiagram as pld
 import cost_equations as ceq
 from LNG import *
-
+import parameters as p
 #Do you want a pie chart?
 piechart = False
 print_payloadrange = False
@@ -44,18 +44,18 @@ M_crew_member = 100
 M_payload = n_passenger * M_passenger
 M_crew = n_crew * M_crew_member
 f_trapped_fuel = 0.003              # Range 0.001-0.005
-M_empty_tbp = 16000
-M_empty_jet = 16300
+M_empty_tbp = p.OEW / p.g
+#M_empty_jet = 16300
 
 # Convert to weights
 W_payload = M_payload * g
 W_crew = M_crew * g
-W_empty_tbp = M_empty_tbp * g
+W_empty_tbp = (10145.74562 - 258 *2)  * g
 W_empty_jet = M_empty_jet * g
 
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
-S = 1
+S = p.S
 S_wet = 5.5 * S
 
 
@@ -64,30 +64,30 @@ energy_density_kerosene = 43 #[MJ/kg]
 chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
-# Jet
-A_jet = 19.5
-e_jet = 0.8                         # Adjust per concept
-cj_loiter_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
-cj_cruise_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
-V_cruise_jet =  200                 # [m/s]
-V_loiter_jet = 150
-S_jet = 61
+## Jet
+#A_jet = 19.5
+#e_jet = 0.8                         # Adjust per concept
+#cj_loiter_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
+#cj_cruise_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
+#V_cruise_jet =  200                 # [m/s]
+#V_loiter_jet = 150
+#S_jet = 61
 
 # Tbp
-A_tbp = 18
+A_tbp = p.A
 e_tbp = 0.85                        # Adjust per concept
 eff_cruise_tbp = 0.85               # [-]
 eff_loiter_tbp = 0.77               # [-]
-cp_cruise_tbp = 0.8*fuel_efficiency_factor * 74e-9 # oude waarde 90e-9              # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = 0.8*fuel_efficiency_factor * 74e-9 # oude waarde 90e-9               # (0.5-0.7) [kg/ns]
-M_cruise_tbp = 0.6                  # [-]
+cp_cruise_tbp = p.cp_cruise # oude waarde 90e-9              # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = p.cp_loiter # oude waarde 90e-9               # (0.5-0.7) [kg/ns]
+M_cruise_tbp = 0.55                  # [-]
 V_cruise_tbp = M_cruise_tbp*speed_of_sound     # [m/s]
 V_loiter_tbp = 80                   # [m/s]
-C_L_cruise = 0.8                    # [-]
-S_tbp = 66                          # [m^2]
-V_stall_tbp = 46.3                  # [m/s]
-C_L_max_land_tbp = 2.4              # [-]
-C_L_max_TO_tbp = 1.4                # [-]
+C_L_cruise = p.C_L_cruise                    # [-]
+S_tbp = p.S                       # [m^2]
+V_stall_tbp = p.V_stall                 # [m/s]
+C_L_max_land_tbp = p.C_L_max_land              # [-]
+C_L_max_TO_tbp = p.C_L_max_TO                # [-]
 
 range_cruise_tbp = 1850000          # [m]
 endurance_loiter_tbp = 2700         # [s]
@@ -95,17 +95,17 @@ endurance_loiter_tbp = 2700         # [s]
 
 # Engine
 n_engines = 2                       # [-]
-P_TO_tbp = 5.8e6                    # [W]
-pos_engine = 10                     # [m]
-mass_engine = 450                   # [kg]
+P_TO_tbp = p.P_TO                   # [W]
+pos_engine = p.y_engine                     # [m]
+mass_engine = p.W_engine / p.g                   # [kg]
 n_fueltanks = 2                     # [-]
 n_blades = 6                        # [-]
 
 # Empennage
-V_h = 1.57                          # [-]
+V_h = 1.87                        # [-]
 V_v = 0.07                          # [-]
-l_h = 11                            # [m]
-l_v = 11                            # [m]
+l_h = p.l_h                          # [m]
+l_v = p.l_v                           # [m]
 
 # Fuselage
 n_seats_abreast = 4
@@ -135,7 +135,7 @@ class2["handling gear weight"] = []
 
 
 # Iterator
-for iter in range(5):
+for iter in range(1):
     MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp, L_D_loiter_tbp = Weights_Class_I(0, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, 0, A_tbp, 0, e_tbp, 0, 0, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, 0, V_loiter_tbp, 0, range_cruise_tbp, 0, endurance_loiter_tbp, tbp = True, jet = False)
 
     class1["MTOW"].append(MTOW_tbp)
