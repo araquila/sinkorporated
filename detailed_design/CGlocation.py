@@ -29,30 +29,53 @@ x_cargo = end_cabin + p.l_galley + 0.5
 x_seats = np.arange(begin_cabin, end_cabin, p.seat_pitch)
 
 
-x_lemac = np.arange(8,15,2)
+m_fuel = p.W_fuel / p.g
+
+x_lemac = np.arange(8,15,1)
 for i in range(len(x_lemac)):
     ### OEW CG ###
     cgx_oew = (m_fusgroup * cgx_fusgroup + (x_lemac[i] + p.MAC * cgx_winggroup) * m_winggroup) / (m_fusgroup + m_winggroup)
     mass_oew = m_fusgroup + m_winggroup
-    plt.plot(cgx_oew, mass_oew)
+#    plt.plot(cgx_oew, mass_oew)
 
-    ### WINDOW LOADING
-    cgx.append((x_cargo * p.M_total_cargo + cgx[-1] * mass[-1]) / (mass[-1] + p.M_total_cargo))
-    mass.append(p.M_total_cargo + mass[-1])
-    for i in range(len(x_seats)):
-        mass.append(mass[-1] + 4 * p.M_passenger)
-        cgx.append((4 * p.M_passenger * x_seats[-(i + 1)] + cgx[-1] * mass[-2]) / mass[-1])
+    ### CARGO LOADING ###
+    cgx_cargo = [cgx_oew]
+    mass_cargo = [mass_oew]
+    cgx_cargo.append((x_cargo * p.M_total_cargo + cgx_cargo[-1] * mass_cargo[-1]) / (mass_cargo[-1] + p.M_total_cargo))
+    mass_cargo.append(p.M_total_cargo + mass_cargo[-1])
+#    plt.plot(cgx_cargo, mass_cargo)
     
-    plt.scatter(cgx, mass)
-    plt.show()
-### cargo ###
-#cg_cargo = 
+    ### WINDOW SEATS ###
+    cgx_windowback = [cgx_cargo[-1]]
+    cgx_windowfront = [cgx_cargo[-1]]
+    
+    mass_window = [mass_cargo[-1]]
+    for wseat in range(len(x_seats)):
+        mass_window.append(mass_window[-1] + 2 * p.M_passenger)
+        cgx_windowback.append((2 * p.M_passenger * x_seats[-(wseat + 1)] + cgx_windowback[-1] * mass_window[-2]) / mass_window[-1])
+        cgx_windowfront.append((2 * p.M_passenger * x_seats[wseat] + cgx_windowfront[-1] * mass_window[-2]) / mass_window[-1])
+#    plt.scatter(cgx_windowback, mass_window)
+#    plt.scatter(cgx_windowfront, mass_window)
+    
+    ### AISLE SEATS ###
+    cgx_aisleback = [cgx_windowback[-1]]
+    cgx_aislefront = [cgx_windowfront[-1]]
 
+    mass_aisle = [mass_window[-1]]
+    for aseat in range(len(x_seats)):
+        mass_aisle.append(mass_aisle[-1] + 2 * p.M_passenger)
+        cgx_aisleback.append((2 * p.M_passenger * x_seats[-(aseat + 1)] + cgx_aisleback[-1] * mass_aisle[-2]) / mass_aisle[-1])
+        cgx_aislefront.append((2 * p.M_passenger * x_seats[aseat] + cgx_aislefront[-1] * mass_aisle[-2]) / mass_aisle[-1])    
+#    plt.scatter(cgx_aisleback, mass_aisle)
+#    plt.scatter(cgx_aislefront, mass_aisle)
+    
+    ### FUEL ###
+    x_fuel = x_lemac[i]
+    cgx_fuel = [cgx_aisleback[-1]]
+    
+    mass_fuel = [mass_aisle[-1]]
+    for pod in range(p.n_fueltanks):
+        mass_fuel.append(mass_fuel[-1] + m_fuel / 2)
+        cgx_fuel.append((x_fuel * m_fuel / 2 + mass_fuel[-2] * cgx_fuel[-1]) / mass_fuel[-1])
 
-
-### loading pax aft ###
-
-
-
-#
-
+plt.show()
