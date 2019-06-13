@@ -3,13 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from atmosphere import atmosphere_calc
+from performance.landing2 import LFlength
 
 # Runway Input Parameters
 g = p.g
 rho0 = p.rho0
 mu = 0.02
 
-altrange = np.linspace(0, 1500, 100)
+altrange = np.arange(0, 1501, 1)
 dist_TO = []
 
 for altitude in altrange:
@@ -55,7 +56,8 @@ for altitude in altrange:
     #print("Take-Off Length Required:", np.round(s_TO, decimals=2), "m")
     
 plt.plot(altrange, dist_TO)
+plt.plot(altrange, LFlength)
 plt.xlim([altrange[0],altrange[-1]])
-plt.ylim([dist_TO[0],dist_TO[-1]])
+plt.ylim([1000,1400])
 plt.xlabel("Runway height above sea level [m]")
 plt.ylabel("Take-Off distance required [m]")

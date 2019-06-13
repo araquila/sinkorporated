@@ -125,11 +125,19 @@ def shear_skin_buckling_stress(x):
 #print("Skin buckling limit: ", skin_buckling_stress(0))
 
 def critical_column_buckling(x):
-    """Critical column buckling force on the stiffener""" 
+    """Critical column buckling stress on the panel""" 
     
-    l_eff = 0.5*p.rib_spacing
+    l_eff = 0.5*p.b/2
     
-    return (np.pi**2*p.E_sheet*sp.I_yy_wingbox(x))/(l_eff**2)/10**6
+    return (np.pi**2*p.E_sheet*sp.I_yy_wingbox(x))/(l_eff**2*sp.cross_sectional_area(x))/10**6
+
+
+def column_buckling_stiffener(x):
+    """Critical column buckling stress on the stiffener"""
+    
+    l_eff = p.rib_spacing
+    
+    return (np.pi**2*p.E_compressive_2099*sp.I_yy_hat)/(l_eff**2*sp.A_hat)/10**6
 
 
 def critical_crippling_stiffener(x):
@@ -161,7 +169,22 @@ def critical_crippling_stiffener(x):
 
     total_crippling = yield_stress*(2*(ratio_a*area_a+ratio_b*area_b)+ratio_c*area_c) / (2*area_a + 2*area_b + area_c)
     
-    return total_crippling/10**6
+    return total_crippling
+
+
+def critical_panel_buckling(x):
+    """Returns critical panel buckling stress"""
+    C = 6.98
+    v = p.poisson_ratio_al2014
+    
+    crippling = critical_crippling_stiffener(x)
+    
+    we = p.t_sheet * np.sqrt(C*np.pi**2/(12*(1-v**2))) * np.sqrt(p.E_sheet/crippling)
+    
+    
+    
+    return we
+
 
 def crack_length_sheet(stress):
     """Fast fracture crack length for given stress"""
@@ -265,9 +288,11 @@ print("")
 
 print("Skin buckling limit: ",skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6,"MPa")
 
-print("Column buckling limit: ",critical_column_buckling(p.strut_pos_perc*p.b/2),"MPa")
+print("Panel column buckling limit: ",critical_column_buckling(p.strut_pos_perc*p.b/2),"MPa")
 
-print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.strut_pos_perc*p.b/2),"MPa")
+print("Stiffener column buckling limit: ",column_buckling_stiffener(p.strut_pos_perc*p.b/2),"MPa")
+
+print("Critical crippling stress of the hat stiffener: ",critical_crippling_stiffener(p.strut_pos_perc*p.b/2)/10**6,"MPa")
 
 print("Shear stress buckling limit: ",shear_skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6,"MPa (still to be determined where the maximum shear stress occurs spanwise)")
 
@@ -281,16 +306,21 @@ else:
     print("Failure on skin buckling")
     
 if abs(max_compressive_stress) < abs(critical_column_buckling(p.strut_pos_perc*p.b/2)):
-    print("Column buckling passed")
+    print("Panel column buckling passed")
 else:
-    print("Failure on column buckling")
+    print("Failure on panel column buckling")
     
-if abs(max_compressive_stress) < abs(critical_crippling_stiffener(p.strut_pos_perc*p.b/2)):
+if abs(max_compressive_stress) < abs(column_buckling_stiffener(p.strut_pos_perc*p.b/2)):
+    print("Stiffener column buckling passed")
+else:
+    print("Failure on stiffener column buckling")
+    
+if abs(max_compressive_stress)*10**6 < abs(critical_crippling_stiffener(p.strut_pos_perc*p.b/2)):
     print("Cripple limit of the stiffener passed")
 else:
     print("Failure on stiffener crippling")
     
-if shear_skin_buckling_stress(p.strut_pos_perc*p.b/2) > max(tau_max):
+if shear_skin_buckling_stress(p.strut_pos_perc*p.b/2)/4 > max(tau_max):
     print("Shear buckling passed")
 else:
     print("Failure on shear buckling")
@@ -298,13 +328,13 @@ else:
 print("")
 
 if (max_tensile_stress > p.ult_yield_strength_2195/10**6) :
-    print("Failure on tensile yielding at the strut")
+    print("Failure on tensile yielding at the strut",max_tensile_stress/(p.ult_yield_strength_2195/10**6)*100)
 else:
     print("Max tensile stress",max_tensile_stress/(p.ult_yield_strength_2195/10**6)*100,"% of the yield strength")
 
     
 if abs(max_compressive_stress) > (p.ult_yield_strength_2195/10**6):
-    print("Failure on compressive yielding at the strut")
+    print("Failure on compressive yielding at the strut",-max_compressive_stress/(p.ult_yield_strength_2195/10**6)*100)
 else:
     print("Max compressive stress",-max_compressive_stress/(p.ult_yield_strength_2195/10**6)*100,"% of the yield strength")
 

@@ -37,7 +37,7 @@ yield_stress_al2024 = 414e6
 fatigue_strength_al2014 = 124e6
 
 # Poisson
-poisson_ratio_al2014 = 0.33
+poisson_ratio_al2014 = 0.1
 
 # E-modulus
 E_al2014 = 72.4e9 #E-modulus
@@ -104,10 +104,10 @@ M = 10000
 OEW = 9074.716123 * g
 MTOW = 17431.71612 * g
 EW = None
-W_fuel = 7736.30
-W_pod = 300 * g
+W_fuel = 800 * g
+W_pod = 210 * g
 mtom = MTOW / g
-W_empty = 7271.44 * g
+W_empty = 8618 * g
 W_wing = 13.85/100*W_empty/2
 MLW = MTOW - W_fuel
 
@@ -198,7 +198,9 @@ n_upper_skin_wingbox = 13
 n_lower_skin_wingbox = 13
 
 #al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
-density_stiffeners = 2780
+#https://www.smithmetal.com/2099-lithium.htm
+#https://www.smithshp.com/assets/pdf/2099-aluminium-lithium.pdf
+
 
 t_hat = 0.0018
 t_z = 0.0018
@@ -211,8 +213,23 @@ t_z = 0.0018
 
 ultimate_compressive_strength_2099 = 476*10**6
 ultimate_yield_strength_2099 = 490*10**6
+ultimate_tensile_strength_2099 = 560*10**6
 
 E_compressive_2099 = 82.1*10**9
+
+
+density_stiffeners = 2630
+
+#CFRP
+#ultimate_compressive_strength_2099 = 570*10**6
+#ultimate_yield_strength_2099 = 570*10**6
+#ultimate_tensile_strength_2099 = 600*10**6
+#
+#E_compressive_2099 = 70*10**9
+#
+#density_stiffeners = 1600
+
+#testt
 
 #al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
@@ -235,7 +252,9 @@ t_sheet_strutbox = 0.003
 #ult_shear_strength_2195 = 350*10**6
 #fracture_toughness_2195 = 35*10**6
 
-#al 2055-t84 https://www.arconic.com/adip/catalog/AFE2055-factsheet.pdf
+#al 2055-t84 https://www.arconic.com/adip/catalog/AFE2055-factsheet.pdf  
+#https://www.smithshp.com/assets/pdf/2055-t84-extrusions.pdf
+
 
 E_sheet = 76.5*10**9
 density_sheet = 2710
@@ -245,19 +264,43 @@ ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
 fracture_toughness_2195 = 35*10**6
 
 
+#al7075
+#
+#E_sheet = 71.7*10**9
+#density_sheet = 2810
+#ult_tensile_strength_2195 = 572*10**6
+#ult_yield_strength_2195 = 503*10**6
+#ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
+#fracture_toughness_2195 = 35*10**6
+
+#CFRP
+
+#E_sheet = 70*10**9
+#density_sheet = 1600
+#ult_tensile_strength_2195 = 600*10**6
+#ult_yield_strength_2195 = 600*10**6
+#ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
+#fracture_toughness_2195 = 35*10**6
+#cost_per_kg = 52.5
+
+
 #amount of ribs, excluding root and tip caps
 n_ribs = 11
 rib_spacing = (b/2)/(n_ribs+1)
-t_rib = 0.003
-
-#al2050-t84 https://www.constellium.com/sites/default/files/markets/airware_2050_t84_plate.pdf
-E_rib = 76.5*10**9
-density_rib = 2700
+t_rib = 0.0025
 
 
+
+#al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
+#https://www.smithmetal.com/2099-lithium.htm
+
+E_rib = 78.6*10**9
+density_rib = 2630
+ult_shear_strength_2099 = 262*10**6
 
 safety_factor_compression = 1.0
 safety_factor_tension = 1.0
+
 
 # Strutbox
 # Width
@@ -280,7 +323,7 @@ n_lower_skin_strutbox = 3
 #h_stiffener = 0.03
 
 # Strut
-d_strut = 5
+#d_strut = 5
 
 # Empennage
 l_tail = 4.539680359453441
@@ -351,7 +394,7 @@ Cl_delta_aileron = 0.11217
 Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
-Cd0 = 0.02 #NOT FINAL
+Cd0 = 0.027 #NOT FINAL
 LD_ratio = 28 #NOT FINAL
 
 
