@@ -33,9 +33,9 @@ t_z = p.t_hat #m
 
 
 #hat geometry
-a = 0.03
-b = 0.01
-c = 0.03
+a = 0.035
+b = 0.012
+c = 0.035
 
 width_hat = 2*b+c-t_hat
 
@@ -49,9 +49,9 @@ I_yy_hat = 2*b**3*t_hat/12 + c**3*t_hat/12 + 2*b*t_hat*(b-t_hat+c/2) + c*t_hat*(
 
 
 #Z-stiffener geometry
-d = 0.015
+d = 0.025
 e = 0.035 
-f = 0.015
+f = 0.025
 
 width_z = d+f-t_z
 

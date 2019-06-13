@@ -37,7 +37,7 @@ for x in x_pos:
 
 ### OBTAIN STRUT FORCE, REACTION FORCES AND REACTION MOMENT ###
 lengthdata = 100
-Lift, Chord, Yle, Drag, AeroMoment = wd2.read_aero_data("wing/datastrut4.txt", lengthdata, p.V_cruise, p.rho)
+Lift, Chord, Yle, Drag, AeroMoment = wd2.read_aero_data("wing/datastrut5.txt", lengthdata, p.V_cruise, p.rho)
 
 nullen = np.zeros(len(Lift))
 #Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = wd2.CallForces(nullen, Yle, nullen, 0, Iyy_list, Izz_list,70*10**9, p.engine_pos_perc, p.strut_pos_perc, p.pod_pos_perc)
@@ -127,7 +127,7 @@ def shear_skin_buckling_stress(x):
 def critical_column_buckling(x):
     """Critical column buckling stress on the panel""" 
     
-    l_eff = 0.5*p.b/2
+    l_eff = p.rib_spacing
     
     return (np.pi**2*p.E_sheet*sp.I_yy_wingbox(x))/(l_eff**2*sp.cross_sectional_area(x))/10**6
 
@@ -270,8 +270,8 @@ plt.legend(loc = 'upper right')
 
 plt.show()
 
-max_compressive_stress = min(normal_ru_list)*p.safety_factor_compression
-max_tensile_stress = max(normal_ll_list)*p.safety_factor_tension
+max_compressive_stress = min(normal_ru_list) #*p.safety_factor_compression
+max_tensile_stress = max(normal_ll_list) #*p.safety_factor_tension
 
 
 print("Top stiffeners: ",p.n_upper_skin_wingbox)
