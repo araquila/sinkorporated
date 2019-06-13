@@ -37,7 +37,7 @@ yield_stress_al2024 = 414e6
 fatigue_strength_al2014 = 124e6
 
 # Poisson
-poisson_ratio_al2014 = 0.33
+poisson_ratio_al2014 = 0.1
 
 # E-modulus
 E_al2014 = 72.4e9 #E-modulus
@@ -104,52 +104,58 @@ M = 10000
 OEW = 9074.716123 * g
 MTOW = 17431.71612 * g
 EW = None
-W_fuel = 7736.30
-W_pod = 300 * g
+W_fuel = 800 * g
+W_pod = 210 * g
 mtom = MTOW / g
-W_empty = 7271.44 * g
+W_empty = 8618 * g
 W_wing = 13.85/100*W_empty/2
 MLW = MTOW - W_fuel
 
 # Propulsion
-M_engine = 481
-W_nacelle = 131.48 * g
+M_engine = 924.00 / 2
+W_nacelle = (257.190498 / 2) * g
 W_engine = M_engine * g  + W_nacelle
-W_engine_controls = g
+W_engine_controls = 0
 W_starter = 0
 W_APU = 61.23 * g
 W_fuel_system = 358.7959
+W_fuel_tanks = 436 * g
 
 # Wing
 W_wing = 1288 * g
-W_flight_controls = 330
-W_anti_ice = 35.32006139
+W_flight_controls = 330 * g
+W_anti_ice = 35.32006139 * g
 
 # Fuselage
 W_fuselage = 2750 * g
 W_furnishings = 360.3467386
 
 # Empennage
-W_hor_emp = 159.1798947
-W_ver_emp = 83.85475628
+W_hor_emp = 159.1798947 * g
+W_ver_emp = 83.85475628 * g
 
 # Undercarriage
-W_main_landing = 661.1444655
-W_nose_landing = 141.4487833
+W_main_landing = 661.1444655 * g
+W_nose_landing = 141.4487833 * g
 
 # Other systems
-W_avionics = 767.91
-W_airco = 412.35
-W_instruments =  62.05734245
-W_hydraulics = 60.49532434
-W_electrical = 341.580681
-W_handling_gear = 5.30
+W_avionics = 767.91 * g
+W_airco = 412.35 * g
+W_instruments =  62.05734245 * g
+W_hydraulics = 60.49532434 * g
+W_electrical = 341.580681 * g
+W_handling_gear = 5.30 * g
 
 # Safetyfactors
 safetyfactor_wingloading = 2.5
 safetyfactor_fuselage = 2
 safetyfactor_wingbox = 1.5
 
+m_fuselage = (W_fuselage + W_furnishings + W_avionics + W_airco + W_instruments + W_hydraulics + W_electrical + W_handling_gear + W_APU) / g
+m_tail = (W_hor_emp + W_ver_emp) / g
+m_wing = (W_wing + W_flight_controls + W_anti_ice) / g
+m_engine = (2 * W_engine + W_fuel_system) / g
+m_fuel_tanks = W_fuel_tanks / g
 
 ## -------- DIMENSIONS -------- ##
 # Fuselage
@@ -192,7 +198,9 @@ n_upper_skin_wingbox = 13
 n_lower_skin_wingbox = 13
 
 #al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
-density_stiffeners = 2780
+#https://www.smithmetal.com/2099-lithium.htm
+#https://www.smithshp.com/assets/pdf/2099-aluminium-lithium.pdf
+
 
 t_hat = 0.0018
 t_z = 0.0018
@@ -205,8 +213,23 @@ t_z = 0.0018
 
 ultimate_compressive_strength_2099 = 476*10**6
 ultimate_yield_strength_2099 = 490*10**6
+ultimate_tensile_strength_2099 = 560*10**6
 
 E_compressive_2099 = 82.1*10**9
+
+
+density_stiffeners = 2630
+
+#CFRP
+#ultimate_compressive_strength_2099 = 570*10**6
+#ultimate_yield_strength_2099 = 570*10**6
+#ultimate_tensile_strength_2099 = 600*10**6
+#
+#E_compressive_2099 = 70*10**9
+#
+#density_stiffeners = 1600
+
+#testt
 
 #al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
@@ -229,7 +252,9 @@ t_sheet_strutbox = 0.003
 #ult_shear_strength_2195 = 350*10**6
 #fracture_toughness_2195 = 35*10**6
 
-#al 2055-t84 https://www.arconic.com/adip/catalog/AFE2055-factsheet.pdf
+#al 2055-t84 https://www.arconic.com/adip/catalog/AFE2055-factsheet.pdf  
+#https://www.smithshp.com/assets/pdf/2055-t84-extrusions.pdf
+
 
 E_sheet = 76.5*10**9
 density_sheet = 2710
@@ -239,19 +264,43 @@ ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
 fracture_toughness_2195 = 35*10**6
 
 
+#al7075
+#
+#E_sheet = 71.7*10**9
+#density_sheet = 2810
+#ult_tensile_strength_2195 = 572*10**6
+#ult_yield_strength_2195 = 503*10**6
+#ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
+#fracture_toughness_2195 = 35*10**6
+
+#CFRP
+
+#E_sheet = 70*10**9
+#density_sheet = 1600
+#ult_tensile_strength_2195 = 600*10**6
+#ult_yield_strength_2195 = 600*10**6
+#ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
+#fracture_toughness_2195 = 35*10**6
+#cost_per_kg = 52.5
+
+
 #amount of ribs, excluding root and tip caps
 n_ribs = 11
 rib_spacing = (b/2)/(n_ribs+1)
-t_rib = 0.003
-
-#al2050-t84 https://www.constellium.com/sites/default/files/markets/airware_2050_t84_plate.pdf
-E_rib = 76.5*10**9
-density_rib = 2700
+t_rib = 0.0025
 
 
+
+#al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
+#https://www.smithmetal.com/2099-lithium.htm
+
+E_rib = 78.6*10**9
+density_rib = 2630
+ult_shear_strength_2099 = 262*10**6
 
 safety_factor_compression = 1.0
 safety_factor_tension = 1.0
+
 
 # Strutbox
 # Width
@@ -274,7 +323,7 @@ n_lower_skin_strutbox = 3
 #h_stiffener = 0.03
 
 # Strut
-d_strut = 5
+#d_strut = 5
 
 # Empennage
 l_tail = 4.539680359453441

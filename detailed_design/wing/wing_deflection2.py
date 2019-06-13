@@ -150,9 +150,9 @@ def CallForces(Lift, Yle, Drag, tot_thrust, Iyy, Izz, E, perc_engine, perc_strut
     
     #Weights
     W_empty = p.W_empty
-    W_engine = p.W_engine
+    W_engine = p.W_engine+0.5*p.W_fuel_system
     W_wing = p.W_wing
-    W_pod = p.W_fuel+p.W_pod
+    W_pod = p.W_fuel+p.W_pod+0.5*p.W_fuel_system
     #W_empty = 0                 
     #W_engine = 0
     #W_pod = 0
