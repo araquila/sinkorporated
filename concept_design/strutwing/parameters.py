@@ -101,13 +101,13 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = (9545.745625 + 400) * g
-MTOW = 18060.655433252366 * g
+OEW = 10120.52562 * g
+MTOW = 17431.71612 * g
 EW = None
-W_fuel = 1760.727842 * g
+W_fuel = 800 * g
 W_pod = 260 * g
 mtom = MTOW / g
-W_empty = 9545.745625 * g
+W_empty = 8618 * g
 W_wing = 13.85/100*W_empty/2
 MLW = MTOW - W_fuel
 
@@ -362,7 +362,6 @@ V_h = 1.57
 S_h = 0.29 * S
 b_h = np.sqrt(S_h * A_h)
 S_e = 0.4
-print(b_h)
 
 # Undercarriage
 main_landing_pos = 11

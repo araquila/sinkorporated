@@ -32,7 +32,7 @@ cg_margin = 0.02
 
 m_fuel = p.W_fuel / p.g
 
-x_lemac = np.arange(8,15,1)
+x_lemac = np.arange(9,9.5,0.1)
 
 cgx_min = []
 cgx_max = []
@@ -87,15 +87,17 @@ for i in range(len(x_lemac)):
     cgx_max.append((1 + cg_margin) * max(cgx_windowback))
     xlemac.append(x_lemac[i])
 
-#    if x_lemac[i] == 11:
-#        plt.plot(cgx_oew, mass_oew)
-#        plt.plot(cgx_cargo, mass_cargo)
-#        plt.scatter(cgx_windowback, mass_window)
-#        plt.scatter(cgx_windowfront, mass_window)
-#        plt.scatter(cgx_aisleback, mass_aisle)
-#        plt.scatter(cgx_aislefront, mass_aisle)
-#        plt.scatter(cgx_fuel, mass_fuel)
+    if x_lemac[i] < 9.3 and x_lemac[i] > 9.2:
+        plt.plot(cgx_oew, mass_oew)
+        plt.plot(cgx_cargo, mass_cargo)
+        plt.scatter(cgx_windowback, mass_window)
+        plt.scatter(cgx_windowfront, mass_window)
+        plt.scatter(cgx_aisleback, mass_aisle)
+        plt.scatter(cgx_aislefront, mass_aisle)
+        plt.scatter(cgx_fuel, mass_fuel)
         
-plt.plot((cgx_min-x_lemac) / p.MAC, x_lemac / p.l_fuselage)
-plt.plot((cgx_max-x_lemac) / p.MAC, x_lemac / p.l_fuselage)      
+CGmacmin = (cgx_min-x_lemac) / p.MAC
+CGmacmax = (cgx_max-x_lemac) / p.MAC
+xlemac = (x_lemac / p.l_fuselage)
+plt.ylim([10000, 20000])
 plt.show()
