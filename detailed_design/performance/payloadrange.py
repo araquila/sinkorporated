@@ -55,11 +55,13 @@ R_cruiseD = (p.eff_cruise/(p.g*p.cp_cruise)) * p.LD_ratio * np.log(W_cruiseD)
 RD = R_cruiseD
 PD = MPD
 
-
 rangelist = np.hstack([RA, RB, RC, RD]) / 1000.
 payloadlist = np.hstack([PA, PB, PC, PD])
 
 plt.plot(rangelist, payloadlist)
+
+plt.plot(np.linspace(0,RC,100)/1000, np.ones(100)*PC, linestyle=':', color='black')
+plt.plot(np.ones(100)*RC/1000, np.linspace(0,PC,100), linestyle=':', color='black')
 
 plt.xlabel("Range [km]")
 plt.ylabel("Payload [kg]")
