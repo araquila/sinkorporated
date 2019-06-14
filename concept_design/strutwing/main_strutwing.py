@@ -44,13 +44,13 @@ M_crew_member = 100
 M_payload = n_passenger * M_passenger
 M_crew = n_crew * M_crew_member
 f_trapped_fuel = 0.003              # Range 0.001-0.005
-M_empty_tbp = p.OEW / p.g
+M_empty_tbp = p.W_empty / p.g
 #M_empty_jet = 16300
 
 # Convert to weights
 W_payload = M_payload * g
 W_crew = M_crew * g
-W_empty_tbp = (9545.745625)  * g
+W_empty_tbp = M_empty_tbp  * g
 #W_empty_jet = p.M_empty_jet * g
 
 # Initial jet and tbp aircraft parameters

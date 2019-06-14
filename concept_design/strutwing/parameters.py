@@ -102,12 +102,12 @@ M = 10000
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
 OEW = 10120.52562 * g
-MTOW = 17431.71612 * g
+MTOW = 18154.03957 * g
 EW = None
-W_fuel = 800 * g
+W_fuel = 1760.727842 * g
 W_pod = 260 * g
 mtom = MTOW / g
-W_empty = 8618 * g
+W_empty = 9514.125625 * g
 W_wing = 13.85/100*W_empty/2
 MLW = MTOW - W_fuel
 
@@ -122,7 +122,7 @@ W_fuel_system = 358.7959 * g
 W_fuel_tanks = 520 * g
 
 # Wing
-W_wing = 1549.6 * g
+W_wing = 1033.6 * g
 W_flight_controls = 330 * g
 W_anti_ice = 35.32006139 * g
 W_strut = 79.55 * g

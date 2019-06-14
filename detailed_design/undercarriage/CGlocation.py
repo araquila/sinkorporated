@@ -88,16 +88,39 @@ for i in range(len(x_lemac)):
     xlemac.append(x_lemac[i])
 
     if x_lemac[i] < 9.3 and x_lemac[i] > 9.2:
-        plt.plot(cgx_oew, mass_oew)
-        plt.plot(cgx_cargo, mass_cargo)
-        plt.scatter(cgx_windowback, mass_window)
-        plt.scatter(cgx_windowfront, mass_window)
-        plt.scatter(cgx_aisleback, mass_aisle)
-        plt.scatter(cgx_aislefront, mass_aisle)
-        plt.scatter(cgx_fuel, mass_fuel)
+        plt.scatter((cgx_oew-x_lemac[i])/p.MAC, mass_oew)
+        plt.scatter((cgx_cargo-x_lemac[i])/p.MAC, mass_cargo)
+        plt.scatter((cgx_windowback-x_lemac[i])/p.MAC, mass_window, label="Window seats loading from back")
+        plt.scatter((cgx_windowfront-x_lemac[i])/p.MAC, mass_window, label="Window seats loading from front")
+        plt.scatter((cgx_aisleback-x_lemac[i])/p.MAC, mass_aisle, label="Aisle seats loading from back")
+        plt.scatter((cgx_aislefront-x_lemac[i])/p.MAC, mass_aisle, label="Aisle seats loading from front")
+        plt.scatter((cgx_fuel-x_lemac[i])/p.MAC, mass_fuel, label="Fuel loading")
         
+        plt.plot((cgx_oew-x_lemac[i])/p.MAC, mass_oew)
+        plt.plot((cgx_cargo-x_lemac[i])/p.MAC, mass_cargo)
+        plt.plot((cgx_windowback-x_lemac[i])/p.MAC, mass_window)
+        plt.plot((cgx_windowfront-x_lemac[i])/p.MAC, mass_window)
+        plt.plot((cgx_aisleback-x_lemac[i])/p.MAC, mass_aisle)
+        plt.plot((cgx_aislefront-x_lemac[i])/p.MAC, mass_aisle)
+        plt.plot((cgx_fuel-x_lemac[i])/p.MAC, mass_fuel)       
 CGmacmin = (cgx_min-x_lemac) / p.MAC
 CGmacmax = (cgx_max-x_lemac) / p.MAC
 xlemac = (x_lemac / p.l_fuselage)
+
+# Plot Points
+#plt.scatter(x, y, label="mass")
+#plt.scatter(x, z, label="x_cg")
+
+# Label of the axes
+plt.xlabel("x_cg/MAC", size="large")
+plt.ylabel("x_lemac/l_fus", size="large")
+
+# Limits of the axes
+#plt.xlim([0,10])
 plt.ylim([10000, 20000])
+
+# Create Legend
+plt.legend(loc="best", fontsize="small")
+
+# Show plot
 plt.show()

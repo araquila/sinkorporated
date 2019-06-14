@@ -1,49 +1,59 @@
-import math
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jun 14 16:14:53 2019
+
+@author: benja
+"""
+
+import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
+data = pd.read_excel(r'C:\Users\benja\Documents\TUD\DSE\sinkorporated\Noise_Calculations.xlsx', sheet_name='Approach') 
+df = pd.DataFrame(data, columns= ['Frequency', 'SPL_wing', 'SPL_hor_tail', 'SPL_ver_tail', 'SPL_flaps', 'SPL_nose', 'SPL_main', 'SPL_strut','Total' ])
+
+print(df)
+
+x = df['Frequency'].values.tolist()
+x.pop(0)
+
+y1 = df['SPL_wing'].values.tolist()
+y1.pop(0)
+
+y2 = df['SPL_hor_tail'].values.tolist()
+y2.pop(0)
+
+#y3 = df['SPL_ver_tail'].values.tolist()
+#y3.pop(0)
+
+y4 = df['SPL_flaps'].values.tolist()
+y4.pop(0)
+
+y5 = df['SPL_nose'].values.tolist()
+y5.pop(0)
+
+y6 = df['SPL_main'].values.tolist()
+y6.pop(0)
+
+y7 = df['SPL_strut'].values.tolist()
+y7.pop(0)
+
+y8 = df['Total'].values.tolist()
+y8.pop(0)
 
 
-rho = 1.225
-V = 200
+plt.ylim([0,140])
+plt.semilogx(x,y1, label="SPL wing")
+plt.semilogx(x,y2, label="SPL hor tail")
+#plt.plot(x,y3)
+plt.semilogx(x,y4, label="SPL flaps")
+plt.semilogx(x,y5, label="SPL nose")
+plt.semilogx(x,y6, label="SPL main landing gear")
+plt.semilogx(x,y7, label="SPL strut")
+plt.semilogx(x,y8, label="Total SPL")
 
 
-# Aircraft Parameters
-l_h = 11            # [m]
-l_v = 11            # [m]
-S = 50              # [m2]
-b = 30              # [m]
-c = 1.7             # [m]
-y_engine = 4
-T_engine = 100 * 10 ^3
-# Horizontal Tail Parameters
-A_h = 5             # [-]
-taper_h = 0.4       # [-]
-sweep_h = 15        # [deg]
-V_h = 1             # [-]
+plt.legend()
 
-# Vertical Tail Parameters
-A_v = 1.5           # [-]
-taper_v = 0.5       # [-]
-sweep_v = 30        # [deg]
-V_v = 0.05          # [-]
+plt.ylabel("SPL [dB]")
+plt.xlabel("Frequency [Hz]")
 
-# Determination of the Horizontal Tail Surface
-S_h = (V_h * S * c) / l_h
-
-# Determination of the Vertical Tail Surface
-S_v = (V_v * S * b) / l_v
-S_v1 = (V_v * y_engine * T_engine) / l_v
-S_v = max(S_v, S_v1)
-# Planform of the Vertical Tail
-b_v = np.sqrt(S_v * A_v)
-c_root_v = (2 * (b_v/A_v)) / (1 + taper_v)
-c_tip_v = c_root_v * taper_v
-MAC_v = (2/3) * c_root_v * ((1 + taper_v + taper_v**2)/(1 + taper_v))
-
-# Planform of the Horizontal Tail
-b_h = np.sqrt(S_h * A_h)
-c_root_h = (2 * (b_h/A_h)) / (1 + taper_h)
-c_tip_h = c_root_h * taper_h
-MAC_h = (2/3) * c_root_h * ((1 + taper_h + taper_h**2)/(1 + taper_h))
-
-print(S_v)
+plt.show()
