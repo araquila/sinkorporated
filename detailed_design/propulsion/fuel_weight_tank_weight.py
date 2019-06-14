@@ -4,6 +4,7 @@ from sympy import Symbol
 
 rho_CH4_cryo    = 425
 allowance       = 0.07
+safety_factor   = 1.1 #[-]
 
 
 # aluminium
@@ -37,6 +38,19 @@ def det_tank_volume(LNG_mass, LNG_density, allowance):
     """
     tank_volume = LNG_mass * (LNG_density/(1 + allowance))**-1
     return tank_volume
+
+def t_long(radius,sigma_yield,p):
+    t_long = (safety_factor*p*radius)/sigma_yield
+    return t_long
+
+def windenburg_trilling(E, v, P_cr):
+    """
+    Calculates the thickness acoording to windenburg and trilling equation for buckling
+    """
+    r_out = r + insulation
+    t = Symbol("t")
+    thickness = solve((2.42 * E * (0.5 *t /r_out)**(5/2)) / ((1-v**2)**0.75 * (0.5*l/r_out - 0.45 * (0.5 * t/r_out)**0.5)) - P_cr)
+    return thickness[0]
 
 def det_internal_dimensions(tank_volume, shell_length_ratio =  0.5, tank_circular_ratio = 1, tank_head_ratio = 3):
     a = Symbol("a")
@@ -78,3 +92,6 @@ for item in fuel_masses:
     mass_microspheres_alu = (det_total_tank_volume(r, l, thickness_inner_alu + insulation) - det_total_tank_volume(r, l, thickness_inner_alu)) * rho_aramid
     total_mass = mass_inner_alu + mass_outer_aramid + mass_vapor_barier + mass_microspheres_alu
     total_tank_mass_list.append(total_mass)
+
+print(fuel_masses)
+print(total_tank_mass_list)
