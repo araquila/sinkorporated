@@ -112,13 +112,13 @@ for a in z:
     
     if a == 0:
         plt.figure()
-        plt.plot(Yle,cl, label = 'Wing')
+        plt.plot(Yle,Cd, label = 'Wing')
         plt.xlabel('Spanwise position [m]')
-        plt.ylabel(r'$C_L$ [-]')
+        plt.ylabel(r'$C_D$ [-]')
         
         plt.show()
     if a == 2:
-        plt.plot(Yle,cl,label='Strut')
+        plt.plot(Yle,Cd,label='Strut')
         plt.legend()
         plt.show()
         
