@@ -7,6 +7,7 @@ Created on Thu Jun 13 13:30:57 2019
 
 import parameters as p
 import numpy as np
+import scipy as sc
 import matplotlib.pyplot as plt
 
 from atmosphere import atmosphere_calc
@@ -49,18 +50,28 @@ f5_tbp = 1/np.exp(range_cruise_tbp/((eff_cruise_tbp/(g*cp_cruise_tbp))*LD_cruise
 W = W*f1_tbp*f2_tbp*f3_tbp*f4_tbp*f5_tbp
 #W = 4000
 gammalist = []
-gammalist2 = []
+gammalist1 = []
 RDlist = []
 Vh_dlist = []
 V_dlist = []
 altitudelist = []
+gammalist2 = []
+RDlist2 = []
+Vh_dlist2 = []
+V_dlist2 = []
+altitudelist2 = []
 gammalist3 = []
 RDlist3 = []
 Vh_dlist3 = []
 V_dlist3 = []
 altitudelist3 = []
-altitude = [8000, 7500, 7000, 6500,  6000, 5500, 5000, 4500,  4000, 3500,  3000, 2500, 2000, 1500, 1000, 500, 0]
-#altitude = [2000]
+gammalist4 = []
+RDlist4 = []
+Vh_dlist4 = []
+V_dlist4 = []
+altitudelist4 = []
+#altitude = [8000, 7500, 7000, 6500,  6000, 5500, 5000, 4500,  4000, 3500,  3000, 2500, 2000, 1500, 1000, 500, 0]
+altitude = np.arange(8000, -1, -100)
 for j in range(len(altitude)):
     altitude1 = altitude[j]
     temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude1, t0, t_gradient, g, atR, atgamma)
@@ -89,14 +100,24 @@ for j in range(len(altitude)):
         V_d.append(np.sqrt((W*2)/(S*rho*CL_d)*np.cos(gamma_d)))
         if RD_gamma >= 4.95 and RD_gamma < 5.05:
             altitudelist.append(altitude[j])
-            gammalist2.append(gamma_d*180/np.pi)
+            gammalist1.append(gamma_d*180/np.pi)
             RDlist.append(RD_gamma)
             V_dlist.append(V_d[-1])
-        elif RD_gamma >= 7.4 and RD_gamma < 7.6:
+        elif RD_gamma >= 5.94 and RD_gamma < 6.08:
+            altitudelist2.append(altitude[j])
+            gammalist2.append(gamma_d*180/np.pi)
+            RDlist2.append(RD_gamma)
+            V_dlist2.append(V_d[-1])
+        elif RD_gamma >= 6.89 and RD_gamma < 7.08:
             altitudelist3.append(altitude[j])
             gammalist3.append(gamma_d*180/np.pi)
             RDlist3.append(RD_gamma)
             V_dlist3.append(V_d[-1])
+        elif RD_gamma >= 7.8 and RD_gamma < 8.05:
+            altitudelist4.append(altitude[j])
+            gammalist4.append(gamma_d*180/np.pi)
+            RDlist4.append(RD_gamma)
+            V_dlist4.append(V_d[-1])
         
 #    gammalist = gammalist[::-1]
 #    RD = RD[::-1]
@@ -111,31 +132,143 @@ for j in range(len(altitude)):
 ##    plt.ylim(0, 10)
 #    plt.show()
 #    
-for f1 in range(5):
-    for f in range(1, 17):
-        if altitudelist[f] == altitudelist[f-1]:
-            altitudelist.remove(altitudelist[f])
-            gammalist2.remove(gammalist2[f])
-            RDlist.remove(RDlist[f])
-            V_dlist.remove(V_dlist[f])
-for f in range(1, 18):
-        if altitudelist[f] == altitudelist[f-1]:
-            altitudelist.remove(altitudelist[f])
-            gammalist2.remove(gammalist2[f])
-            RDlist.remove(RDlist[f])
-            V_dlist.remove(V_dlist[f])
+z = 0
+for f1 in range(10):
+    x = len(altitudelist)
+    for f in range(1, x):
+        if altitudelist[f-z] == altitudelist[f-1-z]:
+            altitudelist.remove(altitudelist[f-z])
+            z = z+1
+            gammalist1.remove(gammalist1[f-z])
+            RDlist.remove(RDlist[f-z])
+            V_dlist.remove(V_dlist[f-z])
 
-x = len(altitudelist3)
+
+z= 0
+for f1 in range(10):
+    x = len(altitudelist)
+    for f in range(1, x):
+        if altitudelist3[f-z] == altitudelist3[f-1-z]:
+            altitudelist3.remove(altitudelist3[f-z])
+            z= z+1
+            gammalist3.remove(gammalist3[f-z])
+            RDlist3.remove(RDlist3[f-z])
+            V_dlist3.remove(V_dlist3[f-z])
+           
+z = 0
 for f1 in range(5):
-    for f in range(1, 17):
-        if altitudelist3[f] == altitudelist3[f-1]:
-            altitudelist3.remove(altitudelist3[f])
-            gammalist3.remove(gammalist3[f])
-            RDlist3.remove(RDlist3[f])
-            V_dlist3.remove(V_dlist3[f])
-for f in range(1, 17):
-        if altitudelist3[f] == altitudelist3[f-1]:
-            altitudelist3.remove(altitudelist3[f])
-            gammalist3.remove(gammalist3[f])
-            RDlist3.remove(RDlist3[f])
-            V_dlist3.remove(V_dlist3[f])
+    x = len(altitudelist)
+    for f in range(1, x):
+        if altitudelist2[f-z] == altitudelist2[f-1-z]:
+            altitudelist2.remove(altitudelist2[f-z])
+            z = z+1
+            gammalist2.remove(gammalist2[f-z])
+            RDlist2.remove(RDlist2[f-z])
+            V_dlist2.remove(V_dlist2[f-z])
+
+z = 0
+for f1 in range(5):
+    x = len(altitudelist)
+    for f in range(1, x):
+        if altitudelist4[f-z] == altitudelist4[f-1-z]:
+            altitudelist4.remove(altitudelist4[f-z])
+            gammalist4.remove(gammalist4[f-z])
+            RDlist4.remove(RDlist4[f-z])
+            V_dlist4.remove(V_dlist4[f-z])
+
+
+for i in range(1, len(gammalist1)):
+    gammalist1[i] = gammalist1[i] - (gammalist1[i] - gammalist1[i-1])/2
+    gammalist2[i] = gammalist2[i] - (gammalist2[i] - gammalist2[i-1])/2
+    gammalist3[i] = gammalist3[i] - (gammalist3[i] - gammalist3[i-1])/2
+    gammalist4[i] = gammalist4[i] - (gammalist4[i] - gammalist4[i-1])/2
+    V_dlist[i] = V_dlist[i] - (V_dlist[i] - V_dlist[i-1])/2
+    V_dlist2[i] = V_dlist2[i] - (V_dlist2[i] - V_dlist2[i-1])/2
+    V_dlist3[i] = V_dlist3[i] - (V_dlist3[i] - V_dlist3[i-1])/2
+    V_dlist4[i] = V_dlist4[i] - (V_dlist4[i] - V_dlist4[i-1])/2
+
+for i in range(1, len(gammalist1)):
+    gammalist1[i] = gammalist1[i] - (gammalist1[i] - gammalist1[i-1])/2
+    gammalist2[i] = gammalist2[i] - (gammalist2[i] - gammalist2[i-1])/2
+    gammalist3[i] = gammalist3[i] - (gammalist3[i] - gammalist3[i-1])/2
+    gammalist4[i] = gammalist4[i] - (gammalist4[i] - gammalist4[i-1])/2
+    V_dlist[i] = V_dlist[i] - (V_dlist[i] - V_dlist[i-1])/2
+    V_dlist2[i] = V_dlist2[i] - (V_dlist2[i] - V_dlist2[i-1])/2
+    V_dlist3[i] = V_dlist3[i] - (V_dlist3[i] - V_dlist3[i-1])/2
+    V_dlist4[i] = V_dlist4[i] - (V_dlist4[i] - V_dlist4[i-1])/2
+    
+for i in range(1, len(gammalist1)):
+    gammalist1[i] = gammalist1[i] - (gammalist1[i] - gammalist1[i-1])/2
+    gammalist2[i] = gammalist2[i] - (gammalist2[i] - gammalist2[i-1])/2
+    gammalist3[i] = gammalist3[i] - (gammalist3[i] - gammalist3[i-1])/2
+    gammalist4[i] = gammalist4[i] - (gammalist4[i] - gammalist4[i-1])/2
+    V_dlist[i] = V_dlist[i] - (V_dlist[i] - V_dlist[i-1])/2
+    V_dlist2[i] = V_dlist2[i] - (V_dlist2[i] - V_dlist2[i-1])/2
+    V_dlist3[i] = V_dlist3[i] - (V_dlist3[i] - V_dlist3[i-1])/2
+    V_dlist4[i] = V_dlist4[i] - (V_dlist4[i] - V_dlist4[i-1])/2
+    
+## Plot lines
+#plt.figure()
+#plt.plot(gammalist1, altitudelist, label="ROD = 5 m/s")
+#plt.plot(gammalist2, altitudelist2, label="ROD = 6 m/s")
+#plt.plot(gammalist3, altitudelist3, label="ROD = 7 m/s")
+#plt.plot(gammalist4, altitudelist4, label="ROD = 8 m/s")
+#
+## Label of the axes
+#plt.xlabel("Path angle [deg]", size="large")
+#plt.ylabel("Altitude [m]", size="large")
+#
+## Limits of the axes
+#plt.xlim([2.5,4.5])
+#plt.ylim([0,8000])
+#
+## Create Legend
+#plt.legend(loc="best", fontsize="large")
+#
+## Show plot
+#plt.show()
+#
+## Plot lines
+#plt.figure()
+#plt.plot(V_dlist, altitudelist, label="ROD = 5 m/s")
+#plt.plot(V_dlist2, altitudelist2, label="ROD = 6 m/s")
+#plt.plot(V_dlist3, altitudelist3, label="ROD = 7 m/s")
+#plt.plot(V_dlist4, altitudelist4, label="ROD = 8 m/s")
+#
+## Label of the axes
+#plt.xlabel("Airspeed [m/s]", size="large")
+#plt.ylabel("Altitude [m]", size="large")
+#
+## Limits of the axes
+#plt.xlim([85, 160])
+#plt.ylim([0,8000])
+#
+## Create Legend
+#plt.legend(loc="best", fontsize="large")
+#
+## Show plot
+#plt.show()
+
+
+#Calculate distance and time
+time1 = 8000/5/60
+time2 = 8000/6/60
+time3 = 8000/7/60
+time4 = 8000/8/60
+
+Vhd1 = []
+Vhd2 =[]
+Vhd3 = []
+Vhd4 = []
+for i in range(len(altitude)):
+    Vhd1.append(np.sqrt(V_dlist[i]**2 - 5**2))
+    Vhd2.append(np.sqrt(V_dlist2[i]**2 - 6**2))
+    Vhd3.append(np.sqrt(V_dlist3[i]**2 - 7**2))
+    Vhd4.append(np.sqrt(V_dlist4[i]**2 - 8**2))
+
+dist1 = sum(Vhd1)/len(Vhd1)*time1*60/1000
+dist2 = sum(Vhd2)/len(Vhd2)*time2*60/1000
+dist3 = sum(Vhd3)/len(Vhd3)*time3*60/1000
+dist4 = sum(Vhd4)/len(Vhd4)*time4*60/1000
+
+data = [ ["ROD = 5", time1  ,dist1],["ROD = 6", time2  , dist2], ["ROD = 7" , time3 , dist3], ["ROD = 8" , time4 , dist4]]
