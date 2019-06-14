@@ -11,7 +11,7 @@ atR = p.R
 atgamma = p.gamma
 g = p.g
 
-alt = np.linspace(0, 12470, 100)
+alt = np.linspace(0, 12825, 100)
 
 Vmin = []
 Vmax = []
@@ -19,6 +19,8 @@ machmin = []
 machmax = []
 ROClist = []
 V_ROC_max = []
+M_ROC_max = []
+real_ROC = []
 
 for altitude in alt:
 # Aircraft Input Parameters
@@ -44,7 +46,7 @@ for altitude in alt:
     V = np.linspace(10, 0.6*speed_of_sound, 1001)
     
     for i in range(len(V)):
-        if V[i] > 0.4*speed_of_sound:
+        if V[i] > 0.3*speed_of_sound:
             test = i
             break
         
@@ -76,6 +78,9 @@ for altitude in alt:
     idxVROCmax = list(ROC).index(ROC_max)
     ROClist.append(ROC_max)
     V_ROC_max.append(V[idxVROCmax])
+    M_ROC_max.append(V[idxVROCmax]/speed_of_sound)
+    
+    real_ROC.append(ROClist[-1]/(1+0.567*(M_ROC_max[-1]**2)))
     
 plt.plot(Vmin, alt, label="Minimum Velocity")
 plt.plot(Vmax, alt, label="Maximum Velocity")
@@ -87,6 +92,11 @@ plt.show()
 print("ROC at sea level:", np.round(ROClist[0], decimals=3), "m/s")
 
 rrr = 0
-for i in range(len(alt)-37):
-    rrr = rrr+(alt[i+1]-alt[i])/ROClist[i]
+for i in range(len(alt)):
+    if alt[i] > 8000:
+        lim = i
+        break
+    
+for i in range(len(alt)-lim):
+    rrr = rrr+(alt[i+1]-alt[i])/real_ROC[i]
 print(rrr)
