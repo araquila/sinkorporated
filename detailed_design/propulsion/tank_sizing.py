@@ -10,7 +10,7 @@ from p_t_data import *
 sys.path.append(os.getcwd())
 
 number_tanks    = 2      # number of tanks
-weight_CH4      = 1600      # total weight of the methane
+weight_CH4      = 2120      # total weight of the methane
 min_amb_pres    = None
 allowance       = 0.07      # allowance of the tank in fraction of 1 (usually 7%)
 rho_CH4_cryo    = 425      # density of methane at cryogenic temperatures
@@ -81,6 +81,7 @@ def det_internal_dimensions(tank_volume, shell_length_ratio =  0.5, tank_circula
     length = (radius * tank_head_ratio * 2)/(1 - shell_length_ratio)
     return radius, length
 
+print(det_internal_dimensions(2.67))
 
 def det_total_tank_volume(radius, length, thickness_insulation, shell_length_ratio =  0.5, tank_circular_ratio = 1, tank_head_ratio = 3):
     ans = length * shell_length_ratio * (radius + thickness_insulation)**2 *np.pi
