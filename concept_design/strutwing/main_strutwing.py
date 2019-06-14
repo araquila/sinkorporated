@@ -50,7 +50,7 @@ M_empty_tbp = p.OEW / p.g
 # Convert to weights
 W_payload = M_payload * g
 W_crew = M_crew * g
-W_empty_tbp = (10145.74562 - 258 *2)  * g
+W_empty_tbp = (9545.745625)  * g
 #W_empty_jet = p.M_empty_jet * g
 
 # Initial jet and tbp aircraft parameters
