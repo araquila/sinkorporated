@@ -21,7 +21,7 @@ from LNG import *
 import parameters as p
 #Do you want a pie chart?
 piechart = False
-print_payloadrange = False
+print_payloadrange = True
 
 altitude = 8000
 temperature0 = 288.15
@@ -50,8 +50,8 @@ M_empty_tbp = p.OEW / p.g
 # Convert to weights
 W_payload = M_payload * g
 W_crew = M_crew * g
-W_empty_tbp = (10145.74562 - 258 *2)  * g
-W_empty_jet = M_empty_jet * g
+W_empty_tbp = (9545.745625)  * g
+#W_empty_jet = p.M_empty_jet * g
 
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
