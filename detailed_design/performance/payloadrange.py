@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 
 import parameters as p
 
-R = p.range_cruise
-
 MTOM = p.mtom
 MP = p.M_payload + 300
 OEM = p.OEW / p.g
@@ -65,7 +63,7 @@ plt.plot(rangelist, payloadlist)
 
 plt.xlabel("Range [km]")
 plt.ylabel("Payload [kg]")
-plt.xlim([0, 4500])
-plt.ylim([0, 8000])
+plt.xlim([0, 4000])
+plt.ylim([0, 7000])
 
 plt.show()
