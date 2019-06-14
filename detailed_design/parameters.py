@@ -362,6 +362,7 @@ V_h = 1.57
 S_h = 0.29 * S
 b_h = np.sqrt(S_h * A_h)
 S_e = 0.4
+print(b_h)
 
 # Undercarriage
 main_landing_pos = 11

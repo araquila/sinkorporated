@@ -19,3 +19,6 @@ def t_long(radius,sigma_yield,p):
 def t_dewar(radius_outer,p_a,n,E,k):
     t_dewar = 2*radius_outer*((p_a*n)/(E*k))**(1./3)
     return t_dewar
+
+safety_factor = 6
+print(t_hoop(0.5*0.0254, 200e6, 23e5))
