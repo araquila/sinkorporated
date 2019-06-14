@@ -54,7 +54,12 @@ RDlist = []
 Vh_dlist = []
 V_dlist = []
 altitudelist = []
-altitude = [8000, 7000, 6000, 5000, 4000, 3000, 2000, 1000]
+gammalist3 = []
+RDlist3 = []
+Vh_dlist3 = []
+V_dlist3 = []
+altitudelist3 = []
+altitude = [8000, 7500, 7000, 6500,  6000, 5500, 5000, 4500,  4000, 3500,  3000, 2500, 2000, 1500, 1000, 500, 0]
 #altitude = [2000]
 for j in range(len(altitude)):
     altitude1 = altitude[j]
@@ -84,20 +89,53 @@ for j in range(len(altitude)):
         V_d.append(np.sqrt((W*2)/(S*rho*CL_d)*np.cos(gamma_d)))
         if RD_gamma >= 4.95 and RD_gamma < 5.05:
             altitudelist.append(altitude[j])
-            gammalist2.append(gamma_d)
+            gammalist2.append(gamma_d*180/np.pi)
             RDlist.append(RD_gamma)
             V_dlist.append(V_d[-1])
+        elif RD_gamma >= 7.4 and RD_gamma < 7.6:
+            altitudelist3.append(altitude[j])
+            gammalist3.append(gamma_d*180/np.pi)
+            RDlist3.append(RD_gamma)
+            V_dlist3.append(V_d[-1])
         
 #    gammalist = gammalist[::-1]
 #    RD = RD[::-1]
 #    Vh_d = Vh_d[::-1]
 #    V_d = V_d[::-1]
 #    plt.figure()
-    plt.plot(gammalist, V_d)
-    plt.xlim(-1, 10)
-    plt.ylim(0, 200)
-    plt.plot(gammalist, RD)
+#    plt.plot(gammalist, V_d)
 #    plt.xlim(-1, 10)
-#    plt.ylim(0, 10)
-    plt.show()
-    
+#    plt.ylim(0, 200)
+#    plt.plot(gammalist, RD)
+##    plt.xlim(-1, 10)
+##    plt.ylim(0, 10)
+#    plt.show()
+#    
+for f1 in range(5):
+    for f in range(1, 17):
+        if altitudelist[f] == altitudelist[f-1]:
+            altitudelist.remove(altitudelist[f])
+            gammalist2.remove(gammalist2[f])
+            RDlist.remove(RDlist[f])
+            V_dlist.remove(V_dlist[f])
+for f in range(1, 18):
+        if altitudelist[f] == altitudelist[f-1]:
+            altitudelist.remove(altitudelist[f])
+            gammalist2.remove(gammalist2[f])
+            RDlist.remove(RDlist[f])
+            V_dlist.remove(V_dlist[f])
+
+x = len(altitudelist3)
+for f1 in range(5):
+    for f in range(1, 17):
+        if altitudelist3[f] == altitudelist3[f-1]:
+            altitudelist3.remove(altitudelist3[f])
+            gammalist3.remove(gammalist3[f])
+            RDlist3.remove(RDlist3[f])
+            V_dlist3.remove(V_dlist3[f])
+for f in range(1, 17):
+        if altitudelist3[f] == altitudelist3[f-1]:
+            altitudelist3.remove(altitudelist3[f])
+            gammalist3.remove(gammalist3[f])
+            RDlist3.remove(RDlist3[f])
+            V_dlist3.remove(V_dlist3[f])
