@@ -71,7 +71,7 @@ Vh_dlist4 = []
 V_dlist4 = []
 altitudelist4 = []
 #altitude = [8000, 7500, 7000, 6500,  6000, 5500, 5000, 4500,  4000, 3500,  3000, 2500, 2000, 1500, 1000, 500, 0]
-altitude = np.arange(8000, -1, -100)
+altitude = np.arange(9000, -1, -100)
 for j in range(len(altitude)):
     altitude1 = altitude[j]
     temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude1, t0, t_gradient, g, atR, atgamma)
@@ -207,54 +207,54 @@ for i in range(1, len(gammalist1)):
     V_dlist3[i] = V_dlist3[i] - (V_dlist3[i] - V_dlist3[i-1])/2
     V_dlist4[i] = V_dlist4[i] - (V_dlist4[i] - V_dlist4[i-1])/2
     
-## Plot lines
-#plt.figure()
-#plt.plot(gammalist1, altitudelist, label="ROD = 5 m/s")
-#plt.plot(gammalist2, altitudelist2, label="ROD = 6 m/s")
-#plt.plot(gammalist3, altitudelist3, label="ROD = 7 m/s")
-#plt.plot(gammalist4, altitudelist4, label="ROD = 8 m/s")
-#
-## Label of the axes
-#plt.xlabel("Path angle [deg]", size="large")
-#plt.ylabel("Altitude [m]", size="large")
-#
-## Limits of the axes
-#plt.xlim([2.5,4.5])
-#plt.ylim([0,8000])
-#
-## Create Legend
-#plt.legend(loc="best", fontsize="large")
-#
-## Show plot
-#plt.show()
-#
-## Plot lines
-#plt.figure()
-#plt.plot(V_dlist, altitudelist, label="ROD = 5 m/s")
-#plt.plot(V_dlist2, altitudelist2, label="ROD = 6 m/s")
-#plt.plot(V_dlist3, altitudelist3, label="ROD = 7 m/s")
-#plt.plot(V_dlist4, altitudelist4, label="ROD = 8 m/s")
-#
-## Label of the axes
-#plt.xlabel("Airspeed [m/s]", size="large")
-#plt.ylabel("Altitude [m]", size="large")
-#
-## Limits of the axes
-#plt.xlim([85, 160])
-#plt.ylim([0,8000])
-#
-## Create Legend
-#plt.legend(loc="best", fontsize="large")
-#
-## Show plot
-#plt.show()
+# Plot lines
+plt.figure()
+plt.plot(gammalist1, altitudelist, label="ROD = 5 m/s")
+plt.plot(gammalist2, altitudelist2, label="ROD = 6 m/s")
+plt.plot(gammalist3, altitudelist3, label="ROD = 7 m/s")
+plt.plot(gammalist4, altitudelist4, label="ROD = 8 m/s")
+
+# Label of the axes
+plt.xlabel("Path angle [deg]", size="large")
+plt.ylabel("Altitude [m]", size="large")
+
+# Limits of the axes
+plt.xlim([2,4.5])
+plt.ylim([0,9000])
+
+# Create Legend
+plt.legend(loc="best", fontsize="large")
+
+# Show plot
+plt.show()
+
+# Plot lines
+plt.figure()
+plt.plot(V_dlist, altitudelist, label="ROD = 5 m/s")
+plt.plot(V_dlist2, altitudelist2, label="ROD = 6 m/s")
+plt.plot(V_dlist3, altitudelist3, label="ROD = 7 m/s")
+plt.plot(V_dlist4, altitudelist4, label="ROD = 8 m/s")
+
+# Label of the axes
+plt.xlabel("Airspeed [m/s]", size="large")
+plt.ylabel("Altitude [m]", size="large")
+
+# Limits of the axes
+plt.xlim([85, 160])
+plt.ylim([0,9000])
+
+# Create Legend
+plt.legend(loc="best", fontsize="large")
+
+# Show plot
+plt.show()
 
 
 #Calculate distance and time
-time1 = 8000/5/60
-time2 = 8000/6/60
-time3 = 8000/7/60
-time4 = 8000/8/60
+time1 = 9000/5/60
+time2 = 9000/6/60
+time3 = 9000/7/60
+time4 = 9000/8/60
 
 Vhd1 = []
 Vhd2 =[]
