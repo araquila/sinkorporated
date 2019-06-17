@@ -99,6 +99,49 @@ def normal_stress(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area):
     
     return normal_ru,normal_lu,normal_rl,normal_ll
 
+ 
+def von_mises(x,y,moment_z,moment_y,normal_force,I_zz,I_yy,area, tau_max):
+    """Returns maximum Von Mises stress"""
+    
+    z = sp.width_wingbox(x)/2
+    
+    #-my/I according to the formula, makes sense because for a positive Mz the top skin will be in compression
+    moment_z_upperskin = -moment_z*(sp.height_wingbox(x)-abs(y))/I_zz
+    moment_z_lowerskin = -moment_z*y/I_zz
+    
+    moment_y_rightflange = -moment_y*z/I_yy
+    moment_y_leftflange = -moment_y*-z/I_yy
+    
+    area = sp.cross_sectional_area(x)
+    
+    normal_force_stress = normal_force/area
+    
+    stress_x_lower = moment_z_lowerskin + normal_force_stress
+    stress_x_upper = moment_z_upperskin + normal_force_stress
+    
+    stress_y_right = moment_y_rightflange
+    stress_y_left = moment_y_leftflange
+    
+    
+    vm_ll_1 = (stress_x_lower + stress_y_left)/2 + np.sqrt(((stress_x_lower-stress_y_left)/2)**2 + tau_max**2)
+    vm_ll_2 = (stress_x_lower + stress_y_left)/2 - np.sqrt(((stress_x_lower-stress_y_left)/2)**2 + tau_max**2)
+    vm_ll = np.sqrt(vm_ll_1**2 + vm_ll_2**2 -vm_ll_1*vm_ll_2 + 3*tau_max**2)
+    
+    vm_lr_1 = (stress_x_lower + stress_y_right)/2 + np.sqrt(((stress_x_lower-stress_y_right)/2)**2 + tau_max**2)
+    vm_lr_2 = (stress_x_lower + stress_y_right)/2 - np.sqrt(((stress_x_lower-stress_y_right)/2)**2 + tau_max**2)
+    vm_lr = np.sqrt(vm_lr_1**2 + vm_lr_2**2 -vm_lr_1*vm_lr_2 + 3*tau_max**2)
+    
+    vm_ur_1 = (stress_x_upper + stress_y_right)/2 + np.sqrt(((stress_x_upper-stress_y_right)/2)**2 + tau_max**2)
+    vm_ur_2 = (stress_x_upper + stress_y_right)/2 - np.sqrt(((stress_x_upper-stress_y_right)/2)**2 + tau_max**2)
+    vm_ur = np.sqrt(vm_ur_1**2 + vm_ur_2**2 -vm_ur_1*vm_ur_2 + 3*tau_max**2)
+    
+    vm_ul_1 = (stress_x_upper + stress_y_left)/2 + np.sqrt(((stress_x_upper-stress_y_left)/2)**2 + tau_max**2)
+    vm_ul_2 = (stress_x_upper + stress_y_left)/2 - np.sqrt(((stress_x_upper-stress_y_left)/2)**2 + tau_max**2)
+    vm_ul = np.sqrt(vm_ul_1**2 + vm_ul_2**2 -vm_ul_1*vm_ul_2 + 3*tau_max**2)
+  
+    
+    return vm_ll,vm_lr,vm_ur,vm_ul
+ 
 
 
 def skin_buckling_stress(x):
@@ -182,7 +225,6 @@ def critical_panel_buckling(x):
     we = p.t_sheet * np.sqrt(C*np.pi**2/(12*(1-v**2))) * np.sqrt(p.E_sheet/crippling)
     
     
-    
     return we
 
 
@@ -194,12 +236,20 @@ def crack_length_sheet(stress):
     
     return a
     
-
+### CALCULATE MAXIMUM SHEAR STRESS PER SECTION ###
+tau_max = max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, hi, bi, Izz_list, Iyy_list)
+ 
 ### CALCULATE SHEAR AND NORMAL STRESS ###
 normal_ru_list= []
 normal_lu_list= []
 normal_rl_list= []
 normal_ll_list= []
+
+vm_ll_list = []
+vm_lr_list = []
+vm_ur_list = []
+vm_ul_list = []
+
 
 for i in range(len(x_pos)):
     if x_pos[i] < p.x_strut:
@@ -213,7 +263,15 @@ for i in range(len(x_pos)):
     normal_rl_list.append(normal_rl/10**6)
     normal_ll_list.append(normal_ll/10**6)
     
-
+    vm_ll,vm_lr,vm_ur,vm_ul = von_mises(x_pos[i],y_max_list[i],momentzi[i],momentyi[i],F_normal,Izz_list[i],Iyy_list[i],area_list[i],tau_max[i])
+    vm_ll_list.append(vm_ll/10**6)
+    vm_lr_list.append(vm_lr/10**6)
+    vm_ul_list.append(vm_ul/10**6)
+    vm_ur_list.append(vm_ur/10**6)
+    
+    
+    
+    
 
 # Error correction
 error_lower = normal_ll_list[-1]
@@ -225,12 +283,12 @@ for i in range(len(x_pos)):
     normal_rl_list[i] -= error_lower
     normal_ll_list[i] -= error_lower
     
-### CALCULATE MAXIMUM SHEAR STRESS PER SECTION ###
-tau_max = max_shear_stress(Lift, Drag, AeroMoment, Chord, shearyi, shearzi, hi, bi, Izz_list, Iyy_list)
-   
-
-
-
+ 
+plt.plot(x_pos,vm_ll_list,marker='x')
+plt.plot(x_pos,vm_lr_list)
+plt.plot(x_pos,vm_ul_list)
+plt.plot(x_pos,vm_ur_list)
+plt.show()
 ### MOMENT AND SHEAR DIAGRAM ###
 plt.figure(2,figsize = (8,6))
 plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
@@ -284,6 +342,7 @@ print("")
 print("Max shear: ",max(tau_max),"MPa")
 print("Max compressive: ",max_compressive_stress,"MPa")
 print("Max tensile: ",max_tensile_stress,"MPa")
+print("Max Von Mises: ", max(max(vm_ll_list),max(vm_lr_list),max(vm_ul_list),max(vm_ur_list)))
 print("")
 
 print("Skin buckling limit: ",skin_buckling_stress(p.strut_pos_perc*p.b/2)/10**6,"MPa")
@@ -333,10 +392,10 @@ else:
     print("Max tensile stress",max_tensile_stress/(p.ult_yield_strength_2195/10**6)*100,"% of the yield strength")
 
     
-if abs(max_compressive_stress) > (p.ult_yield_strength_2195/10**6):
-    print("Failure on compressive yielding at the strut",-max_compressive_stress/(p.ult_yield_strength_2195/10**6)*100)
+if abs(max_compressive_stress) > (p.ult_compressive_strength_2195/10**6):
+    print("Failure on compressive yielding at the strut",-max_compressive_stress/(p.ult_compressive_strength_2195/10**6)*100)
 else:
-    print("Max compressive stress",-max_compressive_stress/(p.ult_yield_strength_2195/10**6)*100,"% of the yield strength")
+    print("Max compressive stress",-max_compressive_stress/(p.ult_compressive_strength_2195/10**6)*100,"% of the yield strength")
 
 if p.ultimate_shear_stress_al2024 > max(tau_max)*10**6:
     print("Shear limit of the material passed: ",max(tau_max)*10**6/p.ult_shear_strength_2195 *100,"% of the max")

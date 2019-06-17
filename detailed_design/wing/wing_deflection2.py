@@ -67,10 +67,10 @@ def read_aero_data(datafile, lengthdata, V_cruise, rho_cruise):
     Drag = []
     AeroMoment = []
     for i in range(len(ji)):
-#        Lift.append(-1/2*rho_cruise*Area[i]*cl[i]*V_cruise**2)
-#        Drag.append(-1/2*rho_cruise*Area[i]*cd[i]*V_cruise**2)
-#        AeroMoment.append(-1/2*rho_cruise*Area[i]*cm_c4[i]*V_cruise**2*Chord[i])
-#        
+#        Lift.append(1/2*rho_cruise*Area[i]*cl[i]*V_cruise**2)
+#        Drag.append(1/2*rho_cruise*Area[i]*cd[i]*V_cruise**2)
+#        AeroMoment.append(1/2*rho_cruise*Area[i]*cm_c4[i]*V_cruise**2*Chord[i])
+##        
         Lift.append(1.5*2.5*1/2*rho_cruise*Area[i]*cl[i]*V_cruise**2)
         Drag.append(1.5*2.5*1/2*rho_cruise*Area[i]*cd[i]*V_cruise**2)
         AeroMoment.append(1.5*2.5*1/2*rho_cruise*Area[i]*cm_c4[i]*V_cruise**2*Chord[i])
