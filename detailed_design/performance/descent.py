@@ -266,6 +266,7 @@ for i in range(len(altitude)):
     Vhd3.append(np.sqrt(V_dlist3[i]**2 - 7**2))
     Vhd4.append(np.sqrt(V_dlist4[i]**2 - 8**2))
 
+
 dist1 = sum(Vhd1)/len(Vhd1)*time1*60/1000
 dist2 = sum(Vhd2)/len(Vhd2)*time2*60/1000
 dist3 = sum(Vhd3)/len(Vhd3)*time3*60/1000

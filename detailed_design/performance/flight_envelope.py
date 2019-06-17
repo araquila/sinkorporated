@@ -50,7 +50,7 @@ V_F = max(1.4*V_S, 2*V_S0)
 V_F = 1.6*V_S1
 V_FE = V_F
 VCmin = 4.77*np.sqrt(W/S)*0.514444
-VC = p.V_cruise
+VC = p.V_cruise/0.6*0.55
 VD = 1.4*VCmin
 
 Vdiagram = []
@@ -112,11 +112,11 @@ a = a0*A/(2+np.sqrt(4+A**2))*180/np.pi
 mu_g = 2*(W/g/S)/(rho0*S/b*a)
 K_g = 0.88*mu_g/(5.3 + mu_g)
 
-n_1 = 1 + 0.5*rho0*V_S*K_g*Ude_1/(W/S)*a -0.1
-n_C = 1 + 0.5*rho0*VC*K_g*Ude_C/(W/S)*a -0.12
+n_1 = 1 + 0.5*rho0*V_S*K_g*Ude_1/(W/S)*a 
+n_C = 1 + 0.5*rho0*VC*K_g*Ude_C/(W/S)*a 
 n_D = 1 + 0.5*rho0*VD*K_g*Ude_D/(W/S)*a 
 n_1down = 1 - 0.5*rho0*V_S*K_g*Ude_1/(W/S)*a
-n_Cdown = 1 - 0.5*rho0*VC*K_g*Ude_C/(W/S)*a +0.12
+n_Cdown = 1 - 0.5*rho0*VC*K_g*Ude_C/(W/S)*a 
 n_Ddown = 1 - 0.5*rho0*VD*K_g*Ude_D/(W/S)*a
 
 ngustup = [1, n_C, n_D, 1]
