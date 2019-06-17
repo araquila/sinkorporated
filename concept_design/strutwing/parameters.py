@@ -101,35 +101,35 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = 10120.52562 * g
-MTOW = 18154.03957 * g
+OEW = (9545.745625 + 400) * g
+MTOW = 18060.655433252366 * g
 EW = None
 W_fuel = 1760.727842 * g
-W_pod = 260 * g
+W_pod = 218 * g
 mtom = MTOW / g
-W_empty = 9514.125625 * g
-W_wing = 13.85/100*W_empty/2
+W_empty = 9851.125625 * g
+W_wing = 1375.6
 MLW = MTOW - W_fuel
 
 # Propulsion
-M_engine = 868.00 / 2
+M_engine = 836.38 / 2
 W_nacelle = (368.16 / 2) * g
 W_engine = M_engine * g  + W_nacelle
 W_engine_controls = 0
 W_starter = 0
 W_APU = 61.23 * g
 W_fuel_system = 358.7959 * g
-W_fuel_tanks = 520 * g
+W_fuel_tanks = 511 * g
 
 # Wing
-W_wing = 1033.6 * g
+W_wing = 1335.6 * g
 W_flight_controls = 330 * g
 W_anti_ice = 35.32006139 * g
 W_strut = 79.55 * g
 W_aileronflaps = 84.02 * g
 
 # Fuselage
-W_fuselage = 2750 * g
+W_fuselage = 2516.18163 * g
 W_furnishings = 360.3467386 * g
 
 # Empennage
@@ -412,7 +412,7 @@ Clp = -25.8276
 Cl_alpha = 2 * np.pi
 tau = 0.57
 Cd0 = 0.027 #NOT FINAL
-LD_ratio = 21.4 #NOT FINAL
+LD_ratio = 23.6 #NOT FINAL
 
 
 # Propulsion

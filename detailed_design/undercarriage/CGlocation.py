@@ -107,6 +107,7 @@ CGmacmin = (cgx_min-x_lemac) / p.MAC
 CGmacmax = (cgx_max-x_lemac) / p.MAC
 xlemac = (x_lemac / p.l_fuselage)
 
+
 # Plot Points
 #plt.scatter(x, y, label="mass")
 #plt.scatter(x, z, label="x_cg")
