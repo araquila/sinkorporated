@@ -107,7 +107,7 @@ EW = None
 W_fuel = 1760.727842 * g
 W_pod = 218 * g
 mtom = MTOW / g
-W_empty = 9891.125625 * g
+W_empty = 9851.125625 * g
 W_wing = 1375.6
 MLW = MTOW - W_fuel
 
@@ -197,18 +197,16 @@ h_max_tip_wingbox = 0.08518
 
 # Stringers
 
-n_upper_skin_wingbox = 12
-n_lower_skin_wingbox = 12
-
-
+n_upper_skin_wingbox = 15
+n_lower_skin_wingbox = 15
 
 #al 2099-t83 http://morita1950.info/akio/data/Al-li%20Alloy.pdf
 #https://www.smithmetal.com/2099-lithium.htm
 #https://www.smithshp.com/assets/pdf/2099-aluminium-lithium.pdf
 
 
-t_hat = 0.0028
-t_z = 0.0028
+t_hat = 0.003
+t_z = 0.003
 
 #2024 nrs for tradeoff
 #ultimate_compressive_strength_2099 = 324*10**6
@@ -219,14 +217,14 @@ t_z = 0.0028
 #density_stiffeners = 2780
 
 #al2099-t83
-#
+##
 ultimate_compressive_strength_2099 = 476*10**6
 ultimate_yield_strength_2099 = 490*10**6
 ultimate_tensile_strength_2099 = 560*10**6
 
 E_compressive_2099 = 82.1*10**9
 
-#
+
 density_stiffeners = 2630
 
 #al7075
@@ -239,18 +237,18 @@ density_stiffeners = 2630
 
 
 #CFRP
-#ultimate_compressive_strength_2099 = (581-2*35.8)*10**6
-#ultimate_yield_strength_2099 = (586.2-2*37.7)*10**6
-#ultimate_tensile_strength_2099 = 596*10**6
+#ultimate_compressive_strength_2099 = 570*10**6
+#ultimate_yield_strength_2099 = 570*10**6
+#ultimate_tensile_strength_2099 = 600*10**6
 #
-#E_compressive_2099 = 115.9*10**9
+#E_compressive_2099 = 70*10**9
 #
 #density_stiffeners = 1600
-#
+
 
 #al2195-t84 https://www.constellium.com/sites/default/files/markets/airware_2195_t84_plate.pdf
 #thickness
-t_sheet = 0.0037 #m
+t_sheet = 0.0033 #m
 t_sheet_strutbox = 0.003
 
 
@@ -261,7 +259,6 @@ t_sheet_strutbox = 0.003
 #ult_yield_strength_2195 = 324*10**6
 #ult_shear_strength_2195 = 283*10**6
 #fracture_toughness_2195 = 26*10**6
-#ult_compressive_strength_2195 = ult_yield_strength_2195*1.02
 
 #al2195
 #E_sheet = 78*10**9
@@ -270,8 +267,7 @@ t_sheet_strutbox = 0.003
 #ult_yield_strength_2195 = 500*10**6
 #ult_shear_strength_2195 = 350*10**6
 #fracture_toughness_2195 = 35*10**6
-#ult_compressive_strength_2195 = 595*10**6
-##
+
 #al 2055-t84 https://www.arconic.com/adip/catalog/AFE2055-factsheet.pdf  
 #https://www.smithshp.com/assets/pdf/2055-t84-extrusions.pdf
 #
@@ -282,7 +278,6 @@ ult_tensile_strength_2195 = 565*10**6
 ult_yield_strength_2195 = 538*10**6
 ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
 fracture_toughness_2195 = 35*10**6
-ult_compressive_strength_2195 = ult_yield_strength_2195
 
 
 #al7075
@@ -293,21 +288,20 @@ ult_compressive_strength_2195 = ult_yield_strength_2195
 #ult_yield_strength_2195 = 503*10**6
 #ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
 #fracture_toughness_2195 = 35*10**6
-#ult_compressive_strength_2195 = ult_tensile_strength_2195
-#
-##CFRP
 
-#E_sheet = 123.5*10**9
+#CFRP
+
+#E_sheet = 70*10**9
 #density_sheet = 1600
 #ult_tensile_strength_2195 = 600*10**6
-#ult_yield_strength_2195 = (586.2-2*37.7)*10**6
+#ult_yield_strength_2195 = 600*10**6
 #ult_shear_strength_2195 = 0.55*ult_yield_strength_2195
 #fracture_toughness_2195 = 35*10**6
-#ult_compressive_strength_2195 = (581-2*35.8)*10**6
+#cost_per_kg = 52.5
+#
 
 #amount of ribs, excluding root and tip caps
-n_ribs = 10
-
+n_ribs = 6
 rib_spacing = (b/2)/(n_ribs+1)
 t_rib = 0.0025
 
@@ -319,12 +313,6 @@ t_rib = 0.0025
 E_rib = 78.6*10**9
 density_rib = 2630
 ult_shear_strength_2099 = 262*10**6
-
-#CFRP
-#E_rib = 70*10**9
-#density_rib = 1600
-#ult_shear_strength_2099 = 45.5*10**6
-
 
 safety_factor_compression = 1.5
 safety_factor_tension = 1.5
@@ -374,7 +362,6 @@ V_h = 1.57
 S_h = 0.29 * S
 b_h = np.sqrt(S_h * A_h)
 S_e = 0.4
-
 
 # Undercarriage
 main_landing_pos = 11

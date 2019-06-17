@@ -23,8 +23,8 @@ rho_aramid = 1440
 
 rho_vapor_barier = 1
 
-r = 0.4
-l = 4.8
+r = 0.44
+l = 5.28
 insulation = 0.04 # meters
 
 P_cr_buckling = 1.5e5 # Pascals
@@ -85,13 +85,13 @@ def rahim_buckling(E, thickness, i, l_b, v):
 # print("mass vapor barier", mass_vapor_barier)
 # print("total mass aluminium-carbon", mass_outer_carbon + mass_inner_alu + mass_microspheres_alu + mass_vapor_barier)
 
-# thickness_outer_alu = windenburg_trilling(E_alu, v_alu, P_cr_buckling)
+
+# aluminium internal shell and aramid external shell
 thickness_outer_aramid = windenburg_trilling(E_aramid, v_aramid, P_cr_buckling)
 thickness_inner_alu = t_long(r, sigma_yield_alu, P_cr_internal)
 mass_inner_alu = (det_total_tank_volume(r, l, thickness_inner_alu) - det_total_tank_volume(r, l, 0)) * rho_alu
-# mass_outer_alu = (det_total_tank_volume(r, l, thickness_inner_alu + insulation + thickness_outer_alu) - det_total_tank_volume(r, l, thickness_inner_alu + insulation)) * rho_alu
 mass_outer_aramid = (det_total_tank_volume(r, l, thickness_inner_alu + insulation + thickness_outer_aramid) - det_total_tank_volume(r, l, thickness_inner_alu + insulation)) * rho_aramid
-mass_vapor_barier = det_external_wetted_area(0.4, 4.8, thickness_inner_alu + insulation) * rho_vapor_barier
+mass_vapor_barier = det_external_wetted_area(r + insulation, l + insulation, thickness_inner_alu + insulation) * rho_vapor_barier
 mass_microspheres_alu = (det_total_tank_volume(r, l, thickness_inner_alu + insulation) - det_total_tank_volume(r, l, thickness_inner_alu)) * 69
 print("internal thickness aluminium ", thickness_inner_alu)
 print("external thickness aramid ", thickness_outer_aramid)

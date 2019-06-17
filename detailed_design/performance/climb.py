@@ -11,7 +11,7 @@ atR = p.R
 atgamma = p.gamma
 g = p.g
 
-alt = np.linspace(0, 12525, 100)
+alt = np.linspace(0, 12825, 100)
 
 Vmin = []
 Vmax = []
@@ -19,6 +19,8 @@ machmin = []
 machmax = []
 ROClist = []
 V_ROC_max = []
+M_ROC_max = []
+real_ROC = []
 
 for altitude in alt:
 # Aircraft Input Parameters
@@ -44,7 +46,7 @@ for altitude in alt:
     V = np.linspace(10, 0.6*speed_of_sound, 1001)
     
     for i in range(len(V)):
-        if V[i] > 0.5*speed_of_sound:
+        if V[i] > 0.3*speed_of_sound:
             test = i
             break
         
@@ -76,12 +78,34 @@ for altitude in alt:
     idxVROCmax = list(ROC).index(ROC_max)
     ROClist.append(ROC_max)
     V_ROC_max.append(V[idxVROCmax])
+    M_ROC_max.append(V[idxVROCmax]/speed_of_sound)
     
+    real_ROC.append(ROClist[-1]/(1+0.567*(M_ROC_max[-1]**2)))
+    
+#plt.plot(Vmin, alt, label="Minimum Velocity")
+#plt.plot(Vmax, alt, label="Maximum Velocity")
+#plt.xlabel("Velocity [m/s]")
+#plt.ylabel("Altitude [m]")
+#plt.legend()
+#plt.show()
 
-plt.plot(Vmin, alt, label="Minimum Velocity")
-plt.plot(Vmax, alt, label="Maximum Velocity")
-plt.plot(V_ROC_max, alt, label="Velocity for Maximum ROC")
-plt.xlabel("Velocity [m/s]")
-plt.ylabel("Altitude [m]")
-plt.legend()
-plt.show()
+print("ROC at sea level:", np.round(ROClist[0], decimals=3), "m/s")
+
+for i in range(len(real_ROC)):
+    if real_ROC[i] > 9:
+        real_ROC[i] = 9
+
+plt.plot(alt, real_ROC)
+rrr = 0
+zzz = 0
+for i in range(len(alt)):
+    if alt[i] > 8000:
+        lim = i
+        break
+    
+for i in range(lim):
+    rrr = rrr+(alt[i+1]-alt[i])/real_ROC[i]
+    zzz = zzz + V_ROC_max[i]
+    
+print("Time needed to climb:", np.round(rrr/60, decimals=2), "min")
+print("Horizontal distance covered:", np.round((rrr*(zzz/(len(alt)-lim)))/1000, decimals=2), "km")
