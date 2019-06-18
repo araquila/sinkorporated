@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.append(os.getcwd())
-from atmosphere import atmosphere_calc
+from detailed_design.atmosphere import atmosphere_calc
 import numpy as np
 ### AIRCRAFT PARAMETERS ###
 
@@ -101,36 +101,36 @@ M = 10000
 
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
-OEW = (9545.745625 + 400) * g
-MTOW = 18060.655433252366 * g
-EW = None
-W_fuel = 1760.727842 * g
-W_pod = 218 * g
+OEW = 10270.31004 * g
+MTOW = 18536.09649 * g
+EW = 9824.301753
+W_fuel = 1965.786443 * g
+W_pod = (471/2) * g
 mtom = MTOW / g
-W_empty = 9891.125625 * g
+W_empty = 9824.301753 * g
 W_wing = 1375.6
 MLW = MTOW - W_fuel
 
 # Propulsion
 M_engine = 836.38 / 2
-W_nacelle = (368.16 / 2) * g
+W_nacelle = (357.38 / 2) * g
 W_engine = M_engine * g  + W_nacelle
 W_engine_controls = 0
 W_starter = 0
 W_APU = 61.23 * g
 W_fuel_system = 358.7959 * g
-W_fuel_tanks = 511 * g
+W_fuel_tanks = 471 * g
 
 # Wing
-W_wing = 1335.6 * g
-W_flight_controls = 330 * g
-W_anti_ice = 35.32006139 * g
+W_wing = 1508.77 * g
+W_flight_controls = 328.073582 * g
+W_anti_ice = 37.07219297 * g
 W_strut = 79.55 * g
 W_aileronflaps = 84.02 * g
 
 # Fuselage
 W_fuselage = 2516.18163 * g
-W_furnishings = 360.3467386 * g
+W_furnishings = 161.1688986 * g
 
 # Empennage
 W_hor_emp = 159.1798947 * g
@@ -141,12 +141,12 @@ W_main_landing = 661.1444655 * g
 W_nose_landing = 141.4487833 * g
 
 # Other systems
-W_avionics = 767.91 * g
-W_airco = 412.35 * g
-W_instruments =  62.05734245 * g
-W_hydraulics = 60.49532434 * g
-W_electrical = 341.580681 * g
-W_handling_gear = 5.30 * g
+W_avionics = 766.30 * g
+W_airco = 324.87 * g
+W_instruments =  61.93544887 * g
+W_hydraulics = 90.57517011 * g
+W_electrical = 340.8971918 * g
+W_handling_gear = 5.56 * g
 
 # Safetyfactors
 safetyfactor_wingloading = 2.5
@@ -362,8 +362,10 @@ A_v = 1.2
 taper_v = 0.6
 sweep_v = 30
 V_v = 0.05
-S_v = 0.28 * S
+S_v = 0.27 * S
 b_v = np.sqrt(S_v * A_v)
+tip_chord_v = 2.5
+root_chord_v = 4.16
 
 # Horizontal Tail
 l_h = 12
@@ -374,13 +376,14 @@ V_h = 1.57
 S_h = 0.29 * S
 b_h = np.sqrt(S_h * A_h)
 S_e = 0.4
-
+tip_chord_h = 1.26
+root_chord_h = 2.53
 
 # Undercarriage
-main_landing_pos = 11
+main_landing_pos = 10.94
 nose_landing_pos = 3
-h_wheel = None
-lateral_pos = None
+h_wheel = 0.79
+lateral_pos = 1.94
 size_tire = None
 
 # Propulsion
@@ -426,6 +429,14 @@ Cl_alpha = 2 * np.pi
 tau = 0.57
 Cd0 = 0.027 #NOT FINAL
 LD_ratio = 23.6 #NOT FINAL
+
+f_cruise_start = 0.96542287875
+f_cruise_end = 0.912778553222379
+
+C_L_loiter_tbp = np.sqrt(3 * Cd0 * np.pi * A * e)
+C_D_loiter_tbp = 4 * Cd0
+LD_loiter = C_L_loiter_tbp / C_D_loiter_tbp
+
 
 
 # Propulsion

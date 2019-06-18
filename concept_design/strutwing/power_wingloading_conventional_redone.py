@@ -1,6 +1,6 @@
 #pieter responsible
 from math import *
-from wingloadingfunctions import *
+from concept_design.strutwing.wingloadingfunctions import *
 import numpy as np
 import matplotlib.pyplot as plt
 
