@@ -10,10 +10,10 @@ MF = p.W_fuel / p.g
 
 # Fuel fractions
 f1 = 0.990      
-f2 = 1.000      
+f2 = 0.995      
 f3 = 0.995      
-f4 = 0.989     
-f5 = 0.990      
+f4 = 0.985     
+f5 = 0.985      
 f6 = 0.995      
 
 
@@ -63,9 +63,9 @@ plt.plot(rangelist, payloadlist)
 plt.plot(np.linspace(0,RC,100)/1000, np.ones(100)*PC, linestyle=':', color='black')
 plt.plot(np.ones(100)*RC/1000, np.linspace(0,PC,100), linestyle=':', color='black')
 
-plt.xlabel("Range [km]")
-plt.ylabel("Payload [kg]")
-plt.xlim([0, 4000])
+plt.xlabel("Range [km]", size="large")
+plt.ylabel("Payload [kg]", size="large")
+plt.xlim([0, 4500])
 plt.ylim([0, 7000])
 
 plt.show()
