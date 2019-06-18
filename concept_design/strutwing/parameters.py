@@ -206,7 +206,7 @@ n_lower_skin_wingbox = 15
 
 
 t_hat = 0.003
-t_z = 0.003
+t_z = 0.005
 
 #2024 nrs for tradeoff
 #ultimate_compressive_strength_2099 = 324*10**6

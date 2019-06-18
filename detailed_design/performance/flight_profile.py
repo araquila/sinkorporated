@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 d_climb = 148.6
-d_descent = 157.8
+d_descent = 157.14
 d_cruise = 1850 - d_climb - d_descent 
 
 h_cruise0 = 8000

@@ -1,4 +1,4 @@
-from constant_variables import *
+from concept_design.strutwing.constant_variables import *
 import numpy as np
 def CO2_calc(fuel_per_passenger,chosen_fuel_energy_density):
     if chosen_fuel_energy_density == energy_density_kerosene:
