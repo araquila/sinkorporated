@@ -1,7 +1,7 @@
 # MAIN OF THE CONVENTIAL AIRCRAFT SIZING PROGRAM
-import os
-import sys
-sys.path.append(os.getcwd())
+#import os
+#import sys
+#sys.path.append(os.getcwd())
 
 # Import modules
 from class1_conventional import Weights_Class_I
@@ -18,15 +18,7 @@ import matplotlib.pyplot as plt
 import rangepldiagram as pld
 import cost_equations as ceq
 from LNG import *
-
-def print_costs(serial_number):
-    print('-------------------- Cost --------------------')
-    print()
-    print('Development cost :', non_recurring_cost(wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload),'Million USD (2019)')
-    print('Production cost per unit :', recurring_cost(serial_number,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/serial_number,'Million USD (2019)')
-    print('Total cost per unit:', total_cost(serial_number,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
-    print()
-
+import parameters as p
 #Do you want a pie chart?
 piechart = False
 print_payloadrange = True
@@ -52,18 +44,18 @@ M_crew_member = 100
 M_payload = n_passenger * M_passenger
 M_crew = n_crew * M_crew_member
 f_trapped_fuel = 0.003              # Range 0.001-0.005
-M_empty_tbp = 16000
-M_empty_jet = 16300
+M_empty_tbp = p.W_empty / p.g
+#M_empty_jet = 16300
 
 # Convert to weights
 W_payload = M_payload * g
 W_crew = M_crew * g
-W_empty_tbp = M_empty_tbp * g
-W_empty_jet = M_empty_jet * g
+W_empty_tbp = M_empty_tbp  * g
+#W_empty_jet = p.M_empty_jet * g
 
 # Initial jet and tbp aircraft parameters
 C_fe = 0.003
-S = 1
+S = p.S
 S_wet = 5.5 * S
 
 
@@ -72,30 +64,30 @@ energy_density_kerosene = 43 #[MJ/kg]
 chosen_fuel_energy_density = energy_density_LNG
 fuel_efficiency_factor = energy_density_kerosene/chosen_fuel_energy_density
 
-# Jet
-A_jet = 19.5
-e_jet = 0.8                         # Adjust per concept
-cj_loiter_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
-cj_cruise_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
-V_cruise_jet =  200                 # [m/s]
-V_loiter_jet = 150
-S_jet = 61
+## Jet
+#A_jet = 19.5
+#e_jet = 0.8                         # Adjust per concept
+#cj_loiter_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.4-0.6) [g/j] Propfan: 0.441
+#cj_cruise_jet = fuel_efficiency_factor*12.5e-6 # oude waarde 19e-6               # (0.5-0.9) [g/j] Propfan: 0.441
+#V_cruise_jet =  200                 # [m/s]
+#V_loiter_jet = 150
+#S_jet = 61
 
 # Tbp
-A_tbp = 18
+A_tbp = p.A
 e_tbp = 0.85                        # Adjust per concept
 eff_cruise_tbp = 0.85               # [-]
 eff_loiter_tbp = 0.77               # [-]
-cp_cruise_tbp = 0.8*fuel_efficiency_factor * 74e-9 # oude waarde 90e-9              # (0.4-0.6) [kg/ns]
-cp_loiter_tbp = 0.8*fuel_efficiency_factor * 74e-9 # oude waarde 90e-9               # (0.5-0.7) [kg/ns]
-M_cruise_tbp = 0.6                  # [-]
+cp_cruise_tbp = p.cp_cruise # oude waarde 90e-9              # (0.4-0.6) [kg/ns]
+cp_loiter_tbp = p.cp_loiter # oude waarde 90e-9               # (0.5-0.7) [kg/ns]
+M_cruise_tbp = 0.55                  # [-]
 V_cruise_tbp = M_cruise_tbp*speed_of_sound     # [m/s]
 V_loiter_tbp = 80                   # [m/s]
-C_L_cruise = 0.8                    # [-]
-S_tbp = 66                          # [m^2]
-V_stall_tbp = 46.3                  # [m/s]
-C_L_max_land_tbp = 2.4              # [-]
-C_L_max_TO_tbp = 1.4                # [-]
+C_L_cruise = p.C_L_cruise                    # [-]
+S_tbp = p.S                       # [m^2]
+V_stall_tbp = p.V_stall                 # [m/s]
+C_L_max_land_tbp = p.C_L_max_land              # [-]
+C_L_max_TO_tbp = p.C_L_max_TO                # [-]
 
 range_cruise_tbp = 1850000          # [m]
 endurance_loiter_tbp = 2700         # [s]
@@ -103,17 +95,17 @@ endurance_loiter_tbp = 2700         # [s]
 
 # Engine
 n_engines = 2                       # [-]
-P_TO_tbp = 5.8e6                    # [W]
-pos_engine = 10                     # [m]
-mass_engine = 450                   # [kg]
+P_TO_tbp = p.P_TO                   # [W]
+pos_engine = p.y_engine                     # [m]
+mass_engine = p.W_engine / p.g                   # [kg]
 n_fueltanks = 2                     # [-]
 n_blades = 6                        # [-]
 
 # Empennage
-V_h = 1.57                          # [-]
+V_h = 1.87                        # [-]
 V_v = 0.07                          # [-]
-l_h = 11                            # [m]
-l_v = 11                            # [m]
+l_h = p.l_h                          # [m]
+l_v = p.l_v                           # [m]
 
 # Fuselage
 n_seats_abreast = 4
@@ -143,7 +135,7 @@ class2["handling gear weight"] = []
 
 
 # Iterator
-for iter in range(5):
+for iter in range(1):
     MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp, L_D_loiter_tbp = Weights_Class_I(0, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, 0, A_tbp, 0, e_tbp, 0, 0, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, 0, V_loiter_tbp, 0, range_cruise_tbp, 0, endurance_loiter_tbp, tbp = True, jet = False)
 
     class1["MTOW"].append(MTOW_tbp)
@@ -260,6 +252,7 @@ for iter in range(5):
 print('MTOW:', MTOM_tbp, 'kg')
 print('OEW:', OEW_tbp/g, 'kg')
 print('FUEL:', W_fuel_tbp/g, 'kg')
+print('Wing area:', S_tbp, 'm^2')
 
 #Design Cruise CL
 q_tbp = 0.5 * 0.525168 * V_cruise_tbp**2
@@ -311,3 +304,11 @@ if piechart:
 print('Development cost :', ceq.non_recurring_cost(W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g),'Million USD (2019)')
 print('Production cost per unit :', ceq.recurring_cost(500,W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g,W_empty_tbp/g)/500,'Million USD (2019)')
 print('Total cost per unit', ceq.total_cost(500,W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g,W_empty_tbp/g),'Million USD (2019)')
+
+print()
+print('-----------------  Sizes for CATIA   ------------------')
+print("Nose length =",length_nose)
+print("Cabin length =", length_cabin)
+print("Tail length =", length_tail)
+print("Wing area =", S_tbp)
+print(lateral_position)

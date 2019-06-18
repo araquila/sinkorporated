@@ -9,7 +9,7 @@ def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A
     g = 9.8065
 
     # Passengers and crew
-    n_passenger = 70
+    n_passenger = 48
     M_passenger = 95           # (Including luggage)
 
     # Initial mass and fractions
@@ -85,7 +85,7 @@ def payloadrange(MTOWinit, OEWinit, W_fuel_init, LD_cruise_jet, LD_cruise_tbp, A
 
     elif tbp:
         cp_loiter_tbp = cp_cruise_tbp     # (0.5-0.9) [lbs/lbs/hr]
-        range_cruise_tbp = 1528000
+        range_cruise_tbp = 1326000
         endurance_loiter_tbp = 2700
 
         f1_tbp = 0.990      # W_1 / W_TO (Engine start, warm-up)

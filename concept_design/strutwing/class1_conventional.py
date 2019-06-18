@@ -44,7 +44,7 @@ def Weights_Class_I(W_empty_jet, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet,
 # THIS SECTION IS USED FOR TURBOPROP AIRCRAFT
     if tbp:
     # Determine the maximum L/D for a turboprop
-        LD_cruise_tbp = np.sqrt((np.pi * A_tbp * e_tbp) / (4 * C_D_0))
+        LD_cruise_tbp = 23.6
 
         # Requirements for loiter
         # CL/CD during loiter for a turboprop
