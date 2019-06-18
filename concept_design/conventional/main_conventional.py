@@ -401,45 +401,22 @@ def print_flight_char_data():
 
     print_list(flight_char_data_jet)
     print_list(flight_char_data_tbp)
+def print_costs_tbp(serial_number):
+    print('-------------------- Cost --------------------')
+    print()
+    print('Development cost :', non_recurring_cost(wing_weight_tbp,hor_tail_weight_tbp+ver_tail_weight_tbp,fuselage_weight_tbp,main_lg_weight_tbp+nose_lg_weight_tbp,M_engine_tbp,engine_controls_weight_tbp +starter_weight_tbp + W_fuel_system_tbp+flight_controls_weight_tbp +instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_tbp+ aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp, M_payload),'Million USD (2019)')
+    print('Production cost per unit :', recurring_cost(serial_number,wing_weight_tbp,hor_tail_weight_tbp+ver_tail_weight_tbp,fuselage_weight_tbp,main_lg_weight_tbp+nose_lg_weight_tbp,M_engine_tbp,engine_controls_weight_tbp +starter_weight_tbp + W_fuel_system_tbp+flight_controls_weight_tbp +instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_tbp+ aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp, M_payload,M_empty_tbp)/serial_number,'Million USD (2019)')
+    print('Total cost per unit:', total_cost(serial_number,wing_weight_tbp,hor_tail_weight_tbp+ver_tail_weight_tbp,fuselage_weight_tbp,main_lg_weight_tbp+nose_lg_weight_tbp,M_engine_tbp,engine_controls_weight_tbp +starter_weight_tbp + W_fuel_system_tbp+flight_controls_weight_tbp +instruments_weight_tbp + hydraulics_weight_tbp + electrical_weight_tbp + avionics_weight_tbp + furnishings_weight_tbp+ aircond_weight_tbp + anti_ice_weight_tbp + handling_gear_weight_tbp, M_payload,M_empty_tbp),'Million USD (2019)')
+    print()
 
-def non_recurring_cost(m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads):
-    """Returns the total non-recurring cost in million USD(April 2019) based on aircraft mass in kg"""
-    mass_vector_kg = np.array([m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads])
-    mass_vector_lbs = mass_vector_kg * 2.20462262
-    cost_per_lbs_vector = np.array([17731,52156,32093,2499,8691,34307,10763])
-    cost_vector = mass_vector_lbs*cost_per_lbs_vector
 
-    c_total_nonrecurring_2002 = np.sum(cost_vector)
-    c_total_nonrecurring_2019 = c_total_nonrecurring_2002*1.44
-
-    return round(c_total_nonrecurring_2019/1000000,3)
-
-def recurring_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads,m_assembly):
-    """Returns the total recurring cost in million USD(April 2019) based on aircraft mass in kg"""
-    mass_vector_kg = np.array([m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads,m_assembly])
-    mass_vector_lbs = mass_vector_kg * 2.20462262
-    cost_per_lbs = np.array([[609,1614,679,107,248,315,405,58],[204,484,190,98,91,91,100,4],[88,233,98,16,36,46,59,3]])
-    TFU_cost = np.dot(cost_per_lbs,mass_vector_lbs)
-    labor  = np.array([])
-    materials = []
-    other = []
-    for n in range(1,n_aircraft+1):
-        labor = np.append(labor, n**(np.log(0.85)/np.log(2)))
-        materials = np.append(materials, n**(np.log(0.95)/np.log(2)))
-        other = np.append(other, n**(np.log(0.95)/np.log(2)))
-
-    costs = (TFU_cost[0]*labor,TFU_cost[1]*materials,TFU_cost[2]*other)
-
-    c_total_recurring_2002 = np.sum(costs)
-    c_total_recurring_2019 = c_total_recurring_2002*1.44
-
-    return round(c_total_recurring_2019/1000000,2)
-
-def total_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads,m_assembly):
-    "Return the total cost per aircraft in in million USD(April 2019) based on aircraft mass in kg"
-    total_cost = non_recurring_cost(m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads) + recurring_cost(n_aircraft,m_wing,m_empennage,m_fuselage,m_gear,m_engines, m_systems, m_payloads,m_assembly)
-    PU_cost = total_cost/n_aircraft
-    return round(PU_cost,2)
+def print_costs_jet(serial_number):
+    print('-------------------- Cost --------------------')
+    print()
+    print('Development cost :', non_recurring_cost(wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload),'Million USD (2019)')
+    print('Production cost per unit :', recurring_cost(serial_number,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet)/serial_number,'Million USD (2019)')
+    print('Total cost per unit:', total_cost(serial_number,wing_weight_jet,hor_tail_weight_jet+ver_tail_weight_jet,fuselage_weight_jet,main_lg_weight_jet+nose_lg_weight_jet,M_engine_jet,engine_controls_weight_jet +starter_weight_jet + W_fuel_system_jet+flight_controls_weight_jet +instruments_weight_jet + hydraulics_weight_jet + electrical_weight_jet + avionics_weight_jet + furnishings_weight_jet+ aircond_weight_jet + anti_ice_weight_jet + handling_gear_weight_jet, M_payload,M_empty_jet),'Million USD (2019)')
+    print()
 
 #Calculate performance for 1000 km trip
 
