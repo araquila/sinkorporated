@@ -1,7 +1,7 @@
 ### IMPORTS
-import os
-import sys
-sys.path.append(os.getcwd())
+#import os
+#import sys
+#sys.path.append(os.getcwd())
 from detailed_design.atmosphere import atmosphere_calc
 import numpy as np
 ### AIRCRAFT PARAMETERS ###
@@ -102,8 +102,9 @@ M = 10000
 ## -------- WEIGHTS AND MASSES -------- ##
 # General
 OEW = 10270.31004 * g
+
 MTOW = 18536.09649 * g
-EW = 9824.301753
+EW = 9824.301753 * g
 W_fuel = 1965.786443 * g
 W_pod = (471/2) * g
 mtom = MTOW / g
@@ -158,6 +159,10 @@ m_tail = (W_hor_emp + W_ver_emp) / g
 m_wing = (W_wing + W_strut + W_aileronflaps + W_flight_controls + W_anti_ice) / g
 m_engine = (2 * W_engine + W_fuel_system) / g
 m_fuel_tanks = W_fuel_tanks / g
+
+
+W_A = OEW - M_engine*2*g # airframe weight in N
+m_A = W_A/g # airframe mass in kg
 
 ## -------- DIMENSIONS -------- ##
 # Fuselage
@@ -419,7 +424,7 @@ V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
 V_climb = 158 # Climb speed in m/s
 V_descend = 122.7 # Descend speed in m/s
-t_cl = 0.260 # Time to climb in hours
+t_cl = 0.2635 # Time to climb in hours
 t_de = 0.357 # Time to descend in hours
 C_L_max_land = 2.6
 C_L_max_TO = 1.8
@@ -452,8 +457,8 @@ cp_cruise = 6.2e-8
 cp_loiter = 6.5e-8
 tot_thrust = 78e3
 
-
 ## -------- DOEKOES -------- ##
 PP = 150000 #Cost per propeller  in 2019 dollar
 EP = 1000000 # Engine cost per engine
 FP = 0.46 # Fuel price per lbs in dollar
+ASP = 7800000 #cost of avionics in 2019 dollar

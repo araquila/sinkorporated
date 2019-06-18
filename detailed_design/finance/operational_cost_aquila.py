@@ -4,11 +4,12 @@ Created on Mon Jun 17 10:55:29 2019
 
 @author: victo
 """
+
 import matplotlib as mpl
 mpl.rcParams['font.size'] = 20.0
 import matplotlib.pyplot as plt
-import parameters as p
-import manufacturer_cost_aquila as manu_cost
+import detailed_design.parameters as p
+import detailed_design.finance.manufacturer_cost_aquila as manu_cost
 
 #-----------------------------------------------------#
 # INPUTS                                              #
@@ -21,32 +22,32 @@ V_cl_ms = p.V_climb # Climb speed in m/s
 V_de_ms = p.V_descend # Descend speed in m/s
 t_cl = p.t_cl # Time to climb in hours
 t_de = p.t_de # Time to descend in hours
-h_cr_m = p.altitude # Cruise height in feet
 n_c1 = 1 # Number of captains
 n_c2 = 1 # Number of co-pilots
 W_Fbl_kg = 1534.35 # Block fuel in kg for 1000 km trip
 
-EP = 1000000 # Engine cost per engine
-FP = 0.46# Fuel price per lbs in dollar
+EP = p.EP # Engine cost per engine
+FP = p.FP # Fuel price per lbs in dollar
 N_e = p.n_engines #Number of engines
-PP = 150000 #Cost per propeller  in 2019 dollar
+PP = p.PP #Cost per propeller  in 2019 dollar
 N_p = p.n_engines #Number of propellers
 AEP = manu_cost.AEP # Unit cost airplane
 AFP = AEP - EP* N_e # Airframe cost
-ASP = 7800000 #cost of avionics in 2019 dollar
-SHP_TO = 2380 # Shaft Horse Power per engine
-W_A_kg = 8367 # airframe weight in kg
-W_A = W_A_kg*2.2046226 # airframe weight in lbs
+ASP = p.ASP #cost of avionics in 2019 dollar
+P_TO_1ENG = p.P_TO/2 # Shaft Power per engine in kW
+W_A_kg = p.m_A # airframe weight in kg
+
 
 ATF = 1.0 # Airplane type factor (1.0 for MTOW > 10,000 lbs)
 
 #--------- UNIT CONVERSIONS --------------#
 MTOW_lbs = MTOW_kg*2.2046226 #Maximum Take-Off Weight in pounds
 W_Fbl = W_Fbl_kg*2.2046226 # Block fuel in lbs
+W_A = W_A_kg*2.2046226 # airframe weight in lbs
 V_cr_kts = 1.94384449*V_cr_ms #Cruise speed in kts
 V_cl_kts = 1.94384449*V_cl_ms # Climb speed in kts
 V_de_kts = 1.94384449*V_de_ms # Descend speed in kts
-
+SHP_TO = P_TO_1ENG*0.0013410220888 # Shaft Horse Power per engine
 #--------- GENERAL AIRCRAFT INPUTS --------------#
 N_yr = 20 # operating years aircraft
 R_bl = 540 # block distance in NM
