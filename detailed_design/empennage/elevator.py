@@ -56,8 +56,9 @@ print(elevator_effectiveness)
 x = np.arange(0,0.5,0.01)
 y = -6.624 * x**4 + 12.07 * x**3 - 8.292 * x**2 + 3.295 *x + 0.004942 - elevator_effectiveness
 
+
 x_0 = [0,0.5]
 y_0 = [0,0]
-plt.plot(x,y)
+plt.scatter(x,y)
 plt.plot(x_0,y_0)
-plt.show
+plt.show()

@@ -1,8 +1,8 @@
 # Class 2 weight estimation
 # Equations by Raymer 1989
-import sys
-import os
-sys.path.append(os.getcwd())
+#import sys
+#import os
+#sys.path.append(os.getcwd())
 from conversion_formulas import *
 import numpy as np
 
@@ -145,7 +145,7 @@ def det_main_lg_weight(W_l, N_l, L_m, N_mw, N_mss, V_stall, kneeling_main_lg = F
     outputs:
     main landing gear weight in lb
     """
-    K_mp = 1
+    K_mp = 1.126
     if kneeling_main_lg:
         K_mp = 1.126
     main_lg_weight = 0.0106 * K_mp * W_l**0.888 * N_l**0.25 * L_m**0.4 * N_mw**0.321 * N_mss**-0.5 * V_stall**0.1
