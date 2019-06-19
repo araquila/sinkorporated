@@ -284,47 +284,58 @@ for i in range(len(x_pos)):
     normal_ll_list[i] -= error_lower
     
  
-plt.plot(x_pos,vm_ll_list,marker='x')
-plt.plot(x_pos,vm_lr_list)
-plt.plot(x_pos,vm_ul_list)
-plt.plot(x_pos,vm_ur_list)
-plt.show()
-### MOMENT AND SHEAR DIAGRAM ###
-plt.figure(2,figsize = (8,6))
-plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
-plt.ylabel('Moment in z-axis [Nm]',fontsize=13)
-plt.plot(x_pos, momentzi, 'b') 
+#plt.plot(x_pos,vm_ll_list,marker='x')
+#plt.plot(x_pos,vm_lr_list)
+#plt.plot(x_pos,vm_ul_list)
+#plt.plot(x_pos,vm_ur_list)
+#plt.show()
 
-plt.figure(3,figsize = (8,6))
-plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
-plt.ylabel('Shear force in y direction[N]',fontsize=13)
-plt.plot(x_pos, shearyi,'r')   
 
-plt.figure(4,figsize = (8,6))
-plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
-plt.ylabel('Moment in around y-axis [Nm]',fontsize=13)
-plt.plot(x_pos, momentyi, 'b') 
+plt.figure()
+plt.xlim([0,p.b/2])
 
-plt.figure(5,figsize = (8,6))
-plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
-plt.ylabel('Shear force in z direction [N]',fontsize=13)
-plt.plot(x_pos, shearzi,'r') 
+#### MOMENT AND SHEAR DIAGRAM ###
+#plt.figure(2,figsize = (8,6))
+#plt.xlabel('Location along the length of the wingbox [m]',size='large')
+#plt.ylabel('Moment in z-axis [kNm]',size='large')
+#momentzi = np.array(momentzi)
+#plt.plot(x_pos, momentzi/1000, 'b') 
 
-### PLOT SHEAR STRESS ###
-plt.figure(6,figsize = (8,6))
-plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
-plt.ylabel('Shear stress [MPa]',fontsize=13)
+##plt.figure(3,figsize = (8,6))
+#plt.xlabel('Location along the length of the wingbox [m]',size='large')
+#shearyi = np.array(shearyi)
+#plt.ylabel('Shear force in y-direction [kN]',size='large')
+#plt.plot(x_pos, shearyi/1000,'r')   
+
+#plt.figure(4,figsize = (8,6))
+#plt.xlabel('Location along the length of the wingbox [m]',size='large')
+#momentyi = np.array(momentyi)
+#plt.ylabel('Moment in around y-axis [kNm]',size='large')
+#plt.plot(x_pos, momentyi/1000,'b')
+
+#plt.figure(5,figsize = (8,6))
+#plt.xlabel('Location along the length of the wingbox [m]',size='large')
+#shearzi = np.array(shearzi)
+#plt.ylabel('Shear force in z-direction [kN]',size='large')
+#plt.plot(x_pos, shearzi/1000,'r') 
+
+#### PLOT SHEAR STRESS ###
+#plt.figure(6,figsize = (8,6))
+plt.xlabel('Location along the length of the wingbox [m]',size='large')
+plt.ylabel('Shear stress [MPa]',size='large')
 plt.plot(x_pos, tau_max,'r')
 
 ### PLOT NORMAL STRESS AT THE FOUR CORNERS
-plt.figure(1,figsize = (8,6))
-plt.xlabel('Location along the length of the wingbox [m]',fontsize=13)
-plt.ylabel('Normal stress [MPa]',fontsize=13)
-plt.plot(x_pos, normal_ru_list, 'r', label='Right upper corner')
-plt.plot(x_pos, normal_lu_list, 'g', label='Left upper corner')
-plt.plot(x_pos, normal_rl_list, 'b', label='Right lower corner')
-plt.plot(x_pos, normal_ll_list, 'y', label='Left lower corner')
-plt.legend(loc = 'upper right')      
+#plt.figure(7,figsize = (8,6))
+#plt.xlabel('Location along the length of the wingbox [m]',size='large')
+#plt.ylabel('Normal stress [MPa]',size='large')
+#plt.plot(x_pos, normal_ru_list, 'r', label='Right-up')
+#plt.plot(x_pos, normal_lu_list, 'g', label='Left-up')
+#plt.plot(x_pos, normal_rl_list, 'b', label='Right-bottom')
+#plt.plot(x_pos, normal_ll_list, 'y', label='Left-bottom')
+#plt.legend(loc="best", fontsize="large")
+#plt.xlim([0,p.b/2])
+
 
 plt.show()
 
