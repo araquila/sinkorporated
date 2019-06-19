@@ -12,7 +12,7 @@ Created on Tue Jun 11 14:49:46 2019
 @author: Stijn
 """
 
-import parameters as p
+import detailed_design.parameters as p
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -38,7 +38,7 @@ T = p.T_TO
 W = p.MTOW
 gamma_d = np.arcsin(CD/CL)
 
-altitude = np.arange(0, 1501, 1)
+altitude = np.arange(0, 1, 1)
 
 LFlength = []
 
