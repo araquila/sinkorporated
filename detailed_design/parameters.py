@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.append(os.getcwd())
-from detailed_design.atmosphere import atmosphere_calc
+from atmosphere import atmosphere_calc
 import numpy as np
 ### AIRCRAFT PARAMETERS ###
 
@@ -44,8 +44,7 @@ E_al2014 = 72.4e9 #E-modulus
 
 ## Trade-off aluminum fuselage skin
 yield_al_2198_T8 = 407e6
-yield_al_2199_T8E74 = 345e6
-yield_al_2060_T8E30 = 345e6
+yield_al_2060_T8E30 = 488e6
 
 
 # Shear modulus
@@ -276,6 +275,7 @@ t_sheet_strutbox = 0.003
 #https://www.smithshp.com/assets/pdf/2055-t84-extrusions.pdf
 #
 #
+G_sheet = 27*10**9
 E_sheet = 76.5*10**9
 density_sheet = 2710
 ult_tensile_strength_2195 = 565*10**6
