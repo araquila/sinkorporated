@@ -4,45 +4,50 @@ Created on Mon Jun 17 10:55:29 2019
 
 @author: victo
 """
+
 import matplotlib as mpl
 mpl.rcParams['font.size'] = 20.0
 import matplotlib.pyplot as plt
+import detailed_design.parameters as p
+import detailed_design.finance.manufacturer_cost_aquila as manu_cost
 
 #-----------------------------------------------------#
 # INPUTS                                              #
 #-----------------------------------------------------#
 
 #--------- AIRCRAFT INPUTS --------------#
-MTOW_kg = 18025.5 #Maximum Take-Off Weight in kg
-V_cr_ms = 184 #Cruise speed in m/s
-V_cl_ms = 158 # Climb speed in m/s
-V_de_ms = 122.7 # Descend speed in m/s
-t_cl = 0.260 # Time to climb in hours
-t_de = 0.357 # Time to descend in hours
-h_cr = 26000 # Cruise height in feet
+MTOW_kg = p.MTOW/p.g #Maximum Take-Off Weight in kg
+V_cr_ms = p.V_cruise #Cruise speed in m/s
+V_cl_ms = p.V_climb # Climb speed in m/s
+V_de_ms = p.V_descend # Descend speed in m/s
+t_cl = p.t_cl # Time to climb in hours
+t_de = p.t_de # Time to descend in hours
 n_c1 = 1 # Number of captains
 n_c2 = 1 # Number of co-pilots
-W_Fbl = 2425 # Block fuel in lbs
-EP = 1000000 # Engine cost per engine
-FP = 0.46# Fuel price per lbs in dollar
-N_e = 2 #Number of engines
-PP = 150000 #Cost per propeller  in 2019 dollar
-N_p = 2 #Number of propellers
-AMP = 26930131 # Unit cost airplane
-AFP = AMP - EP* N_e # Airframe cost
-ASP = 7800000 #cost of avionics in 2019 dollar
-SHP_TO = 2380 # Shaft Horse Power per engine
-W_A_kg = 8367 # airframe weight in kg
-W_A = W_A_kg*2.2046226 # airframe weight in lbs
+W_Fbl_kg = 1534.35 # Block fuel in kg for 1000 km trip
+
+EP = p.EP # Engine cost per engine
+FP = p.FP # Fuel price per lbs in dollar
+N_e = p.n_engines #Number of engines
+PP = p.PP #Cost per propeller  in 2019 dollar
+N_p = p.n_engines #Number of propellers
+AEP = manu_cost.AEP # Unit cost airplane
+AFP = AEP - EP* N_e # Airframe cost
+ASP = p.ASP #cost of avionics in 2019 dollar
+P_TO_1ENG = p.P_TO/2 # Shaft Power per engine in kW
+W_A_kg = p.m_A # airframe weight in kg
+
 
 ATF = 1.0 # Airplane type factor (1.0 for MTOW > 10,000 lbs)
 
 #--------- UNIT CONVERSIONS --------------#
 MTOW_lbs = MTOW_kg*2.2046226 #Maximum Take-Off Weight in pounds
+W_Fbl = W_Fbl_kg*2.2046226 # Block fuel in lbs
+W_A = W_A_kg*2.2046226 # airframe weight in lbs
 V_cr_kts = 1.94384449*V_cr_ms #Cruise speed in kts
 V_cl_kts = 1.94384449*V_cl_ms # Climb speed in kts
 V_de_kts = 1.94384449*V_de_ms # Descend speed in kts
-
+SHP_TO = P_TO_1ENG*0.0013410220888 # Shaft Horse Power per engine
 #--------- GENERAL AIRCRAFT INPUTS --------------#
 N_yr = 20 # operating years aircraft
 R_bl = 540 # block distance in NM
@@ -129,7 +134,7 @@ C_olbl = (W_olbl/R_bl)*(OLP/OD)
 C_fuel = (W_Fbl/R_bl)*(FP) #cost of fuel per NM
 C_pol = C_olbl + C_fuel # Fuel and lubricants cost in dollar per NM
 
-C_ins = (f_inshull*AMP)/(U_annbl*V_bl) # Insurance cost in dollar per NM
+C_ins = (f_inshull*AEP)/(U_annbl*V_bl) # Insurance cost in dollar per NM
 
 DOC_flt = C_crew + C_pol + C_ins #cost of flying in dollar per NM
 
@@ -152,7 +157,7 @@ C_amb = 1.03 * (f_amblab * (MHR_mapbl*R_l + N_e * MHR_mengbl * R_l) + f_ambmat *
 DOC_maint = C_labap + C_labeng + C_matap + C_mateng + C_amb # Cost of maintenance
 
 # COST OF DEPRECIATION
-C_dap = (F_dap * (AMP-(N_e*EP)-N_p*PP) - ASP)/(DP_ap*U_annbl*V_bl) #Depreciation cost airframe
+C_dap = (F_dap * (AEP-(N_e*EP)-N_p*PP) - ASP)/(DP_ap*U_annbl*V_bl) #Depreciation cost airframe
 
 C_deng = (F_deng*N_e*EP)/(DP_eng*U_annbl*V_bl) #Depreciation cost engines
 
@@ -160,7 +165,7 @@ C_dprp = (F_dprp*N_p*PP)/(DP_prp*U_annbl*V_bl) #Depreciation cost propellers
  
 C_dav = (F_dav*ASP)/(DP_av*U_annbl*V_bl)#Depreciation cost avionics
   
-C_dapsp = (F_dapsp*F_apsp*AMP-N_e*EP)/(DP_apsp*U_annbl*V_bl) #Depreciation cost airframe spares
+C_dapsp = (F_dapsp*F_apsp*AEP-N_e*EP)/(DP_apsp*U_annbl*V_bl) #Depreciation cost airframe spares
    
 C_dengsp = (F_dengsp*F_engsp*N_e*EP*ESPPF)/(DP_engsp*U_annbl*V_bl) #Depreciation cost engine spares
 

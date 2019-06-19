@@ -11,7 +11,7 @@ atR = p.R
 atgamma = p.gamma
 g = p.g
 
-alt = np.linspace(0, 12825, 100)
+alt = np.linspace(0, 12625, 100)
 
 Vmin = []
 Vmax = []
@@ -82,12 +82,12 @@ for altitude in alt:
     
     real_ROC.append(ROClist[-1]/(1+0.567*(M_ROC_max[-1]**2)))
     
-#plt.plot(Vmin, alt, label="Minimum Velocity")
-#plt.plot(Vmax, alt, label="Maximum Velocity")
-#plt.xlabel("Velocity [m/s]")
-#plt.ylabel("Altitude [m]")
-#plt.legend()
-#plt.show()
+plt.plot(Vmin, alt, label="Minimum Velocity")
+plt.plot(Vmax, alt, label="Maximum Velocity")
+plt.xlabel("Velocity [m/s]", size="large")
+plt.ylabel("Altitude [m]", size="large")
+plt.legend()
+plt.show()
 
 print("ROC at sea level:", np.round(ROClist[0], decimals=3), "m/s")
 
@@ -95,7 +95,6 @@ for i in range(len(real_ROC)):
     if real_ROC[i] > 9:
         real_ROC[i] = 9
 
-plt.plot(alt, real_ROC)
 rrr = 0
 zzz = 0
 for i in range(len(alt)):

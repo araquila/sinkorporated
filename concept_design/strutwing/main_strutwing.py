@@ -293,7 +293,7 @@ q_tbp = 0.5 * 0.525168 * V_cruise_tbp**2
 #print('Design CD:', C_D_cruise_tbp)
 #print('Resulting CL/CD:', C_L_cruise_tbp/C_D_cruise_tbp)
 
-f_fuel_tbp_1000, f_reserve_tbp_1000, f_cruise_start_tbp_1000, f_cruise_end_tbp_1000 = ff.fuel_fraction(LD_loiter_tbp = L_D_loiter_tbp, LD_cruise_tbp = LD_cruise_tbp, eff_cruise_tbp = eff_cruise, eff_loiter_tbp = eff_loiter, cp_cruise_tbp = cp_cruise, cp_loiter_tbp = cp_loiter, V_loiter_tbp = V_loiter_tbp, range_cruise_tbp = 1000000, endurance_loiter_tbp = endurance_loiter_tbp, tbp = True)
+f_fuel_tbp_1000, f_reserve_tbp_1000, f_cruise_start_tbp_1000, f_cruise_end_tbp_1000 = ff.fuel_fraction(LD_loiter_tbp = p.LD_loiter, LD_cruise_tbp = p.LD_ratio, eff_cruise_tbp = eff_cruise, eff_loiter_tbp = eff_loiter, cp_cruise_tbp = cp_cruise, cp_loiter_tbp = cp_loiter, V_loiter_tbp = V_loiter_tbp, range_cruise_tbp = 1000000, endurance_loiter_tbp = endurance_loiter_tbp, tbp = True)
 W_fuel_tbp_1000 = (1 - f_fuel_tbp_1000) * MTOW_tbp
 fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
 
