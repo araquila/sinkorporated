@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.append(os.getcwd())
-from atmosphere import atmosphere_calc
+from detailed_design.atmosphere import atmosphere_calc
 import numpy as np
 ### AIRCRAFT PARAMETERS ###
 
@@ -461,5 +461,6 @@ tot_thrust = 78e3
 ## -------- DOEKOES -------- ##
 PP = 150000 #Cost per propeller  in 2019 dollar
 EP = 1000000 # Engine cost per engine
-FP = 0.46 # Fuel price per lbs in dollar
-ASP = 7800000 #cost of avionics in 2019 dollar
+#FP = 0.099 * 3# Fuel price per lbs in dollar
+FP = 0.16 * 2
+ASP = 5500000 #cost of avionics in 2019 dollar

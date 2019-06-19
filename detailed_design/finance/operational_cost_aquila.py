@@ -193,7 +193,7 @@ plt.clf()
 labels = ['Insurance', 'Capital cost', 'Navigation cost', 'Landing fees','Flight crew','Maintenance','Fuel']
 sizes = [round(C_ins*R_bl,2), round(DOC_fin*R_bl,2),round(C_nf*R_bl,2),round(C_lf*R_bl,2),round(C_crew*R_bl,2),round(DOC_maint*R_bl,2), round(C_pol*R_bl,2)]
 patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%%',pctdistance=0.80, labeldistance=1.03)
-plt.legend(patches, labels, loc="best")
+plt.legend(patches, labels, loc='center left')
 plt.axis('equal')
 plt.tight_layout()
 plt.title('Operational costs 1000 km Aquila, Total cost: '+str(round((DOC-DOC_depr)*R_bl,2))+' USD')
