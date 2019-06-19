@@ -1,7 +1,7 @@
 ### IMPORTS
-#import os
-#import sys
-#sys.path.append(os.getcwd())
+import os
+import sys
+sys.path.append(os.getcwd())
 from detailed_design.atmosphere import atmosphere_calc
 import numpy as np
 ### AIRCRAFT PARAMETERS ###
@@ -44,8 +44,7 @@ E_al2014 = 72.4e9 #E-modulus
 
 ## Trade-off aluminum fuselage skin
 yield_al_2198_T8 = 407e6
-yield_al_2199_T8E74 = 345e6
-yield_al_2060_T8E30 = 345e6
+yield_al_2060_T8E30 = 488e6
 
 
 # Shear modulus
@@ -281,6 +280,7 @@ t_sheet_strutbox = 0.003
 #https://www.smithshp.com/assets/pdf/2055-t84-extrusions.pdf
 #
 #
+G_sheet = 27*10**9
 E_sheet = 76.5*10**9
 density_sheet = 2710
 ult_tensile_strength_2195 = 565*10**6
@@ -422,8 +422,9 @@ C_L_max_TO = 1.8
 C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
-V_climb = 158 # Climb speed in m/s
+V_climb = 96 # Climb speed in m/s
 V_descend = 122.7 # Descend speed in m/s
+V_c = 169.3874 #Maximum Vc in m/s
 t_cl = 0.2635 # Time to climb in hours
 t_de = 0.357 # Time to descend in hours
 C_L_max_land = 2.6
@@ -460,5 +461,6 @@ tot_thrust = 78e3
 ## -------- DOEKOES -------- ##
 PP = 150000 #Cost per propeller  in 2019 dollar
 EP = 1000000 # Engine cost per engine
-FP = 0.46 # Fuel price per lbs in dollar
-ASP = 7800000 #cost of avionics in 2019 dollar
+#FP = 0.099 * 3# Fuel price per lbs in dollar
+FP = 0.16 * 2
+ASP = 5500000 #cost of avionics in 2019 dollar

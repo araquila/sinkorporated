@@ -14,43 +14,48 @@ import detailed_design.finance.manufacturer_cost_aquila as manu_cost
 #-----------------------------------------------------#
 # INPUTS                                              #
 #-----------------------------------------------------#
+#--------- GENERAL AIRCRAFT INPUTS --------------#
+N_yr = 20 # operating years aircraft
+R_bl = 540 # block distance in NM
 
 #--------- AIRCRAFT INPUTS --------------#
-MTOW_kg = p.MTOW/p.g #Maximum Take-Off Weight in kg
-V_cr_ms = p.V_cruise #Cruise speed in m/s
-V_cl_ms = p.V_climb # Climb speed in m/s
-V_de_ms = p.V_descend # Descend speed in m/s
-t_cl = p.t_cl # Time to climb in hours
-t_de = p.t_de # Time to descend in hours
+MTOW_lbs =  50265 #Maximum Take-Off Weight in pounds
+V_cr_kts = 275 #Cruise speed in kts
+V_cl_kts = 170 # Climb speed in kts
+V_de_kts = 200 # Descend speed in m/s
+ROC = 1355 #Rate of climb in feet/min
+ROD = 1.355*ROC #Rate of descend in feet/min
+h_cruise = 16000 #cruise height
+t_cl = (h_cruise/ROC)/60 # Time to climb in hours
+t_de = (h_cruise/ROD)/60 # Time to descend in hours
 n_c1 = 1 # Number of captains
 n_c2 = 1 # Number of co-pilots
-W_Fbl_kg = 1496 # Block fuel in kg for 1000 km trip
+W_Fbl_kg = 2159 # Block fuel in kg
 
-EP = p.EP # Engine cost per engine
-FP = p.FP # Fuel price per lbs in dollar
-N_e = p.n_engines #Number of engines
-PP = p.PP #Cost per propeller  in 2019 dollar
-N_p = p.n_engines #Number of propellers
-AEP = manu_cost.AEP # Unit cost airplane
+EP = 1000000 # Engine cost per engine
+FD = 6.71 # fuel density lb/US gal
+FP_gal = 1.97 # Fuel price per gallon in dollar
+FP = FP_gal/FD # Fuel price per lbs in dollar
+N_e = 2 #Number of engines
+PP = 150000 #Cost per propeller  in 2019 dollar
+N_p = 2 #Number of propellers
+AEP = 24000000 # Unit cost airplane
 AFP = AEP - EP* N_e # Airframe cost
-ASP = p.ASP #cost of avionics in 2019 dollar
-P_TO_1ENG = p.P_TO/2 # Shaft Power per engine in kW
+ASP = 7800000 #cost of avionics in 2019 dollar
+SHP_TO = 2750  # Shaft Power per engine in kW
 W_A_kg = p.m_A # airframe weight in kg
 
 
 ATF = 1.0 # Airplane type factor (1.0 for MTOW > 10,000 lbs)
 
 #--------- UNIT CONVERSIONS --------------#
-MTOW_lbs = MTOW_kg*2.2046226 #Maximum Take-Off Weight in pounds
+MTOW_kg = MTOW_lbs/2.2046226 #Maximum Take-Off Weight in pounds
 W_Fbl = W_Fbl_kg*2.2046226 # Block fuel in lbs
 W_A = W_A_kg*2.2046226 # airframe weight in lbs
-V_cr_kts = 1.94384449*V_cr_ms #Cruise speed in kts
-V_cl_kts = 1.94384449*V_cl_ms # Climb speed in kts
-V_de_kts = 1.94384449*V_de_ms # Descend speed in kts
-SHP_TO = P_TO_1ENG*0.0013410220888 # Shaft Horse Power per engine
-#--------- GENERAL AIRCRAFT INPUTS --------------#
-N_yr = 20 # operating years aircraft
-R_bl = 540 # block distance in NM
+#V_cr_kts = 1.94384449*V_cr_ms #Cruise speed in kts
+#V_cl_kts = 1.94384449*V_cl_ms # Climb speed in kts
+#V_de_kts = 1.94384449*V_de_ms # Descend speed in kts
+
 
 #--------- STATISTICAL INPUTS --------------#
 # COST ESCALATION FACTORS
@@ -97,6 +102,7 @@ DP_engsp = 7 #Suggested depreciation period engine spares
 #-----------------------------------------------------#
 
 # BLOCK TIME
+
 t_gm = 0.51 * (10**-6) * MTOW_lbs + 0.125 # Time for ground maneuvers in hours
 
 R_cl = V_cl_kts*t_cl # Horizontal climb distance in NM
@@ -108,6 +114,7 @@ t_cr = (1.06 * R_bl - R_cl - R_de + R_man)/V_cr_kts # Time for cruise
 t_flt = t_cl + t_cr + t_de # Time in flight
 t_bl = t_gm + t_cl + t_cr + t_de # block time in hours
 
+#t_bl = (0.224 * R_bl + 10.8)/60 
 
 # BLOCK SPEED
 V_bl = R_bl/t_bl # Block speed in kts
@@ -188,15 +195,14 @@ DOC_fin = ((TI * t_bl)/(14 * U_annbl) + (0.03 * TI * t_bl)/U_annbl)/R_bl
 DOC = DOC_flt + DOC_maint + DOC_depr + DOC_lnr + DOC_fin
 
 
-
 plt.clf()
 labels = ['Insurance', 'Capital cost', 'Navigation cost', 'Landing fees','Flight crew','Maintenance','Fuel']
 sizes = [round(C_ins*R_bl,2), round(DOC_fin*R_bl,2),round(C_nf*R_bl,2),round(C_lf*R_bl,2),round(C_crew*R_bl,2),round(DOC_maint*R_bl,2), round(C_pol*R_bl,2)]
 patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%%',pctdistance=0.80, labeldistance=1.03)
-plt.legend(patches, labels, loc='center left')
+plt.legend(patches, labels, loc="best")
 plt.axis('equal')
 plt.tight_layout()
-plt.title('Operational costs 1000 km Aquila, Total cost: '+str(round((DOC-DOC_depr)*R_bl,2))+' USD')
+plt.title('Operational costs 1000 km ATR72-600, Total cost: '+str(round((DOC-DOC_depr)*R_bl,2))+' USD')
 plt.show()
 
 #labels = ['Flight cost', 'Maintenance cost', 'Depreciation cost', 'Landing fees and navigation fees','Financing costs']

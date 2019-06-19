@@ -33,11 +33,18 @@ gamma = 1.4
 rho0 = 1.225
 g = 9.80665
 R = 287
+iterlist = []
+emptylist = []
+maxlist =[]
+
 
 temperature, pressure, rho, speed_of_sound = atmosphere_calc(altitude, temperature0, temperature_gradient, g, R, gamma)
-
+mtomlist=[]
+oewlist=[]
+fuellist=[]
 # Passengers and crew
-n_passenger = 60
+n_passenger = 60 
+
 M_passenger = 105                   #(including luggage)
 n_crew = 4
 n_pilots = 2
@@ -115,7 +122,7 @@ n_seats_abreast = 4
 n_aisles = 1
 main_landing_pos = p.main_landing_pos               # [m]
 nose_landing_pos = 3                # [m]
-
+  
 class1 = {"MTOW": [], "OEW": [], "Fuel": []}
 class1sizing_fuselage = {"Length Fuselage": [], "Diameter Fuselage": []}
 class1sizing_wing = {"Wing Span": [], "Quarter Chord Sweep": [], "Dihedral": [], "Taper": [], "Root Chord": [], "T/C Ratio": [], "Aspect Ratio": []}
@@ -135,10 +142,8 @@ class2["furnishings weight"] = []
 class2["airconditioning weight"] = []
 class2["anti icing system weight"] = []
 class2["handling gear weight"] = []
-iterlist = []
-emptylist = []
-maxlist =[]
-# Iterator
+
+    # Iterator
 for iter in range(10):
 #    MTOW_tbp, OEW_tbp, W_fuel_tbp, C_D_0_tbp, f_cruise_start_tbp, f_cruise_end_tbp, LD_cruise_tbp, L_D_loiter_tbp = Weights_Class_I(0, W_empty_tbp, W_payload, W_crew, C_fe, S, S_wet, 0, A_tbp, 0, e_tbp, 0, 0, eff_loiter_tbp, eff_cruise_tbp, cp_loiter_tbp, cp_cruise_tbp, f_trapped_fuel, 0, V_loiter_tbp, 0, range_cruise_tbp, 0, endurance_loiter_tbp, tbp = True, jet = False)
 
@@ -276,14 +281,14 @@ for iter in range(10):
     iterlist.append(iter)
     emptylist.append(total)
     maxlist.append(MTOM_tbp)
-print('MTOW:', MTOM_tbp, 'kg')
-print('OEW:', OEW_tbp/g, 'kg')
-print('FUEL:', W_fuel_tbp/g, 'kg')
-print('Wing area:', S_tbp, 'm^2')
-plt.figure(1)
-plt.plot(iterlist, emptylist)
-plt.figure(2)
-plt.plot(iterlist, maxlist)
+    print('MTOW:', MTOM_tbp, 'kg')
+    print('OEW:', OEW_tbp/g, 'kg')
+    print('FUEL:', W_fuel_tbp/g, 'kg')
+    print('Wing area:', S_tbp, 'm^2')
+#    plt.figure(1)
+#    plt.plot(iterlist, emptylist)
+#    plt.figure(2)
+#    plt.plot(iterlist, maxlist)
 #Design Cruise CL
 q_tbp = 0.5 * 0.525168 * V_cruise_tbp**2
 #C_L_cruise_tbp = C_L_des(q_tbp,f_cruise_start_tbp*MTOW_tbp/S_tbp,f_cruise_end_tbp*MTOW_tbp/S_tbp)
@@ -297,7 +302,7 @@ f_fuel_tbp_1000, f_reserve_tbp_1000, f_cruise_start_tbp_1000, f_cruise_end_tbp_1
 W_fuel_tbp_1000 = (1 - f_fuel_tbp_1000) * MTOW_tbp
 fuel_per_passenger_tbp_1000 = (W_fuel_tbp_1000/n_passenger)/g
 
-print('Fuel burn 1000km trip:',fuel_per_passenger_tbp_1000,'kg')
+#    print('Fuel burn 1000km trip:',fuel_per_passenger_tbp_1000,'kg')
 
 
 #Emission Calculations
@@ -318,18 +323,18 @@ print('Total noise production:', noise_at_distance, 'dB')
 #Payload Range Diagram
 range_list, payload_list, M_payload = pld.payloadrange(MTOW_tbp, OEW_tbp, W_fuel_tbp, 0, LD_cruise_tbp, 0, A_tbp, eff_cruise, eff_loiter, 0, e_tbp, 0, V_cruise_tbp, V_loiter_tbp, jet = False, tbp = True)
 
-#if print_payloadrange:
-#    plt.plot(range_list, payload_list)
-#    plt.axis([0,5000, 0, 7000])
-#    plt.ylabel('Payload Mass [kg]', fontsize = 13)
-#    plt.xlabel('Range [km]', fontsize = 13)
-#    plt.show()
+if print_payloadrange:
+    plt.plot(range_list, payload_list)
+    plt.axis([0,5000, 0, 7000])
+    plt.ylabel('Payload Mass [kg]', fontsize = 13)
+    plt.xlabel('Range [km]', fontsize = 13)
+    plt.show()
 
-#if piechart:
-#    patches, texts, values = plt.pie(weight_fractions, counterclock = False, startangle=90, autopct='%1.11f%%')
-#    plt.legend(patches, weight_label, loc="best", fontsize = 'x-large')
-#    plt.axis('equal')
-#    plt.show()
+if piechart:
+    patches, texts, values = plt.pie(weight_fractions, counterclock = False, startangle=90, autopct='%1.11f%%')
+    plt.legend(patches, weight_label, loc="best", fontsize = 'x-large')
+    plt.axis('equal')
+    plt.show()
 
 print('Development cost :', ceq.non_recurring_cost(W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g),'Million USD (2019)')
 print('Production cost per unit :', ceq.recurring_cost(500,W_wing,W_h+W_v,W_fus,W_nl+W_ml,W_engine, W_engine_controls + W_starter + W_fuel_system + W_flight_control + W_instruments + W_hydraulics + W_electrical + W_avionics + W_furnishings + W_airco + W_anti_ice + W_handling_gear, W_payload/g,W_empty_tbp/g)/500,'Million USD (2019)')
@@ -341,4 +346,4 @@ print("Nose length =",length_nose)
 print("Cabin length =", length_cabin)
 print("Tail length =", length_tail)
 print("Wing area =", S_tbp)
-print(lateral_position)
+
