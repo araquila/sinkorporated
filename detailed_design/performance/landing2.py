@@ -131,4 +131,4 @@ x_groundrun_atr = x_b1+x_b2
 
 x_total_atr = x_airborne + x_groundrun
 x_atr_LFL = 1210
-print(x_total_atr*landing_factor/x_atr_LFL)
+print(1 - x_total_atr*landing_factor/x_atr_LFL)

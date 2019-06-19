@@ -114,7 +114,7 @@ xlemac = (x_lemac / p.l_fuselage)
 
 # Label of the axes
 plt.xlabel("x_cg/MAC", size="large")
-plt.ylabel("x_lemac/l_fus", size="large")
+plt.ylabel("Mass [kg]", size="large")
 
 # Limits of the axes
 #plt.xlim([0,10])

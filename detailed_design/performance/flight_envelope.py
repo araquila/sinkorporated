@@ -50,7 +50,7 @@ V_F = max(1.4*V_S, 2*V_S0)
 V_F = 1.6*V_S1
 V_FE = V_F
 VCmin = 4.77*np.sqrt(W/S)*0.514444
-VC = p.V_cruise/0.6*0.55
+VC = p.V_cruise
 VD = 1.4*VCmin
 
 Vdiagram = []
