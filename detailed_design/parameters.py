@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.append(os.getcwd())
-from atmosphere import atmosphere_calc
+from detailed_design.atmosphere import atmosphere_calc
 import numpy as np
 ### AIRCRAFT PARAMETERS ###
 
@@ -210,7 +210,7 @@ n_lower_skin_wingbox = 12
 #https://www.smithmetal.com/2099-lithium.htm
 #https://www.smithshp.com/assets/pdf/2099-aluminium-lithium.pdf
 
-
+#t_hat = 0.0028
 t_hat = 0.0028
 t_z = 0.0028
 
@@ -422,8 +422,9 @@ C_L_max_TO = 1.8
 C_L_cruise = 0.5
 V_cruise = M_cruise*speed_of_sound
 V_stall = 46.3
-V_climb = 158 # Climb speed in m/s
+V_climb = 96 # Climb speed in m/s
 V_descend = 122.7 # Descend speed in m/s
+V_c = 169.3874 #Maximum Vc in m/s
 t_cl = 0.2635 # Time to climb in hours
 t_de = 0.357 # Time to descend in hours
 C_L_max_land = 2.6
@@ -460,5 +461,6 @@ tot_thrust = 78e3
 ## -------- DOEKOES -------- ##
 PP = 150000 #Cost per propeller  in 2019 dollar
 EP = 1000000 # Engine cost per engine
-FP = 0.46 # Fuel price per lbs in dollar
-ASP = 7800000 #cost of avionics in 2019 dollar
+#FP = 0.099 * 3# Fuel price per lbs in dollar
+FP = 0.16 * 2
+ASP = 5500000 #cost of avionics in 2019 dollar

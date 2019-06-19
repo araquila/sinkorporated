@@ -52,6 +52,8 @@ V_FE = V_F
 VCmin = 4.77*np.sqrt(W/S)*0.514444
 VC = p.V_cruise
 VD = 1.4*VCmin
+Vstall0 = np.sqrt(W/(0.5*rho0*S*CLmaxclean))
+
 
 Vdiagram = []
 ndiagram = []
@@ -64,19 +66,20 @@ Vflap = []
 Vtotal = []
 ntotal = []
 for i in range(len(V1range)):
-    Lift = 0.5*rho0*S*CLmaxclean*0.85*V1range[i]**2
+    Lift = 0.5*rho0*S*CLmaxclean*V1range[i]**2
     if Lift/W <= n1:
         n1range.append(Lift/W)
         ndiagram.append(Lift/W)
         Vdiagram.append(V1range[i])
-        Vtotal.append(V1range[i])
-        ntotal.append(Lift/W)
+        if V1range[i] > Vstall0:
+            Vtotal.append(V1range[i])
+            ntotal.append(Lift/W)
     if -Lift/W >= n2:
         n2range.append(-Lift/W)
         V2range.append(V1range[i])
     
 for i in range(len(V1range)):
-    Liftflap = 0.5*rho0*S*CLmaxld*0.85*V1range[i]**2
+    Liftflap = 0.5*rho0*S*CLmaxld*V1range[i]**2
     if Liftflap/W <= 2:
         nflap.append(Liftflap/W)
         Vflap.append(V1range[i])
@@ -96,9 +99,17 @@ ndiagram.append(0)
 Vdiagram.append(VC)
 ndiagram.append(n2range[-1])
 
+Vtotal.append(VD)
+ntotal.append(n1range[-1])
+Vtotal.append(VD)
+ntotal.append(0)
+
+
+
 for i in range(len(n2range)):
     Vdiagram.append(V2range[len(n2range)-1-i])
     ndiagram.append(n2range[len(n2range)-1-i])
+
 
 
 #plt.plot(Vdiagram, ndiagram)
@@ -123,10 +134,25 @@ ngustup = [1, n_C, n_D, 1]
 Vgust = [0, VC, VD, 1]
 ngustdown = [1, n_Cdown, n_Ddown, 1]
 
+Vtotal.append(VD)
+ntotal.append(n_Ddown)
+Vtotal.append(VC)
+ntotal.append(n_Cdown)
+Vtotal.append(163.174)
+ntotal.append(-1.4979)
+
+for i in range(len(n2range)):
+    if V2range[len(n2range) -1 -i] > Vstall0:
+        Vtotal.append(V2range[len(n2range)-1-i])
+        ntotal.append(n2range[len(n2range)-1-i])
+    
+
+Vtotal.append(Vtotal[0])
+ntotal.append(ntotal[0])
 
 
-plt.plot(Vdiagram, ndiagram, label = "Wing flaps up")
-plt.plot(Vflap, nflap, label = "Wing flaps down")
+plt.plot(Vdiagram, ndiagram, label = "Clean configuration")
+#plt.plot(Vflap, nflap, label = "Wing flaps down")
 plt.plot(Vgust, ngustup, label = "Positive gust")
 plt.plot(Vgust, ngustdown, label = "Negative gust")
 
@@ -142,4 +168,24 @@ plt.ylim([-2,4.5])
 plt.legend(loc="best", fontsize="large")
 
 # Show plot
+plt.show()
+
+
+
+plt.figure()
+plt.plot(Vtotal, ntotal, label = "Service flight envelope", zorder = 10, color = 'C7')
+plt.plot(Vdiagram, ndiagram, label = "Clean configuration", linestyle = 'dashed', zorder = 5, color = 'C0')
+plt.plot(Vgust, ngustup, label = "Positive gust", linestyle = 'dashed', zorder = 0, color = 'C1')
+plt.plot(Vgust, ngustdown, label = "Negative gust", linestyle = 'dashed', zorder = 0, color = 'C2')
+
+# Label of the axes
+plt.xlabel("Airspeed [m/s]", size="large")
+plt.ylabel("Load factor [-]", size="large")
+
+# Limits of the axes
+plt.xlim([0, 220])
+plt.ylim([-2,4.5])
+
+# Create Legend
+plt.legend(loc="upper left", fontsize="large")
 plt.show()
