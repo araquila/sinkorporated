@@ -862,7 +862,7 @@ for x in x_pos:
 
 lengthdata = 100
 Lift, Chord, Yle, Drag, AeroMoment = read_aero_data("wing/datastrut5.txt", lengthdata, V_cruise, rho_cruise)
-Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = CallForcesWithoutStrut(Lift, Yle, Drag, tot_thrust, Iyy_list, Izz_list , 70*10**9, perc_engine, perc_strut, perc_pod)
+Frx, Fry, Fs, Mrz, Frz, Fsz, Mry, momentyi, momentzi, shearyi, shearzi, vyi, vny, vzi, vnz, xi, theta = CallForces(Lift, Yle, Drag, tot_thrust, Iyy_list, Izz_list , 70*10**9, perc_engine, perc_strut, perc_pod)
 Forces1 = [['Frx = ', Frx], ['Fry = ', Fry], ['Fs = ', Fs], ['Mr = ', Mrz]]
 Forces2 = [['Frz = ', Frz], ['Fsz = ', Fsz], ['Mry = ', Mry]]
 #TESTING
@@ -1233,3 +1233,35 @@ if p.ultimate_shear_stress_al2024 > max(tau_max)*10**6:
 else: 
     print("Shear failure of the material")
 
+
+plt.figure()
+# Plot lines
+plt.plot(xi, vyi)
+plt.xlabel("Location along the length of the wing", size="large")
+plt.ylabel("Wing deflection in y [m]", size="large")
+
+# Limits of the axes
+#plt.xlim([0,10])
+#plt.ylim([0,20])
+
+# Create Legend
+#plt.legend(loc="best", fontsize="large")
+
+# Show plot
+plt.show()
+
+plt.figure()
+# Plot lines
+plt.plot(xi, vzi)
+plt.xlabel("Location along the length of the wing", size="large")
+plt.ylabel("Wing deflection in z [m]", size="large")
+
+# Limits of the axes
+#plt.xlim([0,10])
+#plt.ylim([0,20])
+
+# Create Legend
+#plt.legend(loc="best", fontsize="large")
+
+# Show plot
+plt.show()

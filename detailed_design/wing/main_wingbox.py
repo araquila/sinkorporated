@@ -413,4 +413,18 @@ if p.ultimate_shear_stress_al2024 > max(tau_max)*10**6:
 else: 
     print("Shear failure of the material")
 
+plt.figure()
+# Plot lines
+plt.plot(xi, vyi)
+plt.xlabel("Location along the length of the wing", size="large")
+plt.ylabel("Upward wing deflection [m]", size="large")
 
+# Limits of the axes
+#plt.xlim([0,10])
+#plt.ylim([0,20])
+
+# Create Legend
+#plt.legend(loc="best", fontsize="large")
+
+# Show plot
+plt.show()

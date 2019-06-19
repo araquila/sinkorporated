@@ -210,7 +210,7 @@ n_lower_skin_wingbox = 12
 #https://www.smithmetal.com/2099-lithium.htm
 #https://www.smithshp.com/assets/pdf/2099-aluminium-lithium.pdf
 
-
+#t_hat = 0.0028
 t_hat = 0.0028
 t_z = 0.0028
 
