@@ -202,7 +202,7 @@ patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%
 plt.legend(patches, labels, loc="best")
 plt.axis('equal')
 plt.tight_layout()
-plt.title('Operational costs 1000 km ATR72-600, Total cost: '+str(round((DOC-DOC_depr)*R_bl,2))+' USD')
+plt.title('Operational costs 1000 km ATR72-600, Total cost: '+str(round((DOC-DOC_depr)*R_bl,3))+' USD')
 plt.show()
 
 #labels = ['Flight cost', 'Maintenance cost', 'Depreciation cost', 'Landing fees and navigation fees','Financing costs']

@@ -113,18 +113,6 @@ plt.axis('equal')
 plt.tight_layout()
 plt.show()
 
-"""
-print('Cost in million USD')
-print('Airframe engineering and design cost: ',round(C_aedr/1000000,2))
-print('Development support and testing cost: ',round(C_dst/1000000,2))
-print('Flight test airplanes cost:           ',round(C_fta/1000000,2))
-print('Flight test operations cost:          ',round(C_ftor/1000000,2))
-print('Test and simulation facilities cost:  ',round(C_tsfr/1000000,2))
-print('RDTE profit:                          ',round(C_pror/1000000,2))
-print('Cost to finance RDTE phase:           ',round(C_finr/1000000,2))
-print('--------------------------------------')
-print('Total RDTE cost:                      ',round(C_rdte/1000000,2))
-"""
 
 #-----------------------------------------------------#
 # MANUFACTURING AND ACQUISITION                       #
@@ -162,9 +150,9 @@ C_finm = C_MAN * F_fin
 assert round((C_aedm + C_apcm+C_finm),2) == round(C_MAN,2)
 C_PRO = 0.1 * C_MAN
 C_ACQ = C_MAN + C_PRO
-AEP = (C_MAN + C_PRO + C_rdte)/N_m
+AEP = (C_MAN + C_rdte)/N_m
 
-
+"""
 plt.clf()
 labels = ['Engineering and design', 'Support and testing', 'Test airplanes cost', 'Flight test operations','Test and simulation facilities','Cost to finance RDTE phase']
 sizes = [round(C_aedr/1000000,2), round(C_dst/1000000,2),round(C_fta/1000000,2),round(C_ftor/1000000,2),round(C_tsfr/1000000,2),round(C_finr/1000000,2)]
@@ -172,17 +160,17 @@ patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%
 plt.legend(patches, labels, loc="center left")
 plt.axis('equal')
 plt.tight_layout()
-plt.title('Total cost in million USD: '+str(round(C_rdte/1000000,2))+' USD')
+plt.title('Total cost in million USD: '+str(round(C_rdte/1000000,3))+' USD')
 plt.show()
-
 """
+
+
 plt.clf()
-labels = ['Development', 'Engines and propellers','Avionics','Interior','Material','Labour','Financing','Profit']
-sizes = [round(C_rdte/N_m/1000000,2), round((N_e*C_e+N_p*C_p)/1000000,2),round(C_avionics/1000000,2),round(C_intm/N_m/1000000,2),round(C_matm/N_m/1000000,2),round((C_aedm+C_manm+C_toolm+C_qcm)/N_m/1000000,2),round(C_finm/N_m/1000000,2),round(C_PRO/N_m/1000000,2)]
+labels = ['Development', 'Engines and propellers','Avionics','Interior','Material','Labour','Financing']
+sizes = [round(C_rdte/N_m/1000000,2), round((N_e*C_e+N_p*C_p)/1000000,2),round(C_avionics/1000000,2),round(C_intm/N_m/1000000,2),round(C_matm/N_m/1000000,2),round((C_aedm+C_manm+C_toolm+C_qcm)/N_m/1000000,2),round(C_finm/N_m/1000000,2)]
 patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%%',pctdistance=0.80, labeldistance=1.03)
 plt.legend(patches, labels, loc="center left")
 plt.axis('equal')
 plt.tight_layout()
 plt.title('Unit cost breakdown Aquila, Total cost in million USD: '+str(round(AEP/1000000,2))+' USD')
 plt.show()
-"""
