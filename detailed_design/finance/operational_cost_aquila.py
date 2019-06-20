@@ -31,7 +31,7 @@ FP = p.FP # Fuel price per lbs in dollar
 N_e = p.n_engines #Number of engines
 PP = p.PP #Cost per propeller  in 2019 dollar
 N_p = p.n_engines #Number of propellers
-AEP = manu_cost.AEP # Unit cost airplane
+AEP = 24500000 # Unit cost airplane
 AFP = AEP - EP* N_e # Airframe cost
 ASP = p.ASP #cost of avionics in 2019 dollar
 P_TO_1ENG = p.P_TO/2 # Shaft Power per engine in kW
@@ -114,8 +114,8 @@ V_bl = R_bl/t_bl # Block speed in kts
 
 
 # ANNUAL UTILIZATION
-U_annbl = (10**3) * (3.4546 * t_bl + 2.994 - (12.289 * t_bl**2 - 5.6626 * t_bl + 8.964)**0.5) # Annual utilization in block hours
-
+#U_annbl = (10**3) * (3.4546 * t_bl + 2.994 - (12.289 * t_bl**2 - 5.6626 * t_bl + 8.964)**0.5) # Annual utilization in block hours
+U_annbl = 3240
 
 # TOTAL ANNUAL BLOCK MILES FLOWN   
 R_blann = V_bl * U_annbl # Total annual block miles
@@ -193,7 +193,7 @@ plt.clf()
 labels = ['Insurance', 'Capital cost', 'Navigation cost', 'Landing fees','Flight crew','Maintenance','Fuel']
 sizes = [round(C_ins*R_bl,2), round(DOC_fin*R_bl,2),round(C_nf*R_bl,2),round(C_lf*R_bl,2),round(C_crew*R_bl,2),round(DOC_maint*R_bl,2), round(C_pol*R_bl,2)]
 patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%%',pctdistance=0.80, labeldistance=1.03)
-plt.legend(patches, labels, loc="best")
+plt.legend(patches, labels, loc='center left')
 plt.axis('equal')
 plt.tight_layout()
 plt.title('Operational costs 1000 km Aquila, Total cost: '+str(round((DOC-DOC_depr)*R_bl,2))+' USD')

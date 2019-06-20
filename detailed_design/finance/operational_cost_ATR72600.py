@@ -121,8 +121,8 @@ V_bl = R_bl/t_bl # Block speed in kts
 
 
 # ANNUAL UTILIZATION
-U_annbl = (10**3) * (3.4546 * t_bl + 2.994 - (12.289 * t_bl**2 - 5.6626 * t_bl + 8.964)**0.5) # Annual utilization in block hours
-
+#U_annbl = (10**3) * (3.4546 * t_bl + 2.994 - (12.289 * t_bl**2 - 5.6626 * t_bl + 8.964)**0.5) # Annual utilization in block hours
+U_annbl = 3240
 
 # TOTAL ANNUAL BLOCK MILES FLOWN   
 R_blann = V_bl * U_annbl # Total annual block miles
@@ -202,7 +202,7 @@ patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%
 plt.legend(patches, labels, loc="best")
 plt.axis('equal')
 plt.tight_layout()
-plt.title('Operational costs 1000 km ATR72-600, Total cost: '+str(round((DOC-DOC_depr)*R_bl,2))+' USD')
+plt.title('Operational costs 1000 km ATR72-600, Total cost: '+str(round((DOC-DOC_depr)*R_bl,3))+' USD')
 plt.show()
 
 #labels = ['Flight cost', 'Maintenance cost', 'Depreciation cost', 'Landing fees and navigation fees','Financing costs']

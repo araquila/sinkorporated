@@ -45,7 +45,7 @@ def defl(x):
     
 
 print(defl(0))
-print(defl(p.b/2))
+print(defl(0.75*p.b/2))
 x = np.linspace(0,p.b/2,100)
 plt.figure()
 plt.plot(x,defl(x))

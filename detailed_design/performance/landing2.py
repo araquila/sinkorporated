@@ -38,7 +38,7 @@ T = p.T_TO
 W = p.MTOW
 gamma_d = np.arcsin(CD/CL)
 
-altitude = np.arange(0, 1501, 1)
+altitude = np.arange(0, 1, 1)
 
 LFlength = []
 

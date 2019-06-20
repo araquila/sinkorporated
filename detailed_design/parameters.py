@@ -210,7 +210,7 @@ n_lower_skin_wingbox = 12
 #https://www.smithmetal.com/2099-lithium.htm
 #https://www.smithshp.com/assets/pdf/2099-aluminium-lithium.pdf
 
-
+#t_hat = 0.0028
 t_hat = 0.0028
 t_z = 0.0028
 
@@ -461,5 +461,6 @@ tot_thrust = 78e3
 ## -------- DOEKOES -------- ##
 PP = 150000 #Cost per propeller  in 2019 dollar
 EP = 1000000 # Engine cost per engine
-FP = 0.46 # Fuel price per lbs in dollar
-ASP = 7800000 #cost of avionics in 2019 dollar
+#FP = 0.099 * 3# Fuel price per lbs in dollar
+FP = 0.16 * 2
+ASP = 5500000 #cost of avionics in 2019 dollar

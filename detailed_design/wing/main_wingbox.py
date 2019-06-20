@@ -321,20 +321,20 @@ plt.xlim([0,p.b/2])
 
 #### PLOT SHEAR STRESS ###
 #plt.figure(6,figsize = (8,6))
-plt.xlabel('Location along the length of the wingbox [m]',size='large')
-plt.ylabel('Shear stress [MPa]',size='large')
-plt.plot(x_pos, tau_max,'r')
+#plt.xlabel('Location along the length of the wingbox [m]',size='large')
+#plt.ylabel('Shear stress [MPa]',size='large')
+#plt.plot(x_pos, tau_max,'r')
 
 ### PLOT NORMAL STRESS AT THE FOUR CORNERS
-#plt.figure(7,figsize = (8,6))
-#plt.xlabel('Location along the length of the wingbox [m]',size='large')
-#plt.ylabel('Normal stress [MPa]',size='large')
-#plt.plot(x_pos, normal_ru_list, 'r', label='Right-up')
-#plt.plot(x_pos, normal_lu_list, 'g', label='Left-up')
-#plt.plot(x_pos, normal_rl_list, 'b', label='Right-bottom')
-#plt.plot(x_pos, normal_ll_list, 'y', label='Left-bottom')
-#plt.legend(loc="best", fontsize="large")
-#plt.xlim([0,p.b/2])
+plt.figure(7,figsize = (8,6))
+plt.xlabel('Location along the length of the wingbox [m]',size='large')
+plt.ylabel('Normal stress [MPa]',size='large')
+plt.plot(x_pos, normal_ru_list, 'r', label='Right-up')
+plt.plot(x_pos, normal_lu_list, 'g', label='Left-up')
+plt.plot(x_pos, normal_rl_list, 'b', label='Right-bottom')
+plt.plot(x_pos, normal_ll_list, 'y', label='Left-bottom')
+plt.legend(loc="best", fontsize="large")
+plt.xlim([0,p.b/2])
 
 
 plt.show()
@@ -413,4 +413,18 @@ if p.ultimate_shear_stress_al2024 > max(tau_max)*10**6:
 else: 
     print("Shear failure of the material")
 
+plt.figure()
+# Plot lines
+plt.plot(xi, vyi)
+plt.xlabel("Location along the length of the wing", size="large")
+plt.ylabel("Upward wing deflection [m]", size="large")
 
+# Limits of the axes
+#plt.xlim([0,10])
+#plt.ylim([0,20])
+
+# Create Legend
+#plt.legend(loc="best", fontsize="large")
+
+# Show plot
+plt.show()

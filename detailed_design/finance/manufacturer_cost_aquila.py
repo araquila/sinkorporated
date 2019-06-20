@@ -31,7 +31,7 @@ V_max_kts = 1.94384449*V_max_ms #Maximum Vc in knots
 
 #--------- GENERAL PROGRAM INPUTS --------------#
 N_rdte = 5 #Test airplanes in rdte
-N_st = 3 #Number of static test aircraft
+N_st = 2 #Number of static test aircraft
 N_m = 630 # Number of airplanes built to standard
 N_program = N_rdte +  N_m #Expected airplanes build in the whole program
 F_diff = 1.8 #Complexity factor
@@ -113,18 +113,6 @@ plt.axis('equal')
 plt.tight_layout()
 plt.show()
 
-"""
-print('Cost in million USD')
-print('Airframe engineering and design cost: ',round(C_aedr/1000000,2))
-print('Development support and testing cost: ',round(C_dst/1000000,2))
-print('Flight test airplanes cost:           ',round(C_fta/1000000,2))
-print('Flight test operations cost:          ',round(C_ftor/1000000,2))
-print('Test and simulation facilities cost:  ',round(C_tsfr/1000000,2))
-print('RDTE profit:                          ',round(C_pror/1000000,2))
-print('Cost to finance RDTE phase:           ',round(C_finr/1000000,2))
-print('--------------------------------------')
-print('Total RDTE cost:                      ',round(C_rdte/1000000,2))
-"""
 
 #-----------------------------------------------------#
 # MANUFACTURING AND ACQUISITION                       #
@@ -153,7 +141,7 @@ C_toolm = MHR_toolprogram * R_t - C_toolr
 
 C_qcm = 0.13*C_manm # Quality control
 
-C_apcm = C_eam + C_intm + C_manm + C_matm + C_toolm + C_qcm
+C_apcm = C_eam + C_intm + C_manm + C_matm + C_toolm + C_qcm #Airplane manufacturing cost
 
 
 # MANUFACTURING AND ACQUISITION COST
@@ -162,13 +150,27 @@ C_finm = C_MAN * F_fin
 assert round((C_aedm + C_apcm+C_finm),2) == round(C_MAN,2)
 C_PRO = 0.1 * C_MAN
 C_ACQ = C_MAN + C_PRO
-AEP = (C_MAN + C_PRO + C_rdte)/N_m
+AEP = (C_MAN + C_rdte)/N_m
 
-labels = ['Airframe engineering and design cost', 'Development support and testing cost', 'Flight test airplanes cost', 'Flight test operations cost','Test and simulation facilities cost','Cost to finance RDTE phase']
-sizes = [C_aedr, C_dst, C_fta, C_ftor,C_tsfr,C_finr]
-patches, texts, pcts = plt.pie(sizes, startangle=90,autopct='%1.1f%%',pctdistance=0.80)
-plt.legend(patches, labels, loc="best")
+"""
+plt.clf()
+labels = ['Engineering and design', 'Support and testing', 'Test airplanes cost', 'Flight test operations','Test and simulation facilities','Cost to finance RDTE phase']
+sizes = [round(C_aedr/1000000,2), round(C_dst/1000000,2),round(C_fta/1000000,2),round(C_ftor/1000000,2),round(C_tsfr/1000000,2),round(C_finr/1000000,2)]
+patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%%',pctdistance=0.80, labeldistance=1.03)
+plt.legend(patches, labels, loc="center left")
 plt.axis('equal')
 plt.tight_layout()
+plt.title('Total cost in million USD: '+str(round(C_rdte/1000000,3))+' USD')
 plt.show()
+"""
 
+
+plt.clf()
+labels = ['Development', 'Engines and propellers','Avionics','Interior','Material','Labour','Financing']
+sizes = [round(C_rdte/N_m/1000000,2), round((N_e*C_e+N_p*C_p)/1000000,2),round(C_avionics/1000000,2),round(C_intm/N_m/1000000,2),round(C_matm/N_m/1000000,2),round((C_aedm+C_manm+C_toolm+C_qcm)/N_m/1000000,2),round(C_finm/N_m/1000000,2)]
+patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%%',pctdistance=0.80, labeldistance=1.03)
+plt.legend(patches, labels, loc="center left")
+plt.axis('equal')
+plt.tight_layout()
+plt.title('Unit cost breakdown Aquila, Total cost in million USD: '+str(round(AEP/1000000,2))+' USD')
+plt.show()
