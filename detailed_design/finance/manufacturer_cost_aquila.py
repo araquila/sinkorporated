@@ -31,7 +31,7 @@ V_max_kts = 1.94384449*V_max_ms #Maximum Vc in knots
 
 #--------- GENERAL PROGRAM INPUTS --------------#
 N_rdte = 5 #Test airplanes in rdte
-N_st = 3 #Number of static test aircraft
+N_st = 2 #Number of static test aircraft
 N_m = 630 # Number of airplanes built to standard
 N_program = N_rdte +  N_m #Expected airplanes build in the whole program
 F_diff = 1.8 #Complexity factor
@@ -164,7 +164,7 @@ C_PRO = 0.1 * C_MAN
 C_ACQ = C_MAN + C_PRO
 AEP = (C_MAN + C_PRO + C_rdte)/N_m
 
-"""
+
 plt.clf()
 labels = ['Engineering and design', 'Support and testing', 'Test airplanes cost', 'Flight test operations','Test and simulation facilities','Cost to finance RDTE phase']
 sizes = [round(C_aedr/1000000,2), round(C_dst/1000000,2),round(C_fta/1000000,2),round(C_ftor/1000000,2),round(C_tsfr/1000000,2),round(C_finr/1000000,2)]
@@ -172,10 +172,10 @@ patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%
 plt.legend(patches, labels, loc="center left")
 plt.axis('equal')
 plt.tight_layout()
-plt.title('Development costs Aquila, Total cost in million USD: '+str(round(C_rdte/1000000,2))+' USD')
+plt.title('Total cost in million USD: '+str(round(C_rdte/1000000,2))+' USD')
 plt.show()
-"""
 
+"""
 plt.clf()
 labels = ['Development', 'Engines and propellers','Avionics','Interior','Material','Labour','Financing','Profit']
 sizes = [round(C_rdte/N_m/1000000,2), round((N_e*C_e+N_p*C_p)/1000000,2),round(C_avionics/1000000,2),round(C_intm/N_m/1000000,2),round(C_matm/N_m/1000000,2),round((C_aedm+C_manm+C_toolm+C_qcm)/N_m/1000000,2),round(C_finm/N_m/1000000,2),round(C_PRO/N_m/1000000,2)]
@@ -185,3 +185,4 @@ plt.axis('equal')
 plt.tight_layout()
 plt.title('Unit cost breakdown Aquila, Total cost in million USD: '+str(round(AEP/1000000,2))+' USD')
 plt.show()
+"""
