@@ -114,8 +114,8 @@ V_bl = R_bl/t_bl # Block speed in kts
 
 
 # ANNUAL UTILIZATION
-U_annbl = (10**3) * (3.4546 * t_bl + 2.994 - (12.289 * t_bl**2 - 5.6626 * t_bl + 8.964)**0.5) # Annual utilization in block hours
-
+#U_annbl = (10**3) * (3.4546 * t_bl + 2.994 - (12.289 * t_bl**2 - 5.6626 * t_bl + 8.964)**0.5) # Annual utilization in block hours
+U_annbl = 3240
 
 # TOTAL ANNUAL BLOCK MILES FLOWN   
 R_blann = V_bl * U_annbl # Total annual block miles
