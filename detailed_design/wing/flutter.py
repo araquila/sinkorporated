@@ -45,17 +45,24 @@ I_zz = sp.I_zz_wingbox(p.b/2*0.75)
 G = p.G_sheet
 J = sp.I_zz_wingbox(L) + sp.I_yy_wingbox(L)
 
-K_h = (E*I_zz)/((L))
+K_h = (8*E*I_zz)/(L**4)
 K_theta = G*J/L
+
 
 e = 0.125
 
 q = 0.5*p.rho*p.V_cruise**2
+V_cruise = np.sqrt(2*q/p.rho)
+print("V at cruise; ",V_cruise)
+print("")
 
 length = 1000
 qrange = np.linspace(0,90*q,length)
 
 q_divergence_torsion = K_theta/(Clalpha*e*chord*S)
+print("Torsional divergence at q:",q_divergence_torsion)
+print("Corresponding V:", np.sqrt(2*q_divergence_torsion/p.rho))
+print("")
 
 real_1 = np.zeros(length)
 real_2 = np.zeros(length)
@@ -81,9 +88,15 @@ def roots_flutter(q):
 for i in range(length):
     q = qrange[i]
     roots = roots_flutter(q)
-    print(roots)
+    
     real_1[i] = np.real(roots[0])
     imag_1[i] = np.imag(roots[0])
+    
+    if i > 2:
+        if real_1[i] - real_1[i-1] > 0.1:
+            print("Flutter at q: ",q)
+            q_f = q
+            break
     
     real_2[i] = np.real(roots[1])
     imag_2[i] = np.imag(roots[1])
@@ -94,21 +107,24 @@ for i in range(length):
     real_4[i] = np.real(roots[3])
     imag_4[i] = np.imag(roots[3])
     
-plt.scatter(qrange,real_1)
-plt.scatter(qrange,real_2)
-plt.scatter(qrange,real_3)
-plt.scatter(qrange,real_4)
+#plt.scatter(qrange,real_1)
+##plt.scatter(qrange,real_2)
+##plt.scatter(qrange,real_3)
+##plt.scatter(qrange,real_4)
+#
+##plt.scatter(qrange,imag_1)
+##plt.scatter(qrange,imag_2)
+##plt.scatter(qrange,imag_3)
+##plt.scatter(qrange,imag_4)
+#
+#plt.show()
 
-plt.scatter(qrange,imag_1)
-plt.scatter(qrange,imag_2)
-plt.scatter(qrange,imag_3)
-plt.scatter(qrange,imag_4)
+V_f_cruise = np.sqrt(2*q/p.rho)
+print("Corresponding V: ",V_f_cruise)
+print("")
 
-plt.show()
-
-    
 def uncoupled_bending_frequency(x):
-    K_h = (3*E*sp.I_zz_wingbox(x))/((L)**3)
+    K_h = (8*E*sp.I_zz_wingbox(x))/((L)**4)
     return np.sqrt(K_h/m)
 
 def uncoupled_torsional_frequency(x):
@@ -122,13 +138,29 @@ def uncoupled_torsional_frequency(x):
 condition_1 = x_theta*(x_theta + 2*e - 2*e*(uncoupled_bending_frequency(L)/uncoupled_torsional_frequency(L))**2*(1+2*e*x_theta/(r_theta**2)))
 condition_2 = x_theta + 2*e + (uncoupled_bending_frequency(L)/uncoupled_torsional_frequency(L))**2*(x_theta-2*e+4*e*(x_theta/r_theta)**2)
 
+print("Pine's flutter condition based on wing geometry, if both positive no flutter:")
 print(condition_1)
 print(condition_2)
+print("")
 
 
-V_f_cruise = np.sqrt(2*60335/p.rho)
-print(V_f_cruise)
 
+
+length = 1000
+rho_list = np.linspace(0.1,1.225,length)
+V_f_list = np.zeros(length)
+
+
+for i in range(length):
+    V_f_list[i] = np.sqrt(2*q_f/(rho_list[i]))
+    
+rho_list = rho_list[::-1]
+plt.plot(V_f_list, rho_list)
+plt.axhline(p.rho)
+plt.ylim(1.225, 0.1)
+plt.xlim(0,1000)
+plt.show()
+    
 
 
 

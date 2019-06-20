@@ -2,7 +2,7 @@
 import os
 import sys
 sys.path.append(os.getcwd())
-from detailed_design.atmosphere import atmosphere_calc
+from atmosphere import atmosphere_calc
 import numpy as np
 ### AIRCRAFT PARAMETERS ###
 
