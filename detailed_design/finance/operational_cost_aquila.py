@@ -41,6 +41,7 @@ for i in range(len(mtomlist)):
     ASP = p.ASP #cost of avionics in 2019 dollar
     P_TO_1ENG = p.P_TO/2 # Shaft Power per engine in kW
     W_A_kg = p.m_A # airframe weight in kg
+    F_disp = 0.02
     
     
     ATF = 1.0 # Airplane type factor (1.0 for MTOW > 10,000 lbs)
