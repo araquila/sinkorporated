@@ -92,6 +92,8 @@ F_dengsp = 0.85 # Depreciation factor engine spares
 F_engsp = 0.30 # Engine spares factor
 DP_engsp = 7 #Suggested depreciation period engine spares
 
+F_disp = 0.02  #Disposal cost estimation factor
+
 #-----------------------------------------------------#
 # TOTAL ANNUAL BLOCK MILES FLOWN                      #
 #-----------------------------------------------------#
@@ -187,7 +189,7 @@ DOC_fin = ((TI * t_bl)/(14 * U_annbl) + (0.03 * TI * t_bl)/U_annbl)/R_bl
 # TOTAL DIRECT OPERATIONAL COST
 DOC = DOC_flt + DOC_maint + DOC_depr + DOC_lnr + DOC_fin
 
-
+LCC = (AEP + (DOC-DOC_depr) * R_blann * N_yr)/(1-F_disp)
 
 plt.clf()
 labels = ['Insurance', 'Capital cost', 'Navigation cost', 'Landing fees','Flight crew','Maintenance','Fuel']
