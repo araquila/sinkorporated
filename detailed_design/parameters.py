@@ -160,7 +160,7 @@ m_engine = (2 * W_engine + W_fuel_system) / g
 m_fuel_tanks = W_fuel_tanks / g
 
 
-W_A = OEW - M_engine*2*g # airframe weight in N
+W_A = OEW - M_engine*2*g - 330 # airframe weight in N
 m_A = W_A/g # airframe mass in kg
 
 ## -------- DIMENSIONS -------- ##

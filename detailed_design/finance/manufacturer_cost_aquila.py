@@ -148,8 +148,6 @@ C_apcm = C_eam + C_intm + C_manm + C_matm + C_toolm + C_qcm #Airplane manufactur
 C_MAN = (C_aedm + C_apcm) / (1 - F_fin)
 C_finm = C_MAN * F_fin
 assert round((C_aedm + C_apcm+C_finm),2) == round(C_MAN,2)
-C_PRO = 0.1 * C_MAN
-C_ACQ = C_MAN + C_PRO
 AEP = (C_MAN + C_rdte)/N_m
 
 """
