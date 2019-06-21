@@ -43,8 +43,7 @@ AEP = 24000000 # Unit cost airplane
 AFP = AEP - EP* N_e # Airframe cost
 ASP = 7800000 #cost of avionics in 2019 dollar
 SHP_TO = 2750  # Shaft Power per engine in kW
-W_A_kg = p.m_A # airframe weight in kg
-
+W_A_kg = 13500-480.8* N_e-330 # airframe weight in kg
 
 ATF = 1.0 # Airplane type factor (1.0 for MTOW > 10,000 lbs)
 
