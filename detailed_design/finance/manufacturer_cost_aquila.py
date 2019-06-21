@@ -5,11 +5,11 @@ Created on Thu Jun 13 14:46:30 2019
 @author: victo
 """
 import numpy as np
-import matplotlib as mpl
-mpl.rcParams['font.size'] = 20.0
+#import matplotlib as mpl
+#mpl.rcParams['font.size'] = 20.0
 import matplotlib.pyplot as plt
 import detailed_design.parameters as p
-import detailed_design.finance.manufacturer_cost_aquila as manu_cost
+#import detailed_design.finance.manufacturer_cost_aquila as manu_cost
 
 #-----------------------------------------------------#
 # INPUTS                                              #
