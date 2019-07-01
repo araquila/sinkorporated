@@ -95,7 +95,7 @@ DP_apsp = 10 #Suggested depreciation period airplane spares
 F_dengsp = 0.85 # Depreciation factor engine spares
 F_engsp = 0.30 # Engine spares factor
 DP_engsp = 7 #Suggested depreciation period engine spares
-
+F_disp = 0.02  #Disposal cost estimation factor
 #-----------------------------------------------------#
 # TOTAL ANNUAL BLOCK MILES FLOWN                      #
 #-----------------------------------------------------#
@@ -193,16 +193,20 @@ DOC_fin = ((TI * t_bl)/(14 * U_annbl) + (0.03 * TI * t_bl)/U_annbl)/R_bl
 # TOTAL DIRECT OPERATIONAL COST
 DOC = DOC_flt + DOC_maint + DOC_depr + DOC_lnr + DOC_fin
 
+# LIFE CYCLE COST
+LCC = (AEP + DOC * R_blann * N_yr)/(1-F_disp)
 
-plt.clf()
-labels = ['Insurance', 'Capital cost', 'Navigation cost', 'Landing fees','Flight crew','Maintenance','Fuel']
-sizes = [round(C_ins*R_bl,2), round(DOC_fin*R_bl,2),round(C_nf*R_bl,2),round(C_lf*R_bl,2),round(C_crew*R_bl,2),round(DOC_maint*R_bl,2), round(C_pol*R_bl,2)]
-patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%%',pctdistance=0.80, labeldistance=1.03)
-plt.legend(patches, labels, loc="best")
-plt.axis('equal')
-plt.tight_layout()
-plt.title('Operational costs 1000 km ATR72-600, Total cost: '+str(round((DOC-DOC_depr)*R_bl,3))+' USD')
-plt.show()
+
+
+#plt.clf()
+#labels = ['Insurance', 'Capital cost', 'Navigation cost', 'Landing fees','Flight crew','Maintenance','Fuel']
+#sizes = [round(C_ins*R_bl,2), round(DOC_fin*R_bl,2),round(C_nf*R_bl,2),round(C_lf*R_bl,2),round(C_crew*R_bl,2),round(DOC_maint*R_bl,2), round(C_pol*R_bl,2)]
+#patches, texts, pcts = plt.pie(sizes,labels=sizes, startangle=90,autopct='%1.1f%%',pctdistance=0.80, labeldistance=1.03)
+#plt.legend(patches, labels, loc="best")
+#plt.axis('equal')
+#plt.tight_layout()
+#plt.title('Operational costs 1000 km ATR72-600, Total cost: '+str(round((DOC-DOC_depr)*R_bl,3))+' USD')
+#plt.show()
 
 #labels = ['Flight cost', 'Maintenance cost', 'Depreciation cost', 'Landing fees and navigation fees','Financing costs']
 #sizes = [DOC_flt, DOC_maint, DOC_depr, DOC_lnr,DOC_fin]
