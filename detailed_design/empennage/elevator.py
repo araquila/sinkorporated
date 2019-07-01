@@ -1,8 +1,8 @@
 import numpy as np
-import parameters as p
-import empennage.horizontal_tail_sizing as h
+import detailed_design.parameters as p
+import detailed_design.empennage.horizontal_tail_sizing as h
 import matplotlib.pyplot as plt
-import empennage.empennage_sizing as emp
+import detailed_design.empennage.empennage_sizing as emp
 
 V_R = 1.3 * p.V_stall
 mu = 0.04
@@ -52,13 +52,21 @@ alpha_h = alpha_w - downwash
 elevator_effectiveness = (alpha_h * np.pi / 180 + (C_L_h / h.C_L_alpha_h)) / elevator_rotation_max
 
 print(elevator_effectiveness)
-
+elevator_effectiveness = 0.32
 x = np.arange(0,0.5,0.01)
-y = -6.624 * x**4 + 12.07 * x**3 - 8.292 * x**2 + 3.295 *x + 0.004942 - elevator_effectiveness
-
+y = -6.624 * x**4 + 12.07 * x**3 - 8.292 * x**2 + 3.295 *x + 0.004942
+plt.clf()
 
 x_0 = [0,0.5]
-y_0 = [0,0]
-plt.scatter(x,y)
-plt.plot(x_0,y_0)
+y_0 = [elevator_effectiveness,elevator_effectiveness]
+x_a = [0.132, 0.132]
+y_a = [0.32, 0]
+
+plt.plot(x,y)
+plt.plot(x_0,y_0, label="elevator effectiveness = 0.32")
+plt.plot(x_a,y_a, "r--")
+
+plt.legend(loc="best", fontsize="large")
+plt.xlabel(r"$S_e/S_v$ [-]", size="large")
+plt.ylabel("Elevator effectiveness [-]", size="large")
 plt.show()
